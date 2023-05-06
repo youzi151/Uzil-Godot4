@@ -1,0 +1,81 @@
+[gd_scene load_steps=12 format=3 uid="uid://cnop4iyma6a6f"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/_test/test_active.gd" id="1_55cef"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/ObjPool/_test/test_obj_pool.gd" id="2_ppo62"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Times/_test/test_times.gd" id="3_k24ms"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/SumVals/_test/test_sum_vals.gd" id="4_fvnex"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Vars/_test/test_vars.gd" id="5_40eay"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/_test/test_vals.gd" id="6_btvsu"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Invoker/_test/test_invoker.gd" id="6_yve1k"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_async.gd" id="7_iis54"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Evt/_test/test_evt.gd" id="8_8o3uu"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_input.gd" id="8_pb4c4"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/RNG/_test/test_rng.gd" id="9_cv2j1"]
+
+[node name="Uzil_Test" type="Node"]
+
+[node name="debug_msg" type="CodeEdit" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 77.0
+offset_top = 60.0
+offset_right = -77.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="set_test_target" type="Node" parent="." node_paths=PackedStringArray("active_target")]
+script = ExtResource("1_55cef")
+active_target = NodePath("../Core/Evt")
+
+[node name="============" type="Node" parent="."]
+
+[node name="Core" type="Node" parent="."]
+
+[node name="Vals" type="Node" parent="Core"]
+script = ExtResource("6_btvsu")
+
+[node name="Vars" type="Node" parent="Core"]
+script = ExtResource("5_40eay")
+
+[node name="SumVals" type="Node" parent="Core"]
+script = ExtResource("4_fvnex")
+
+[node name="Times" type="Node" parent="Core"]
+script = ExtResource("3_k24ms")
+spin_panels = Array[NodePath]([NodePath("PanelContainer"), NodePath("PanelContainer2")])
+
+[node name="PanelContainer" type="PanelContainer" parent="Core/Times"]
+visible = false
+offset_left = 117.0
+offset_top = 118.0
+offset_right = 157.0
+offset_bottom = 158.0
+
+[node name="PanelContainer2" type="PanelContainer" parent="Core/Times"]
+visible = false
+offset_left = 247.0
+offset_top = 116.0
+offset_right = 287.0
+offset_bottom = 156.0
+
+[node name="Invoker" type="Node" parent="Core"]
+script = ExtResource("6_yve1k")
+
+[node name="ObjPool" type="Node" parent="Core"]
+script = ExtResource("2_ppo62")
+
+[node name="Evt" type="Node" parent="Core"]
+script = ExtResource("8_8o3uu")
+
+[node name="Util" type="Node" parent="."]
+
+[node name="async" type="Node" parent="Util"]
+script = ExtResource("7_iis54")
+
+[node name="input" type="Node" parent="Util"]
+script = ExtResource("8_pb4c4")
+
+[node name="RNG" type="Node" parent="Util"]
+script = ExtResource("9_cv2j1")
