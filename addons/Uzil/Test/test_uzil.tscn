@@ -1,28 +1,28 @@
 [gd_scene load_steps=24 format=3 uid="uid://fn3l6wmscxgj"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Test/test_active.gd" id="1_sbaod"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/StateMachine/_test/test_state_machine.gd" id="2_63g2i"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/UserSave/_test/test_user_save.gd" id="2_77l0o"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/I18N/_test/test_i18n.gd" id="2_arm1m"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/ObjPool/_test/test_obj_pool.gd" id="2_ppo62"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/Flow/_test/test_flow.gd" id="3_23b3a"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Options/_test/test_options.gd" id="3_h377w"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Times/_test/test_times.gd" id="3_k24ms"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Audio/_test/test_audio.gd" id="4_2n6p3"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/SumVals/_test/test_sum_vals.gd" id="4_fvnex"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Vars/_test/test_vars.gd" id="5_40eay"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/InputPipe/_test/test_input_pipe.gd" id="5_58eyq"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/_test/test_page_card.gd" id="5_l6wes"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/page_card_inst.gd" id="6_23271"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/_test/test_vals.gd" id="6_btvsu"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/TagSearch/_test/test_tag_search.gd" id="6_py1sm"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Invoker/_test/test_invoker.gd" id="6_yve1k"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_async.gd" id="7_iis54"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/page_card_page.gd" id="7_rpcj7"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Evt/_test/test_evt.gd" id="8_8o3uu"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/page_card_card.gd" id="8_euem7"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_input.gd" id="8_pb4c4"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/RNG/_test/test_rng.gd" id="9_cv2j1"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/test_active.gd" id="1_u23hv"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/StateMachine/_test/test_state_machine.gd" id="2_vp710"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Options/_test/test_options.gd" id="3_1mpto"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Audio/_test/test_audio.gd" id="4_x1mhw"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/_test/test_page_card.gd" id="5_s2mxj"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/page_card_inst.gd" id="6_edcre"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/page_card_page.gd" id="7_7obfu"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/page_card_card.gd" id="8_af2no"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/UserSave/_test/test_user_save.gd" id="9_fjm8a"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/I18N/_test/test_i18n.gd" id="10_57jox"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/Flow/_test/test_flow.gd" id="11_10aq3"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/InputPipe/_test/test_input_pipe.gd" id="12_jf6en"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/TagSearch/_test/test_tag_search.gd" id="13_7p71r"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/_test/test_vals.gd" id="14_dcrvg"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Vars/_test/test_vars.gd" id="15_cucxf"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/SumVals/_test/test_sum_vals.gd" id="16_inp4g"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Times/_test/test_times.gd" id="17_07aw6"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Invoker/_test/test_invoker.gd" id="18_m7kjt"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/ObjPool/_test/test_obj_pool.gd" id="19_l7b3s"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Evt/_test/test_evt.gd" id="20_pyx6f"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_async.gd" id="21_5drqb"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_input.gd" id="22_mt2nc"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/RNG/_test/test_rng.gd" id="23_6cdbd"]
 
 [node name="Uzil_Test" type="Node"]
 
@@ -46,35 +46,37 @@ transform = Transform3D(1, 0, 0, 0, 0.92755, 0.3737, 0, -0.3737, 0.92755, 0, 0.6
 transform = Transform3D(0.812908, 0.186443, -0.551743, 0, 0.947372, 0.320134, 0.582393, -0.260239, 0.770126, 0, 3.74558, 0)
 
 [node name="set_test_target" type="Node" parent="." node_paths=PackedStringArray("active_target")]
-script = ExtResource("1_sbaod")
+script = ExtResource("1_u23hv")
 active_target = NodePath("../Advance/PageCard")
 
 [node name="============" type="Node" parent="."]
 
 [node name="Advance" type="Node" parent="."]
 
-[node name="StateMachine" type="Node" parent="Advance"]
-script = ExtResource("2_63g2i")
-
 [node name="Options" type="Node" parent="Advance"]
-script = ExtResource("3_h377w")
+script = ExtResource("3_1mpto")
 
 [node name="Audio" type="Node" parent="Advance"]
-script = ExtResource("4_2n6p3")
+script = ExtResource("4_x1mhw")
+
+[node name="StateMachine" type="Node" parent="Advance"]
+script = ExtResource("2_vp710")
 
 [node name="PageCard" type="Node" parent="Advance"]
-script = ExtResource("5_l6wes")
+script = ExtResource("5_s2mxj")
 pagecard_inst_nodepath = NodePath("inst")
 
 [node name="inst" type="Node" parent="Advance/PageCard"]
-script = ExtResource("6_23271")
+script = ExtResource("6_edcre")
 pages_nodepath = Array[NodePath]([NodePath("pages/page1"), NodePath("pages/page2"), NodePath("pages/page3")])
 cards_nodepath = Array[NodePath]([NodePath("cards/card1"), NodePath("cards/card2")])
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Advance/PageCard/inst"]
 transform = Transform3D(0.767931, 0, -0.624726, 0, 1, 0, 0.624726, 0, 0.767931, 0, 0, -0.0939036)
+visible = false
 
 [node name="Panel" type="Panel" parent="Advance/PageCard/inst"]
+visible = false
 offset_left = 286.0
 offset_top = 177.0
 offset_right = 477.0
@@ -83,57 +85,57 @@ offset_bottom = 298.0
 [node name="pages" type="Node" parent="Advance/PageCard/inst"]
 
 [node name="page1" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_rpcj7")
+script = ExtResource("7_7obfu")
 cards = Array[String](["card1"])
 
 [node name="page2" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_rpcj7")
+script = ExtResource("7_7obfu")
 cards = Array[String](["card2"])
 
 [node name="page3" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_rpcj7")
+script = ExtResource("7_7obfu")
 cards = Array[String](["card1", "card2"])
 
 [node name="cards" type="Node" parent="Advance/PageCard/inst"]
 
 [node name="card1" type="Node" parent="Advance/PageCard/inst/cards"]
-script = ExtResource("8_euem7")
+script = ExtResource("8_af2no")
 target_nodepath = NodePath("../../CSGBox3D")
 
 [node name="card2" type="Node" parent="Advance/PageCard/inst/cards"]
-script = ExtResource("8_euem7")
+script = ExtResource("8_af2no")
 target_nodepath = NodePath("../../Panel")
 
 [node name="Basic" type="Node" parent="."]
 
 [node name="UserSave" type="Node" parent="Basic"]
-script = ExtResource("2_77l0o")
+script = ExtResource("9_fjm8a")
 
 [node name="I18N" type="Node" parent="Basic"]
-script = ExtResource("2_arm1m")
+script = ExtResource("10_57jox")
 
 [node name="Flow" type="Node" parent="Basic"]
-script = ExtResource("3_23b3a")
+script = ExtResource("11_10aq3")
 
 [node name="InputPipe" type="Node" parent="Basic"]
-script = ExtResource("5_58eyq")
+script = ExtResource("12_jf6en")
 
 [node name="TagSearch" type="Node" parent="Basic"]
-script = ExtResource("6_py1sm")
+script = ExtResource("13_7p71r")
 
 [node name="Core" type="Node" parent="."]
 
 [node name="Vals" type="Node" parent="Core"]
-script = ExtResource("6_btvsu")
+script = ExtResource("14_dcrvg")
 
 [node name="Vars" type="Node" parent="Core"]
-script = ExtResource("5_40eay")
+script = ExtResource("15_cucxf")
 
 [node name="SumVals" type="Node" parent="Core"]
-script = ExtResource("4_fvnex")
+script = ExtResource("16_inp4g")
 
 [node name="Times" type="Node" parent="Core"]
-script = ExtResource("3_k24ms")
+script = ExtResource("17_07aw6")
 spin_panels = Array[NodePath]([NodePath("PanelContainer"), NodePath("PanelContainer2")])
 
 [node name="PanelContainer" type="PanelContainer" parent="Core/Times"]
@@ -151,21 +153,21 @@ offset_right = 287.0
 offset_bottom = 156.0
 
 [node name="Invoker" type="Node" parent="Core"]
-script = ExtResource("6_yve1k")
+script = ExtResource("18_m7kjt")
 
 [node name="ObjPool" type="Node" parent="Core"]
-script = ExtResource("2_ppo62")
+script = ExtResource("19_l7b3s")
 
 [node name="Evt" type="Node" parent="Core"]
-script = ExtResource("8_8o3uu")
+script = ExtResource("20_pyx6f")
 
 [node name="Util" type="Node" parent="."]
 
 [node name="async" type="Node" parent="Util"]
-script = ExtResource("7_iis54")
+script = ExtResource("21_5drqb")
 
 [node name="input" type="Node" parent="Util"]
-script = ExtResource("8_pb4c4")
+script = ExtResource("22_mt2nc")
 
 [node name="RNG" type="Node" parent="Util"]
-script = ExtResource("9_cv2j1")
+script = ExtResource("23_6cdbd")

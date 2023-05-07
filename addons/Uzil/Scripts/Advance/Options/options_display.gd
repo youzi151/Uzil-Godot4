@@ -2,7 +2,10 @@ extends Node
 
 ## Options.Display 選項 顯示
 ##
-## 有關顯示的選項, 如 視窗模式, 視窗大小, 無邊框...等
+## 有關顯示的選項, 如 視窗模式, 視窗大小, 無邊框...等. [br]
+## 若要 起始設置正常運作, 則須將 專案設定 的 : [br]
+## display/window/size/borderless 設為 true [br]
+## display/window/size/viewport_width, viewport_height 設為 0 [br]
 ##
 
 ## 在 設定檔案 中的 區塊名稱

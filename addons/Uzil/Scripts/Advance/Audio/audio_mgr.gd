@@ -303,9 +303,6 @@ func _create_obj (path_or_key, data = null) :
 	if data != null :
 		audio_obj.set_data(data)
 	
-	
-#	print(self._container_obj.get_tree().get_root().get_node("Uzil_Test"))
-#	self._container_obj.get_tree().get_root().get_node("Uzil_Test").add_child(audio_obj)
 	self._container_obj.add_child(audio_obj)
 	
 	return audio_obj
