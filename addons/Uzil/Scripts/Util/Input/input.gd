@@ -43,7 +43,7 @@ var keycode
 #var _is_updated = false
 
 ## keycode 對 輸入值
-var _keycode_to_input_val = {}
+var _keycode_to_input_val := {}
 
 ## device_type : [device_idx, device_idx]
 var updating_device_idx = {
@@ -52,10 +52,14 @@ var updating_device_idx = {
 
 # GDScript ===================
 
-func init (_keycode) :
+func init (_keycode_module) :
 	
-	self.keycode = _keycode
+	self.keycode = _keycode_module
 	self.keycode.init(self)
+	
+	G.v.Uzil.on_process.on(func(ctrlr):
+		self.update()
+	)
 	
 	return self
 
@@ -82,7 +86,6 @@ func update_keyboard () :
 		var _keycode = device_type_keycode | key
 		# 資訊
 		var keyinfo = key_to_info[key]
-		
 		# 若 該key 的 值類型 不為 按鍵 則 返回
 		if not keyinfo.value_type == ValueType.BUTTON :
 			continue
@@ -139,7 +142,7 @@ func update_button (device_type, device_idx, _keycode, keyinfo) :
 		
 
 ## 取得輸入 (優先從暫存取得)
-func get_input (_keycode) :
+func get_input (_keycode : int) :
 	if self._keycode_to_input_val.has(_keycode) :
 		return self._keycode_to_input_val[_keycode]
 	else :

@@ -9,21 +9,15 @@
 ## key:實體 表
 var key_to_inst := {}
 
-## 預設 實體
-var _default_inst = null
-
 # GDScript ===================
 
 func _init () :
-	self._default_inst = self.inst("default")
+	pass
 
 # Public =====================
 
 ## 取得 實體
 func inst (key := "") :
-	if key == "" :
-		return self._default_inst
-		
 	if self.key_to_inst.has(key) :
 		return self.key_to_inst[key]
 	else:

@@ -60,6 +60,7 @@ var invoker
 var evtbus
 ## 變數庫
 var vars
+
 ## 流程
 var flow
 ## 用戶存檔
@@ -70,6 +71,9 @@ var input_pipe
 var i18n
 ## 標籤檢索
 var tag_search
+
+## 狀態機
+var states
 ## 音效
 var audio
 
@@ -149,6 +153,14 @@ func index () :
 	self.Core = self.load_script(self.PATH.path_join("Core/index_core.gd")).new()
 	self.sub_indexes.push_back(self.Core)
 	
+	# Basic ####
+	self.Basic = self.load_script(self.PATH.path_join("Basic/index_basic.gd")).new()
+	self.sub_indexes.push_back(self.Basic)
+	
+	# Advance ####
+	self.Advance = self.load_script(self.PATH.path_join("Advance/index_advance.gd")).new()
+	self.sub_indexes.push_back(self.Advance)
+	
 	# 建立索引
 	for each in self.sub_indexes :
 		each.index(self)
@@ -183,6 +195,35 @@ func reload () :
 	
 	# Vars ####
 	self.vars = G.v.Uzil.Core.Vars.Mgr.new()
+	
+	# Flow ####
+	self.flow = G.v.Uzil.Basic.Flow.Mgr.new()
+	self.flow.name = "Flow"
+	self.add_child(self.flow)
+	
+	# UserSave ####
+	self.user_save = G.v.Uzil.Basic.UserSave.create_kit()
+	
+	# InputPipe ####
+	self.input_pipe = G.v.Uzil.Basic.InputPipe.get_inst()
+	self.input_pipe.name = "InputPipe"
+	self.add_child(self.input_pipe)
+	
+	# I18N ####
+	self.i18n = G.v.Uzil.Basic.I18N.create_inst()
+	
+	# TagSearch ####
+	self.tag_search = G.v.Uzil.Basic.TagSearch.Mgr.new()
+	
+	# StateMachine ####
+	self.states = G.v.Uzil.Advance.StateMachine.Mgr.new()
+	self.states.name = "StateMachine"
+	self.add_child(self.states)
+	
+	# Audio ####
+	self.audio = G.v.Uzil.Advance.Audio.Mgr.new()
+	self.audio.name = "Audio"
+	self.add_child(self.audio)
 	
 	# XXXXXXX ####
 #	self.xxxxxx = self.XXXX.new()

@@ -1,0 +1,4 @@
+; test ini
+key="FILE_EN"
+num=99.87
+dict={"arr":[1,2,3]}

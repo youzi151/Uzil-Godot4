@@ -1,8 +1,8 @@
 extends Node
 
-## Evt.BusMgr 事件串 管理
+## Evt.BusMgr 事件串 實體 管理
 ## 
-## 以key取得/建立 事件串
+## 以key取得/建立 事件串.
 ## 
 
 # Variable ===================
@@ -10,13 +10,10 @@ extends Node
 ## key:實體 表
 var _key_to_inst := {}
 
-## 預設 實體
-var _default_inst = null
-
 # GDScript ===================
 
 func _init () :
-	self._default_inst = self.inst("default")
+	pass
 
 func _process (_dt) :
 	pass
@@ -26,9 +23,6 @@ func _process (_dt) :
 
 ## 取得 實體
 func inst (key := "") :
-	if key == "" :
-		return self._default_inst
-		
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:

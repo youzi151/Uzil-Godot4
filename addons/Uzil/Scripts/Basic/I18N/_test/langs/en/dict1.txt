@@ -1,0 +1,6 @@
+; test ini
+test="WORD_EN"
+test_fallback="WORD_FALLBACK_EN"
+num=99.87
+dict={"arr":[1,2,3]}
+test_label="i18n label"

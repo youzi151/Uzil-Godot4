@@ -2,7 +2,7 @@ extends Node
 
 ## Times.Mgr 時間 實體 管理
 ##
-## 以key取得/建立 時間軸 實體
+## 以key取得/建立 時間軸 實體.
 ##
 
 # Variable ===================
@@ -10,13 +10,10 @@ extends Node
 ## key:實體 表
 var key_to_inst := {}
 
-## 預設 實體
-var _default_inst = null
-
 # GDScript ===================
 
 func _init () :
-	self._default_inst = self.inst("default")
+	pass
 
 func _process (_dt) :
 	for key in self.key_to_inst:
@@ -28,9 +25,6 @@ func _process (_dt) :
 
 ## 取得 實體
 func inst (key := "") :
-	if key == "" :
-		return self._default_inst
-		
 	if self.key_to_inst.has(key) :
 		return self.key_to_inst[key]
 	else:

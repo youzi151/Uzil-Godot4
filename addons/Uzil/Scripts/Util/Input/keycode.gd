@@ -5,25 +5,25 @@
 ## 
 
 ## 輸入裝置類型 遮罩
-const DEVICE_TYPE_MASK     = 0b01111000000000000
+const DEVICE_TYPE_MASK     := 0b01111000000000000
 ## 輸入裝置類型 遮罩 偏移
-const DEVICE_TYPE_SHIFT    = 12
+const DEVICE_TYPE_SHIFT    := 12
 ## 裝置編號 遮罩
-const DEVICE_ID_MASK       = 0b00000111100000000
+const DEVICE_ID_MASK       := 0b00000111100000000
 ## 裝置編號 遮罩 偏移
-const DEVICE_ID_SHIFT      = 8
+const DEVICE_ID_SHIFT      := 8
 
 ## Uzil格式中的key編號 遮罩
-const KEYCODE_MASK         = 0b00000000011111111
+const KEYCODE_MASK         := 0b00000000011111111
 
 ## 名稱:鍵值 快取
-var _name_to_keycode_cache = {}
+var _name_to_keycode_cache := {}
 
 ## 名稱:key, key:godotkey 查詢表
-var _keycode_table = {}
+var _keycode_table := {}
 
 ## 裝置類型:keycode資訊
-var device_type_to_keycode_infos = {}
+var device_type_to_keycode_infos := {}
 
 ## 初始化
 func init (uzil_input) :
@@ -31,15 +31,15 @@ func init (uzil_input) :
 	return self
 
 ## 取得 裝置類型
-func get_device_type (keycode) :
+func get_device_type (keycode) -> int :
 	return (keycode & self.DEVICE_TYPE_MASK) >> self.DEVICE_TYPE_SHIFT
 
 ## 取得 輸入裝置序號
-func get_device_index (keycode) :
+func get_device_index (keycode) -> int :
 	return (keycode & self.DEVICE_ID_MASK) >> self.DEVICE_ID_SHIFT
 
 ## 取得 輸入鍵
-func get_key (keycode) :
+func get_key (keycode) -> int :
 	return (keycode & self.KEYCODE_MASK)
 
 ## 取得 裝置類型 的 key:資訊
@@ -67,14 +67,13 @@ func key_to_gdkeys (device_type, key) :
 		return null
 	
 	# 取得 key : gdkeys
-	@warning_ignore("shadowed_variable")
-	var key_to_gdkeys = self._keycode_table[device_type][1]
+	var _key_to_gdkeys = self._keycode_table[device_type][1]
 	
 	# 若 對應的gdkeys 不存在
-	if not key_to_gdkeys.has(key) :
+	if not _key_to_gdkeys.has(key) :
 		return null
 		
-	return key_to_gdkeys[key]
+	return _key_to_gdkeys[key]
 	
 
 ## 以 名稱 取得 key
@@ -87,7 +86,7 @@ func name_to_keycode (name_str : String) :
 		return self._name_to_keycode_cache[name_str]
 	
 	# 拆分 字串
-	var name_arr = name_str.split(".", false, 2)
+	var name_arr := name_str.split(".", false, 2)
 	
 	# 至少要兩個 1.裝置 2.鍵
 	var arrsize = name_arr.size()
@@ -95,11 +94,11 @@ func name_to_keycode (name_str : String) :
 		return null
 	
 	# 輸入裝置類型 字串
-	var name_typ = name_arr[0]
-	# 裝置編號 字串
-	var name_device = 0
+	var name_typ : String = name_arr[0]
+	# 裝置編號
+	var name_device := 0
 	# 鍵 字串
-	var name_key = "none"
+	var name_key := "none"
 	
 	# 依照 字串數量
 	match arrsize :
@@ -108,7 +107,7 @@ func name_to_keycode (name_str : String) :
 			name_key    = name_arr[1]
 		# 若 為2個 則 取 第2個 為 裝置編號, 第3個 為 鍵	
 		3 :
-			name_device = name_arr[1]
+			name_device = int(name_arr[1])
 			name_key    = name_arr[2]
 	
 	# 輸入裝置類型
@@ -132,7 +131,7 @@ func name_to_keycode (name_str : String) :
 			name_to_key = self._keycode_table[G.v.Uzil.Util.input.DeviceType.JOY][0]
 	
 	# 產生 裝置編號 的 key值
-	var device_idx = int(name_device) << self.DEVICE_ID_SHIFT
+	var device_idx = name_device << self.DEVICE_ID_SHIFT
 	
 	# 若 鍵表 有 存在 該名稱的key
 	if name_to_key.has(name_key) :
@@ -163,11 +162,10 @@ func raw_to_dict (device_type, raw) :
 	# 名稱:key查詢表
 	var name_to_key = tb[0]
 	# key:gdkeys查詢表
-	@warning_ignore("shadowed_variable")
-	var key_to_gdkeys = tb[1]
+	var _key_to_gdkeys = tb[1]
 	
 	# 建立或取得 該裝置類型 的 keycode:資訊
-	var keycode_to_info 
+	var keycode_to_info : Dictionary
 	if self.device_type_to_keycode_infos.has(device_type) :
 		keycode_to_info = self.device_type_to_keycode_infos[device_type]
 	else :
@@ -176,17 +174,17 @@ func raw_to_dict (device_type, raw) :
 	
 	# 每一筆 元資料
 	for each in raw :
-		var key = each[0]
-		var names = each[1]
-		var val_type = each[2]
-		var gdkeys = each[3]
+		var key : int = each[0]
+		var names : Array = each[1]
+		var val_type : int = each[2]
+		var gdkeys : Array = each[3]
 		
 		# 加入 名稱:key 查詢表
 		for name in names :
 			name_to_key[name] = key
 		
 		# 加入 key:gdkey 查詢表
-		key_to_gdkeys[key] = gdkeys.duplicate()
+		_key_to_gdkeys[key] = gdkeys.duplicate()
 			
 		# 加入 key:資訊
 		var info = {}

@@ -1,0 +1,3 @@
+; test ini
+test="WORD_ZH"
+to_test="<#test#>"
