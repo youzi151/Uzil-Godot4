@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://fn3l6wmscxgj"]
+[gd_scene load_steps=25 format=3 uid="uid://fn3l6wmscxgj"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_active.gd" id="1_u23hv"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/StateMachine/_test/test_state_machine.gd" id="2_vp710"]
@@ -23,6 +23,8 @@
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_async.gd" id="21_5drqb"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_input.gd" id="22_mt2nc"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/RNG/_test/test_rng.gd" id="23_6cdbd"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_mto8b"]
 
 [node name="Uzil_Test" type="Node"]
 
@@ -68,43 +70,65 @@ pagecard_inst_nodepath = NodePath("inst")
 
 [node name="inst" type="Node" parent="Advance/PageCard"]
 script = ExtResource("6_edcre")
-pages_nodepath = Array[NodePath]([NodePath("pages/page1"), NodePath("pages/page2"), NodePath("pages/page3")])
-cards_nodepath = Array[NodePath]([NodePath("cards/card1"), NodePath("cards/card2")])
+pages_nodepath = Array[NodePath]([NodePath("pages/page_3d_obj"), NodePath("pages/page_window"), NodePath("pages/page_popup"), NodePath("pages/page_none"), NodePath("pages/page_all")])
+cards_nodepath = Array[NodePath]([NodePath("cards/card_3d"), NodePath("cards/card_window"), NodePath("cards/card_popup")])
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Advance/PageCard/inst"]
 transform = Transform3D(0.767931, 0, -0.624726, 0, 1, 0, 0.624726, 0, 0.767931, 0, 0, -0.0939036)
-visible = false
 
-[node name="Panel" type="Panel" parent="Advance/PageCard/inst"]
-visible = false
-offset_left = 286.0
-offset_top = 177.0
-offset_right = 477.0
-offset_bottom = 298.0
+[node name="window" type="TextureRect" parent="Advance/PageCard/inst"]
+modulate = Color(0.537255, 0.537255, 0.537255, 0.698039)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_mto8b")
+
+[node name="popup" type="TextureRect" parent="Advance/PageCard/inst"]
+modulate = Color(0.643137, 0.643137, 0.643137, 1)
+offset_left = 136.0
+offset_top = 77.0
+offset_right = 554.0
+offset_bottom = 375.0
+texture = SubResource("CanvasTexture_mto8b")
 
 [node name="pages" type="Node" parent="Advance/PageCard/inst"]
 
-[node name="page1" type="Node" parent="Advance/PageCard/inst/pages"]
+[node name="page_3d_obj" type="Node" parent="Advance/PageCard/inst/pages"]
 script = ExtResource("7_7obfu")
-cards = Array[String](["card1"])
+cards = Array[String](["card_3d"])
 
-[node name="page2" type="Node" parent="Advance/PageCard/inst/pages"]
+[node name="page_window" type="Node" parent="Advance/PageCard/inst/pages"]
 script = ExtResource("7_7obfu")
-cards = Array[String](["card2"])
+cards = Array[String](["card_window"])
 
-[node name="page3" type="Node" parent="Advance/PageCard/inst/pages"]
+[node name="page_popup" type="Node" parent="Advance/PageCard/inst/pages"]
 script = ExtResource("7_7obfu")
-cards = Array[String](["card1", "card2"])
+cards = Array[String](["card_popup"])
+
+[node name="page_none" type="Node" parent="Advance/PageCard/inst/pages"]
+script = ExtResource("7_7obfu")
+
+[node name="page_all" type="Node" parent="Advance/PageCard/inst/pages"]
+script = ExtResource("7_7obfu")
+cards = Array[String](["card_3d", "card_window", "card_popup"])
 
 [node name="cards" type="Node" parent="Advance/PageCard/inst"]
 
-[node name="card1" type="Node" parent="Advance/PageCard/inst/cards"]
+[node name="card_3d" type="Node" parent="Advance/PageCard/inst/cards"]
 script = ExtResource("8_af2no")
-target_nodepath = NodePath("../../CSGBox3D")
+targets_nodepath = Array[NodePath]([NodePath("../../CSGBox3D")])
 
-[node name="card2" type="Node" parent="Advance/PageCard/inst/cards"]
+[node name="card_window" type="Node" parent="Advance/PageCard/inst/cards"]
 script = ExtResource("8_af2no")
-target_nodepath = NodePath("../../Panel")
+tags = Array[String](["2d"])
+targets_nodepath = Array[NodePath]([NodePath("../../window")])
+
+[node name="card_popup" type="Node" parent="Advance/PageCard/inst/cards"]
+script = ExtResource("8_af2no")
+tags = Array[String](["2d"])
+targets_nodepath = Array[NodePath]([NodePath("../../popup")])
 
 [node name="Basic" type="Node" parent="."]
 

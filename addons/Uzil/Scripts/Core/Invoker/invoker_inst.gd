@@ -70,7 +70,7 @@ func process (_dt) :
 					
 		# 每幀
 		elif each.call_type == G.v.Uzil.Core.Invoker.CALLTYPE.UPDATE:
-			each.runArgs(_dt)
+			each.runArg(self._times_inst.dt())
 		
 		# 單格
 		elif each.call_type == G.v.Uzil.Core.Invoker.CALLTYPE.FRAME:
