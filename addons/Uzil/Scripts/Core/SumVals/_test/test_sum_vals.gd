@@ -2,9 +2,12 @@ extends Uzil_Test_Base
 
 # Variable ===================
 
+var SumVals
+
 # Extends ====================
 
 func test_ready () :
+	self.SumVals = UREQ.access_g("Uzil", "Core.SumVals")
 	
 	self.test()
 
@@ -18,7 +21,7 @@ func test () :
 	
 	print("Uzil.Core.SumVals test")
 	
-	var sum_vals = G.v.Uzil.Core.SumVals.Inst.new()
+	var sum_vals = self.SumVals.Inst.new()
 	
 	sum_vals.on_update("mail.guild", func(ctrlr):
 		print("on update mail.guild to : %s " % ctrlr.data)

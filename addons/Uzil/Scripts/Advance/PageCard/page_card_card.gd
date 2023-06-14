@@ -1,4 +1,3 @@
-extends Node
 
 ## PageCard.Card 頁面卡 卡片
 ## 
@@ -8,19 +7,10 @@ extends Node
 # Variable ===================
 
 ## 辨識 (若 留空 則 取node.name)
-@export var id : String = "" :
-	get :
-		if _id == "" : return self.name
-		else : return self._id
-	set (value) :
-		self._id = value
-var _id : String = ""
+var id : String = "" 
 
 ## 標籤
-@export var tags : Array[String] = []
-
-## 目標物件 NodePath
-@export var targets_nodepath : Array[NodePath] = []
+var tags : Array[String] = []
 
 ## 目標物件
 var targets : Array[Node] = []
@@ -33,23 +23,20 @@ var data := {}
 
 # GDScript ===================
 
-func _ready () :
-	for each in self.targets_nodepath :
-		var got_node = self.get_node(each)
-		if got_node == null : continue
-		
-		if self.targets.has(got_node) : continue
-		self.targets.push_back(got_node)
-		
-		if "visible" in got_node :
-			if got_node.visible == false :
-				self.is_active = false
-			
+func _init () :
+	pass	
 
 func _process (_dt) :
 	pass
 
 # Public =====================
+
+## 起始設置
+func setup () :
+	for each in self.targets :
+		if not "visible" in each : continue
+		if each.visible == false :
+			self.is_active = false
 
 ## 啟用
 func active (is_force := false) :

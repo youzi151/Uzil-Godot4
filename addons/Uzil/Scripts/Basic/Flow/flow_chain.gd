@@ -4,7 +4,7 @@
 ## 與其他 節點 相互串接
 ## 
 
-
+var Flow
 
 # Variable ===================
 
@@ -27,7 +27,9 @@ var _inst_cache = null
 # GDScript ===================
 
 func _init (core) :
-	self._state = G.v.Uzil.Basic.Flow.ActiveState.INACTIVE
+	self.Flow = UREQ.access_g("Uzil", "Basic.Flow")
+	
+	self._state = self.Flow.ActiveState.INACTIVE
 	self._core = core
 	if core.has_method("_set_shell") == false : return
 	core._set_shell(self)
@@ -86,13 +88,13 @@ func id () -> String :
 
 ## 進入
 func enter () :
-	self._state = G.v.Uzil.Basic.Flow.ActiveState.ACTIVE
+	self._state = self.Flow.ActiveState.ACTIVE
 	self._on_enter()
 	
 
 ## 離開
 func exit () :
-	self._state = G.v.Uzil.Basic.Flow.ActiveState.INACTIVE
+	self._state = self.Flow.ActiveState.INACTIVE
 	self._on_exit()
 	
 
@@ -158,5 +160,6 @@ func _on_exit () :
 ## 取得所屬
 func _get_inst () :
 	if self._inst_cache == null :
-		self._inst_cache = G.v.Uzil.flow.inst(self._inst_id)
-	return _inst_cache
+		var flow = UREQ.access_g("Uzil", "flow_mgr")
+		self._inst_cache = flow.inst(self._inst_id)
+	return self._inst_cache

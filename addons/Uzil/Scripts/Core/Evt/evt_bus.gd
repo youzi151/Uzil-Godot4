@@ -1,4 +1,3 @@
-extends Node
 
 ## Evt.Bus 事件串
 ## 
@@ -11,6 +10,10 @@ extends Node
 var key_to_evt := {}
 
 # GDScript ===================
+
+func init (_dont_set_in_scene) :
+	pass
+	
 
 # Public =====================
 
@@ -49,7 +52,8 @@ func get_evt (evt_key) :
 	if self.key_to_evt.has(evt_key) :
 		evt = self.key_to_evt[evt_key]
 	else : 
-		evt = G.v.Uzil.Core.Evt.Inst.new()
+		var Evt = UREQ.access_g("Uzil", "Core.Evt")
+		evt = Evt.Inst.new()
 		self.key_to_evt[evt_key] = evt
 	
 	return evt

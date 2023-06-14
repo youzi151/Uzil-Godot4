@@ -5,11 +5,15 @@ extends Uzil_Test_Base
 # Extends ====================
 
 func test_ready():
-	var input_layer1 = G.v.Uzil.input_pipe.get_layer("L1")
-	var input_layer2 = G.v.Uzil.input_pipe.get_layer("L2")
+	var InputPipe = UREQ.access_g("Uzil", "InputPipe")
+	var input_pipe = UREQ.access_g("Uzil", "input_pipe")
+	var Util = UREQ.access_g("Uzil", "Util")
 	
-	var handler = G.v.Uzil.Basic.InputPipe.new_handler("test", "keyconvert", {
-		"src" : [G.v.Uzil.Util.input.keycode.name_to_keycode("key.a")],
+	var input_layer1 = input_pipe.get_layer("L1")
+	var input_layer2 = input_pipe.get_layer("L2")
+	
+	var handler = InputPipe.new_handler("test", "keyconvert", {
+		"src" : [Util.input.keycode.name_to_keycode("key.a")],
 		"dst" : 123
 	})
 	
@@ -35,7 +39,7 @@ func test_ready():
 		print("Layer2 key[123] val:%s isAlive:%s" % [input_msg.val, input_msg.is_alive()])
 	)
 	
-#	G.v.Uzil.invoker.inst().once(func():
+#	UREQ.access_g("Uzil", "invoker").inst().once(func():
 #		input_layer1.aaaaa(false)
 #	, 2000)
 

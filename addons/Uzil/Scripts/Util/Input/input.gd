@@ -57,8 +57,11 @@ func init (_keycode_module) :
 	self.keycode = _keycode_module
 	self.keycode.init(self)
 	
-	G.v.Uzil.on_process.on(func(ctrlr):
-		self.update()
+	var Uzil = UREQ.access_g("Uzil", "Uzil")
+	Uzil.once_loaded(func() :
+		Uzil.on_process.on(func(ctrlr):
+			self.update()
+		)
 	)
 	
 	return self

@@ -39,7 +39,8 @@ var _last_res = null
 
 # 初始化
 func _init () :
-	self._rng_rate = G.v.Uzil.Util.RNG.Rate.new()
+	var RNG = UREQ.access_g("Uzil", "RNG")
+	self._rng_rate = RNG.Rate.new()
 
 # 設置 機率表
 func rates (rate_arr) :
@@ -60,12 +61,12 @@ func equality () :
 	return self
 
 # 設置 種子碼
-func seed (_seed = null) :
+func rngseed (_seed = null) :
 	self._rng_seed = _seed
 	return self
 
 # 設置 範圍
-func range (min, max) :
+func minmax (min, max) :
 	# 防呆
 	if min > max :
 		var tmp = max

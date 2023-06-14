@@ -7,11 +7,14 @@
 
 # const =========
 
+## Uzil
+var Uzil
+
 ## 路徑
 var PATH : String
 
 ## 呼叫類型
-const CALLTYPE = {
+const CallType = {
 	"ONCE" = 0,
 	"INTERVAL" = 1,
 	"UPDATE" = 2,
@@ -34,16 +37,32 @@ var Task
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
+	self.Uzil = Uzil
 	self.PATH = _parent_index.PATH.path_join("Invoker")
 	
-	self.Task = G.v.Uzil.load_script(self.PATH.path_join("invoker_task.gd"))
-	self.Inst = G.v.Uzil.load_script(self.PATH.path_join("invoker_inst.gd"))
-	self.Mgr = G.v.Uzil.load_script(self.PATH.path_join("invoker_mgr.gd"))
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Core.Invoker", self._target_index, {
+		"alias" : ["Invoker"],
+	})
+	
+	# 綁定 呼叫器管理
+	UREQ.bind_g("Uzil", "invoker_mgr", self._target_mgr, {
+		"alias" : ["invoker"],
+		"requires" : ["Core.Invoker"],
+	})
 	
 	return self
 
-## 初始化
-func init (_parent_index) :
+func _target_index () :
+	self.Task = self.Uzil.load_script(self.PATH.path_join("invoker_task.gd"))
+	self.Inst = self.Uzil.load_script(self.PATH.path_join("invoker_inst.gd"))
+	self.Mgr = self.Uzil.load_script(self.PATH.path_join("invoker_mgr.gd"))
 	return self
+
+func _target_mgr () :
+	var target = self.Mgr.new(null)
+	target.name = "invoker_mgr"
+	self.Uzil.add_child(target)
+	return target

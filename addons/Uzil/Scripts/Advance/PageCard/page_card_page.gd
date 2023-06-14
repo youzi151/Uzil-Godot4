@@ -1,4 +1,3 @@
-extends Node
 
 ## PageCard.Page 頁面卡 頁面
 ## 
@@ -7,14 +6,8 @@ extends Node
 
 # Variable ===================
 
-## 辨識 (若 留空 則 取node.name)
-@export var id : String = "" :
-	get :
-		if _id == "" : return self.name
-		else : return self._id
-	set (value) :
-		self._id = value
-var _id : String = ""
+## 辨識
+var id : String = ""
 
 ## 當前 堆疊
 var _current_deck := ""
@@ -26,7 +19,7 @@ var deck_to_pages := {}
 var deck_to_show_pages := {}
 
 ## 卡片
-@export var cards : Array[String] = []
+var cards : Array[String] = []
 
 # GDScript ===================
 
@@ -37,6 +30,10 @@ func _process (_dt) :
 	pass
 
 # Public =====================
+
+## 取得 ID
+func get_id () :
+	return self.id
 
 ## 設置 顯示
 func show_page (page_id = null, deck_key = null) :
@@ -63,6 +60,10 @@ func switch_deck (deck_key : String) :
 	self._current_deck = deck_key
 	self.get_deck(deck_key)
 
+## 新增 頁面 (別名)
+func push_page (page_id : String) :
+	self.add_page(page_id, null, true)
+
 ## 新增 頁面
 func add_page (page_id : String, deck_key = null, is_show := true) :
 	var deck_pages : Array = self.get_deck(deck_key)
@@ -76,7 +77,7 @@ func add_page (page_id : String, deck_key = null, is_show := true) :
 			deck_show_pages.push_back(page_id)
 
 ## 新增 頁面
-func add_pages (page_id_list : Array[String], deck_key = null, is_show := true) :
+func add_pages (page_id_list : Array, deck_key = null, is_show := true) :
 	var deck_pages : Array = self.get_deck(deck_key)
 	var deck_show_pages : Array = self.get_deck_show_pages(deck_key)
 	for page_id in page_id_list :

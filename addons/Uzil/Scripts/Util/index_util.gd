@@ -42,26 +42,33 @@ var _class = {}
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("Util")
 	
-	# sub index
-	self.RNG = G.v.Uzil.load_script(self.PATH.path_join("RNG/index_rng.gd")).new()
-	self.sub_indexes.push_back(self.RNG)
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Util",
+		func () :
+			# inner class
+			self._class._Math = Uzil.load_script(self.PATH.path_join("math.gd"))
+			self._class._Async = Uzil.load_script(self.PATH.path_join("async.gd"))
+			self._class._GDScript = Uzil.load_script(self.PATH.path_join("gdscript.gd"))
+			self._class._Input = Uzil.load_script(self.PATH.path_join("Input/input.gd"))
+			self._class._Keycode = Uzil.load_script(self.PATH.path_join("Input/keycode.gd"))
+			self._class._String = Uzil.load_script(self.PATH.path_join("string.gd"))
+			self._class._UniqID = Uzil.load_script(self.PATH.path_join("uniq_id.gd"))
+
+			self.init(_parent_index)
+			return self
+	)
 	
-	# inner class
-	self._class._Math = G.v.Uzil.load_script(self.PATH.path_join("math.gd"))
-	self._class._Async = G.v.Uzil.load_script(self.PATH.path_join("async.gd"))
-	self._class._GDScript = G.v.Uzil.load_script(self.PATH.path_join("gdscript.gd"))
-	self._class._Input = G.v.Uzil.load_script(self.PATH.path_join("Input/input.gd"))
-	self._class._Keycode = G.v.Uzil.load_script(self.PATH.path_join("Input/keycode.gd"))
-	self._class._String = G.v.Uzil.load_script(self.PATH.path_join("string.gd"))
-	self._class._UniqID = G.v.Uzil.load_script(self.PATH.path_join("uniq_id.gd"))
+	# sub index
+	self.RNG = Uzil.load_script(self.PATH.path_join("RNG/index_rng.gd")).new()
+	self.sub_indexes.push_back("RNG")
 	
 	# 建立索引
 	for each in self.sub_indexes :
-		each.index(self)
+		self[each].index(Uzil, self)
 	
 	return self
 
@@ -76,9 +83,5 @@ func init (__parent_index) :
 	
 	var keycode = self._class._Keycode.new()
 	self.input = self._class._Input.new().init(keycode)
-	
-	# 初始化
-	for each in self.sub_indexes :
-		each.init(self)
 	
 	return self

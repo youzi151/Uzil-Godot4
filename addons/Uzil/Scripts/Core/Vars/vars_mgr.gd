@@ -17,11 +17,12 @@ func _init () :
 # Public =====================
 
 ## 取得 實體
-func inst (key := "") :
+func inst (key := "_") :
 	if self.key_to_inst.has(key) :
 		return self.key_to_inst[key]
 	else:
-		var _inst = G.v.Uzil.Core.Vars.Inst.new()
+		var Vars = UREQ.access_g("Uzil", "Core.Vars")
+		var _inst = Vars.Inst.new()
 		self.key_to_inst[key] = _inst
 		return _inst
 

@@ -2,9 +2,14 @@ extends Uzil_Test_Base
 
 # Variable ===================
 
+var Util
+var invoker
+
 # Extends ====================
 
 func test_ready () :
+	self.invoker = UREQ.access_g("Uzil", "invoker_mgr")
+	self.Util = UREQ.access_g("Uzil", "Util")
 #	self.test_waterfall()
 #	self.test_parallel()
 #	self.test_each_series_list()
@@ -24,14 +29,14 @@ func test_waterfall () :
 	
 	print("test : Uzil.Util.async.waterfall")
 	
-	G.v.Uzil.Util.async.waterfall(
+	self.Util.async.waterfall(
 		[
 			func (ctrlr) :
 				print("A")
 				ctrlr.next.call(),
 			func (ctrlr) :
 				print("B")
-				G.v.Uzil.invoker.inst().once(func () :
+				self.invoker.inst().once(func () :
 					ctrlr.next.call()
 				, 1000),
 			func (ctrlr) :
@@ -51,7 +56,7 @@ func test_parallel () :
 	
 	print("test : Uzil.Util.async.parallel")
 	
-	G.v.Uzil.Util.async.parallel(
+	self.Util.async.parallel(
 		[
 			func (ctrlr) :
 				print("A")
@@ -59,7 +64,7 @@ func test_parallel () :
 #				ctrlr.skip.call()
 				,
 			func (ctrlr) :
-				G.v.Uzil.invoker.inst().once(func () :
+				self.invoker.inst().once(func () :
 					print("B")
 					ctrlr.next.call()
 				, 1000)
@@ -77,10 +82,10 @@ func test_each_series_list () :
 	
 	print("test : Uzil.Util.async.each_series")
 	
-	G.v.Uzil.Util.async.each_series(
+	self.Util.async.each_series(
 		["hello", "world", "godot"],
 		func (idx, each, ctrlr) :
-			G.v.Uzil.invoker.inst().once(func () :
+			self.invoker.inst().once(func () :
 				print("%s : %s" % [idx, each])
 				
 				if idx == 1 : 
@@ -99,10 +104,10 @@ func test_each_series_dict () :
 	
 	print("test : Uzil.Util.async.each_series")
 	
-	G.v.Uzil.Util.async.each_series(
+	self.Util.async.each_series(
 		{"first": "hello", "second": "world", "third": "godot"},
 		func (key, each, ctrlr) :
-			G.v.Uzil.invoker.inst().once(func () :
+			self.invoker.inst().once(func () :
 				print("%s : %s" % [key, each])
 				
 				if key == "second" : 
@@ -122,10 +127,10 @@ func test_each_list () :
 	
 	print("test : Uzil.Util.async.each")
 	
-	G.v.Uzil.Util.async.each(
+	self.Util.async.each(
 		["hello", "world", "godot"],
 		func (idx, each, ctrlr) :
-			G.v.Uzil.invoker.inst().once(func () :
+			self.invoker.inst().once(func () :
 				print("%s : %s" % [idx, each])
 				if idx == 1 : 
 					ctrlr.skip.call()
@@ -145,11 +150,11 @@ func test_each_dict () :
 	var ref := {}
 	ref.delay = 3000
 	
-	G.v.Uzil.Util.async.each(
+	self.Util.async.each(
 		{"first": "hello", "second": "world", "third": "godot"},
 		func (key, each, ctrlr) :
 			ref.delay -= 500
-			G.v.Uzil.invoker.inst().once(func () :
+			self.invoker.inst().once(func () :
 				print("%s : %s" % [key, each])
 				if key == "second" : 
 					ctrlr.skip.call()
@@ -166,10 +171,10 @@ func test_times_series () :
 	
 	print("test : Uzil.Util.async.times_series")
 	
-	G.v.Uzil.Util.async.times_series(
+	self.Util.async.times_series(
 		5,
 		func (idx, ctrlr) :
-			G.v.Uzil.invoker.inst().once(func () :
+			self.invoker.inst().once(func () :
 				print(idx)
 				if idx == 2 : 
 					ctrlr.skip.call()
@@ -187,10 +192,10 @@ func test_times () :
 	
 	print("test : Uzil.Util.async.times")
 	
-	G.v.Uzil.Util.async.times(
+	self.Util.async.times(
 		5,
 		func (idx, ctrlr) :
-			G.v.Uzil.invoker.inst().once(func () :
+			self.invoker.inst().once(func () :
 				print(idx)
 				if idx == 2 : 
 #					ctrlr.skip.call()

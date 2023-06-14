@@ -9,7 +9,8 @@
 
 ## 建立 新的 殼
 static func new_shell () :
-	var __shell = G.v.Uzil.Core.ObjPool.Shell.new()
+	var ObjPool = UREQ.access_g("Uzil", "Core.ObjPool")
+	var __shell = ObjPool.Shell.new()
 	var _core = new().set_shell(__shell)
 	return __shell
 

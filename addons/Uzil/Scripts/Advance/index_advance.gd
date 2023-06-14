@@ -31,33 +31,25 @@ var StateMachine
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("Advance")
 	
-	self.Audio = G.v.Uzil.load_script(self.PATH.path_join("Audio/index_audio.gd")).new()
+	self.Audio = Uzil.load_script(self.PATH.path_join("Audio/index_audio.gd")).new()
 	self.sub_indexes.push_back(self.Audio)
 	
-	self.Options = G.v.Uzil.load_script(self.PATH.path_join("Options/index_options.gd")).new()
+	self.Options = Uzil.load_script(self.PATH.path_join("Options/index_options.gd")).new()
 	self.sub_indexes.push_back(self.Options)
 	
-	self.PageCard = G.v.Uzil.load_script(self.PATH.path_join("PageCard/index_page_card.gd")).new()
+	self.PageCard = Uzil.load_script(self.PATH.path_join("PageCard/index_page_card.gd")).new()
 	self.sub_indexes.push_back(self.PageCard)
 	
-	self.StateMachine = G.v.Uzil.load_script(self.PATH.path_join("StateMachine/index_state_machine.gd")).new()
+	self.StateMachine = Uzil.load_script(self.PATH.path_join("StateMachine/index_state_machine.gd")).new()
 	self.sub_indexes.push_back(self.StateMachine)
 	
 	# 建立索引
 	for each in self.sub_indexes :
-		each.index(self)
+		each.index(Uzil, self)
 	
 	return self
 
-## 初始化
-func init (_parent_index) :
-	
-	# 初始化
-	for each in self.sub_indexes :
-		each.init(self)
-	
-	return self

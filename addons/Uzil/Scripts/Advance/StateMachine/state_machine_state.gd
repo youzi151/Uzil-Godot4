@@ -3,20 +3,10 @@ extends Node
 # Variable ===================
 
 ## 辨識 (若 留空 則 取node.name)
-@export var id : String = "" :
-	get :
-		if self._id == "" : return self.name
-		else : return self._id
-	set (value) :
-		self.name = value
-		self._id = value
-var _id : String = ""
+var id : String = ""
 
 ## 核心
 var _core = null
-
-## 面板設置 核心
-@export var core_nodepath := ""
 
 ## 是否已初始化
 var _is_inited := false
@@ -27,10 +17,13 @@ var _is_active := false
 # GDScript ===================
 
 func _init (_core_or_script_id) :
+	
+	var StateMachine = UREQ.access_g("Uzil", "Advance.StateMachine")
+	
 	# 若 為 id字串
 	if typeof(_core_or_script_id) == TYPE_STRING :
 		# 試著取得並建立腳本
-		var script = G.v.Uzil.Advance.StateMachine.get_state_script(_core_or_script_id)
+		var script = StateMachine.get_state_script(_core_or_script_id)
 		if script != null :
 			self._core = script.new()
 	# 若 為 核心
@@ -42,10 +35,6 @@ func _init (_core_or_script_id) :
 		# 試 設置 所屬狀態
 		if self._core.has_method("set_state") :
 			self._core.set_state(self)
-
-# Called when the node enters the scene tree for the first time.
-func _ready () :
-	self._core = self.get_node(core_nodepath)
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process (_dt) :

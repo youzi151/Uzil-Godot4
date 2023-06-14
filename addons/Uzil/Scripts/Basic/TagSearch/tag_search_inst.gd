@@ -258,6 +258,8 @@ func parse_tags (tag_str : String) -> Array :
 	# 標籤資料 列表
 	var tag_data_list := []
 	
+	# TODO : i18n
+	
 	# 每個ID
 	for each_id in id_list :
 		# 加入為一筆標籤資料

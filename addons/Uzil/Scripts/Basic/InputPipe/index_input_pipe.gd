@@ -41,24 +41,42 @@ var default_handler_scripts := {
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("InputPipe")
 	
-	self.Setting = G.v.Uzil.load_script(self.PATH.path_join("input_pipe_setting.gd"))
-	self.Msg = G.v.Uzil.load_script(self.PATH.path_join("input_pipe_msg.gd"))
-	self.Layer = G.v.Uzil.load_script(self.PATH.path_join("input_pipe_layer.gd"))
-	self.Handler = G.v.Uzil.load_script(self.PATH.path_join("input_pipe_handler.gd"))
-	self.Inst = G.v.Uzil.load_script(self.PATH.path_join("input_pipe_inst.gd"))
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Basic.InputPipe",
+		func () :
+			self.Setting = Uzil.load_script(self.PATH.path_join("input_pipe_setting.gd"))
+			self.Msg = Uzil.load_script(self.PATH.path_join("input_pipe_msg.gd"))
+			self.Layer = Uzil.load_script(self.PATH.path_join("input_pipe_layer.gd"))
+			self.Handler = Uzil.load_script(self.PATH.path_join("input_pipe_handler.gd"))
+			self.Inst = Uzil.load_script(self.PATH.path_join("input_pipe_inst.gd"))
+			
+			for key in self.default_handler_scripts :
+				var script = Uzil.load_script(self.PATH.path_join(self.default_handler_scripts[key]))
+				self.import_handler_script(key, script)
+				
+			return self, 
+		{
+			"alias" : ["InputPipe"],
+		}
+	)
 	
-	for key in self.default_handler_scripts :
-		var script = G.v.Uzil.load_script(self.PATH.path_join(self.default_handler_scripts[key]))
-		self.import_handler_script(key, script)
+	# 綁定 實體
+	UREQ.bind_g("Uzil", "input_pipe", 
+		func () :
+			var target = self.get_inst()
+			target.name = "input_pipe"
+			Uzil.add_child(target)
+			return target,
+		{
+			"alias" : ["inputpipe"],
+			"requires" : ["Basic.InputPipe"],
+		}
+	)
 	
-	return self
-
-## 初始化
-func init (_parent_index) :
 	return self
 
 ## 取得 實體
@@ -77,7 +95,8 @@ func import_handler_script (import_name, path_or_script) :
 
 ## 取得 處理器 腳本
 func get_handler_script (name_or_path) :
-	return G.v.Uzil.Util.gdscript.get_script_from_dict(self.name_to_handler_script, name_or_path)
+	var Util = UREQ.access_g("Uzil", "Util")
+	return Util.gdscript.get_script_from_dict(self.name_to_handler_script, name_or_path)
 
 ## 建立 新 處理器
 func new_handler (id, name_or_path, data) :

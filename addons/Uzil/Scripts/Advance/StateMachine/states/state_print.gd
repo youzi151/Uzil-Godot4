@@ -2,7 +2,6 @@
 # Variable ===================
 
 var state = null
-
 var user = null
 
 var msg := ""
@@ -17,14 +16,6 @@ var msg := ""
 func set_state (_state) :
 	self.state = _state
 
-## 初始化
-func init (_user) :
-	pass
-
-## 推進
-func process (_dt) :
-	print("[test state_print] state[%s] dt[%s]" % [self.state.id, _dt])
-
 ## 設置 使用主體
 func set_user (_user) :
 	self.user = _user
@@ -32,6 +23,14 @@ func set_user (_user) :
 ## 設置 資料
 func set_data (data) :
 	self.msg = data.msg
+
+## 初始化
+func init (_user) :
+	pass
+
+## 推進
+func process (_dt) :
+	print("[test state_print] state[%s] dt[%s]" % [self.state.id, _dt])
 
 ## 當 狀態 進入
 func on_enter () :

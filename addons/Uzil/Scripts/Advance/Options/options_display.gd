@@ -1,4 +1,3 @@
-extends Node
 
 ## Options.Display 選項 顯示
 ##
@@ -33,7 +32,8 @@ func _process(_dt):
 ## 讀取 設定檔案
 func load_config (file_path := "") :
 	if file_path == "" :
-		file_path = G.v.Uzil.Advance.Options.CONFIG_FILE_PATH
+		
+		file_path = UREQ.access_g("Uzil", "Advance.Options").CONFIG_FILE_PATH
 	
 	var to_load_keys := []
 	
@@ -43,7 +43,8 @@ func load_config (file_path := "") :
 		to_load_keys.push_back(self._get_key_window_borderless(idx))
 		to_load_keys.push_back(self._get_key_window_fullscreen_mode(idx))
 	
-	var configs = G.v.Uzil.user_save.config.read(file_path, self.CFG_SECTION_NAME, to_load_keys)
+	var user_save = UREQ.access_g("Uzil", "user_save")
+	var configs = user_save.config.read(file_path, self.CFG_SECTION_NAME, to_load_keys)
 	
 	for idx in range(self.window_count) :
 		self._load_config_window(idx, configs)
@@ -118,8 +119,11 @@ func _get_key_with_suffix (window_id : int, key : String) -> String :
 
 ## 寫入 至 設定檔案
 func _write_to_config (key, val) :
-	G.v.Uzil.user_save.config.write_val(G.v.Uzil.Advance.Options.CONFIG_FILE_PATH, self.CFG_SECTION_NAME, key, val)
-#	print(G.v.Uzil.Advance.Options.CONFIG_FILE_PATH)
+	
+	var Options = UREQ.access_g("Uzil", "Advance.Options")
+	var user_save = UREQ.access_g("Uzil", "user_save")
+	user_save.config.write_val(Options.CONFIG_FILE_PATH, self.CFG_SECTION_NAME, key, val)
+#	print(Options.CONFIG_FILE_PATH)
 
 
 ## 讀取 設定 至 視窗

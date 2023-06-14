@@ -28,7 +28,6 @@ func fn (_fn: Callable) :
 	self.fnc = _fn
 	return self
 
-
 ## 設置 排序
 func srt (_srt : int) :
 	self.sort = _srt

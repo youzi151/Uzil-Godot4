@@ -2,9 +2,13 @@ extends Uzil_Test_Base
 
 # Variable ===================
 
+var Uzil_RNG
+
 # Extends ====================
 
 func test_ready () :
+	self.Uzil_RNG = UREQ.access_g("Uzil", "RNG")
+	
 	var start_time
 	var end_time
 	
@@ -37,14 +41,14 @@ func test_normal () :
 		
 
 func test_rate () :
-	var rng = G.v.Uzil.Util.RNG.Rate.new().rates([4, 10, 5])
+	var rng = self.Uzil_RNG.Rate.new().rates([4, 10, 5])
 	for idx in range(100000) :
 		var _num = rng.gen()
 #		print("test: %s" % _num)
 
 func test_pool () :
-	
-	var rng_pool = G.v.Uzil.Util.RNG.Pool.new().range(2, 4).rates([6, 3, 1]).loop(G.v.Uzil.Util.RNG.Pool.LOOP_TYPE.SINGLE)
+	print(self.Uzil_RNG.Pool.LoopType != null)
+	var rng_pool = self.Uzil_RNG.Pool.new().minmax(2, 4).rates([6, 3, 1]).loop(self.Uzil_RNG.Pool.LoopType.SINGLE)
 	
 	var _last = null
 	

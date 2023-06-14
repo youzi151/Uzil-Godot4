@@ -4,6 +4,8 @@
 ## 從 Vars 中 取得變數 來 替換關鍵字.
 ##
 
+var vars
+
 # Variable ===================
 
 ## 正則式
@@ -18,6 +20,7 @@ var replace_when_not_found = null
 # GDScript ===================
 
 func _init () :
+	self.vars = UREQ.access_g("Uzil", "vars")
 	self.regex = RegEx.new()
 	self.regex.compile(self.regex_pattern)
 
@@ -69,7 +72,7 @@ func handle (trans_task) :
 		var full_str : String = each.get_string(0)
 		
 		# 要替換成的文字 從指定變數庫中取得
-		var replace = G.v.Uzil.vars.inst(inst_key).get_var(key)
+		var replace = self.vars.inst(inst_key).get_var(key)
 		
 		# 若 要替換成的文字不存在
 		if replace == null :

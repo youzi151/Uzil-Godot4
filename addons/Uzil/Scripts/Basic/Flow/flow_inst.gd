@@ -5,6 +5,8 @@ extends Node
 ## 對 節點鏈, 條件, 事件 的 建立/持有/管理/紀錄.
 ## 
 
+var Flow 
+
 # Variable ===================
 
 ## 關鍵字
@@ -25,11 +27,13 @@ var _id_to_gate := {}
 
 # GDScript ===================
 
-func _init () :
-	self._times_inst = G.v.Uzil.times.inst(self._key)
+func _init (_dont_set_in_scene) :
+	self.Flow = UREQ.access_g("Uzil", "Flow")
+	
+	var times = UREQ.access_g("Uzil", "times_mgr")
+	self._times_inst = times.inst(self._key)
 
 func _process (_dt) :
-	
 	var times_dt : int = self._times_inst.dt()
 	
 	for each in self._id_to_gate.values() :
@@ -127,12 +131,12 @@ func to_memo (_args = null) :
 	
 	var events := {}
 	for key in self._id_to_event.keys() :
-		events[key] = self._id_to_event[key].to_memo()
+		events[key] = self._id_to_event[key].to_memo({})
 	memo["events"] = events
 	
 	var gates := {}
 	for key in self._id_to_gate.keys() :
-		gates[key] = self._id_to_gate[key].to_memo()
+		gates[key] = self._id_to_gate[key].to_memo({})
 	memo["gates"] = gates
 	
 	return memo
@@ -208,16 +212,16 @@ func new_chain (data : Dictionary, is_overwrite := false) :
 	# 試著 取得腳本
 	var script = null
 	if data.has("script") :
-		script = G.v.Uzil.Basic.Flow.get_chain_script(data["script"])
+		script = self.Flow.get_chain_script(data["script"])
 		
 	if script == null :
-		script = G.v.Uzil.Basic.Flow.get_chain_script("base")
+		script = self.Flow.get_chain_script("base")
 	
 	# 若 無法取得 則 返回 空
 	if script == null : return null
 	
 	# 建立
-	var new_one = G.v.Uzil.Basic.Flow.Chain.new(script.new())
+	var new_one = self.Flow.Chain.new(script.new())
 	# 初始化
 	new_one.init(self._key, data)
 	new_one.load_memo(data)
@@ -233,13 +237,13 @@ func new_event (data : Dictionary, is_overwrite := false) :
 	# 試著 取得腳本
 	var script = null
 	if data.has("script") :
-		script = G.v.Uzil.Basic.Flow.get_event_script(data["script"])
+		script = self.Flow.get_event_script(data["script"])
 	
 	# 若 無法取得 則 返回 空
 	if script == null : return null
 	
 	# 建立
-	var new_one = G.v.Uzil.Basic.Flow.Event.new(script.new())
+	var new_one = self.Flow.Event.new(script.new())
 	# 初始化
 	new_one.init(self._key, data)
 	new_one.load_memo(data)
@@ -255,13 +259,13 @@ func new_gate (data : Dictionary, is_overwrite := false) :
 	# 試著 取得腳本
 	var script = null
 	if data.has("script") :
-		script = G.v.Uzil.Basic.Flow.get_gate_script(data["script"])
+		script = self.Flow.get_gate_script(data["script"])
 	
 	# 若 無法取得 則 返回 空
 	if script == null : return null
 	
 	# 建立
-	var new_one = G.v.Uzil.Basic.Flow.Gate.new(script.new())
+	var new_one = self.Flow.Gate.new(script.new())
 	# 初始化
 	new_one.init(self._key, data)
 	new_one.load_memo(data)

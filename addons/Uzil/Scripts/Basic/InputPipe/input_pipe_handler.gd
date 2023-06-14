@@ -32,6 +32,7 @@ func _init (core) :
 ## 處理 訊號
 func handle_msg (input_msg) :
 	if self._core == null : return input_msg
+	if not input_msg.real_key in self.src_keys : return input_msg
 	return self._core.handle_msg(input_msg)
 
 ## 讀取

@@ -56,16 +56,17 @@ var on_destroy = null
 func _init (_mgr, _audio_player) :
 	self.mgr = _mgr
 	
-	self.on_loop = G.v.Uzil.Core.Evt.Inst.new()
-	self.on_end = G.v.Uzil.Core.Evt.Inst.new()
-	self.on_destroy = G.v.Uzil.Core.Evt.Inst.new()
+	var Evt = UREQ.access_g("Uzil", "Core.Evt")
+	self.on_loop = Evt.Inst.new()
+	self.on_end = Evt.Inst.new()
+	self.on_destroy = Evt.Inst.new()
 	
 	self.audio_player = _audio_player
 	self.audio_player.connect("finished", self._signal_finished)
 
 func _process (_dt) :
 	
-	var is_timing = G.v.Uzil.times.inst().is_timing()
+	var is_timing = UREQ.access_g("Uzil", "Core.Times").inst().is_timing()
 	var _is_playing = self.is_playing()
 	
 	if not is_timing and _is_playing :
@@ -80,20 +81,22 @@ func _process (_dt) :
 	
 	if self.audio_player == null : return
 	
+	var Util = UREQ.access_g("Uzil", "Util")
+	
 	# 檢查 並 更新 目標音量
 	var target_volume_layered = self._get_layered_volume()
 	if target_volume_layered != self._target_volume :
 		self._target_volume = target_volume_layered
-		self._target_volume_db = G.v.Uzil.Util.math.percent_to_db(self._target_volume)
+		self._target_volume_db = Util.math.percent_to_db(self._target_volume)
 	
 	# 漸變目標音量
 	if self.audio_player.volume_db != self._target_volume_db :
-		var current_volume : float = G.v.Uzil.Util.math.db_to_percent(self.audio_player.volume_db)
+		var current_volume : float = Util.math.db_to_percent(self.audio_player.volume_db)
 		if self.fade_speed_volume_sec < 0 :
 			current_volume = self._target_volume
 		else :
 			current_volume = move_toward(current_volume, self._target_volume, self.fade_speed_volume_sec * _dt)
-		self.audio_player.volume_db = G.v.Uzil.Util.math.percent_to_db(current_volume)
+		self.audio_player.volume_db = Util.math.percent_to_db(current_volume)
 		
 
 func _signal_finished () :
@@ -259,16 +262,18 @@ func _get_layered_is_pause () -> bool :
 	# 預設 是否暫停
 	var is_pause = not self.is_playing()
 	
+	var Audio = UREQ.access_g("Uzil", "Advance.Audio")
+	
 	# 各層級
 	for each_layer in self._layers :
 		
 		var layer = self.mgr.get_layer(each_layer)
 		
 		# 若 沒有定義播放狀態 則 忽略
-		if layer.play_state == G.v.Uzil.Advance.Audio.LayerPlayState.UNDEFINED : continue
+		if layer.play_state == Audio.LayerPlayState.UNDEFINED : continue
 		
 		# 覆蓋 是否暫停
-		is_pause = layer.play_state == G.v.Uzil.Advance.Audio.LayerPlayState.PAUSE
+		is_pause = layer.play_state == Audio.LayerPlayState.PAUSE
 		
 		break
 	

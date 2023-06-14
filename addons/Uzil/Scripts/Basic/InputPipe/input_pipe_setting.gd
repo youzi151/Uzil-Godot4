@@ -12,7 +12,9 @@ static func load_from_file (path) :
 	
 	var setting = new()
 	
-	var setting_data = G.v.Uzil.user_save.user.read(path)
+	var user_save = UREQ.access_g("Uzil", "user_save")
+	
+	var setting_data = user_save.user.read(path)
 	if setting_data != null :
 		for handler_id in setting_data :
 			var data = setting_data[handler_id]

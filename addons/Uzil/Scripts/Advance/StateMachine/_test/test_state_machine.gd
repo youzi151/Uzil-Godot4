@@ -7,7 +7,10 @@ var state_machine_inst = null
 # Extends ====================
 
 func test_ready():
-	var inst = G.v.Uzil.states.inst("test")
+	var states_mgr = UREQ.access_g("Uzil", "states_mgr")
+	var invoker_mgr = UREQ.access_g("Uzil", "invoker_mgr")
+	
+	var inst = states_mgr.inst("test")
 	
 	var state_a = inst.new_state("print", "a", {"msg":"i'm a"})
 	var state_b = inst.new_state("print", "b", {"msg":"i'm b"})
@@ -18,10 +21,10 @@ func test_ready():
 	print("lock")
 	inst.lock()
 	
-	G.v.Uzil.invoker.inst().once(func():
+	invoker_mgr.inst().once(func():
 		inst.go_state("b")
 		print("goto b state")
-		G.v.Uzil.invoker.inst().once(func():
+		invoker_mgr.inst().once(func():
 			print("unlock")
 			inst.unlock()
 		, 2000)

@@ -16,9 +16,11 @@ func test_process (_delta) :
 
 func test () :
 	
+	var Vals = UREQ.access_g("Uzil", "Core.Vals")
+	
 	print("Uzil.Core.Vals test")
 	
-	var vals = G.v.Uzil.Core.Vals.new()
+	var vals = Vals.new()
 	
 	vals.on_update.on(func(ctrlr):
 		print("on update to : %s " % vals.current())

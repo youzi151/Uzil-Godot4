@@ -16,6 +16,8 @@ const DEVICE_ID_SHIFT      := 8
 ## Uzil格式中的key編號 遮罩
 const KEYCODE_MASK         := 0b00000000011111111
 
+var uzil_input
+
 ## 名稱:鍵值 快取
 var _name_to_keycode_cache := {}
 
@@ -27,6 +29,7 @@ var device_type_to_keycode_infos := {}
 
 ## 初始化
 func init (uzil_input) :
+	self.uzil_input = uzil_input
 	self._init_raw(uzil_input)
 	return self
 
@@ -119,16 +122,16 @@ func name_to_keycode (name_str : String) :
 	match name_typ :
 		# 鍵盤
 		"key" :
-			type_key = self.device_type_to_keycode(G.v.Uzil.Util.input.DeviceType.KEYBOARD)
-			name_to_key = self._keycode_table[G.v.Uzil.Util.input.DeviceType.KEYBOARD][0]
+			type_key = self.device_type_to_keycode(self.uzil_input.DeviceType.KEYBOARD)
+			name_to_key = self._keycode_table[self.uzil_input.DeviceType.KEYBOARD][0]
 		# 滑鼠
 		"mouse" :
-			type_key = self.device_type_to_keycode(G.v.Uzil.Util.input.DeviceType.MOUSE)
-			name_to_key = self._keycode_table[G.v.Uzil.Util.input.DeviceType.MOUSE][0]
+			type_key = self.device_type_to_keycode(self.uzil_input.DeviceType.MOUSE)
+			name_to_key = self._keycode_table[self.uzil_input.DeviceType.MOUSE][0]
 		# 搖桿
 		"joy" :
-			type_key = self.device_type_to_keycode(G.v.Uzil.Util.input.DeviceType.JOY)
-			name_to_key = self._keycode_table[G.v.Uzil.Util.input.DeviceType.JOY][0]
+			type_key = self.device_type_to_keycode(self.uzil_input.DeviceType.JOY)
+			name_to_key = self._keycode_table[self.uzil_input.DeviceType.JOY][0]
 	
 	# 產生 裝置編號 的 key值
 	var device_idx = name_device << self.DEVICE_ID_SHIFT

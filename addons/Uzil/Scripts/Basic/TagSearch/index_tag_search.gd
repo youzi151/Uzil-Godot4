@@ -28,18 +28,30 @@ var Mgr
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("TagSearch")
 	
-	self.Config = G.v.Uzil.load_script(self.PATH.path_join("tag_search_config.gd"))
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Basic.TagSearch",
+		func () :
+			self.Config = Uzil.load_script(self.PATH.path_join("tag_search_config.gd"))
+			self.Inst = Uzil.load_script(self.PATH.path_join("tag_search_inst.gd"))
+			self.Mgr = Uzil.load_script(self.PATH.path_join("tag_search_mgr.gd"))
+			return self,
+		{
+			"alias" : ["TagSearch"],
+		}
+	)
 	
-	self.Inst = G.v.Uzil.load_script(self.PATH.path_join("tag_search_inst.gd"))
+	# 綁定 實體
+	UREQ.bind_g("Uzil", "tag_search_mgr", 
+		func () :
+			return self.Mgr.new(), 
+		{
+			"alias" : ["tag_search", "tagsearch"],
+			"requires" : ["Basic.TagSearch"],
+		}
+	)
 	
-	self.Mgr = G.v.Uzil.load_script(self.PATH.path_join("tag_search_mgr.gd"))
-	
-	return self
-
-## 初始化
-func init (_parent_index) :
 	return self

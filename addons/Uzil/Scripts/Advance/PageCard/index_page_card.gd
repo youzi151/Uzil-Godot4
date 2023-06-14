@@ -11,6 +11,9 @@
 ## 路徑
 var PATH : String
 
+## Uzil
+var Uzil
+
 # sub_index =====
 
 ## 管理器
@@ -24,29 +27,38 @@ var Card
 
 # inst ==========
 
-## 管理器
-var mgr
-
 # other =========
 
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
+	self.Uzil = Uzil
 	self.PATH = _parent_index.PATH.path_join("PageCard")
 	
-	self.Mgr = G.v.Uzil.load_script(self.PATH.path_join("page_card_mgr.gd"))
-	self.Inst = G.v.Uzil.load_script(self.PATH.path_join("page_card_inst.gd"))
-	self.Page = G.v.Uzil.load_script(self.PATH.path_join("page_card_page.gd"))
-	self.Card = G.v.Uzil.load_script(self.PATH.path_join("page_card_card.gd"))
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Advance.PageCard", self._target_index, {
+		"alias" : ["PageCard"]
+	})
+	
+	# 綁定 實體管理
+	UREQ.bind_g("Uzil", "page_card_mgr", self._target_pagecard, {
+		"alias" : ["page_card", "pagecard"],
+		"requires" : ["Advance.PageCard"],
+	})
 	
 	return self
 
-## 初始化
-func init (_parent_index) :
-	
-	self.mgr = self.Mgr.new()
+## 產生 綁定對象 索引
+func _target_index () :
+	self.Mgr = self.Uzil.load_script(self.PATH.path_join("page_card_mgr.gd"))
+	self.Inst = self.Uzil.load_script(self.PATH.path_join("page_card_inst.gd"))
+	self.Page = self.Uzil.load_script(self.PATH.path_join("page_card_page.gd"))
+	self.Card = self.Uzil.load_script(self.PATH.path_join("page_card_card.gd"))
 	
 	return self
-	
+
+## 產生 綁定對象 實體管理
+func _target_pagecard () :
+	return self.Mgr.new(null)

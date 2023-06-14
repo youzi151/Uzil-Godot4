@@ -16,9 +16,10 @@ func test_process (_delta) :
 
 func test () :
 	
-	print("G.v.Uzil.Core.Vars test")
+	print("Uzil.Core.Vars test")
 	
-	var vars = G.v.Uzil.vars.inst()
+	
+	var vars = UREQ.access_g("Uzil", "vars_mgr").inst()
 	
 	var listener1 = vars.on_var_changed(func(ctrlr):
 		print("vars[%s] set to %s" % [ctrlr.data["key"], ctrlr.data["val"]])

@@ -34,36 +34,27 @@ var TagSearch
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("Basic")
 	
-	self.UserSave = G.v.Uzil.load_script(self.PATH.path_join("UserSave/index_user_save.gd")).new()
+	self.UserSave = Uzil.load_script(self.PATH.path_join("UserSave/index_user_save.gd")).new()
 	self.sub_indexes.push_back(self.UserSave)
 	
-	self.InputPipe = G.v.Uzil.load_script(self.PATH.path_join("InputPipe/index_input_pipe.gd")).new()
+	self.InputPipe = Uzil.load_script(self.PATH.path_join("InputPipe/index_input_pipe.gd")).new()
 	self.sub_indexes.push_back(self.InputPipe)
 	
-	self.Flow = G.v.Uzil.load_script(self.PATH.path_join("Flow/index_flow.gd")).new()
+	self.Flow = Uzil.load_script(self.PATH.path_join("Flow/index_flow.gd")).new()
 	self.sub_indexes.push_back(self.Flow)
 	
-	self.I18N = G.v.Uzil.load_script(self.PATH.path_join("I18N/index_i18n.gd")).new()
+	self.I18N = Uzil.load_script(self.PATH.path_join("I18N/index_i18n.gd")).new()
 	self.sub_indexes.push_back(self.I18N)
 	
-	self.TagSearch = G.v.Uzil.load_script(self.PATH.path_join("TagSearch/index_tag_search.gd")).new()
+	self.TagSearch = Uzil.load_script(self.PATH.path_join("TagSearch/index_tag_search.gd")).new()
 	self.sub_indexes.push_back(self.TagSearch)
 	
 	# 建立索引
 	for each in self.sub_indexes :
-		each.index(self)
+		each.index(Uzil, self)
 		
-	return self
-
-## 初始化
-func init (_parent_index) :
-	
-	# 初始化
-	for each in self.sub_indexes :
-		each.init(self)
-	
 	return self

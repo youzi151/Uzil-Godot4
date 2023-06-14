@@ -42,6 +42,7 @@ func active (_is_active := true) :
 
 ## 處理訊號
 func handle_msg (input_msg) :
+	
 	for each in self._handlers :
 		var copy_msg = input_msg.copy()
 		
@@ -78,12 +79,19 @@ func get_handler (handler_id : String) :
 
 ## 新增 處理器
 func add_handler (handler) :
+	
 	if self._id_to_handler.has(handler.id) :
 		self.del_handler(handler.id)
 	
 	self._id_to_handler[handler.id] = handler
 	self._handlers.push_back(handler)
-	
+
+## 建立 並 新增 處理器
+func new_handler (id, name_or_path, data) :
+	var InputPipe = UREQ.access_g("Uzil", "Basic.InputPipe")
+	var handler = InputPipe.new_handler(id, name_or_path, data)
+	self.add_handler(handler)
+	return handler
 
 ## 移除 處理器
 func del_handler (handler_id : String) :
@@ -106,15 +114,18 @@ func get_input (vkey : int) :
 
 ## 新增 當 輸入 偵聽
 func on_input (vkey : int, evtlistener_or_fn) :
+	var Evt = null
 	var evtlistener = evtlistener_or_fn
 	if typeof(evtlistener_or_fn) == TYPE_CALLABLE :
-		evtlistener = G.v.Uzil.Core.Evt.Listener.new().fn(evtlistener_or_fn)
+		if Evt == null : Evt = UREQ.access_g("Uzil", "Core.Evt")
+		evtlistener = Evt.Listener.new().fn(evtlistener_or_fn)
 	
 	var evt
 	if self._vkey_to_event.has(vkey) :
 		evt = self._vkey_to_event[vkey]
 	else :
-		evt = G.v.Uzil.Core.Evt.Inst.new()
+		if Evt == null : Evt = UREQ.access_g("Uzil", "Core.Evt")
+		evt = Evt.Inst.new()
 		self._vkey_to_event[vkey] = evt
 	
 	evt.on(evtlistener)

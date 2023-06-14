@@ -4,6 +4,8 @@
 ## 依照指定的時間實進行倒數計時, 倒數完畢後 即 完成條件
 ##
 
+var times_mgr
+
 # Variable ===================
 
 ## 殼
@@ -19,6 +21,9 @@ var _time_msec := 0
 var _left_time := 0
 
 # GDScript ===================
+
+func _init () :
+	self.times_mgr = UREQ.access_g("Uzil", "times_mgr")
 
 # Interface ====================
 
@@ -63,7 +68,7 @@ func _on_enter () :
 func _on_process (_dt) :
 	if self._shell.is_complete() : return
 	
-	self._left_time -= G.v.Uzil.times.inst(self._inst_key).dt()
+	self._left_time -= self.times_mgr.inst(self._inst_key).dt()
 	
 	if self._left_time <= 0 :
 		self._shell.complete()

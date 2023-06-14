@@ -40,16 +40,32 @@ var Layer
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("Audio")
 	
-	self.Mgr = G.v.Uzil.load_script(self.PATH.path_join("audio_mgr.gd"))
-	self.Obj = G.v.Uzil.load_script(self.PATH.path_join("audio_obj.gd"))
-	self.Layer = G.v.Uzil.load_script(self.PATH.path_join("audio_layer.gd"))
-
-## 初始化
-func init (_parent_index) :
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Advance.Audio",
+		func () :
+			self.Mgr = Uzil.load_script(self.PATH.path_join("audio_mgr.gd"))
+			self.Obj = Uzil.load_script(self.PATH.path_join("audio_obj.gd"))
+			self.Layer = Uzil.load_script(self.PATH.path_join("audio_layer.gd"))
+			return self,
+		{
+			"alias" : ["Audio"]
+		}
+	)
 	
-	return self
+	# 綁定 實體管理
+	UREQ.bind_g("Uzil", "audio_mgr", 
+		func () :
+			var target = self.Mgr.new()
+			target.name = "audio_mgr"
+			Uzil.add_child(target)
+			return target,
+		{
+			"alias" : ["audio"],
+			"requires" : ["Advance.Audio"],
+		}
+	)
 	

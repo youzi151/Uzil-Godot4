@@ -15,8 +15,9 @@ var _default_config = null
 
 # GDScript ===================
 
-func _init () :
-	self._default_config = G.v.Uzil.Basic.TagSearch.Config.new()
+func _init (_dont_set_in_scene) :
+	var TagSearch = UREQ.access_g("Uzil", "TagSearch")
+	self._default_config = TagSearch.Config.new()
 
 func _process (_dt) :
 	pass
@@ -24,13 +25,14 @@ func _process (_dt) :
 
 # Public =====================
 
-func inst (_key := "") :
-	if self._key_to_inst.has(_key):
-		return self._key_to_inst[_key]
+func inst (key := "_") :
+	if self._key_to_inst.has(key):
+		return self._key_to_inst[key]
 	else:
-		var _inst = G.v.Uzil.Basic.TagSearch.Inst.new(self._default_config)
+		var TagSearch = UREQ.access_g("Uzil", "Basic.TagSearch")
+		var _inst = TagSearch.Inst.new(self._default_config)
 		
-		self._key_to_inst[_key] = _inst
+		self._key_to_inst[key] = _inst
 		return _inst
 
 

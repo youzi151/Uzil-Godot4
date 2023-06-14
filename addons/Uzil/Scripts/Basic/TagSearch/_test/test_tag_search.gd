@@ -18,7 +18,9 @@ func test_process(_delta):
 # Public =====================
 
 func test1 () :
-	var inst = G.Uzil.tag_search.inst("test")
+	var tag_search = UREQ.access_g("Uzil", "tag_search")
+	
+	var inst = tag_search.inst("test")
 	
 #	var search_data = inst.parse_search_str(' -gender:male role : tank ,"super tank", dps (test, test2) ')
 #	for each in search_data.tags :

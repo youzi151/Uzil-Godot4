@@ -1,4 +1,3 @@
-extends Node
 
 ## PageCard.Inst 頁面卡 實體
 ## 
@@ -7,48 +6,29 @@ extends Node
 
 # Variable ===================
 
-## 當前頁面
-var current_pages : Array[String] = []
-
 ## 根頁面
-var root_page = null
+var _root_page = null
 
 ## 頁面列表
-@export var pages_nodepath : Array[NodePath] = []
-var pages := []
+var _pages := []
 
 ## 卡片列表
-@export var cards_nodepath : Array[NodePath] = []
-var cards := []
-
-## 當 準備完成 事件
-var on_ready = null
+var _cards := []
 
 ## 預設 轉場行為
 var default_transition_fn = null
 
 # GDScript ===================
 
-func _init () :
-	# 當準備完成 事件
-	self.on_ready = G.v.Uzil.Core.Evt.Inst.new()
-
-func _ready () :
+func _init (__root_page = null) :
+	var PageCard = UREQ.access_g("Uzil", "Advance.PageCard")
 	
-	self.root_page = G.v.Uzil.Advance.PageCard.Page.new()
-	self.root_page.id = "_root"
-	
-	# 每個指定Node路徑 取得為 Node
-	for each in self.cards_nodepath :
-		var node := self.get_node(each)
-		if node : self.reg_card(node)
-	
-	for each in self.pages_nodepath :
-		var node := self.get_node(each)
-		if node : self.reg_page(node)
-	
-	# 呼叫 當準備完成 事件
-	self.on_ready.emit()
+	if __root_page != null : 
+		self._root_page = __root_page
+	else :
+		self._root_page = PageCard.Page.new()
+		
+	self._root_page.id = "_root"
 
 func _process (_dt) :
 	pass
@@ -57,20 +37,30 @@ func _process (_dt) :
 
 ## 註冊 頁面
 func reg_page (page) :
-	if self.pages.has(page) : return
-	self.pages.push_back(page)
+	if self._pages.has(page) : return
+	self._pages.push_back(page)
 
 ## 註冊 卡片
 func reg_card (card) :
-	if self.cards.has(card) : return
-	self.cards.push_back(card)
+	if self._cards.has(card) : return
+	self._cards.push_back(card)
+
+## 取得 根頁面
+func get_root_page () :
+	return self._root_page
 
 ## 取得 頁面
-func get_pages (page_id : String) :
+func get_pages (page_id) :
+	if page_id == null :
+		return self._pages.duplicate()
+		
 	var res := []
-	for each in self.pages :
-		if each.id == page_id :
+	for each in self._pages :
+		if each.get_id() == page_id :
 			res.push_back(each)
+	
+	if page_id == "_root" :
+		res.push_back(self._root_page)
 	
 	if res.size() == 0 :
 		return null
@@ -79,21 +69,27 @@ func get_pages (page_id : String) :
 
 ## 取得 頁面
 func get_page (page_id : String) :
-	for each in self.pages :
-		if each.id == page_id :
+	if page_id == "_root" :
+		return self._root_page
+		
+	for each in self._pages :
+		if each.get_id() == page_id :
 			return each
 	return null
 
 ## 取得 卡片
 func get_card (card_id : String) :
-	for each in self.cards :
+	for each in self._cards :
 		if each.id == card_id :
 			return each
 
 ## 取得 卡片
-func get_cards (card_id : String) :
+func get_cards (card_id) :
+	if card_id == null : 
+		return self._cards.duplicate()
+	
 	var res := []
-	for each in self.cards :
+	for each in self._cards :
 		if each.id == card_id :
 			res.push_back(each)
 	
@@ -116,7 +112,7 @@ func refresh_with_transition (transition_fn = null, on_done = null) :
 	var to_check_pages := []
 	
 	# 當前要檢查的頁面
-	var curr_page = self.root_page
+	var curr_page = self._root_page
 	
 	# 防呆 最大嘗試次數
 	var try_time := 100
@@ -166,14 +162,15 @@ func refresh_with_transition (transition_fn = null, on_done = null) :
 	var to_deactive := []
 	
 	# 所有 卡片
-	for each_card in self.cards :
+	for each_card in self._cards :
 		# 若 在 要顯示的卡片中
 		if total_show_cards.has(each_card.id) :
 			to_active.push_back(each_card)
 		else :
 			to_deactive.push_back(each_card)
-				
-	G.v.Uzil.Util.async.waterfall([
+	
+	var Util = UREQ.access_g("Uzil", "Util")
+	Util.async.waterfall([
 		func (ctrlr) :
 			# 若 有 轉場行為 則 轉呼叫
 			if transition_fn != null : 

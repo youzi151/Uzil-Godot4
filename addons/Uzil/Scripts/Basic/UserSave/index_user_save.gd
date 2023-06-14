@@ -44,7 +44,7 @@ var Setting_User
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("UserSave")
 	
@@ -53,17 +53,31 @@ func index (_parent_index) :
 	self.USER_TEMPLATE_PATH = self.TEMPLATE_PATH.path_join("user")
 	self.PROFILE_TEMPLATE_PATH = self.TEMPLATE_PATH.path_join("profile")
 	
-	self.Config = G.v.Uzil.load_script(self.PATH.path_join("user_save_configure.gd"))
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Basic.UserSave", 
+		func () :
+			self.Config = Uzil.load_script(self.PATH.path_join("user_save_configure.gd"))
+			self.Inst = Uzil.load_script(self.PATH.path_join("user_save_inst.gd"))
+			self.Setting_Profile = Uzil.load_script(self.PATH.path_join("user_save_setting_profile.gd"))
+			self.Setting_User = Uzil.load_script(self.PATH.path_join("user_save_setting_user.gd"))
+			return self, 
+		{
+			"alias" : ["UserSave"]
+		}
+	)
 	
-	self.Inst = G.v.Uzil.load_script(self.PATH.path_join("user_save_inst.gd"))
-	self.Setting_Profile = G.v.Uzil.load_script(self.PATH.path_join("user_save_setting_profile.gd"))
-	self.Setting_User = G.v.Uzil.load_script(self.PATH.path_join("user_save_setting_user.gd"))
+	# 綁定 工具組
+	UREQ.bind_g("Uzil", "user_save",
+		func () :
+			return self.create_kit(),
+		{
+			"alias" : ["usersave"],
+			"requires" : ["Basic.UserSave"],
+		}
+	)
 	
 	return self
 
-## 初始化
-func init (_parent_index) :
-	return self
 
 ## 建立 快速工具組
 func create_kit () -> Dictionary :

@@ -17,8 +17,10 @@ func test_process (_delta) :
 
 func test () :
 	
+	var ObjPool = UREQ.access_g("Uzil", "ObjPool")
+	
 	# 建立物件池
-	var pool = G.v.Uzil.Core.ObjPool.Core_Any.new_shell()
+	var pool = ObjPool.Core_Any.new_shell()
 	pool.set_size(5)
 	pool.core.set_create(func():
 		self.obj_alives += 1

@@ -7,6 +7,8 @@
 ## 4. 發送 語言更換 或 其他更新 事件 給 已經註冊的 偵聽者
 ##
 
+var I18N
+
 # Variable ===================
 
 ## 當前語言
@@ -33,10 +35,15 @@ var _on_update = null
 # GDScript ===================
 
 func _init () :
+	
+	self.I18N = UREQ.access_g("Uzil", "I18N")
+	
+	var Evt = UREQ.access_g("Uzil", "Evt")
+	
 	# 當 語言切換
-	self._on_language_changed = G.v.Uzil.Core.Evt.Inst.new()
+	self._on_language_changed = Evt.Inst.new()
 	# 當 更新
-	self._on_update = G.v.Uzil.Core.Evt.Inst.new()
+	self._on_update = Evt.Inst.new()
 
 # Extends ====================
 
@@ -49,7 +56,8 @@ func update () :
 
 ## 讀取 所有語言資料
 func load_languages (langs_dir_path) :
-	self._code_to_lang = G.v.Uzil.Basic.I18N.loader.load_langs(langs_dir_path)
+	var I18N = UREQ.access_g("Uzil", "I18N")
+	self._code_to_lang = I18N.loader.load_langs(langs_dir_path)
 
 ## 取得 語言資料
 func get_language (code_or_alias) :
@@ -75,6 +83,7 @@ func get_current_fallback_languages () :
 
 ## 變更語言
 func change_language (i18n_lang) :
+	
 	# 若 為 字串(語言名稱) 則 取得 該語言
 	var typ = typeof(i18n_lang)
 	if typ == TYPE_STRING :
@@ -126,12 +135,12 @@ func change_language (i18n_lang) :
 	# 卸載 字典
 	for each in to_unload_code :
 		if to_load_code.has(each) : continue
-		G.v.Uzil.Basic.I18N.loader.unload_dicts(self.get_language(each))
+		self.I18N.loader.unload_dicts(self.get_language(each))
 		
 	# 載入 字典
 	for each in to_load_code :
 		if to_unload_code.has(each) : continue
-		G.v.Uzil.Basic.I18N.loader.load_dicts(self.get_language(each))
+		self.I18N.loader.load_dicts(self.get_language(each))
 	
 	# 發送 當 語言改變 事件
 	self._on_language_changed.emit()
@@ -139,7 +148,7 @@ func change_language (i18n_lang) :
 ## 翻譯
 func trans (text : String) :
 	# 本次 翻譯 任務
-	var trans_task = G.v.Uzil.Basic.I18N.Task.new(self, text)
+	var trans_task = self.I18N.Task.new(self, text)
 	
 	# 是否完成
 	var is_done = false

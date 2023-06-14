@@ -1,4 +1,3 @@
-extends Node
 
 ## Options.Audio 選項 音效
 ##
@@ -33,10 +32,13 @@ func _process(_dt):
 
 ## 讀取 設定檔案
 func load_config (file_path := "") :
-	if file_path == "" :
-		file_path = G.v.Uzil.Advance.Options.CONFIG_FILE_PATH
+	var Options = UREQ.access_g("Uzil", "Advance.Options")
+	var user_save = UREQ.access_g("Uzil", "user_save")
 	
-	var configs = G.v.Uzil.user_save.config.read(file_path, self.CFG_SECTION_NAME, null)
+	if file_path == "" :
+		file_path = Options.CONFIG_FILE_PATH
+	
+	var configs = user_save.config.read(file_path, self.CFG_SECTION_NAME, null)
 	
 	var keys : Array = configs.keys()
 	
@@ -54,8 +56,9 @@ func load_config (file_path := "") :
 
 ## 設置 混和器 音量
 func set_bus_volume (bus_id : String, volume_linear : float, is_save_to_config := true) :
+	var audio = UREQ.access_g("Uzil", "audio")
 	
-	G.v.Uzil.audio.set_bus_volume(bus_id, volume_linear)
+	audio.set_bus_volume(bus_id, volume_linear)
 	
 	self.bus_to_volume[bus_id] = volume_linear
 	
@@ -68,5 +71,7 @@ func set_bus_volume (bus_id : String, volume_linear : float, is_save_to_config :
 
 ## 寫入 至 設定檔案
 func _write_to_config (key, val) :
-	G.v.Uzil.user_save.config.write_val(G.v.Uzil.Advance.Options.CONFIG_FILE_PATH, self.CFG_SECTION_NAME, key, val)
+	var Options = UREQ.access_g("Uzil", "Advance.Options")
+	var user_save = UREQ.access_g("Uzil", "user_save")
+	user_save.config.write_val(Options.CONFIG_FILE_PATH, self.CFG_SECTION_NAME, key, val)
 

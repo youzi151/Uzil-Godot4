@@ -14,11 +14,16 @@ var _spin_panels : Array[Node] = []
 func test_ready():
 	self.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	self.times.push_back(G.v.Uzil.times.inst("A"))
-	G.v.Uzil.times.inst("A").set_timing_in_background(true, "test", 0)
-	G.v.Uzil.times.inst("A").set_scale(2)
-	self.times.push_back(G.v.Uzil.times.inst("B"))
-#	self.times.push_back(G.v.Uzil.times.inst("C"))
+	var times_mgr = UREQ.access_g("Uzil", "times_mgr")
+	var times_inst_A = times_mgr.inst("A")
+	
+	self.times.push_back(times_inst_A)
+	times_inst_A.set_timing_in_background(true, "test", 0)
+	times_inst_A.set_scale(2)
+	
+	self.times.push_back(times_mgr.inst("B"))
+	
+#	self.times.push_back(times_mgr.inst("C"))
 
 	for each_path in self.spin_panels :
 		var chain : Node = self.get_node(each_path)

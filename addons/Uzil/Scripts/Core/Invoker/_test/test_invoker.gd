@@ -10,8 +10,8 @@ var is_test_frame := false
 
 func test_ready () :
 	
-	self.invoker_inst = G.v.Uzil.invoker.inst()
-#	self.invoker_inst = G.v.Uzil.invoker.inst("test")
+	var invoker_mgr = UREQ.access_g("Uzil", "invoker")
+	self.invoker_inst = invoker_mgr.inst()
 	
 	# 單次
 #	self.test_once(5000)

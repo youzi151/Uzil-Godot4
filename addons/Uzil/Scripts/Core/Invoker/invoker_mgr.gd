@@ -12,7 +12,7 @@ var _key_to_inst := {}
 
 # GDScript ===================
 
-func _init () :
+func _init (_dont_set_in_scene) :
 	pass
 	
 func _process (_dt) :
@@ -24,13 +24,12 @@ func _process (_dt) :
 # Public =====================
 
 ## 取得 實體
-func inst (key := "") :
+func inst (key := "_") :
 	if self._key_to_inst.has(key) :
 		return self._key_to_inst[key]
 	else:
-		var _inst = G.v.Uzil.Core.Invoker.Inst.new().init(key)
-		_inst.name = key
-		self.add_child(_inst)
+		var Invoker = UREQ.access_g("Uzil", "Core.Invoker")
+		var _inst = Invoker.Inst.new().init(key)
 		
 		self._key_to_inst[key] = _inst
 		return _inst

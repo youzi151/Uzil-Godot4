@@ -12,7 +12,7 @@ var key_to_inst := {}
 
 # GDScript ===================
 
-func _init () :
+func _init (_dont_set_in_scene) :
 	pass
 
 func _process (_dt) :
@@ -24,11 +24,12 @@ func _process (_dt) :
 # Public =====================
 
 ## 取得 實體
-func inst (key := "") :
+func inst (key := "_") :
 	if self.key_to_inst.has(key) :
 		return self.key_to_inst[key]
 	else:
-		var _inst = G.v.Uzil.Core.Times.Inst.new()
+		var Times = UREQ.access_g("Uzil", "Core.Times")
+		var _inst = Times.Inst.new(null)
 		_inst.name = key
 		self.add_child(_inst)
 		

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dujqrv5dsymb8"]
+
+[ext_resource type="Script" path="res://addons/UREQ/_test/test_ureq.gd" id="1_rrs2u"]
+
+[node name="test_uzdi" type="Node2D"]
+script = ExtResource("1_rrs2u")

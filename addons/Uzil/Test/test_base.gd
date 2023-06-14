@@ -18,7 +18,7 @@ func _ready () :
 	if self._is_ready_done : return
 	self._is_ready_done = true
 	
-	self.debug_msg = self.get_tree().get_root().get_node("Uzil_Test/debug_msg")
+	self.debug_msg = self.get_tree().get_root().get_node("Uzil_Test/scene/debug_msg")
 	
 	self.test_ready()
 

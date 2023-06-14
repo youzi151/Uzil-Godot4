@@ -10,12 +10,14 @@ var pagecard_inst
 # Extends ====================
 
 func test_ready():
-	self.pagecard_inst = self.get_node(self.pagecard_inst_nodepath)
+	var pagecard_inst_node = self.get_node(self.pagecard_inst_nodepath)
+	self.pagecard_inst = pagecard_inst_node.request_inst()
 	
-	var invoker = G.v.Uzil.invoker.inst()
+	var invoker = UREQ.access_g("Uzil", "invoker_mgr").inst()
 	
-	self.pagecard_inst.on_ready.on(func (_ctrlr) :
-		var root_page = self.pagecard_inst.root_page
+	pagecard_inst_node.on_ready.on(func (_ctrlr) :
+		print("pagecard_inst.on_ready")
+		var root_page = self.pagecard_inst.get_root_page()
 		
 		# 設置 各頁面
 		root_page.add_page("page_3d_obj", "3d")
@@ -26,24 +28,24 @@ func test_ready():
 		# 初次刷新
 		self.pagecard_inst.refresh()
 		
-		G.v.Uzil.Util.async.waterfall([
+		UREQ.access_g("Uzil", "Util").async.waterfall([
 			# 切換顯示 3D頁面堆
 			func (ctrlr) :
-				print("waterfall page 3d")
+				print("switch deck 3d")
 				root_page.switch_deck("3d")
 				self.pagecard_inst.refresh()
 				invoker.once(ctrlr.next, 1000),
 			
 			# 切換顯示 2D頁面堆
 			func (ctrlr) :
-				print("waterfall page 2d")
+				print("switch deck 2d")
 				root_page.switch_deck("2d")
 				self.pagecard_inst.refresh()
 				invoker.once(ctrlr.next, 1000),
 			
 			# 顯示 新頁面 在 2D頁面堆
 			func (ctrlr) :
-				print("waterfall page 2d + popup")
+				print("add page popup")
 				
 				# 添加 頁面 至 2D頁面堆
 				root_page.add_page("page_popup", "2d")
@@ -96,17 +98,17 @@ func test_ready():
 					)
 				),
 			func (ctrlr) :
-				print("waterfall page all")
+				print("switch deck all")
 				root_page.switch_deck("all")
 				self.pagecard_inst.refresh()
 				invoker.once(ctrlr.next, 1000),
 			func (ctrlr) :
-				print("waterfall page none")
+				print("switch deck none")
 				root_page.switch_deck("none")
 				self.pagecard_inst.refresh()
 				invoker.once(ctrlr.next, 1000),
 			func (ctrlr) :
-				print("waterfall page backto 2d")
+				print("switch deck backto 2d")
 				root_page.switch_deck("2d")
 				self.pagecard_inst.refresh()
 				invoker.once(ctrlr.next, 1000),

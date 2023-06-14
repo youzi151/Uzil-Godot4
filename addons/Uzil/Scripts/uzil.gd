@@ -161,9 +161,13 @@ func index () :
 	self.Advance = self.load_script(self.PATH.path_join("Advance/index_advance.gd")).new()
 	self.sub_indexes.push_back(self.Advance)
 	
+	# DI綁定
+	UREQ.bind("Uzil", self)
+	UREQ.bind_g("Uzil", "Uzil", self)
+	
 	# 建立索引
 	for each in self.sub_indexes :
-		each.index(self)
+		each.index(self, self)
 	
 	# 呼叫 當 建立索引完畢
 	self._call_once_indexed()
@@ -173,71 +177,13 @@ func index () :
 func reload () :
 	self._is_loaded = false
 	
-	self.on_process = G.v.Uzil.Core.Evt.Inst.new()
-	self.on_notification = G.v.Uzil.Core.Evt.Inst.new()
+	var Evt = UREQ.access_g("Uzil", "Core.Evt")
 	
-	# 開始實際建立 外部使用的 各模塊類別 #########
-	
-	# Times ####
-	self.times = G.v.Uzil.Core.Times.Mgr.new()
-	self.times.name = "Times"
-	self.add_child(self.times)
-	
-	# Invoker ####
-	self.invoker = G.v.Uzil.Core.Invoker.Mgr.new()
-	self.invoker.name = "Invoker"
-	self.add_child(self.invoker)
-	
-	# EvtBus ####
-	self.evtbus = G.v.Uzil.Core.Evt.BusMgr.new()
-	self.evtbus.name = "EvtBus"
-	self.add_child(self.evtbus)
-	
-	# Vars ####
-	self.vars = G.v.Uzil.Core.Vars.Mgr.new()
-	
-	# Flow ####
-	self.flow = G.v.Uzil.Basic.Flow.Mgr.new()
-	self.flow.name = "Flow"
-	self.add_child(self.flow)
-	
-	# UserSave ####
-	self.user_save = G.v.Uzil.Basic.UserSave.create_kit()
-	
-	# InputPipe ####
-	self.input_pipe = G.v.Uzil.Basic.InputPipe.get_inst()
-	self.input_pipe.name = "InputPipe"
-	self.add_child(self.input_pipe)
-	
-	# I18N ####
-	self.i18n = G.v.Uzil.Basic.I18N.create_inst()
-	
-	# TagSearch ####
-	self.tag_search = G.v.Uzil.Basic.TagSearch.Mgr.new()
-	
-	# StateMachine ####
-	self.states = G.v.Uzil.Advance.StateMachine.Mgr.new()
-	self.states.name = "StateMachine"
-	self.add_child(self.states)
-	
-	# Audio ####
-	self.audio = G.v.Uzil.Advance.Audio.Mgr.new()
-	self.audio.name = "Audio"
-	self.add_child(self.audio)
-	
-	# XXXXXXX ####
-#	self.xxxxxx = self.XXXX.new()
-#	self.xxxxxx.name = "XXXXX"
-#	self.add_child(self.xxxxxxx)
-	
-	# 初始化
-	for each in self.sub_indexes :
-		each.init(self)
-		
+	self.on_process = Evt.Inst.new()
+	self.on_notification = Evt.Inst.new()
 	
 	# 呼叫 當 讀取完畢
 	self._call_once_loaded()
-	
 
 ## 註冊 當 建立索引
 func once_indexed (callable) :
@@ -317,5 +263,8 @@ func _call_once_ready () :
 	self._once_ready.clear()
 
 ## 讀取腳本
-func load_script (path) :
-	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+func load_script (path, is_force_reload := false) :
+	if not is_force_reload and ResourceLoader.has_cached(path) :
+		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+	else :
+		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_REPLACE)

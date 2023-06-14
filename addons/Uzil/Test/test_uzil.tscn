@@ -5,9 +5,9 @@
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Options/_test/test_options.gd" id="3_1mpto"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Audio/_test/test_audio.gd" id="4_x1mhw"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/_test/test_page_card.gd" id="5_s2mxj"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/page_card_inst.gd" id="6_edcre"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/page_card_page.gd" id="7_7obfu"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/page_card_card.gd" id="8_af2no"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/node/page_card_inst_node.gd" id="6_vrket"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/node/page_card_page_node.gd" id="7_18yfx"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/node/page_card_card_node.gd" id="8_meibt"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/UserSave/_test/test_user_save.gd" id="9_fjm8a"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/I18N/_test/test_i18n.gd" id="10_57jox"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/Flow/_test/test_flow.gd" id="11_10aq3"]
@@ -69,7 +69,7 @@ script = ExtResource("5_s2mxj")
 pagecard_inst_nodepath = NodePath("inst")
 
 [node name="inst" type="Node" parent="Advance/PageCard"]
-script = ExtResource("6_edcre")
+script = ExtResource("6_vrket")
 pages_nodepath = Array[NodePath]([NodePath("pages/page_3d_obj"), NodePath("pages/page_window"), NodePath("pages/page_popup"), NodePath("pages/page_none"), NodePath("pages/page_all")])
 cards_nodepath = Array[NodePath]([NodePath("cards/card_3d"), NodePath("cards/card_window"), NodePath("cards/card_popup")])
 
@@ -96,37 +96,37 @@ texture = SubResource("CanvasTexture_mto8b")
 [node name="pages" type="Node" parent="Advance/PageCard/inst"]
 
 [node name="page_3d_obj" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_7obfu")
+script = ExtResource("7_18yfx")
 cards = Array[String](["card_3d"])
 
 [node name="page_window" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_7obfu")
+script = ExtResource("7_18yfx")
 cards = Array[String](["card_window"])
 
 [node name="page_popup" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_7obfu")
+script = ExtResource("7_18yfx")
 cards = Array[String](["card_popup"])
 
 [node name="page_none" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_7obfu")
+script = ExtResource("7_18yfx")
 
 [node name="page_all" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_7obfu")
+script = ExtResource("7_18yfx")
 cards = Array[String](["card_3d", "card_window", "card_popup"])
 
 [node name="cards" type="Node" parent="Advance/PageCard/inst"]
 
 [node name="card_3d" type="Node" parent="Advance/PageCard/inst/cards"]
-script = ExtResource("8_af2no")
+script = ExtResource("8_meibt")
 targets_nodepath = Array[NodePath]([NodePath("../../CSGBox3D")])
 
 [node name="card_window" type="Node" parent="Advance/PageCard/inst/cards"]
-script = ExtResource("8_af2no")
+script = ExtResource("8_meibt")
 tags = Array[String](["2d"])
 targets_nodepath = Array[NodePath]([NodePath("../../window")])
 
 [node name="card_popup" type="Node" parent="Advance/PageCard/inst/cards"]
-script = ExtResource("8_af2no")
+script = ExtResource("8_meibt")
 tags = Array[String](["2d"])
 targets_nodepath = Array[NodePath]([NodePath("../../popup")])
 

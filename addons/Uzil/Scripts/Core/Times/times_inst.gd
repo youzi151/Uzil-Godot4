@@ -38,10 +38,13 @@ var _is_auto_pause := false
 
 # GDScript ===================
 
-func _init () :
-	self._is_timing_in_background_vals = G.v.Uzil.Core.Vals.new()
-	self._is_timing_vals = G.v.Uzil.Core.Vals.new()
-	self._time_scale_vals = G.v.Uzil.Core.Vals.new()
+func _init (_dont_set_in_scene) :
+	var Vals = UREQ.access_g("Uzil", "Core.Vals")
+	var Times = UREQ.access_g("Uzil", "Core.Times")
+	
+	self._is_timing_in_background_vals = Vals.new()
+	self._is_timing_vals = Vals.new()
+	self._time_scale_vals = Vals.new()
 	
 	self._start_time = self._get_sys_time()
 	self._last_time = self._start_time
@@ -51,8 +54,8 @@ func _init () :
 	self._time_scale_vals.set_default(1.0)
 	
 	self._is_timing_in_background_vals.set_data(func():
-		return G.v.Uzil.Core.Times.is_timing_in_background_config
-	, "CONFIG", G.v.Uzil.Core.Times.Priority.CONFIG)
+		return Times.is_timing_in_background_config
+	, "CONFIG", Times.Priority.CONFIG)
 
 # Called when the node enters the scene tree for the first time.
 func _ready () :
@@ -64,7 +67,6 @@ func _process (_delta) :
 	pass
 
 func _notification (msg) :
-	
 	# 若在 背景中計時 則 忽略
 	if self._is_timing_in_background_vals.current() : return
 	

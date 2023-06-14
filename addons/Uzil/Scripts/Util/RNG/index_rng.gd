@@ -24,15 +24,19 @@ var Pool
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("RNG")
 	
-	self.Pool = G.v.Uzil.load_script(self.PATH.path_join("rng_pool.gd"))
-	self.Rate = G.v.Uzil.load_script(self.PATH.path_join("rng_rate.gd"))
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Util.RNG",
+		func () :
+			self.Pool = Uzil.load_script(self.PATH.path_join("rng_pool.gd"))
+			self.Rate = Uzil.load_script(self.PATH.path_join("rng_rate.gd"))
+			return self, 
+		{
+			"alias" : ["RNG"],
+		}
+	)
 	
-	return self
-
-## 初始化
-func init (_parent_index) :
 	return self

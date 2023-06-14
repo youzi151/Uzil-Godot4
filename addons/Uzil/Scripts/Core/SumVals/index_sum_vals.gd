@@ -26,15 +26,19 @@ var Data
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("SumVals")
 	
-	self.Inst = G.v.Uzil.load_script(self.PATH.path_join("sum_vals_inst.gd"))
-	self.Data = G.v.Uzil.load_script(self.PATH.path_join("sum_vals_data.gd"))
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Core.SumVals",
+		func () :
+			self.Inst = Uzil.load_script(self.PATH.path_join("sum_vals_inst.gd"))
+			self.Data = Uzil.load_script(self.PATH.path_join("sum_vals_data.gd"))
+			return self,
+		{
+			"alias":["SumVals"]
+		}
+	)
 	
-	return self
-
-## 初始化
-func init (_parent_index) :
 	return self

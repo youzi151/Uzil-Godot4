@@ -4,6 +4,8 @@
 ## 以 設定檔 的 路徑, 存取各種存檔資料.
 ## 
 
+var UserSave
+
 # Variable ===================
 
 ## 配置
@@ -21,6 +23,7 @@ var is_use_cache := false
 # GDScript ===================
 
 func _init (_setting) :
+	self.UserSave = UREQ.access_g("Uzil", "Basic.UserSave")
 	self.set_setting(_setting)
 
 # Extends ====================
@@ -118,7 +121,7 @@ func write (path, content) :
 	var file : FileAccess = FileAccess.open(file_path, FileAccess.WRITE)
 	
 	# 保存 格式版本
-	file.store_var(G.v.Uzil.Basic.UserSave.FORMAT_VERSION)
+	file.store_var(self.UserSave.FORMAT_VERSION)
 	
 	# 保存 內容
 	file.store_var(content)
@@ -137,7 +140,7 @@ func write (path, content) :
 func write_val (path, route, val) :
 	# 若 值路徑 為 空 則 返回
 	if route == null :
-		print("[G.v.Uzil.Util.UserData.Base.write_val] route is null")
+		print("[Uzil.Basic.UserData.Base.write_val] route is null")
 		return
 		
 	# 內容
@@ -160,7 +163,7 @@ func write_val (path, route, val) :
 		var typ = typeof(content)
 		if typ != TYPE_ARRAY and typ != TYPE_DICTIONARY :
 			# 返回 (無法讀取值)
-			print("[G.v.Uzil.Util.UserData.Base.write_val] file does not store dictionary, can not access member value")
+			print("[Uzil.Basic.UserData.Base.write_val] file does not store dictionary, can not access member value")
 			return
 	
 	# 當前

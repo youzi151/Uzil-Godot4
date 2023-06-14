@@ -16,7 +16,7 @@ var calltime_ms := 0
 var interval_ms := 0
 
 ## 呼叫類型
-var call_type : int = G.v.Uzil.Core.Invoker.CALLTYPE.ONCE
+var call_type : int = 0
 
 ## 標籤
 var tags : Array[String] = []
@@ -31,6 +31,10 @@ var priority := 0
 var auto_sort := 0
 
 # GDScript ===================
+
+func _init () :
+	var Invoker = UREQ.access_g("Uzil", "Invoker")
+	self.call_type = Invoker.CallType.ONCE
 
 # Public =====================
 

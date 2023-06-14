@@ -25,7 +25,8 @@ var on_update = null
 # GDScript ===================
 
 func _init () :
-	self.on_update = G.v.Uzil.Core.Evt.Inst.new()
+	var Evt = UREQ.access_g("Uzil", "Core.Evt")
+	self.on_update = Evt.Inst.new()
 
 # Extends ====================
 

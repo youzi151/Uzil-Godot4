@@ -7,6 +7,9 @@
 
 # const =========
 
+## Uzil
+var Uzil
+
 ## 路徑
 var PATH : String
 
@@ -40,19 +43,35 @@ var is_timing_in_background_config := false
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
+	self.Uzil = Uzil
 	self.PATH = _parent_index.PATH.path_join("Times")
 	
-	self.Inst = G.v.Uzil.load_script(self.PATH.path_join("times_inst.gd"))
-	self.Mgr = G.v.Uzil.load_script(self.PATH.path_join("times_mgr.gd"))
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Core.Times", self._target_index, {
+		"alias" : ["Times"],
+	})
+	
+	# 綁定 實體管理
+	UREQ.bind_g("Uzil", "times_mgr", self._target_mgr, {
+		"alias" : ["times"],
+		"requires" : ["Core.Times"],
+	})
 	
 	return self
 
-## 初始化
-func init (_parent_index) :
+func _target_mgr () :
+	var target = self.Mgr.new(null)
+	target.name = "times_mgr"
+	self.Uzil.add_child(target)
+	return target
+
+func _target_index () :
+	self.Inst = self.Uzil.load_script(self.PATH.path_join("times_inst.gd"))
+	self.Mgr = self.Uzil.load_script(self.PATH.path_join("times_mgr.gd"))
 	
-	G.v.Uzil.on_notification.on(func test (_ctrlr):
+	self.Uzil.on_notification.on(func (_ctrlr):
 		if not self.is_effect_to_godot_process : return
 		
 		var what = _ctrlr.data["what"]
@@ -60,12 +79,12 @@ func init (_parent_index) :
 			MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN :
 				if self._is_godot_process_effected :
 					self._is_godot_process_effected = false
-					G.v.Uzil.get_tree().paused = false
+					self.Uzil.get_tree().paused = false
 					
 			MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT :
 				if not self._is_godot_process_effected :
 					self._is_godot_process_effected = true
-					G.v.Uzil.get_tree().paused = true
+					self.Uzil.get_tree().paused = true
 	)
 	
 	return self

@@ -52,7 +52,7 @@ func equality () :
 	return self
 
 ## 種子碼
-func seed (_seed) :
+func rngseed (_seed) :
 	# 隨機 ======
 	# 若 有種子碼 
 	if _seed != null :
@@ -73,7 +73,7 @@ func seed (_seed) :
 	return self
 
 ## 設置 範圍
-func range (min, max) :
+func minmax (min, max) :
 	# 防呆
 	if min > max :
 		var tmp = max

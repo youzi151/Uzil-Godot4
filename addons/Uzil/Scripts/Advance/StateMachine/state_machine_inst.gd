@@ -1,6 +1,7 @@
-extends Node
 
 # Variable ===================
+
+var times_mgr = null
 
 ## 使用主體
 var _user = null
@@ -8,8 +9,8 @@ var _user = null
 ## 是否鎖住
 var _is_locked := false
 
-## 預設狀態
-@export var default_state_id := ""
+## 預設狀態ID
+var default_state_id := ""
 
 ## 當前狀態
 var _current_state = null
@@ -20,37 +21,24 @@ var _next_state = null
 ## 狀態列表 (不用Dictionary, 因為方便可以更改狀態的ID, 而且狀態通常不會太多個)
 var _states := []
 
-## 面板設置 狀態列表
-@export var states_nodepath : Array[NodePath] = []
-
 ## 當 狀態改變 事件
 var on_state_change = null
+
+## 對應 時間實體
+var times_inst_key = "_"
 
 # GDScript ===================
 
 func _init (__user = null) :
-	
 	self._user = __user
 	
 	# 當 狀態改變
-	self.on_state_change = G.v.Uzil.Core.Evt.Inst.new()
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
+	var Uzil = UREQ.access_g("Uzil", "Uzil")
+	self.on_state_change = Uzil.Core.Evt.Inst.new()
 	
-	# 每個指定Node路徑 取得為 Node
-	for each in self.states_nodepath :
-		var node : Node = self.get_node(each)
-		if node != null :
-			self._states.push_back(node)
-	
-	for each in self._states :
-		each.set_user(self._user)
+	self.times_mgr = UREQ.access_g("Uzil", "times_mgr")
 	
 
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_dt):
-	self.process(_dt)
 
 # Extends ====================
 
@@ -70,14 +58,18 @@ func set_user (__user) :
 ## 新增 狀態
 func add_state (state) :
 	if self.get_state(state.id) != null : return self
+	state.set_user(self._user)
 	self._states.push_back(state)
 	return self
 
 ## 建立 新 狀態
 func new_state (script_name : String, prefer_state_id : String, data := {}) :
-	var state = G.v.Uzil.Advance.StateMachine.State.new(script_name)
 	
-	var new_id = G.v.Uzil.Util.uniq_id.fix(prefer_state_id, func(next_id):
+	var Uzil = UREQ.access_g("Uzil", "Uzil")
+	
+	var state = Uzil.Advance.StateMachine.State.new(script_name)
+	
+	var new_id = Uzil.Util.uniq_id.fix(prefer_state_id, func(next_id):
 		for each in self._states :
 			if each.id == next_id : return false
 		return true
@@ -102,12 +94,13 @@ func start () :
 	self.set_user(self._user)
 	
 	for each in self._states :
-		each.init()
+		each.init() # 內含 是否已初始化檢查
 	
 	self.go_state(self.default_state_id)
 
 ## 更新
 func process (_dt) :
+	if not self._is_process() : return
 	for each in self._states :
 		each.process(_dt)
 
@@ -167,3 +160,8 @@ func unlock () :
 		self.go_state(state, true)
 
 # Private ====================
+
+## 是否可以推進
+func _is_process () :
+	if self.times_inst_key == null : return true
+	return self.times_mgr.inst(self.times_inst_key).is_timing()

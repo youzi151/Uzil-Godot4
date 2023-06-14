@@ -19,3 +19,4 @@ func set_global (_name : String, val) :
 #=======================================
 
 var Uzil = null
+var UREQ = null

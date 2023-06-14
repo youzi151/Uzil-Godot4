@@ -47,8 +47,10 @@ func load_lang (dir_path) :
 	var dir := DirAccess.open(dir_path)
 	if dir == null : return null
 	
+	var I18N = UREQ.access_g("Uzil", "I18N")
+	
 	# 描述檔(必備基本資料) 的 路徑
-	var meta_file_path : String = dir_path.path_join(G.v.Uzil.Basic.I18N.LANG_META_FILE_NAME)
+	var meta_file_path : String = dir_path.path_join(I18N.LANG_META_FILE_NAME)
 	if FileAccess.file_exists(meta_file_path) == false : return null
 	
 	# 描述檔
@@ -58,7 +60,7 @@ func load_lang (dir_path) :
 	if err != OK : return null
 	
 	# 建立 語言資料
-	var lang = G.v.Uzil.Basic.I18N.Lang.new()
+	var lang = I18N.Lang.new()
 	lang.dir_path = dir_path
 	
 	var section := ""
@@ -90,11 +92,13 @@ func load_dicts (lang) :
 	var dir := DirAccess.open(lang.dir_path)
 	if dir == null : return null
 	
+	var I18N = UREQ.access_g("Uzil", "I18N")
+	
 	# 每個 檔案
 	var file_names := dir.get_files()
 	for each_name in file_names :
 		# 除了 _meta.ini
-		if each_name == G.v.Uzil.Basic.I18N.LANG_META_FILE_NAME : continue
+		if each_name == I18N.LANG_META_FILE_NAME : continue
 		
 		# 匯入 字典
 		var each_path = lang.dir_path.path_join(each_name)

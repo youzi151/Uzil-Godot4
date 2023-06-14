@@ -25,6 +25,10 @@ extends Node
 #    2.1 [key17] → Listener1 ——→ Listener2
 #        [key99] → Listener1 —x→ Listener2 (可利用Event.Call時的ctrlr來進行中斷傳遞)
 
+var InputPipe
+
+var Util
+
 # Variable ===================
 
 ## 辨識
@@ -44,6 +48,9 @@ var _id_to_layer := {}
 # GDScript ===================
 
 func _init (setting) :
+	self.InputPipe = UREQ.access_g("Uzil", "Basic.InputPipe")
+	self.Util = UREQ.access_g("Uzil", "Util")
+	
 	self._setting = setting
 	self._setting.set_inst(self)
 
@@ -72,7 +79,6 @@ func _process (_dt) :
 					to_listen_src_keys.push_back(src_key)
 				
 			
-		
 	
 	# 每個 要偵測的真實key
 	for src_key in to_listen_src_keys :
@@ -132,7 +138,7 @@ func get_layer (layer_id : String) :
 	if self._id_to_layer.has(layer_id) :
 		layer = self._id_to_layer[layer_id]
 	else :
-		layer = G.v.Uzil.Basic.InputPipe.Layer.new(self)
+		layer = self.InputPipe.Layer.new(self)
 		layer.id = layer_id
 		self._id_to_layer[layer_id] = layer
 		self._layers.push_back(layer)
@@ -198,11 +204,10 @@ func get_layers () -> Array :
 
 ## 取得輸入 信號
 func _get_msg (src_key : int) :
-	
 	# 建立訊號
-	var input_msg = G.v.Uzil.Basic.InputPipe.Msg.new().init(src_key)
+	var input_msg = self.InputPipe.Msg.new().init(src_key)
 	
 	# 取得 訊號 值
-	input_msg.val = G.v.Uzil.Util.input.get_input(src_key)
+	input_msg.val = self.Util.input.get_input(src_key)
 	
 	return input_msg

@@ -10,6 +10,8 @@
 
 ## 路徑
 var PATH : String
+## Uzil
+var Uzil
 
 # sub_index =====
 
@@ -31,18 +33,35 @@ var BusMgr
 # func ==========
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
+	self.Uzil = Uzil
 	self.PATH = _parent_index.PATH.path_join("Evt")
 	
-	self.Listener = G.v.Uzil.load_script(self.PATH.path_join("evt_listener.gd"))
-	self.Inst = G.v.Uzil.load_script(self.PATH.path_join("evt_inst.gd"))
-	self.CallCtrlr = G.v.Uzil.load_script(self.PATH.path_join("evt_call_ctrlr.gd"))
-	self.Bus = G.v.Uzil.load_script(self.PATH.path_join("evt_bus.gd"))
-	self.BusMgr = G.v.Uzil.load_script(self.PATH.path_join("evt_bus_mgr.gd"))
+	# 綁定 索引
+	UREQ.bind_g("Uzil", "Core.Evt", self._target_index, {
+		"alias" : ["Evt"]
+	})
+	
+	# 綁定 事件串管理
+	UREQ.bind_g("Uzil", "evt_bus_mgr", self._target_mgr, {
+		"alias" : ["evtbus", "evt_bus"],
+		"requires" : ["Core.Evt"],
+	})
 	
 	return self
 
-## 初始化
-func init (_parent_index) :
+func _target_index () :
+	self.Listener = Uzil.load_script(self.PATH.path_join("evt_listener.gd"))
+	self.Inst = Uzil.load_script(self.PATH.path_join("evt_inst.gd"))
+	self.CallCtrlr = Uzil.load_script(self.PATH.path_join("evt_call_ctrlr.gd"))
+	self.Bus = Uzil.load_script(self.PATH.path_join("evt_bus.gd"))
+	self.BusMgr = Uzil.load_script(self.PATH.path_join("evt_bus_mgr.gd"))
+	
 	return self
+
+func _target_mgr () :
+	var target = self.BusMgr.new()
+	target.name = "evt_bus_mgr"
+	Uzil.add_child(target)
+	return target

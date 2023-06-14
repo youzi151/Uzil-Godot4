@@ -40,43 +40,39 @@ func _init () :
 	pass
 
 ## 建立索引
-func index (_parent_index) :
+func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("Core")
 	
 	# class
-	self.Vals = G.v.Uzil.load_script(self.PATH.path_join("vals.gd"))
+	self.Vals = Uzil.load_script(self.PATH.path_join("vals.gd"))
+		
+	# 綁定 索引 多重變數
+	UREQ.bind_g("Uzil", "Core.Vals", self.Vals, {
+		"alias" : ["Vals"]
+	})
 	
 	# sub index
-	self.Invoker = G.v.Uzil.load_script(self.PATH.path_join("Invoker/index_invoker.gd")).new()
-	self.sub_indexes.push_back(self.Invoker)
+	self.Times = Uzil.load_script(self.PATH.path_join("Times/index_times.gd")).new()
+	self.sub_indexes.push_back("Times")
 	
-	self.Times = G.v.Uzil.load_script(self.PATH.path_join("Times/index_times.gd")).new()
-	self.sub_indexes.push_back(self.Times)
+	self.Invoker = Uzil.load_script(self.PATH.path_join("Invoker/index_invoker.gd")).new()
+	self.sub_indexes.push_back("Invoker")
 	
-	self.Evt = G.v.Uzil.load_script(self.PATH.path_join("Evt/index_evt.gd")).new()
-	self.sub_indexes.push_back(self.Evt)
+	self.Evt = Uzil.load_script(self.PATH.path_join("Evt/index_evt.gd")).new()
+	self.sub_indexes.push_back("Evt")
 	
-	self.ObjPool = G.v.Uzil.load_script(self.PATH.path_join("ObjPool/index_obj_pool.gd")).new()
-	self.sub_indexes.push_back(self.ObjPool)
+	self.ObjPool = Uzil.load_script(self.PATH.path_join("ObjPool/index_obj_pool.gd")).new()
+	self.sub_indexes.push_back("ObjPool")
 	
-	self.Vars = G.v.Uzil.load_script(self.PATH.path_join("Vars/index_vars.gd")).new()
-	self.sub_indexes.push_back(self.Vars)
+	self.Vars = Uzil.load_script(self.PATH.path_join("Vars/index_vars.gd")).new()
+	self.sub_indexes.push_back("Vars")
 	
-	self.SumVals = G.v.Uzil.load_script(self.PATH.path_join("SumVals/index_sum_vals.gd")).new()
-	self.sub_indexes.push_back(self.SumVals)
+	self.SumVals = Uzil.load_script(self.PATH.path_join("SumVals/index_sum_vals.gd")).new()
+	self.sub_indexes.push_back("SumVals")
 	
 	## 建立索引
 	for each in self.sub_indexes :
-		each.index(self)
-		
-	return self
-
-## 初始化
-func init (_parent_index) :
+		self[each].index(Uzil, self)
 	
-	## 初始化
-	for each in self.sub_indexes :
-		each.init(self)
-		
 	return self

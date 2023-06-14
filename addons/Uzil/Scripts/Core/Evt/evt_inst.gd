@@ -4,6 +4,8 @@
 ## 可將 事件與資料 呼叫 給 註冊的 多個 偵聽者
 ## 
 
+var Evt
+
 # Variable ===================
 
 ## 是否自動排序
@@ -14,6 +16,9 @@ var _listener_list := []
 
 # GDScript ===================
 
+func _init () :
+	self.Evt = UREQ.access_g("Uzil", "Core.Evt")
+
 # Public =====================
 
 ## 呼叫事件
@@ -23,7 +28,7 @@ func emit (data = null) :
 		self.sort()
 	
 	# 控制
-	var ctrlr = G.v.Uzil.Core.Evt.CallCtrlr.new(self)
+	var ctrlr = self.Evt.CallCtrlr.new(self)
 	ctrlr.data = data
 	
 	# 每個 偵聽者
@@ -44,9 +49,9 @@ func on (listener_or_fn) :
 	# 處理 參數 偵聽者
 	var listener
 	if typ == TYPE_CALLABLE :
-		listener = G.v.Uzil.Core.Evt.Listener.new()
+		listener = self.Evt.Listener.new()
 		listener.fn(listener_or_fn)
-	elif typ == TYPE_OBJECT and  listener_or_fn.get_script() == G.v.Uzil.Core.Evt.Listener :
+	elif typ == TYPE_OBJECT and  listener_or_fn.get_script() == self.Evt.Listener :
 		listener = listener_or_fn
 	else :
 		return listener
@@ -54,7 +59,7 @@ func on (listener_or_fn) :
 	if self._listener_list.has(listener) :
 		return listener
 		
-	if typeof(listener) == TYPE_OBJECT and (listener as Object).get_script() == G.v.Uzil.Core.Evt.Listener :
+	if typeof(listener) == TYPE_OBJECT and (listener as Object).get_script() == self.Evt.Listener :
 		self._listener_list.push_back(listener)
 		
 	return listener
@@ -73,7 +78,7 @@ func off (listener_or_tag) :
 					self.off_by_tag(each)
 				
 		TYPE_OBJECT :
-			if (listener_or_tag as Object).get_script() == G.v.Uzil.Core.Evt.Listener :
+			if (listener_or_tag as Object).get_script() == self.Evt.Listener :
 				self.off_by_listener(listener_or_tag)
 
 ## 移除 該標籤的偵聽者

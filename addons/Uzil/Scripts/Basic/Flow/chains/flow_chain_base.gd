@@ -4,6 +4,8 @@
 ## 作為 執行內容 與 條件 的 容器
 ##
 
+var Flow
+
 # Variable ===================
 
 ## 殼
@@ -20,6 +22,9 @@ var is_exit_on_complete := true
 
 
 # GDScript ===================
+
+func _init () :
+	self.Flow = UREQ.access_g("Uzil", "Basic.Flow")
 
 # Interface ==================
 
@@ -102,7 +107,7 @@ func del_gate (__id : String) :
 
 ## 檢查是否完成條件
 func check_if_complete () :
-	if self._shell._state != G.v.Uzil.Basic.Flow.ActiveState.ACTIVE : 
+	if self._shell._state != self.Flow.ActiveState.ACTIVE : 
 		return
 		
 	if self._shell.get_nexts().size() == 0 :
@@ -123,7 +128,7 @@ func check_if_complete () :
 
 func on_gate_complete () :
 	
-	self._shell._state = G.v.Uzil.Basic.Flow.ActiveState.COMPLETE
+	self._shell._state = self.Flow.ActiveState.COMPLETE
 #	print("self._shell._state %s" % self._shell._state)
 	
 	# 若 當完成時 結束
@@ -139,7 +144,7 @@ func on_gate_complete () :
 		
 		# 防止循環
 #		if chain == self : 
-#			G.v.Uzil.invoker.inst("_uzil").once(func() :
+#			UREQ.access_g("Uzil", "invoker").inst("_uzil").once(func() :
 #				chain.enter()
 #			)
 #			continue

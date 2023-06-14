@@ -12,22 +12,23 @@ var _key_to_inst := {}
 
 # GDScript ===================
 
-func _init () :
+func _init (_dont_set_in_scene) :
 	pass
 
 func _process (_dt) :
-	pass
-
+	for each in self._key_to_inst.values() :
+		each.process(_dt)
 
 # Public =====================
 
-func inst (_key := "") :
-	if self._key_to_inst.has(_key):
-		return self._key_to_inst[_key]
+func inst (key := "_") :
+	if self._key_to_inst.has(key):
+		return self._key_to_inst[key]
 	else:
-		var _inst = G.v.Uzil.Advance.StateMachine.Inst.new()
+		var StateMachine = UREQ.access_g("Uzil", "Advance.StateMachine")
+		var _inst = StateMachine.Inst.new()
 		
-		self._key_to_inst[_key] = _inst
+		self._key_to_inst[key] = _inst
 		return _inst
 
 

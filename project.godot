@@ -17,17 +17,16 @@ config/features=PackedStringArray("4.0", "GL Compatibility")
 [autoload]
 
 G="*res://addons/GlobalDictionary/Scripts/G.gd"
+UREQ="*res://addons/UREQ/Scripts/ureq.gd"
 Uzil_Init="*res://addons/Uzil/Scripts/uzil_init.gd"
 
 [display]
 
-window/size/viewport_width=0
-window/size/viewport_height=0
 window/size/borderless=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Uzil/plugin.cfg", "res://addons/GlobalDictionary/plugin.cfg")
+enabled=PackedStringArray("res://addons/Uzil/plugin.cfg", "res://addons/GlobalDictionary/plugin.cfg", "res://addons/UREQ/plugin.cfg")
 
 [rendering]
 

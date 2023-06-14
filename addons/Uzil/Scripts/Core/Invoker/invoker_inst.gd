@@ -1,9 +1,11 @@
-extends Node
 
 ## Invoker 呼叫器
 ## 
 ## 間隔呼叫、每幀呼叫、延遲呼叫...等等
 ## 
+
+var Uzil
+var Invoker
 
 # Variable ===================
 
@@ -20,7 +22,10 @@ var tasks : Array = []
 # GDScript ===================
 
 func _init () :
-	self._times_inst = G.v.Uzil.times.inst(self._key)
+	self.Uzil = UREQ.access_g("Uzil", "Uzil")
+	self.Invoker = UREQ.access_g("Uzil", "Invoker")
+	
+	self._times_inst = UREQ.access_g("Uzil", "times_mgr").inst(self._key)
 
 # Public =====================
 
@@ -53,14 +58,14 @@ func process (_dt) :
 		# 依照要呼叫的類型 ###
 		
 		# 單次
-		if each.call_type == G.v.Uzil.Core.Invoker.CALLTYPE.ONCE:
+		if each.call_type == self.Invoker.CallType.ONCE:
 			
 			if now > each.calltime_ms:
 				self.tasks.remove_at(idx)
 				each.run()
 			
 		# 間隔
-		elif each.call_type == G.v.Uzil.Core.Invoker.CALLTYPE.INTERVAL:
+		elif each.call_type == self.Invoker.CallType.INTERVAL:
 			while now > each.calltime_ms:
 				each.run()
 				if each.interval_ms > 0:
@@ -69,22 +74,22 @@ func process (_dt) :
 					each.calltime_ms = now
 					
 		# 每幀
-		elif each.call_type == G.v.Uzil.Core.Invoker.CALLTYPE.UPDATE:
+		elif each.call_type == self.Invoker.CallType.UPDATE:
 			each.runArg(self._times_inst.dt())
 		
 		# 單格
-		elif each.call_type == G.v.Uzil.Core.Invoker.CALLTYPE.FRAME:
+		elif each.call_type == self.Invoker.CallType.FRAME:
 			each.run()
 			self.tasks.remove_at(idx)
 
 
 ## 單次執行
 func once (fn, delay_ms) :
-	var task = G.v.Uzil.Core.Invoker.Task.new()
+	var task = self.Invoker.Task.new()
 	task.fn = fn
 	task.calltime_ms = self._time_now() + delay_ms
 #	print("task.calltime_ms:",task.calltime_ms)
-	task.call_type = G.v.Uzil.Core.Invoker.CALLTYPE.ONCE
+	task.call_type = self.Invoker.CallType.ONCE
 	self.tasks.push_front(task) # 加入尾端
 	self.sort()
 	
@@ -92,11 +97,11 @@ func once (fn, delay_ms) :
 	
 ## 間隔執行
 func interval (fn, interval_ms) :
-	var task = G.v.Uzil.Core.Invoker.Task.new()
+	var task = self.Invoker.Task.new()
 	task.fn = fn
 	task.calltime_ms = self._time_now() + interval_ms
 	task.interval_ms = interval_ms
-	task.call_type = G.v.Uzil.Core.Invoker.CALLTYPE.INTERVAL
+	task.call_type = self.Invoker.CallType.INTERVAL
 	self.tasks.push_front(task) # 加入尾端
 	self.sort()
 	
@@ -105,9 +110,9 @@ func interval (fn, interval_ms) :
 
 ## 每幀更新
 func update (fn) :
-	var task = G.v.Uzil.Core.Invoker.Task.new()
+	var task = self.Invoker.Task.new()
 	task.fn = fn
-	task.call_type = G.v.Uzil.Core.Invoker.CALLTYPE.UPDATE
+	task.call_type = self.Invoker.CallType.UPDATE
 	self.tasks.push_front(task) # 加入尾端
 	self.sort()
 	return task
@@ -122,7 +127,7 @@ func frame (fn, _tag = null, _priority = 0) :
 		var each = self.tasks[idx]
 		
 		# 若 不是 相同tag的 FRAME類 任務 則 繼續
-		if each.call_type != G.v.Uzil.Core.Invoker.CALLTYPE.FRAME or not each.tags.has(_tag):
+		if each.call_type != self.Invoker.CallType.FRAME or not each.tags.has(_tag):
 			continue
 			
 		# 若 現有任務 優先度 超過 要設置的新任務 則 預計取消設置新任務 並 繼續
@@ -137,9 +142,9 @@ func frame (fn, _tag = null, _priority = 0) :
 	if is_cancel:
 		return
 	
-	var task = G.v.Uzil.Core.Invoker.Task.new()
+	var task = self.Invoker.Task.new()
 	task.fn = fn
-	task.call_type = G.v.Uzil.Core.Invoker.CALLTYPE.FRAME
+	task.call_type = self.Invoker.CallType.FRAME
 	task.priority = _priority
 	task.tag(_tag)
 	
