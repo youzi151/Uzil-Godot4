@@ -11,12 +11,22 @@ config_version=5
 [application]
 
 config/name="uzil-godot4"
+run/main_scene="res://addons/Uzil/Test/test_uzil.tscn"
 config/features=PackedStringArray("4.0", "GL Compatibility")
-config/icon=""
+
+[autoload]
+
+G="*res://addons/GlobalDictionary/Scripts/G.gd"
+UREQ="*res://addons/UREQ/Scripts/ureq.gd"
+Uzil_Init="*res://addons/Uzil/Scripts/uzil_init.gd"
+
+[display]
+
+window/size/borderless=true
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/Uzil/plugin.cfg", "res://addons/GlobalDictionary/plugin.cfg", "res://addons/UREQ/plugin.cfg")
 
 [rendering]
 

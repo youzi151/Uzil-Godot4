@@ -1,0 +1,4 @@
+; test ini with sec
+
+[sec]
+key="FILE_EN_SEC"

@@ -1,8 +1,11 @@
-extends Node
 
 # Variable ===================
 
 # GDScript ===================
+
+func _init () :
+	var module_b = UREQ.cont("test").inst("B")
+	print("init module a")
 
 # Called when the node enters the scene tree for the first time.
 func _ready () :
@@ -19,3 +22,4 @@ func _process (_dt) :
 # Public =====================
 
 # Private ====================
+

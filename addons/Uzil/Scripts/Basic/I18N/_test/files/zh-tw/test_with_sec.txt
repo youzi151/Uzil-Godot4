@@ -1,0 +1,4 @@
+; test ini with sec
+
+[sec]
+wrong_key="FILE_ZH_SEC"

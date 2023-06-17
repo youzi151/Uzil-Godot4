@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://0qu5ab2tfce1"]
+
+[ext_resource type="PackedScene" uid="uid://dvvi5i18wy31u" path="res://addons/Uzupdater/_test/test_uzupdater_progress_bar.tscn" id="1_q1dxa"]
+[ext_resource type="Script" path="res://addons/Uzupdater/_test/test_uzupdater.gd" id="1_y6drd"]
+
+[node name="uzpdater_test" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y6drd")
+progress_bar_sub_NP = NodePath("progress_bar_sub")
+progress_bar_total_NP = NodePath("progress_bar_total")
+progress_bar_step_NP = NodePath("progress_bar_step")
+
+[node name="progress_bar_sub" parent="." instance=ExtResource("1_q1dxa")]
+offset_left = 135.0
+offset_top = 336.0
+offset_right = 1024.0
+offset_bottom = 380.0
+
+[node name="progress_bar_total" parent="." instance=ExtResource("1_q1dxa")]
+offset_left = 135.0
+offset_top = 382.0
+offset_right = 1024.0
+offset_bottom = 426.0
+
+[node name="progress_bar_step" parent="." instance=ExtResource("1_q1dxa")]
+offset_left = 135.0
+offset_top = 428.0
+offset_right = 1024.0
+offset_bottom = 472.0
