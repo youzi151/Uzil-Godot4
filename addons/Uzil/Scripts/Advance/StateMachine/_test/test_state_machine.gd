@@ -7,8 +7,8 @@ var state_machine_inst = null
 # Extends ====================
 
 func test_ready():
-	var states_mgr = UREQ.access_g("Uzil", "states_mgr")
-	var invoker_mgr = UREQ.access_g("Uzil", "invoker_mgr")
+	var states_mgr = UREQ.acc("Uzil", "states_mgr")
+	var invoker_mgr = UREQ.acc("Uzil", "invoker_mgr")
 	
 	var inst = states_mgr.inst("test")
 	

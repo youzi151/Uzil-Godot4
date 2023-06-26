@@ -24,7 +24,7 @@ func _to_memo (_memo : Dictionary, _args) :
 # 進入
 func _on_enter () :
 	print("test event works!")
-	var flow = UREQ.access_g("Uzil", "flow")
+	var flow = UREQ.acc("Uzil", "flow")
 	var memo = flow.inst().to_memo()
 	print(memo)
 #	memo.chains["a_chain"]["state"] = 1

@@ -227,7 +227,7 @@ func _get_data (route_or_data, is_new_if_not_exist = true) :
 
 ## 建立 資料
 func _new_data (route, parent) :
-	var SumVals = UREQ.access_g("Uzil", "SumVals")
+	var SumVals = UREQ.acc("Uzil", "SumVals")
 	var data = SumVals.Data.new()
 	
 	data.route = route

@@ -47,7 +47,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("Util")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Util",
+	UREQ.bind("Uzil", "Util",
 		func () :
 			# inner class
 			self._class._Math = Uzil.load_script(self.PATH.path_join("math.gd"))

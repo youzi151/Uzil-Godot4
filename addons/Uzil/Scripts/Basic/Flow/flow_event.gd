@@ -131,6 +131,6 @@ func _on_exit () :
 ## 取得所屬
 func _get_inst () :
 	if self._inst_cache == null :
-		var flow = UREQ.access_g("Uzil", "flow_mgr")
+		var flow = UREQ.acc("Uzil", "flow_mgr")
 		self._inst_cache = flow.inst(self._inst_id)
 	return self._inst_cache

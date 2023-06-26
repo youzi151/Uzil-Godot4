@@ -84,7 +84,11 @@ func install () :
 		if not access.is_lazy :
 #			print("not lazy require:"+access_id)
 			self._access(access)
-	
+
+## 存取 並 確保依賴建立
+func acc (id_or_alias) :
+	return self.access(id_or_alias)
+
 ## 存取 並 確保依賴建立
 func access (id_or_alias) :
 	var access = self._get_access(id_or_alias)

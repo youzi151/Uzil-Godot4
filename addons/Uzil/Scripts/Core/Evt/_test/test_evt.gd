@@ -7,7 +7,7 @@ var Evt
 # Extends ====================
 
 func test_ready () :
-	self.Evt = UREQ.access_g("Uzil", "Core.Evt")
+	self.Evt = UREQ.acc("Uzil", "Core.Evt")
 #	self.test1()
 	self.test2()
 	
@@ -48,7 +48,7 @@ func test2 () :
 	
 	print("Evt Test2")
 	
-	var evtbus = UREQ.access_g("Uzil", "evt_bus_mgr").inst("test")
+	var evtbus = UREQ.acc("Uzil", "evt_bus_mgr").inst("test")
 	
 	var listener = evtbus.on("onTestCall", func (ctrlr) :
 		print("onTestCall : 0 : %s" % (ctrlr.data["msg"]))

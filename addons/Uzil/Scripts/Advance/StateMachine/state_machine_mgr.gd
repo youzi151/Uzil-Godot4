@@ -25,7 +25,7 @@ func inst (key := "_") :
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:
-		var StateMachine = UREQ.access_g("Uzil", "Advance.StateMachine")
+		var StateMachine = UREQ.acc("Uzil", "Advance.StateMachine")
 		var _inst = StateMachine.Inst.new()
 		
 		self._key_to_inst[key] = _inst

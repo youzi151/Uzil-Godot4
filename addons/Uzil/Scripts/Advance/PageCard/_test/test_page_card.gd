@@ -13,7 +13,7 @@ func test_ready():
 	var pagecard_inst_node = self.get_node(self.pagecard_inst_nodepath)
 	self.pagecard_inst = pagecard_inst_node.request_inst()
 	
-	var invoker = UREQ.access_g("Uzil", "invoker_mgr").inst()
+	var invoker = UREQ.acc("Uzil", "invoker_mgr").inst()
 	
 	pagecard_inst_node.on_ready.on(func (_ctrlr) :
 		print("pagecard_inst.on_ready")
@@ -28,7 +28,7 @@ func test_ready():
 		# 初次刷新
 		self.pagecard_inst.refresh()
 		
-		UREQ.access_g("Uzil", "Util").async.waterfall([
+		UREQ.acc("Uzil", "Util").async.waterfall([
 			# 切換顯示 3D頁面堆
 			func (ctrlr) :
 				print("switch deck 3d")

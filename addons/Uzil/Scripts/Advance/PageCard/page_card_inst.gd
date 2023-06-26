@@ -21,7 +21,7 @@ var default_transition_fn = null
 # GDScript ===================
 
 func _init (__root_page = null) :
-	var PageCard = UREQ.access_g("Uzil", "Advance.PageCard")
+	var PageCard = UREQ.acc("Uzil", "Advance.PageCard")
 	
 	if __root_page != null : 
 		self._root_page = __root_page
@@ -169,7 +169,7 @@ func refresh_with_transition (transition_fn = null, on_done = null) :
 		else :
 			to_deactive.push_back(each_card)
 	
-	var Util = UREQ.access_g("Uzil", "Util")
+	var Util = UREQ.acc("Uzil", "Util")
 	Util.async.waterfall([
 		func (ctrlr) :
 			# 若 有 轉場行為 則 轉呼叫

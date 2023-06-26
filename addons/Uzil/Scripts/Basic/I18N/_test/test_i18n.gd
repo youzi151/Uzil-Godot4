@@ -18,9 +18,9 @@ func test_unactive():
 	
 func test_ready():
 	
-	var I18N = UREQ.access_g("Uzil", "I18N")
-	self.i18n = UREQ.access_g("Uzil", "i18n")
-	self.vars = UREQ.access_g("Uzil", "vars")
+	var I18N = UREQ.acc("Uzil", "I18N")
+	self.i18n = UREQ.acc("Uzil", "i18n")
+	self.vars = UREQ.acc("Uzil", "vars")
 	
 	# 讀取 所有語言資料
 	self.i18n.load_languages(I18N.PATH.path_join("_test/langs"))

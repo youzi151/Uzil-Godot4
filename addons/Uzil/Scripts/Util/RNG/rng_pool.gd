@@ -39,7 +39,7 @@ var _last_res = null
 
 # 初始化
 func _init () :
-	var RNG = UREQ.access_g("Uzil", "RNG")
+	var RNG = UREQ.acc("Uzil", "RNG")
 	self._rng_rate = RNG.Rate.new()
 
 # 設置 機率表

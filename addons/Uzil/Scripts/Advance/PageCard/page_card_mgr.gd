@@ -26,7 +26,7 @@ func inst (key := "_", _root_page = null) :
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:
-		var PageCard = UREQ.access_g("Uzil", "Advance.PageCard")
+		var PageCard = UREQ.acc("Uzil", "Advance.PageCard")
 		var _inst = PageCard.Inst.new(_root_page)
 		
 		self._key_to_inst[key] = _inst

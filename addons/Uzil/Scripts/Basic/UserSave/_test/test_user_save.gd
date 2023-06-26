@@ -6,8 +6,8 @@ extends Uzil_Test_Base
 
 func test_ready():
 	
-	var UserSave = UREQ.access_g("Uzil", "Basic.UserSave")
-	var user_save = UREQ.access_g("Uzil", "user_save")
+	var UserSave = UREQ.acc("Uzil", "Basic.UserSave")
+	var user_save = UREQ.acc("Uzil", "user_save")
 	
 	test_print("os user path : %s" % OS.get_user_data_dir())
 	test_print("uzil usersave path : %s" % UserSave.get_save_folder_root())

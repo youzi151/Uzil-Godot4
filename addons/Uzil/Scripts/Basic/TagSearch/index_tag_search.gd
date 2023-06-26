@@ -33,7 +33,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("TagSearch")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Basic.TagSearch",
+	UREQ.bind("Uzil", "Basic.TagSearch",
 		func () :
 			self.Config = Uzil.load_script(self.PATH.path_join("tag_search_config.gd"))
 			self.Inst = Uzil.load_script(self.PATH.path_join("tag_search_inst.gd"))
@@ -45,9 +45,9 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 實體
-	UREQ.bind_g("Uzil", "tag_search_mgr", 
+	UREQ.bind("Uzil", "tag_search_mgr", 
 		func () :
-			return self.Mgr.new(), 
+			return self.Mgr.new(null), 
 		{
 			"alias" : ["tag_search", "tagsearch"],
 			"requires" : ["Basic.TagSearch"],

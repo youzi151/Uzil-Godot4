@@ -24,7 +24,7 @@ var is_exit_on_complete := true
 # GDScript ===================
 
 func _init () :
-	self.Flow = UREQ.access_g("Uzil", "Basic.Flow")
+	self.Flow = UREQ.acc("Uzil", "Basic.Flow")
 
 # Interface ==================
 
@@ -144,7 +144,7 @@ func on_gate_complete () :
 		
 		# 防止循環
 #		if chain == self : 
-#			UREQ.access_g("Uzil", "invoker").inst("_uzil").once(func() :
+#			UREQ.acc("Uzil", "invoker").inst("_uzil").once(func() :
 #				chain.enter()
 #			)
 #			continue

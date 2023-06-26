@@ -56,7 +56,7 @@ var on_destroy = null
 func _init (_mgr, _audio_player) :
 	self.mgr = _mgr
 	
-	var Evt = UREQ.access_g("Uzil", "Core.Evt")
+	var Evt = UREQ.acc("Uzil", "Core.Evt")
 	self.on_loop = Evt.Inst.new()
 	self.on_end = Evt.Inst.new()
 	self.on_destroy = Evt.Inst.new()
@@ -66,7 +66,7 @@ func _init (_mgr, _audio_player) :
 
 func _process (_dt) :
 	
-	var is_timing = UREQ.access_g("Uzil", "Core.Times").inst().is_timing()
+	var is_timing = UREQ.acc("Uzil", "times_mgr").inst().is_timing()
 	var _is_playing = self.is_playing()
 	
 	if not is_timing and _is_playing :
@@ -81,7 +81,7 @@ func _process (_dt) :
 	
 	if self.audio_player == null : return
 	
-	var Util = UREQ.access_g("Uzil", "Util")
+	var Util = UREQ.acc("Uzil", "Util")
 	
 	# 檢查 並 更新 目標音量
 	var target_volume_layered = self._get_layered_volume()
@@ -262,7 +262,7 @@ func _get_layered_is_pause () -> bool :
 	# 預設 是否暫停
 	var is_pause = not self.is_playing()
 	
-	var Audio = UREQ.access_g("Uzil", "Advance.Audio")
+	var Audio = UREQ.acc("Uzil", "Advance.Audio")
 	
 	# 各層級
 	for each_layer in self._layers :

@@ -26,7 +26,7 @@ func inst (key := "_") :
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:
-		var Evt = UREQ.access_g("Uzil", "Core.Evt")
+		var Evt = UREQ.acc("Uzil", "Core.Evt")
 		var _inst = Evt.Bus.new()
 		_inst.name = key
 		self.add_child(_inst)

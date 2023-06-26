@@ -18,7 +18,7 @@ var _is_active := false
 
 func _init (_core_or_script_id) :
 	
-	var StateMachine = UREQ.access_g("Uzil", "Advance.StateMachine")
+	var StateMachine = UREQ.acc("Uzil", "Advance.StateMachine")
 	
 	# 若 為 id字串
 	if typeof(_core_or_script_id) == TYPE_STRING :

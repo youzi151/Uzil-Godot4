@@ -17,7 +17,7 @@ func test_process (_delta) :
 
 func test () :
 	
-	var ObjPool = UREQ.access_g("Uzil", "ObjPool")
+	var ObjPool = UREQ.acc("Uzil", "ObjPool")
 	
 	# 建立物件池
 	var pool = ObjPool.Core_Any.new_shell()

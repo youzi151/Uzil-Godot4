@@ -6,9 +6,9 @@ extends Uzil_Test_Base
 
 func test_ready():
 	
-	var Audio = UREQ.access_g("Uzil", "Audio")
-	var audio_mgr = UREQ.access_g("Uzil", "audio_mgr")
-	var invoker_mgr = UREQ.access_g("Uzil", "invoker_mgr")
+	var Audio = UREQ.acc("Uzil", "Audio")
+	var audio_mgr = UREQ.acc("Uzil", "audio_mgr")
+	var invoker_mgr = UREQ.acc("Uzil", "invoker_mgr")
 	
 	audio_mgr.key_to_path["test_key"] = Audio.PATH.path_join("_test/test.ogg")
 	

@@ -23,7 +23,7 @@ var is_use_cache := false
 # GDScript ===================
 
 func _init (_setting) :
-	self.UserSave = UREQ.access_g("Uzil", "Basic.UserSave")
+	self.UserSave = UREQ.acc("Uzil", "Basic.UserSave")
 	self.set_setting(_setting)
 
 # Extends ====================

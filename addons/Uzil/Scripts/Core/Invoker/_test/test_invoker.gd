@@ -10,7 +10,7 @@ var is_test_frame := false
 
 func test_ready () :
 	
-	var invoker_mgr = UREQ.access_g("Uzil", "invoker")
+	var invoker_mgr = UREQ.acc("Uzil", "invoker")
 	self.invoker_inst = invoker_mgr.inst()
 	
 	# 單次

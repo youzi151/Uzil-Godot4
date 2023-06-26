@@ -16,7 +16,7 @@ func test_process (_delta) :
 
 func test () :
 	
-	var Vals = UREQ.access_g("Uzil", "Core.Vals")
+	var Vals = UREQ.acc("Uzil", "Core.Vals")
 	
 	print("Uzil.Core.Vals test")
 	

@@ -34,7 +34,7 @@ func request_card () :
 	
 	if self.card != null : return self.card
 	
-	self.card = UREQ.access_g("Uzil", "Advance.PageCard").Card.new()
+	self.card = UREQ.acc("Uzil", "Advance.PageCard").Card.new()
 	
 	if self.id == "" :
 		self.card.id = self.name

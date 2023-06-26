@@ -54,7 +54,7 @@ func index (Uzil, _parent_index) :
 	self.PROFILE_TEMPLATE_PATH = self.TEMPLATE_PATH.path_join("profile")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Basic.UserSave", 
+	UREQ.bind("Uzil", "Basic.UserSave", 
 		func () :
 			self.Config = Uzil.load_script(self.PATH.path_join("user_save_configure.gd"))
 			self.Inst = Uzil.load_script(self.PATH.path_join("user_save_inst.gd"))
@@ -67,7 +67,7 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 工具組
-	UREQ.bind_g("Uzil", "user_save",
+	UREQ.bind("Uzil", "user_save",
 		func () :
 			return self.create_kit(),
 		{

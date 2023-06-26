@@ -6,9 +6,9 @@ extends Uzil_Test_Base
 
 func test_ready():
 	
-	var Uzil = UREQ.access_g("Uzil", "Uzil")
-	var Flow = UREQ.access_g("Uzil", "Flow")
-	var flow_mgr = UREQ.access_g("Uzil", "flow_mgr")
+	var Uzil = UREQ.acc("Uzil", "Uzil")
+	var Flow = UREQ.acc("Uzil", "Flow")
+	var flow_mgr = UREQ.acc("Uzil", "flow_mgr")
 	
 	Flow.import_event_script("test_event", Uzil.load_script(Flow.PATH.path_join("/_test/test_flow_event.gd")))
 	

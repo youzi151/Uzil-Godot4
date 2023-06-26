@@ -7,7 +7,7 @@ var util
 # Extends ====================
 
 func test_ready () :
-	self.util = UREQ.access_g("Uzil", "Util")
+	self.util = UREQ.acc("Uzil", "Util")
 	
 	print(self.util.input.keycode.name_to_gdkeys("key.a"))
 	print(self.util.input.keycode.device_type_to_keycode_infos)

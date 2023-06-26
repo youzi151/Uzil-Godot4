@@ -15,9 +15,9 @@ const AccessType = {
 }
 
 var Access = null
-var Group = null
+var Scope = null
 
-var key_to_group := {}
+var key_to_scope := {}
 
 # GDScript ===================
 
@@ -33,7 +33,7 @@ func _init () :
 	G.set_global("UREQ", self)
 	
 	self.Access = self.load_script(PATH.path_join("ureq_access.gd"))
-	self.Group = self.load_script(PATH.path_join("ureq_group.gd"))
+	self.Scope = self.load_script(PATH.path_join("ureq_scope.gd"))
 
 # Called when the node enters the scene tree for the first time.
 func _ready () :
@@ -49,38 +49,38 @@ func _process (_dt) :
 
 # Public =====================
 
-## 存取
-func access (id : String) :
-	return self.group().access(id)
+## 存取 (全域) access
+func gacc (id : String) :
+	return self.scope().access(id)
 
-## 存取 (指定群組)
-func access_g (key : String, id : String) :
-	return self.group(key).access(id)
+## 存取 (指定範圍) access
+func acc (key : String, id : String) :
+	return self.scope(key).access(id)
 
-## 綁定
-func bind (id : String, inst, options := {}) :
-	return self.group().bind(id, inst, options)
+## 綁定 (全域)
+func gbind (id : String, inst, options := {}) :
+	return self.scope().bind(id, inst, options)
 
-## 綁定 (指定群組)
-func bind_g (key : String, id : String, inst, options := {}) :
-	self.group(key).bind(id, inst, options)
+## 綁定 (指定範圍)
+func bind (key : String, id : String, inst, options := {}) :
+	self.scope(key).bind(id, inst, options)
 
 ## 安裝
 func install () :
-	self.group().install()
+	self.scope().install()
 
-## 安裝 (指定群組)
+## 安裝 (指定範圍)
 func install_g (key : String) :
-	self.group(key).install()
+	self.scope(key).install()
 
-## 取得 群組
-func group (key := "") :
-	if self.key_to_group.has(key) :
-		return self.key_to_group[key]
+## 取得 範圍
+func scope (key := "") :
+	if self.key_to_scope.has(key) :
+		return self.key_to_scope[key]
 	
-	var group = self.Group.new(self)
-	self.key_to_group[key] = group
-	return group
+	var scope = self.Scope.new(self)
+	self.key_to_scope[key] = scope
+	return scope
 
 ## 讀取腳本
 func load_script (path) :

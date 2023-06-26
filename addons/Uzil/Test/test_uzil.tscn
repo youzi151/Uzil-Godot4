@@ -49,7 +49,7 @@ transform = Transform3D(0.812908, 0.186443, -0.551743, 0, 0.947372, 0.320134, 0.
 
 [node name="set_test_target" type="Node" parent="." node_paths=PackedStringArray("active_target")]
 script = ExtResource("1_u23hv")
-active_target = NodePath("../Advance/PageCard")
+active_target = NodePath("../Core/Times")
 
 [node name="============" type="Node" parent="."]
 
@@ -60,6 +60,7 @@ script = ExtResource("3_1mpto")
 
 [node name="Audio" type="Node" parent="Advance"]
 script = ExtResource("4_x1mhw")
+active = null
 
 [node name="StateMachine" type="Node" parent="Advance"]
 script = ExtResource("2_vp710")
@@ -67,9 +68,11 @@ script = ExtResource("2_vp710")
 [node name="PageCard" type="Node" parent="Advance"]
 script = ExtResource("5_s2mxj")
 pagecard_inst_nodepath = NodePath("inst")
+active = null
 
 [node name="inst" type="Node" parent="Advance/PageCard"]
 script = ExtResource("6_vrket")
+inst_key = null
 pages_nodepath = Array[NodePath]([NodePath("pages/page_3d_obj"), NodePath("pages/page_window"), NodePath("pages/page_popup"), NodePath("pages/page_none"), NodePath("pages/page_all")])
 cards_nodepath = Array[NodePath]([NodePath("cards/card_3d"), NodePath("cards/card_window"), NodePath("cards/card_popup")])
 
@@ -118,15 +121,19 @@ cards = Array[String](["card_3d", "card_window", "card_popup"])
 
 [node name="card_3d" type="Node" parent="Advance/PageCard/inst/cards"]
 script = ExtResource("8_meibt")
+id = null
+tags = null
 targets_nodepath = Array[NodePath]([NodePath("../../CSGBox3D")])
 
 [node name="card_window" type="Node" parent="Advance/PageCard/inst/cards"]
 script = ExtResource("8_meibt")
+id = null
 tags = Array[String](["2d"])
 targets_nodepath = Array[NodePath]([NodePath("../../window")])
 
 [node name="card_popup" type="Node" parent="Advance/PageCard/inst/cards"]
 script = ExtResource("8_meibt")
+id = null
 tags = Array[String](["2d"])
 targets_nodepath = Array[NodePath]([NodePath("../../popup")])
 
@@ -134,6 +141,7 @@ targets_nodepath = Array[NodePath]([NodePath("../../popup")])
 
 [node name="UserSave" type="Node" parent="Basic"]
 script = ExtResource("9_fjm8a")
+active = null
 
 [node name="I18N" type="Node" parent="Basic"]
 script = ExtResource("10_57jox")
@@ -146,6 +154,7 @@ script = ExtResource("12_jf6en")
 
 [node name="TagSearch" type="Node" parent="Basic"]
 script = ExtResource("13_7p71r")
+active = null
 
 [node name="Core" type="Node" parent="."]
 
@@ -178,6 +187,7 @@ offset_bottom = 156.0
 
 [node name="Invoker" type="Node" parent="Core"]
 script = ExtResource("18_m7kjt")
+active = null
 
 [node name="ObjPool" type="Node" parent="Core"]
 script = ExtResource("19_l7b3s")

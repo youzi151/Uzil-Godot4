@@ -40,7 +40,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("StateMachine")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Advance.StateMachine",
+	UREQ.bind("Uzil", "Advance.StateMachine",
 		func () :
 			self.Mgr = Uzil.load_script(self.PATH.path_join("state_machine_mgr.gd"))
 			self.Inst = Uzil.load_script(self.PATH.path_join("state_machine_inst.gd"))
@@ -57,7 +57,7 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 實體管理
-	UREQ.bind_g("Uzil", "state_machine",
+	UREQ.bind("Uzil", "state_machine",
 		func () :
 			var target = self.Mgr.new(null)
 			target.name = "state_machine"
@@ -76,5 +76,5 @@ func import_state_script (import_name, path_or_script) :
 
 ## 取得 節點 腳本
 func get_state_script (name_or_path) :
-	var Util = UREQ.access_g("Uzil", "Util")
+	var Util = UREQ.acc("Uzil", "Util")
 	return Util.gdscript.get_script_from_dict(self.name_to_state_script, name_or_path)
