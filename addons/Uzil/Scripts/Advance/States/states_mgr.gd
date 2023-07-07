@@ -1,6 +1,6 @@
 extends Node
 
-## StateMachine.Mgr 狀態機 實體 管理
+## States.Mgr 狀態機 實體 管理
 ##
 ## 以key取得/建立 實體.
 ## 
@@ -25,8 +25,8 @@ func inst (key := "_") :
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:
-		var StateMachine = UREQ.acc("Uzil", "Advance.StateMachine")
-		var _inst = StateMachine.Inst.new()
+		var States = UREQ.acc("Uzil", "Advance.States")
+		var _inst = States.Inst.new()
 		
 		self._key_to_inst[key] = _inst
 		return _inst

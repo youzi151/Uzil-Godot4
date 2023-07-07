@@ -1,8 +1,8 @@
-[gd_scene load_steps=25 format=3 uid="uid://fn3l6wmscxgj"]
+[gd_scene load_steps=27 format=3 uid="uid://fn3l6wmscxgj"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_active.gd" id="1_u23hv"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/StateMachine/_test/test_state_machine.gd" id="2_vp710"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Options/_test/test_options.gd" id="3_1mpto"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/States/_test/test_states.gd" id="4_7dhvu"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Audio/_test/test_audio.gd" id="4_x1mhw"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/_test/test_page_card.gd" id="5_s2mxj"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/node/page_card_inst_node.gd" id="6_vrket"]
@@ -49,7 +49,7 @@ transform = Transform3D(0.812908, 0.186443, -0.551743, 0, 0.947372, 0.320134, 0.
 
 [node name="set_test_target" type="Node" parent="." node_paths=PackedStringArray("active_target")]
 script = ExtResource("1_u23hv")
-active_target = NodePath("../Core/Times")
+active_target = NodePath("../Advance/States")
 
 [node name="============" type="Node" parent="."]
 
@@ -62,13 +62,12 @@ script = ExtResource("3_1mpto")
 script = ExtResource("4_x1mhw")
 active = null
 
-[node name="StateMachine" type="Node" parent="Advance"]
-script = ExtResource("2_vp710")
+[node name="States" type="Node" parent="Advance"]
+script = ExtResource("4_7dhvu")
 
 [node name="PageCard" type="Node" parent="Advance"]
 script = ExtResource("5_s2mxj")
 pagecard_inst_nodepath = NodePath("inst")
-active = null
 
 [node name="inst" type="Node" parent="Advance/PageCard"]
 script = ExtResource("6_vrket")
@@ -78,8 +77,10 @@ cards_nodepath = Array[NodePath]([NodePath("cards/card_3d"), NodePath("cards/car
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Advance/PageCard/inst"]
 transform = Transform3D(0.767931, 0, -0.624726, 0, 1, 0, 0.624726, 0, 0.767931, 0, 0, -0.0939036)
+visible = false
 
 [node name="window" type="TextureRect" parent="Advance/PageCard/inst"]
+visible = false
 modulate = Color(0.537255, 0.537255, 0.537255, 0.698039)
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,6 +90,7 @@ grow_vertical = 2
 texture = SubResource("CanvasTexture_mto8b")
 
 [node name="popup" type="TextureRect" parent="Advance/PageCard/inst"]
+visible = false
 modulate = Color(0.643137, 0.643137, 0.643137, 1)
 offset_left = 136.0
 offset_top = 77.0

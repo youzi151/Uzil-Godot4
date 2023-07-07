@@ -35,7 +35,7 @@ func request_inst () :
 	if self.inst != null : return self.inst
 	
 	if self.inst_key == "_none" :
-		self.inst = UREQ.acc("Uzil", "Advance.StateMachine").Inst.new()
+		self.inst = UREQ.acc("Uzil", "Advance.States").Inst.new()
 	else :
 		self.inst = UREQ.acc("Uzil", "states_mgr").inst(self.inst_key)
 	

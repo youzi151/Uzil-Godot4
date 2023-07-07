@@ -2,7 +2,7 @@ extends Node
 
 # Variable ===================
 
-## 辨識 (若 留空 則 取node.name)
+## 辨識
 var id : String = ""
 
 ## 核心
@@ -18,12 +18,12 @@ var _is_active := false
 
 func _init (_core_or_script_id) :
 	
-	var StateMachine = UREQ.acc("Uzil", "Advance.StateMachine")
+	var States = UREQ.acc("Uzil", "Advance.States")
 	
 	# 若 為 id字串
 	if typeof(_core_or_script_id) == TYPE_STRING :
 		# 試著取得並建立腳本
-		var script = StateMachine.get_state_script(_core_or_script_id)
+		var script = States.get_state_script(_core_or_script_id)
 		if script != null :
 			self._core = script.new()
 	# 若 為 核心
@@ -70,8 +70,8 @@ func process (_dt) :
 			self._core.process(_dt)
 
 ## 設置 ID
-func set_id (__id : String) :
-	self.id = __id
+func set_id (_id : String) :
+	self.id = _id
 	return self
 
 ## 設置 使用主體

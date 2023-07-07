@@ -22,7 +22,7 @@ var Options
 ## 頁面卡系統
 var PageCard
 ## 狀態機
-var StateMachine
+var States
 
 # inst ==========
 
@@ -44,8 +44,8 @@ func index (Uzil, _parent_index) :
 	self.PageCard = Uzil.load_script(self.PATH.path_join("PageCard/index_page_card.gd")).new()
 	self.sub_indexes.push_back(self.PageCard)
 	
-	self.StateMachine = Uzil.load_script(self.PATH.path_join("StateMachine/index_state_machine.gd")).new()
-	self.sub_indexes.push_back(self.StateMachine)
+	self.States = Uzil.load_script(self.PATH.path_join("States/index_states.gd")).new()
+	self.sub_indexes.push_back(self.States)
 	
 	# 建立索引
 	for each in self.sub_indexes :

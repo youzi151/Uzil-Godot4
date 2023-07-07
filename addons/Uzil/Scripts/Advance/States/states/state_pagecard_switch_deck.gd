@@ -9,7 +9,7 @@ var inst_key := ""
 
 var page := ""
 
-var deck := ""
+var combo := ""
 
 # GDScript ===================
 
@@ -34,8 +34,8 @@ func set_data (data) :
 	if data.has("page") :
 		self.page = data.page
 	
-	if data.has("deck") :
-		self.deck = data.deck
+	if data.has("combo") :
+		self.combo = data.combo
 
 ## 初始化
 func init (_user) :
@@ -57,7 +57,7 @@ func on_enter () :
 	var page = pagecard_inst.get_page(page_id)
 	if page == null : return
 	
-	page.switch_deck(self.deck)
+	page.switch_combo(self.combo)
 	pagecard_inst.refresh()
 
 ## 當 狀態 離開
