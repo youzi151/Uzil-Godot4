@@ -120,7 +120,7 @@ func refresh_with_transition (transition_fn = null, on_done = null) :
 	# 若 還有 頁面 要檢查 (且 未超過最大嘗試次數)
 	while curr_page != null and try_time > 0: 
 		try_time -= 1
-		var show_pages = curr_page.get_deck_show_pages()
+		var show_pages = curr_page.get_combo_show_pages()
 		
 		# 每一個 有顯示的 子頁面
 		for each_page in show_pages :

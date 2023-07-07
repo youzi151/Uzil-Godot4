@@ -10,8 +10,8 @@ extends Node
 ## 辨識
 @export var id : String = ""
 
-## 堆:頁面 表 String:Array[String]
-@export var deck_to_page_id_list = {}
+## 組合:頁面 表 String:Array[String]
+@export var combo_to_page_id_list = {}
 
 ## 卡片
 @export var cards : Array[String] = []
@@ -40,9 +40,9 @@ func request_page () :
 	else :
 		self.page.id = self.id
 	
-	for deck in self.deck_to_page_id_list :
-		var page_id_list = self.deck_to_page_id_list[deck]
-		self.page.add_pages(page_id_list, deck, true)
+	for combo in self.combo_to_page_id_list :
+		var page_id_list = self.combo_to_page_id_list[combo]
+		self.page.add_pages(page_id_list, combo, true)
 	
 	self.page.cards = self.cards.duplicate()
 	
