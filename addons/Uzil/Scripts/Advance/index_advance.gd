@@ -23,6 +23,8 @@ var Options
 var PageCard
 ## 狀態機
 var States
+## UI導航
+var UINav
 
 # inst ==========
 
@@ -46,6 +48,9 @@ func index (Uzil, _parent_index) :
 	
 	self.States = Uzil.load_script(self.PATH.path_join("States/index_states.gd")).new()
 	self.sub_indexes.push_back(self.States)
+	
+	self.UINav = Uzil.load_script(self.PATH.path_join("UINav/index_ui_nav.gd")).new()
+	self.sub_indexes.push_back(self.UINav)
 	
 	# 建立索引
 	for each in self.sub_indexes :
