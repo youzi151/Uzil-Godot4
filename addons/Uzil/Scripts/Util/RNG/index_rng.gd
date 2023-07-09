@@ -29,7 +29,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("RNG")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Util.RNG",
+	UREQ.bind("Uzil", "Util.RNG",
 		func () :
 			self.Pool = Uzil.load_script(self.PATH.path_join("rng_pool.gd"))
 			self.Rate = Uzil.load_script(self.PATH.path_join("rng_rate.gd"))

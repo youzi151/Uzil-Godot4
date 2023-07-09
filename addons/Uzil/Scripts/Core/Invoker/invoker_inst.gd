@@ -22,10 +22,10 @@ var tasks : Array = []
 # GDScript ===================
 
 func _init () :
-	self.Uzil = UREQ.access_g("Uzil", "Uzil")
-	self.Invoker = UREQ.access_g("Uzil", "Invoker")
+	self.Uzil = UREQ.acc("Uzil", "Uzil")
+	self.Invoker = UREQ.acc("Uzil", "Invoker")
 	
-	self._times_inst = UREQ.access_g("Uzil", "times_mgr").inst(self._key)
+	self._times_inst = UREQ.acc("Uzil", "times_mgr").inst(self._key)
 
 # Public =====================
 

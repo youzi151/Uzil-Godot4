@@ -24,7 +24,7 @@ func _init (_dont_set_in_scene) :
 	pass
 
 func _enter_tree () :
-	var Uzil = UREQ.access_g("Uzil", "Uzil")
+	var Uzil = UREQ.acc("Uzil", "Uzil")
 	Uzil.once_ready(self._on_ready)
 	pass
 
@@ -57,7 +57,7 @@ func update_listener (_ctrlr) :
 
 func _on_ready () :
 	
-	self.i18n = UREQ.access_g("Uzil", "i18n")
+	self.i18n = UREQ.acc("Uzil", "i18n")
 	
 	# 註冊 當 多語系更新時 更新
 	self.on_update_listener = self.i18n.on_update(self.update_listener)

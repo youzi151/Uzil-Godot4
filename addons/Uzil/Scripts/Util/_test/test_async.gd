@@ -8,8 +8,8 @@ var invoker
 # Extends ====================
 
 func test_ready () :
-	self.invoker = UREQ.access_g("Uzil", "invoker_mgr")
-	self.Util = UREQ.access_g("Uzil", "Util")
+	self.invoker = UREQ.acc("Uzil", "invoker_mgr")
+	self.Util = UREQ.acc("Uzil", "Util")
 #	self.test_waterfall()
 #	self.test_parallel()
 #	self.test_each_series_list()

@@ -2,18 +2,18 @@ extends Uzil_Test_Base
 
 # Variable ===================
 
-var state_machine_inst = null
+var states_inst = null
 
 # Extends ====================
 
 func test_ready():
-	var states_mgr = UREQ.access_g("Uzil", "states_mgr")
-	var invoker_mgr = UREQ.access_g("Uzil", "invoker_mgr")
+	var states_mgr = UREQ.acc("Uzil", "states_mgr")
+	var invoker_mgr = UREQ.acc("Uzil", "invoker_mgr")
 	
 	var inst = states_mgr.inst("test")
 	
-	var state_a = inst.new_state("print", "a", {"msg":"i'm a"})
-	var state_b = inst.new_state("print", "b", {"msg":"i'm b"})
+	var state_a = inst.new_state("a", "print", {"msg":"i'm a"})
+	var state_b = inst.new_state("b", "print", {"msg":"i'm b"})
 	
 	inst.start()
 	inst.go_state("a")
@@ -30,10 +30,10 @@ func test_ready():
 		, 2000)
 	, 2000)
 	
-	self.state_machine_inst = inst
+	self.states_inst = inst
 
 func test_process(_delta):
-	self.state_machine_inst.process(_delta)
+	self.states_inst.process(_delta)
 
 # Public =====================
 

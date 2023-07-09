@@ -15,7 +15,7 @@ var _on_var_changed = null
 # GDScript ===================
 
 func _init () :
-	var Evt = UREQ.access_g("Uzil", "Core.Evt")
+	var Evt = UREQ.acc("Uzil", "Core.Evt")
 	self._on_var_changed = Evt.Inst.new()
 
 # Public =====================

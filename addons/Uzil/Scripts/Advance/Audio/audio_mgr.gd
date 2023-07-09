@@ -220,14 +220,11 @@ func add_layer (layer_id : String, data = null) :
 	var audio_layer = self.get_layer(layer_id)
 	
 	if audio_layer == null :
-		audio_layer = UREQ.access_g("Uzil", "Advance.Audio").Layer.new(self)
-		audio_layer.name = layer_id 
+		audio_layer = UREQ.acc("Uzil", "Advance.Audio").Layer.new(self)
 		self._id_to_layer[layer_id] = audio_layer
 	
 	if data :
 		audio_layer.set_data(data)
-	
-	self._container_layer.add_child(audio_layer)
 	
 	return audio_layer
 
@@ -267,14 +264,14 @@ func get_bus_idx (bus_id) -> int :
 
 func set_bus_volume (bus_id, volume_linear : float) :
 	var bus_idx = self.request_bus(bus_id)
-	var volume_db = UREQ.access_g("Uzil", "Util").math.percent_to_db(volume_linear)
+	var volume_db = UREQ.acc("Uzil", "Util").math.percent_to_db(volume_linear)
 	AudioServer.set_bus_volume_db(bus_idx, volume_db)
 
 # Private ====================
 
 ## 建立物件
 func _create_obj (path_or_key, data = null) :
-	var Audio = UREQ.access_g("Uzil", "Audio")
+	var Audio = UREQ.acc("Uzil", "Audio")
 	
 	var src_path := self._get_res_path(path_or_key)
 	
@@ -315,7 +312,7 @@ func _get_res_path (path_or_key) -> String :
 	if self.key_to_path.has(path_or_key) :
 		path = self.key_to_path[path_or_key]
 		
-#	var vars_inst = UREQ.access_g("Uzil", "vars").inst("_audio")
+#	var vars_inst = UREQ.acc("Uzil", "vars").inst("_audio")
 #	if vars_inst.has_key(path_or_key) :
 #		var new_path = vars_inst.get_var(path_or_key)
 #		if typeof(new_path) == TYPE_STRING :
@@ -327,7 +324,7 @@ func _handle_id_in_request (id) -> String :
 	# 若為空 則 取匿名ID
 	if id == null :
 		id = "_anonymous_"
-		id = UREQ.access_g("Uzil", "Util").uniq_id.fix(id, func (newID) :
+		id = UREQ.acc("Uzil", "Util").uniq_id.fix(id, func (newID) :
 			return self._id_to_obj.has(newID) == false
 		)
 		

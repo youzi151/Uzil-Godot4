@@ -57,7 +57,7 @@ func init (_keycode_module) :
 	self.keycode = _keycode_module
 	self.keycode.init(self)
 	
-	var Uzil = UREQ.access_g("Uzil", "Uzil")
+	var Uzil = UREQ.acc("Uzil", "Uzil")
 	Uzil.once_loaded(func() :
 		Uzil.on_process.on(func(ctrlr):
 			self.update()
@@ -70,7 +70,7 @@ func init (_keycode_module) :
 
 ## 更新
 func update () :
-	self._keycode_to_input_val.clear()
+#	self._keycode_to_input_val.clear()
 	
 	if self.updating_device_idx.has(self.DeviceType.KEYBOARD) :
 		self.update_keyboard()
@@ -98,7 +98,6 @@ func update_keyboard () :
 
 ## 更新 按鈕類
 func update_button (device_type, device_idx, _keycode, keyinfo) :
-		
 	# 從 暫存 取出 前次輸入值
 	var input_val_last = self.get_input(_keycode)
 	# 偵測取得 當前 輸入值

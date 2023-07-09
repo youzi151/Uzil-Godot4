@@ -38,12 +38,12 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("PageCard")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Advance.PageCard", self._target_index, {
+	UREQ.bind("Uzil", "Advance.PageCard", self._target_index, {
 		"alias" : ["PageCard"]
 	})
 	
 	# 綁定 實體管理
-	UREQ.bind_g("Uzil", "page_card_mgr", self._target_pagecard, {
+	UREQ.bind("Uzil", "page_card_mgr", self._target_pagecard, {
 		"alias" : ["page_card", "pagecard"],
 		"requires" : ["Advance.PageCard"],
 	})

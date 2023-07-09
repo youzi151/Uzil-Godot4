@@ -1,10 +1,12 @@
-[gd_scene load_steps=25 format=3 uid="uid://fn3l6wmscxgj"]
+[gd_scene load_steps=27 format=3 uid="uid://fn3l6wmscxgj"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_active.gd" id="1_u23hv"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/StateMachine/_test/test_state_machine.gd" id="2_vp710"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Options/_test/test_options.gd" id="3_1mpto"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/States/_test/test_states.gd" id="4_7dhvu"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Audio/_test/test_audio.gd" id="4_x1mhw"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/UINav/_test/test_ui_nav.gd" id="5_ed4yo"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/_test/test_page_card.gd" id="5_s2mxj"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/UINav/_test/test_ui_nav_ui.gd" id="6_n6hbf"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/node/page_card_inst_node.gd" id="6_vrket"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/node/page_card_page_node.gd" id="7_18yfx"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/node/page_card_card_node.gd" id="8_meibt"]
@@ -49,7 +51,7 @@ transform = Transform3D(0.812908, 0.186443, -0.551743, 0, 0.947372, 0.320134, 0.
 
 [node name="set_test_target" type="Node" parent="." node_paths=PackedStringArray("active_target")]
 script = ExtResource("1_u23hv")
-active_target = NodePath("../Advance/PageCard")
+active_target = NodePath("../Advance/States")
 
 [node name="============" type="Node" parent="."]
 
@@ -60,9 +62,126 @@ script = ExtResource("3_1mpto")
 
 [node name="Audio" type="Node" parent="Advance"]
 script = ExtResource("4_x1mhw")
+active = null
 
-[node name="StateMachine" type="Node" parent="Advance"]
-script = ExtResource("2_vp710")
+[node name="States" type="Node" parent="Advance"]
+script = ExtResource("4_7dhvu")
+
+[node name="UINav" type="Node" parent="Advance"]
+script = ExtResource("5_ed4yo")
+test_ui_list = Array[NodePath]([NodePath("Control/Btn"), NodePath("Control/Btn2"), NodePath("Control/Btn3")])
+
+[node name="Control" type="Control" parent="Advance/UINav"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Btn" type="Control" parent="Advance/UINav/Control"]
+anchors_preset = 0
+offset_left = 205.83
+offset_top = 135.0
+offset_right = 305.83
+offset_bottom = 235.0
+script = ExtResource("6_n6hbf")
+control_np = NodePath("Button")
+
+[node name="Button" type="Button" parent="Advance/UINav/Control/Btn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Advance/UINav/Control/Btn/Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 36
+text = "A"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Btn2" type="Control" parent="Advance/UINav/Control"]
+anchors_preset = 0
+offset_left = 209.0
+offset_top = 274.0
+offset_right = 309.0
+offset_bottom = 374.0
+script = ExtResource("6_n6hbf")
+control_np = NodePath("Button")
+
+[node name="Button" type="Button" parent="Advance/UINav/Control/Btn2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Advance/UINav/Control/Btn2/Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -26.0
+offset_right = 12.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 36
+text = "B"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Btn3" type="Control" parent="Advance/UINav/Control"]
+anchors_preset = 0
+offset_left = 355.0
+offset_top = 275.0
+offset_right = 455.0
+offset_bottom = 375.0
+script = ExtResource("6_n6hbf")
+control_np = NodePath("Button")
+
+[node name="Button" type="Button" parent="Advance/UINav/Control/Btn3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Advance/UINav/Control/Btn3/Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -26.0
+offset_right = 12.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 36
+text = "C"
+fit_content = true
+autowrap_mode = 0
 
 [node name="PageCard" type="Node" parent="Advance"]
 script = ExtResource("5_s2mxj")
@@ -70,13 +189,16 @@ pagecard_inst_nodepath = NodePath("inst")
 
 [node name="inst" type="Node" parent="Advance/PageCard"]
 script = ExtResource("6_vrket")
+inst_key = null
 pages_nodepath = Array[NodePath]([NodePath("pages/page_3d_obj"), NodePath("pages/page_window"), NodePath("pages/page_popup"), NodePath("pages/page_none"), NodePath("pages/page_all")])
 cards_nodepath = Array[NodePath]([NodePath("cards/card_3d"), NodePath("cards/card_window"), NodePath("cards/card_popup")])
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Advance/PageCard/inst"]
 transform = Transform3D(0.767931, 0, -0.624726, 0, 1, 0, 0.624726, 0, 0.767931, 0, 0, -0.0939036)
+visible = false
 
 [node name="window" type="TextureRect" parent="Advance/PageCard/inst"]
+visible = false
 modulate = Color(0.537255, 0.537255, 0.537255, 0.698039)
 anchors_preset = 15
 anchor_right = 1.0
@@ -86,6 +208,7 @@ grow_vertical = 2
 texture = SubResource("CanvasTexture_mto8b")
 
 [node name="popup" type="TextureRect" parent="Advance/PageCard/inst"]
+visible = false
 modulate = Color(0.643137, 0.643137, 0.643137, 1)
 offset_left = 136.0
 offset_top = 77.0
@@ -118,15 +241,19 @@ cards = Array[String](["card_3d", "card_window", "card_popup"])
 
 [node name="card_3d" type="Node" parent="Advance/PageCard/inst/cards"]
 script = ExtResource("8_meibt")
+id = null
+tags = null
 targets_nodepath = Array[NodePath]([NodePath("../../CSGBox3D")])
 
 [node name="card_window" type="Node" parent="Advance/PageCard/inst/cards"]
 script = ExtResource("8_meibt")
+id = null
 tags = Array[String](["2d"])
 targets_nodepath = Array[NodePath]([NodePath("../../window")])
 
 [node name="card_popup" type="Node" parent="Advance/PageCard/inst/cards"]
 script = ExtResource("8_meibt")
+id = null
 tags = Array[String](["2d"])
 targets_nodepath = Array[NodePath]([NodePath("../../popup")])
 
@@ -134,6 +261,7 @@ targets_nodepath = Array[NodePath]([NodePath("../../popup")])
 
 [node name="UserSave" type="Node" parent="Basic"]
 script = ExtResource("9_fjm8a")
+active = null
 
 [node name="I18N" type="Node" parent="Basic"]
 script = ExtResource("10_57jox")
@@ -146,6 +274,7 @@ script = ExtResource("12_jf6en")
 
 [node name="TagSearch" type="Node" parent="Basic"]
 script = ExtResource("13_7p71r")
+active = null
 
 [node name="Core" type="Node" parent="."]
 
@@ -178,6 +307,7 @@ offset_bottom = 156.0
 
 [node name="Invoker" type="Node" parent="Core"]
 script = ExtResource("18_m7kjt")
+active = null
 
 [node name="ObjPool" type="Node" parent="Core"]
 script = ExtResource("19_l7b3s")

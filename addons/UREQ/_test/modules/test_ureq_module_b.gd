@@ -4,9 +4,9 @@
 # GDScript ===================
 
 func _init () :
-	var group = UREQ.group("test")
-	var module_C = group.access("C")
-	var module_D = group.access("D")
+	var scope = UREQ.scope("test")
+	var module_C = scope.access("C")
+	var module_D = scope.access("D")
 	print("init module b")
 
 # Called when the node enters the scene tree for the first time.

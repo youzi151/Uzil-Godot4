@@ -9,7 +9,7 @@
 
 ## 建立 新的 殼
 static func new_shell () :
-	var ObjPool = UREQ.access_g("Uzil", "Core.ObjPool")
+	var ObjPool = UREQ.acc("Uzil", "Core.ObjPool")
 	var __shell = ObjPool.Shell.new()
 	var _core = new().set_shell(__shell)
 	return __shell

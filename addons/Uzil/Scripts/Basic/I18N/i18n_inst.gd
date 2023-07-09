@@ -36,9 +36,9 @@ var _on_update = null
 
 func _init () :
 	
-	self.I18N = UREQ.access_g("Uzil", "I18N")
+	self.I18N = UREQ.acc("Uzil", "I18N")
 	
-	var Evt = UREQ.access_g("Uzil", "Evt")
+	var Evt = UREQ.acc("Uzil", "Evt")
 	
 	# 當 語言切換
 	self._on_language_changed = Evt.Inst.new()
@@ -56,7 +56,7 @@ func update () :
 
 ## 讀取 所有語言資料
 func load_languages (langs_dir_path) :
-	var I18N = UREQ.access_g("Uzil", "I18N")
+	var I18N = UREQ.acc("Uzil", "I18N")
 	self._code_to_lang = I18N.loader.load_langs(langs_dir_path)
 
 ## 取得 語言資料

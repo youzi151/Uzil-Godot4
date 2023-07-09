@@ -31,7 +31,7 @@ func _process (_dt) :
 func request_state () :
 	if self.state != null : return self.state
 	
-	self.state = UREQ.access_g("Uzil", "Advance.StateMachine").State.new(self.core)
+	self.state = UREQ.acc("Uzil", "Advance.States").State.new(self.core)
 	
 	if self.id == "" :
 		self.state.id = self.name

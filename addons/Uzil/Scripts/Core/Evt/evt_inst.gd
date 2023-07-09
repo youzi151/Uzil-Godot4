@@ -17,7 +17,7 @@ var _listener_list := []
 # GDScript ===================
 
 func _init () :
-	self.Evt = UREQ.access_g("Uzil", "Core.Evt")
+	self.Evt = UREQ.acc("Uzil", "Core.Evt")
 
 # Public =====================
 

@@ -7,7 +7,7 @@ var SumVals
 # Extends ====================
 
 func test_ready () :
-	self.SumVals = UREQ.access_g("Uzil", "Core.SumVals")
+	self.SumVals = UREQ.acc("Uzil", "Core.SumVals")
 	
 	self.test()
 

@@ -30,6 +30,10 @@ var async
 var gdscript
 ## 輸入
 var input
+## 字典
+var dict
+## 陣列
+var array
 ## 字串
 var string
 ## 獨特ID
@@ -37,7 +41,7 @@ var uniq_id
 
 # other =========
 
-var _class = {}
+var _class := {}
 
 # func ==========
 
@@ -47,7 +51,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("Util")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Util",
+	UREQ.bind("Uzil", "Util",
 		func () :
 			# inner class
 			self._class._Math = Uzil.load_script(self.PATH.path_join("math.gd"))
@@ -55,6 +59,8 @@ func index (Uzil, _parent_index) :
 			self._class._GDScript = Uzil.load_script(self.PATH.path_join("gdscript.gd"))
 			self._class._Input = Uzil.load_script(self.PATH.path_join("Input/input.gd"))
 			self._class._Keycode = Uzil.load_script(self.PATH.path_join("Input/keycode.gd"))
+			self._class._Dictionary = Uzil.load_script(self.PATH.path_join("dictionary.gd"))
+			self._class._Array = Uzil.load_script(self.PATH.path_join("array.gd"))
 			self._class._String = Uzil.load_script(self.PATH.path_join("string.gd"))
 			self._class._UniqID = Uzil.load_script(self.PATH.path_join("uniq_id.gd"))
 
@@ -79,6 +85,8 @@ func init (__parent_index) :
 	self.async = self._class._Async.new()
 	self.gdscript = self._class._GDScript.new()
 	self.string = self._class._String.new()
+	self.dict = self._class._Dictionary.new()
+	self.array = self._class._Array.new()
 	self.uniq_id = self._class._UniqID.new()
 	
 	var keycode = self._class._Keycode.new()

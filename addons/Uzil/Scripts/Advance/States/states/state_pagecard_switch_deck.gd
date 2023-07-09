@@ -9,7 +9,7 @@ var inst_key := ""
 
 var page := ""
 
-var deck := ""
+var combo := ""
 
 # GDScript ===================
 
@@ -34,8 +34,8 @@ func set_data (data) :
 	if data.has("page") :
 		self.page = data.page
 	
-	if data.has("deck") :
-		self.deck = data.deck
+	if data.has("combo") :
+		self.combo = data.combo
 
 ## 初始化
 func init (_user) :
@@ -47,7 +47,7 @@ func process (_dt) :
 
 ## 當 狀態 進入
 func on_enter () :
-	var page_card_mgr = UREQ.access_g("Uzil", "page_card_mgr")
+	var page_card_mgr = UREQ.acc("Uzil", "page_card_mgr")
 	
 	var page_id = self.page
 	if page_id == "" :
@@ -57,7 +57,7 @@ func on_enter () :
 	var page = pagecard_inst.get_page(page_id)
 	if page == null : return
 	
-	page.switch_deck(self.deck)
+	page.switch_combo(self.combo)
 	pagecard_inst.refresh()
 
 ## 當 狀態 離開

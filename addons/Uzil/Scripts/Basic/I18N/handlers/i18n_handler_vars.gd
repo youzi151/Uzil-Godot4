@@ -20,7 +20,7 @@ var replace_when_not_found = null
 # GDScript ===================
 
 func _init () :
-	self.vars = UREQ.access_g("Uzil", "vars")
+	self.vars = UREQ.acc("Uzil", "vars")
 	self.regex = RegEx.new()
 	self.regex.compile(self.regex_pattern)
 

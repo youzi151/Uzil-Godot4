@@ -32,7 +32,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("ObjPool")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Core.ObjPool",
+	UREQ.bind("Uzil", "Core.ObjPool",
 		func () :
 			# Shell =====
 			

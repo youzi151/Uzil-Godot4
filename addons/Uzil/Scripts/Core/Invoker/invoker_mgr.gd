@@ -28,7 +28,7 @@ func inst (key := "_") :
 	if self._key_to_inst.has(key) :
 		return self._key_to_inst[key]
 	else:
-		var Invoker = UREQ.access_g("Uzil", "Core.Invoker")
+		var Invoker = UREQ.acc("Uzil", "Core.Invoker")
 		var _inst = Invoker.Inst.new().init(key)
 		
 		self._key_to_inst[key] = _inst

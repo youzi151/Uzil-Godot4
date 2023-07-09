@@ -162,8 +162,8 @@ func index () :
 	self.sub_indexes.push_back(self.Advance)
 	
 	# DI綁定
-	UREQ.bind("Uzil", self)
-	UREQ.bind_g("Uzil", "Uzil", self)
+	UREQ.gbind("Uzil", self)
+	UREQ.bind("Uzil", "Uzil", self)
 	
 	# 建立索引
 	for each in self.sub_indexes :
@@ -177,7 +177,7 @@ func index () :
 func reload () :
 	self._is_loaded = false
 	
-	var Evt = UREQ.access_g("Uzil", "Core.Evt")
+	var Evt = UREQ.acc("Uzil", "Core.Evt")
 	
 	self.on_process = Evt.Inst.new()
 	self.on_notification = Evt.Inst.new()

@@ -21,7 +21,7 @@ var default_transition_fn = null
 # GDScript ===================
 
 func _init (__root_page = null) :
-	var PageCard = UREQ.access_g("Uzil", "Advance.PageCard")
+	var PageCard = UREQ.acc("Uzil", "Advance.PageCard")
 	
 	if __root_page != null : 
 		self._root_page = __root_page
@@ -120,7 +120,7 @@ func refresh_with_transition (transition_fn = null, on_done = null) :
 	# 若 還有 頁面 要檢查 (且 未超過最大嘗試次數)
 	while curr_page != null and try_time > 0: 
 		try_time -= 1
-		var show_pages = curr_page.get_deck_show_pages()
+		var show_pages = curr_page.get_combo_show_pages()
 		
 		# 每一個 有顯示的 子頁面
 		for each_page in show_pages :
@@ -169,7 +169,7 @@ func refresh_with_transition (transition_fn = null, on_done = null) :
 		else :
 			to_deactive.push_back(each_card)
 	
-	var Util = UREQ.access_g("Uzil", "Util")
+	var Util = UREQ.acc("Uzil", "Util")
 	Util.async.waterfall([
 		func (ctrlr) :
 			# 若 有 轉場行為 則 轉呼叫

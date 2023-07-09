@@ -7,8 +7,8 @@ extends Uzil_Test_Base
 func test_ready():
 #	pass
 
-	var Options = UREQ.access_g("Uzil", "Advance.Options")
-	var invoker_mgr = UREQ.access_g("Uzil", "invoker_mgr")
+	var Options = UREQ.acc("Uzil", "Advance.Options")
+	var invoker_mgr = UREQ.acc("Uzil", "invoker_mgr")
 	
 #	print("fullscreen mode : %s" % Options.display.get_fullscreen_mode())
 	

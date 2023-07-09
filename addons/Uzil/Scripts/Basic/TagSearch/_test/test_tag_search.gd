@@ -18,7 +18,7 @@ func test_process(_delta):
 # Public =====================
 
 func test1 () :
-	var tag_search = UREQ.access_g("Uzil", "tag_search")
+	var tag_search = UREQ.acc("Uzil", "tag_search")
 	
 	var inst = tag_search.inst("test")
 	

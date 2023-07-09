@@ -33,10 +33,10 @@ func _init (__user = null) :
 	self._user = __user
 	
 	# 當 狀態改變
-	var Uzil = UREQ.access_g("Uzil", "Uzil")
-	self.on_state_change = Uzil.Core.Evt.Inst.new()
+	var Evt = UREQ.acc("Uzil", "Core.Evt")
+	self.on_state_change = Evt.Inst.new()
 	
-	self.times_mgr = UREQ.access_g("Uzil", "times_mgr")
+	self.times_mgr = UREQ.acc("Uzil", "times_mgr")
 	
 
 
@@ -63,13 +63,14 @@ func add_state (state) :
 	return self
 
 ## 建立 新 狀態
-func new_state (script_name : String, prefer_state_id : String, data := {}) :
+func new_state (prefer_state_id : String, script_name : String, data := {}) :
 	
-	var Uzil = UREQ.access_g("Uzil", "Uzil")
+	var States = UREQ.acc("Uzil", "Advance.States")
+	var Util = UREQ.acc("Uzil", "Util")
 	
-	var state = Uzil.Advance.StateMachine.State.new(script_name)
+	var state = States.State.new(script_name)
 	
-	var new_id = Uzil.Util.uniq_id.fix(prefer_state_id, func(next_id):
+	var new_id = Util.uniq_id.fix(prefer_state_id, func(next_id):
 		for each in self._states :
 			if each.id == next_id : return false
 		return true

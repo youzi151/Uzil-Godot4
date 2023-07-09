@@ -33,7 +33,7 @@ func _process(_dt):
 func load_config (file_path := "") :
 	if file_path == "" :
 		
-		file_path = UREQ.access_g("Uzil", "Advance.Options").CONFIG_FILE_PATH
+		file_path = UREQ.acc("Uzil", "Advance.Options").CONFIG_FILE_PATH
 	
 	var to_load_keys := []
 	
@@ -43,7 +43,7 @@ func load_config (file_path := "") :
 		to_load_keys.push_back(self._get_key_window_borderless(idx))
 		to_load_keys.push_back(self._get_key_window_fullscreen_mode(idx))
 	
-	var user_save = UREQ.access_g("Uzil", "user_save")
+	var user_save = UREQ.acc("Uzil", "user_save")
 	var configs = user_save.config.read(file_path, self.CFG_SECTION_NAME, to_load_keys)
 	
 	for idx in range(self.window_count) :
@@ -120,8 +120,8 @@ func _get_key_with_suffix (window_id : int, key : String) -> String :
 ## 寫入 至 設定檔案
 func _write_to_config (key, val) :
 	
-	var Options = UREQ.access_g("Uzil", "Advance.Options")
-	var user_save = UREQ.access_g("Uzil", "user_save")
+	var Options = UREQ.acc("Uzil", "Advance.Options")
+	var user_save = UREQ.acc("Uzil", "user_save")
 	user_save.config.write_val(Options.CONFIG_FILE_PATH, self.CFG_SECTION_NAME, key, val)
 #	print(Options.CONFIG_FILE_PATH)
 

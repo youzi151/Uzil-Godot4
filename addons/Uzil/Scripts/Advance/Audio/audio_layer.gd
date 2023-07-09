@@ -28,7 +28,7 @@ var audio_id_list := []
 
 func _init (_mgr) :
 	self.mgr = _mgr
-	self.play_state = UREQ.access_g("Uzil", "Audio").LayerPlayState.UNDEFINED
+	self.play_state = UREQ.acc("Uzil", "Audio").LayerPlayState.UNDEFINED
 
 # Extends ====================
 

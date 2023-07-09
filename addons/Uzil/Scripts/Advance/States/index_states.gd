@@ -1,6 +1,6 @@
 # desc ==========
 
-## 索引 StateMachine 狀態機
+## 索引 States 狀態機
 ##
 ## 簡單實現狀態機, 方便使用.
 ## 
@@ -37,14 +37,14 @@ var default_state_scripts := {
 ## 建立索引
 func index (Uzil, _parent_index) :
 	
-	self.PATH = _parent_index.PATH.path_join("StateMachine")
+	self.PATH = _parent_index.PATH.path_join("States")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Advance.StateMachine",
+	UREQ.bind("Uzil", "Advance.States",
 		func () :
-			self.Mgr = Uzil.load_script(self.PATH.path_join("state_machine_mgr.gd"))
-			self.Inst = Uzil.load_script(self.PATH.path_join("state_machine_inst.gd"))
-			self.State = Uzil.load_script(self.PATH.path_join("state_machine_state.gd"))
+			self.Mgr = Uzil.load_script(self.PATH.path_join("states_mgr.gd"))
+			self.Inst = Uzil.load_script(self.PATH.path_join("states_inst.gd"))
+			self.State = Uzil.load_script(self.PATH.path_join("states_state.gd"))
 			
 			for key in self.default_state_scripts :
 				var script = Uzil.load_script(self.PATH.path_join(self.default_state_scripts[key]))
@@ -52,29 +52,29 @@ func index (Uzil, _parent_index) :
 			
 			return self,
 		{
-			"alias" : ["StateMachine", "States"],
+			"alias" : ["States"],
 		}
 	)
 	
 	# 綁定 實體管理
-	UREQ.bind_g("Uzil", "state_machine",
+	UREQ.bind("Uzil", "states",
 		func () :
 			var target = self.Mgr.new(null)
-			target.name = "state_machine"
+			target.name = "states"
 			Uzil.add_child(target)
 			return target,
 		{
 			"alias" : ["states", "states_mgr"],
-			"requires" : ["Advance.StateMachine"],
+			"requires" : ["Advance.States"],
 		}
 	)
 	return self
 
-## 匯入 節點 腳本
+## 匯入 狀態 腳本
 func import_state_script (import_name, path_or_script) :
 	self.name_to_state_script[import_name] = path_or_script
 
-## 取得 節點 腳本
+## 取得 狀態 腳本
 func get_state_script (name_or_path) :
-	var Util = UREQ.access_g("Uzil", "Util")
+	var Util = UREQ.acc("Uzil", "Util")
 	return Util.gdscript.get_script_from_dict(self.name_to_state_script, name_or_path)

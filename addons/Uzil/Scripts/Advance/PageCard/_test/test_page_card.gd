@@ -13,7 +13,7 @@ func test_ready():
 	var pagecard_inst_node = self.get_node(self.pagecard_inst_nodepath)
 	self.pagecard_inst = pagecard_inst_node.request_inst()
 	
-	var invoker = UREQ.access_g("Uzil", "invoker_mgr").inst()
+	var invoker = UREQ.acc("Uzil", "invoker_mgr").inst()
 	
 	pagecard_inst_node.on_ready.on(func (_ctrlr) :
 		print("pagecard_inst.on_ready")
@@ -28,26 +28,26 @@ func test_ready():
 		# 初次刷新
 		self.pagecard_inst.refresh()
 		
-		UREQ.access_g("Uzil", "Util").async.waterfall([
-			# 切換顯示 3D頁面堆
+		UREQ.acc("Uzil", "Util").async.waterfall([
+			# 切換顯示 3D頁面 組合
 			func (ctrlr) :
-				print("switch deck 3d")
-				root_page.switch_deck("3d")
+				print("switch combo 3d")
+				root_page.switch_combo("3d")
 				self.pagecard_inst.refresh()
 				invoker.once(ctrlr.next, 1000),
 			
-			# 切換顯示 2D頁面堆
+			# 切換顯示 2D頁面 組合
 			func (ctrlr) :
-				print("switch deck 2d")
-				root_page.switch_deck("2d")
+				print("switch combo 2d")
+				root_page.switch_combo("2d")
 				self.pagecard_inst.refresh()
 				invoker.once(ctrlr.next, 1000),
 			
-			# 顯示 新頁面 在 2D頁面堆
+			# 顯示 新頁面 在 2D頁面 組合
 			func (ctrlr) :
 				print("add page popup")
 				
-				# 添加 頁面 至 2D頁面堆
+				# 添加 頁面 至 2D頁面 組合
 				root_page.add_page("page_popup", "2d")
 				
 				# 刷新 並 設置轉場
@@ -98,18 +98,18 @@ func test_ready():
 					)
 				),
 			func (ctrlr) :
-				print("switch deck all")
-				root_page.switch_deck("all")
+				print("switch combo all")
+				root_page.switch_combo("all")
 				self.pagecard_inst.refresh()
 				invoker.once(ctrlr.next, 1000),
 			func (ctrlr) :
-				print("switch deck none")
-				root_page.switch_deck("none")
+				print("switch combo none")
+				root_page.switch_combo("none")
 				self.pagecard_inst.refresh()
 				invoker.once(ctrlr.next, 1000),
 			func (ctrlr) :
-				print("switch deck backto 2d")
-				root_page.switch_deck("2d")
+				print("switch combo backto 2d")
+				root_page.switch_combo("2d")
 				self.pagecard_inst.refresh()
 				invoker.once(ctrlr.next, 1000),
 		])

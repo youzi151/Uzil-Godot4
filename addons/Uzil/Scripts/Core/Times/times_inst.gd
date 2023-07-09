@@ -39,8 +39,8 @@ var _is_auto_pause := false
 # GDScript ===================
 
 func _init (_dont_set_in_scene) :
-	var Vals = UREQ.access_g("Uzil", "Core.Vals")
-	var Times = UREQ.access_g("Uzil", "Core.Times")
+	var Vals = UREQ.acc("Uzil", "Core.Vals")
+	var Times = UREQ.acc("Uzil", "Core.Times")
 	
 	self._is_timing_in_background_vals = Vals.new()
 	self._is_timing_vals = Vals.new()

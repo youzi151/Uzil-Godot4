@@ -14,7 +14,7 @@ var _spin_panels : Array[Node] = []
 func test_ready():
 	self.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	var times_mgr = UREQ.access_g("Uzil", "times_mgr")
+	var times_mgr = UREQ.acc("Uzil", "times_mgr")
 	var times_inst_A = times_mgr.inst("A")
 	
 	self.times.push_back(times_inst_A)

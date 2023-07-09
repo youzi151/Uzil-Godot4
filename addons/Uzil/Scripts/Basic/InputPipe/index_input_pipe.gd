@@ -46,7 +46,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("InputPipe")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Basic.InputPipe",
+	UREQ.bind("Uzil", "Basic.InputPipe",
 		func () :
 			self.Setting = Uzil.load_script(self.PATH.path_join("input_pipe_setting.gd"))
 			self.Msg = Uzil.load_script(self.PATH.path_join("input_pipe_msg.gd"))
@@ -65,7 +65,7 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 實體
-	UREQ.bind_g("Uzil", "input_pipe", 
+	UREQ.bind("Uzil", "input_pipe", 
 		func () :
 			var target = self.get_inst()
 			target.name = "input_pipe"
@@ -95,7 +95,7 @@ func import_handler_script (import_name, path_or_script) :
 
 ## 取得 處理器 腳本
 func get_handler_script (name_or_path) :
-	var Util = UREQ.access_g("Uzil", "Util")
+	var Util = UREQ.acc("Uzil", "Util")
 	return Util.gdscript.get_script_from_dict(self.name_to_handler_script, name_or_path)
 
 ## 建立 新 處理器

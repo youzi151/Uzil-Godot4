@@ -43,12 +43,12 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("Invoker")
 	
 	# 綁定 索引
-	UREQ.bind_g("Uzil", "Core.Invoker", self._target_index, {
+	UREQ.bind("Uzil", "Core.Invoker", self._target_index, {
 		"alias" : ["Invoker"],
 	})
 	
 	# 綁定 呼叫器管理
-	UREQ.bind_g("Uzil", "invoker_mgr", self._target_mgr, {
+	UREQ.bind("Uzil", "invoker_mgr", self._target_mgr, {
 		"alias" : ["invoker"],
 		"requires" : ["Core.Invoker"],
 	})
