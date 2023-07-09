@@ -1,6 +1,6 @@
 extends Node
 
-## UINav.Mgr 介面導航 實體 管理
+## UINav.Mgr 用戶介面導航 實體 管理
 ##
 ## 以key取得/建立 實體.
 ## 
