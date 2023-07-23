@@ -5,8 +5,6 @@ extends Node
 ## 
 ##
 
-# 因為是透過AutoLoad 所以 使用 var
-
 ## 根路徑
 const ROOT_PATH := "res://addons/Uzil"
 
