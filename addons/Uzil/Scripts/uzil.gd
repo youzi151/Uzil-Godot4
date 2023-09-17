@@ -14,7 +14,7 @@ const VERSION := "0.1.0"
 ## 腳本路徑
 const PATH := ROOT_PATH + "/Scripts"
 
-# member ###################
+# Variable ===================
 
 ## 是否已經建立索引
 var _is_indexed := false
@@ -91,7 +91,7 @@ var on_notification = null
 ## 當 輸入
 var on_input = null
 
-# GDScript #################
+# GDScript ===================
 
 func _init () :
 	print("Uzil version:%s _init()" % self.VERSION)
@@ -129,6 +129,8 @@ func _input (evt) :
 func _notification (what) : 
 	if not self._is_init : return
 	self.on_notification.emit({"what":what})
+
+# Public =====================
 
 ## 初始化 (建立索引 並 重新讀取)
 func init () :
