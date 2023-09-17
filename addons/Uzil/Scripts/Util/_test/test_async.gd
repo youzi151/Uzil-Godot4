@@ -10,14 +10,14 @@ var invoker
 func test_ready () :
 	self.invoker = UREQ.acc("Uzil", "invoker_mgr")
 	self.Util = UREQ.acc("Uzil", "Util")
-#	self.test_waterfall()
+	self.test_waterfall()
 #	self.test_parallel()
 #	self.test_each_series_list()
 #	self.test_each_series_dict()
 #	self.test_each_list()
 #	self.test_each_dict()
 #	self.test_times_series()
-	self.test_times()
+#	self.test_times()
 	
 
 func test_process (_delta) :
@@ -183,7 +183,7 @@ func test_times_series () :
 				else :
 					ctrlr.next.call()
 					
-			, 3000-(500*idx)),
+			, 3000),
 		func () :
 			print("final")
 	)

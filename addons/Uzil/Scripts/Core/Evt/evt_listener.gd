@@ -26,7 +26,7 @@ func emit (ctrlr) :
 	if is_ctrlr_exist :
 		ctrlr.set_current_listener(self)
 
-	self.fnc.call(ctrlr)
+	self.fnc.callv([ctrlr])
 	
 	if is_ctrlr_exist : 
 		ctrlr.set_current_listener(null)

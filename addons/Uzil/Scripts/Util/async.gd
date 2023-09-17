@@ -209,7 +209,7 @@ func times (run_times, fn_each, _fn_done = null) :
 			ctrlr.next.call()
 		# 停止
 		ctrlr.stop = func():
-			ref1.state = 1
+			ref1.state = 2
 			ctrlr.next.call()
 		# 下一個
 		ctrlr.next = func():
