@@ -88,6 +88,8 @@ var _once_ready := []
 var on_process = null
 ## 當 通知
 var on_notification = null
+## 當 輸入
+var on_input = null
 
 # GDScript #################
 
@@ -119,6 +121,10 @@ func _ready () :
 func _process (_dt) :
 	if not self._is_init : return
 	self.on_process.emit({"dt":_dt})
+
+func _input (evt) :
+	if not self._is_init : return
+	self.on_input.emit({"event":evt})
 
 func _notification (what) : 
 	if not self._is_init : return
@@ -179,6 +185,7 @@ func reload () :
 	
 	self.on_process = Evt.Inst.new()
 	self.on_notification = Evt.Inst.new()
+	self.on_input = Evt.Inst.new()
 	
 	# 呼叫 當 讀取完畢
 	self._call_once_loaded()

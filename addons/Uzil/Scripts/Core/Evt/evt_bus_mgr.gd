@@ -28,8 +28,6 @@ func inst (key := "_") :
 	else:
 		var Evt = UREQ.acc("Uzil", "Core.Evt")
 		var _inst = Evt.Bus.new()
-		_inst.name = key
-		self.add_child(_inst)
 		
 		self._key_to_inst[key] = _inst
 		return _inst

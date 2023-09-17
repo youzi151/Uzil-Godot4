@@ -40,3 +40,7 @@ func test_print (msg) :
 	print(msg)
 	if self.debug_msg :
 		self.debug_msg.text += str(msg)+"\n"
+
+func test_print_clear () :
+	if self.debug_msg :
+		self.debug_msg.text = ""

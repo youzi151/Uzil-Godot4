@@ -29,7 +29,7 @@ func each (list_or_dict, fn_each, _fn_done = null) :
 	ref1.state = 0
 	
 	# 每當執行完畢
-	var each_done = func () :
+	var each_done := func () :
 		# 若 狀態 結束 則 返回
 		if ref1.state == 2 : return
 		

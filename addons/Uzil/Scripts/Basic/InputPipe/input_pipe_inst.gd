@@ -7,23 +7,29 @@ extends Node
 ## 提供介面對不同階層進行操作
 ##
 #
-# 1. Inst每幀會從每個Layer中的Handler取得要偵聽的srcKeyCode
-# 2. Inst對每個要偵聽的srcKeyCode，會產生Signal
-# 2. Inst依序傳遞Msg給每個Layer、Layers再發Msg給所有Handler。
-# 4-1. Handler會將Msg中實際的Input轉換為綁定/其他的對應Input。
-# 4-2. 依序傳遞Msg給各個負責執行邏輯內容的onInputListener並夾帶參數。
-# 5. Listener可自行決定繼續傳遞，或者取用操作而停止傳遞給下一個Listener。也可中斷Msg來停止傳給下一個Layer。
+# 1.   Inst每幀會從每個Layer中的Handler取得要偵聽的srcKeyCode.
+# 2.   Inst對每個要偵聽的srcKeyCode, 會產生Signal.
+# 2.   Inst依序傳遞Msg給每個Layer, Layers再發Msg給所有Handler.
+# 4-1. Handler會將Msg中實際的Input轉換為綁定/其他的對應Input.
+# 4-2. 依序傳遞Msg給各個負責執行邏輯內容的onInputListener並夾帶參數.
+# 5.   Listener可自行決定繼續傳遞
+# 5-1. 透過 Ctrlr 的 stop 來停止傳遞給下一個Listener, 或使用 ignore 來標記要忽略掉之後那些tag的Listener.
+# 5-2. 透過 Msg 的 stop 來停止傳給下一個Layer, 或使用 ignore 來標記要忽略掉之後那些tag的Layer.
 # InputMsg(key17, key23) → 
 #    1.1. InputLayer1 (Domain)
 #       └ [Handler1] 把 key17 轉換/處理 成 兩倍值 添加成新key17 到 Layer
 #       └ [Handler2] 把 key23 轉換/處理 成 key87 添加成新key87 到 Layer
 #    2.1 [key17] → Listener1 ——→ Listener2
-#        [key87] → Listener1 —x→ Listener2 (可利用Event.Call時的ctrlr來進行中斷傳遞)
+#        [key87] → Listener1 ——→ (ignore) ——→ Listener3 —x→ Listener4
+#                                Listener2 
+#        (可利用Event.Call時的ctrlr來進行中斷傳遞或設置忽略標籤)
 #    1.2. InputLayer2 (Domain)                  
 #       └ [Handler1] 把 key17 轉換/處理 成 兩倍值 添加成新key17 到 Layer
 #       └ [Handler2] 把 key23 轉換/處理 成 key99 添加成新key99 到 Layer
 #    2.1 [key17] → Listener1 ——→ Listener2
-#        [key99] → Listener1 —x→ Listener2 (可利用Event.Call時的ctrlr來進行中斷傳遞)
+#        [key99] → Listener1 ——→ (ignore) ——→ Listener3 —x→ Listener4
+#                                Listener2 
+#        (可利用Event.Call時的ctrlr來進行中斷傳遞或設置忽略標籤)
 
 var InputPipe
 
@@ -55,7 +61,6 @@ func _init (setting) :
 	self._setting.set_inst(self)
 
 func _process (_dt) :
-	
 	# 確保 輸入 刷新
 	
 	# 要偵測的真實key
@@ -138,8 +143,7 @@ func get_layer (layer_id : String) :
 	if self._id_to_layer.has(layer_id) :
 		layer = self._id_to_layer[layer_id]
 	else :
-		layer = self.InputPipe.Layer.new(self)
-		layer.id = layer_id
+		layer = self.InputPipe.Layer.new(self, layer_id)
 		self._id_to_layer[layer_id] = layer
 		self._layers.push_back(layer)
 	return layer
@@ -147,6 +151,12 @@ func get_layer (layer_id : String) :
 ## 取得所有層級
 func get_layers () -> Array :
 	return self._layers.duplicate(false)
+
+## 排序 層級
+func sort_layers () :
+	self._layers.sort_custom(func(a, b):
+		return a.get_sort() < b.get_sort()
+	)
 
 # 轉接 Layer ======
 #
@@ -192,7 +202,7 @@ func get_layers () -> Array :
 #	layer.off_input(vkey, evt_listener_or_tag)
 #
 ### 停止輸入 
-## 以最終的虛擬KeyCode，向該層級取得訊號後執行停止，追溯到源訊號將實際KeyCode關閉
+## 以最終的虛擬KeyCode, 向該層級取得訊號後執行停止, 追溯到源訊號將實際KeyCode關閉
 #func stop_input (layer_id, vkey, is_stop_whole_steam) :
 #	var layer = self.get_layer(layer_id)
 #	var input_msg = layer.get_msg(vkey)

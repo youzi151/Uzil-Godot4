@@ -18,3 +18,9 @@ func filter (arr : Array, fn : Callable) -> Array :
 		if fn.call(idx, val) == true :
 			result.push_back(val)
 	return result
+
+func is_intersects (arr1 : Array, arr2 : Array) -> bool :
+	for v in arr1 :
+		if arr2.has(v) :
+			return true
+	return false
