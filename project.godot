@@ -28,7 +28,15 @@ window/size/borderless=true
 
 enabled=PackedStringArray("res://addons/Uzil/plugin.cfg", "res://addons/GlobalDictionary/plugin.cfg", "res://addons/UREQ/plugin.cfg")
 
+[input]
+
+touch={
+"deadzone": 0.5,
+"events": []
+}
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

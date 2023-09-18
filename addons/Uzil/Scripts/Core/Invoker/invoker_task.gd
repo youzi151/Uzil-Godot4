@@ -7,7 +7,7 @@
 # Variable ===================
 
 ## 行為
-var fn := func(): pass
+var fn : Callable
 
 ## 時間
 var calltime_ms := 0

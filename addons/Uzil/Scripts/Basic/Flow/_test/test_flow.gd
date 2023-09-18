@@ -16,7 +16,6 @@ func test_ready():
 	
 	var b_event = flow.new_event({
 		"script":"test_event",
-		"msg":"world",
 	})
 	
 	var b_chain = flow.new_chain({
@@ -29,7 +28,8 @@ func test_ready():
 	
 	var a_event = flow.new_event({
 		"script":"print",
-		"msg":"hello",
+		"msg_enter":"hello",
+		"msg_exit":"world",
 	})
 	
 	var a_gate = flow.new_gate({

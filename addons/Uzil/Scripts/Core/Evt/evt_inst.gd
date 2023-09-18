@@ -22,7 +22,7 @@ func _init () :
 # Public =====================
 
 ## 呼叫事件
-func emit (data = null) :
+func emit (data = null, options = null) :
 	# 自動排序
 	if self.is_auto_sort :
 		self.sort()
@@ -30,6 +30,12 @@ func emit (data = null) :
 	# 控制
 	var ctrlr = self.Evt.CallCtrlr.new(self)
 	ctrlr.data = data
+	
+	# 選項
+	if options != null :
+		# 若 存在 忽略標籤 則 設置 到 控制
+		if options.has("ignores") :
+			ctrlr.ignores(options.ignores)
 	
 	# 每個 偵聽者
 	var listeners_copy := self._listener_list.duplicate()
@@ -39,8 +45,10 @@ func emit (data = null) :
 		# 若 控制終止
 		if ctrlr.is_call_stop() : break
 		
-		# 呼叫
-		each.emit(ctrlr)
+		# 若 沒被忽略 則 呼叫 
+		if not ctrlr.is_ignores(each.tags) :
+			each.emit(ctrlr)
+		
 
 ## 新增 偵聽者
 func on (listener_or_fn) :
@@ -60,6 +68,8 @@ func on (listener_or_fn) :
 		return listener
 		
 	if typeof(listener) == TYPE_OBJECT and (listener as Object).get_script() == self.Evt.Listener :
+#		print_stack()
+#		print(listener.fnc.hash())
 		self._listener_list.push_back(listener)
 		
 	return listener

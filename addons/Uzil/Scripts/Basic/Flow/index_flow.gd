@@ -94,7 +94,7 @@ func index (Uzil, _parent_index) :
 	# 綁定 實體
 	UREQ.bind("Uzil", "flow_mgr", 
 		func () :
-			var target = self.Mgr.new()
+			var target = self.Mgr.new(null)
 			target.name = "flow_mgr"
 			Uzil.add_child(target)
 			return target,

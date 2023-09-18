@@ -10,7 +10,7 @@
 var tags : Array[String] = []
 
 ## 執行內容
-var fnc = null
+var fnc : Callable
 
 ## 排序
 var sort := 0
@@ -21,7 +21,15 @@ var sort := 0
 
 ## 呼叫事件
 func emit (ctrlr) :
-	self.fnc.call(ctrlr)
+	var is_ctrlr_exist := ctrlr != null
+	
+	if is_ctrlr_exist :
+		ctrlr.set_current_listener(self)
+
+	self.fnc.callv([ctrlr])
+	
+	if is_ctrlr_exist : 
+		ctrlr.set_current_listener(null)
 
 ## 設置 執行內容
 func fn (_fn: Callable) :

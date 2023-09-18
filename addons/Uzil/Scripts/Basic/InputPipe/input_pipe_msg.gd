@@ -12,6 +12,9 @@ var id := ""
 ## 是否啟用
 var _is_alive := true
 
+## 忽略標記
+var _ignore_tags : Array[String] = []
+
 ## 實際 key
 var real_key := 0
 
@@ -37,44 +40,57 @@ func init (key : int) :
 	return self
 
 ## 是否有效
-func is_alive (is_check_stream := true) -> bool :
+func is_alive (is_src_streamed := true) -> bool :
 	# 若 自身 已關閉 則 視為 無效
 	if self._is_alive == false : return false
 	
-	# 若 不檢查 整串
-	if not is_check_stream :
-		# 直接 返回 有效
-		return true
-		
-	else :
+	# 若 要檢查 源頭
+	if is_src_streamed :
+		if self.src_msg != null :
+			return self.src_msg.is_alive(true)
 	
-		# 檢查 整條 訊號鏈
-		var curr = self
-		var trytime := 100
-		while curr.src_msg != null and trytime > 0 :
-			curr = curr.src_msg
+	# 直接 返回 有效
+	return true
+
+## 取得 忽略標籤
+func get_ignores (is_src_streamed := true) -> Array[String] :
+	# 若 要 連同 源頭
+	if is_src_streamed : 
+		if self.src_msg != null :
+			var ignores = self.src_msg.get_ignores().duplicate()
+			for each in self._ignore_tags :
+				if not ignores.has(each) :
+					ignores.push_back(each)
+			return ignores
+	
+	return self._ignore_tags
+
+## 是否忽略
+func is_ignores (tags : Array[String], is_src_streamed := true) -> bool :
+	var self_ignores = self.get_ignores(is_src_streamed)
+	for each in tags :
+		if self_ignores.has(each) : return true
+	return false
+
+## 忽略
+func ignore (tag : String, is_src_streamed := true) :
+	if not self._ignore_tags.has(tag) :
+		self._ignore_tags.push_back(tag)
 		
-			if curr._is_alive == false :
-				return false
-				
-			trytime -= 1
-		
-		return true
+	# 若 要 連同 源頭
+	if is_src_streamed :
+		if self.src_msg != null :
+			return self.src_msg.ignore(tag, true)
 
 ## 終止
-func stop (is_stop_whole_stream := true) :
+func stop (is_src_streamed := true) :
+	
 	self._is_alive = false
 	
-	# 若 為 停止 整串 訊號鏈
-	if is_stop_whole_stream :
-		var curr = self
-		var trytime = 100
-		while curr.src_msg != null and trytime > 0 :
-			curr = curr.src_msg
-			
-			curr._is_alive = false
-			
-			trytime -= 1
+	# 若 要 連同 源頭
+	if is_src_streamed :
+		if self.src_msg != null :
+			return self.src_msg.stop(true)
 
 ## 取得 副本
 func copy () :
