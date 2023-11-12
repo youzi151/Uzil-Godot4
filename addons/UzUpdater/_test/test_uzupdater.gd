@@ -32,7 +32,7 @@ func _ready():
 	
 #	Uzil_Init.init()
 #
-#	G.Uzil.invoker.inst().once(func():
+#	G.v.Uzil.invoker.inst().once(func():
 #		print("hi")
 #	, 3)
 	
@@ -46,7 +46,7 @@ func _ready():
 		var uzil_init = ResourceLoader.load("res://addons/Uzil/Scripts/uzil_init.gd", "", ResourceLoader.CACHE_MODE_IGNORE).new()
 		uzil_init.free()
 #
-#		G.Uzil.invoker.inst().once(func():
+#		G.v.Uzil.invoker.inst().once(func():
 #			print("ddd")
 #		, 3)
 		

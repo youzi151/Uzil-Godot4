@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://0qu5ab2tfce1"]
 
-[ext_resource type="PackedScene" uid="uid://dvvi5i18wy31u" path="res://addons/Uzupdater/_test/test_uzupdater_progress_bar.tscn" id="1_q1dxa"]
-[ext_resource type="Script" path="res://addons/Uzupdater/_test/test_uzupdater.gd" id="1_y6drd"]
+[ext_resource type="PackedScene" uid="uid://dvvi5i18wy31u" path="res://addons/UzUpdater/_test/test_uzupdater_progress_bar.tscn" id="1_q1dxa"]
+[ext_resource type="Script" path="res://addons/UzUpdater/_test/test_uzupdater.gd" id="1_y6drd"]
 
 [node name="uzpdater_test" type="Control"]
 layout_mode = 3

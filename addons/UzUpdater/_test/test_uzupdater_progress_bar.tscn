@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dvvi5i18wy31u"]
 
-[ext_resource type="Script" path="res://addons/Uzupdater/_test/test_uzupdater_progress_bar.gd" id="1_lvl0s"]
+[ext_resource type="Script" path="res://addons/UzUpdater/_test/test_uzupdater_progress_bar.gd" id="1_lvl0s"]
 
 [sub_resource type="Gradient" id="Gradient_7lq48"]
 colors = PackedColorArray(0.231373, 0.231373, 0.231373, 1, 0.231373, 0.231373, 0.231373, 1)
