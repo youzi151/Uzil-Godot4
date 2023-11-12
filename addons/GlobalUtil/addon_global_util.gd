@@ -6,7 +6,7 @@ const AUTOLOAD_NAME = "G"
 
 func _enter_tree():
 	# Initialization of the plugin goes here.
-	self.add_autoload_singleton(AUTOLOAD_NAME, "res://addons/GlobalDictionary/Scripts/G.gd")
+	self.add_autoload_singleton(AUTOLOAD_NAME, "res://addons/GlobalUtil/Scripts/global_util.gd")
 
 
 func _exit_tree():
