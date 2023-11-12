@@ -14,7 +14,7 @@ const VERSION := "0.1.0"
 ## 腳本路徑
 const PATH := ROOT_PATH + "/Scripts"
 
-# member ###################
+# Variable ===================
 
 ## 是否已經建立索引
 var _is_indexed := false
@@ -88,8 +88,10 @@ var _once_ready := []
 var on_process = null
 ## 當 通知
 var on_notification = null
+## 當 輸入
+var on_input = null
 
-# GDScript #################
+# GDScript ===================
 
 func _init () :
 	print("Uzil version:%s _init()" % self.VERSION)
@@ -120,9 +122,15 @@ func _process (_dt) :
 	if not self._is_init : return
 	self.on_process.emit({"dt":_dt})
 
+func _input (evt) :
+	if not self._is_init : return
+	self.on_input.emit({"event":evt})
+
 func _notification (what) : 
 	if not self._is_init : return
 	self.on_notification.emit({"what":what})
+
+# Public =====================
 
 ## 初始化 (建立索引 並 重新讀取)
 func init () :
@@ -179,6 +187,7 @@ func reload () :
 	
 	self.on_process = Evt.Inst.new()
 	self.on_notification = Evt.Inst.new()
+	self.on_input = Evt.Inst.new()
 	
 	# 呼叫 當 讀取完畢
 	self._call_once_loaded()

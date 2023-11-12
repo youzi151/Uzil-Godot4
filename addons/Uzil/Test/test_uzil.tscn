@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://fn3l6wmscxgj"]
+[gd_scene load_steps=28 format=3 uid="uid://fn3l6wmscxgj"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_active.gd" id="1_u23hv"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Options/_test/test_options.gd" id="3_1mpto"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_async.gd" id="21_5drqb"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_input.gd" id="22_mt2nc"]
 [ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/RNG/_test/test_rng.gd" id="23_6cdbd"]
+[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_math.gd" id="26_tdykx"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_mto8b"]
 
@@ -51,7 +52,7 @@ transform = Transform3D(0.812908, 0.186443, -0.551743, 0, 0.947372, 0.320134, 0.
 
 [node name="set_test_target" type="Node" parent="." node_paths=PackedStringArray("active_target")]
 script = ExtResource("1_u23hv")
-active_target = NodePath("../Advance/States")
+active_target = NodePath("../Core/Invoker")
 
 [node name="============" type="Node" parent="."]
 
@@ -325,3 +326,6 @@ script = ExtResource("22_mt2nc")
 
 [node name="RNG" type="Node" parent="Util"]
 script = ExtResource("23_6cdbd")
+
+[node name="math" type="Node" parent="Util"]
+script = ExtResource("26_tdykx")

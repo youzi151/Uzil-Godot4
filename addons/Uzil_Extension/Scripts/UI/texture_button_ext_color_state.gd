@@ -3,7 +3,7 @@ extends Node
 ## 貼圖按鈕 擴展 顏色變更 
 ## 
 ## 讓 TextureButton 在 變更貼圖時, 也能變更顏色
-## 使用方法為將此腳本附加到
+## 使用方法為將此腳本附加到 TextureButton 或 子Node 上
 
 # Variable ===================
 

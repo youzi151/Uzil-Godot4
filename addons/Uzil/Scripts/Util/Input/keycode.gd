@@ -91,10 +91,9 @@ func name_to_keycode (name_str : String) :
 	# 拆分 字串
 	var name_arr := name_str.split(".", false, 2)
 	
-	# 至少要兩個 1.裝置 2.鍵
+	# 至少要1
 	var arrsize = name_arr.size()
-	if arrsize < 2 :
-		return null
+	if arrsize < 1 : return null
 	
 	# 輸入裝置類型 字串
 	var name_typ : String = name_arr[0]
@@ -105,6 +104,8 @@ func name_to_keycode (name_str : String) :
 	
 	# 依照 字串數量
 	match arrsize :
+		1 :
+			name_key = name_arr[0]
 		# 若 為2個 則 取 第2個 為 鍵
 		2 :
 			name_key    = name_arr[1]
@@ -117,7 +118,6 @@ func name_to_keycode (name_str : String) :
 	var type_key
 	# 該裝置的鍵表
 	var name_to_key
-	
 	# 依照 輸入裝置類型
 	match name_typ :
 		# 鍵盤
@@ -132,6 +132,12 @@ func name_to_keycode (name_str : String) :
 		"joy" :
 			type_key = self.device_type_to_keycode(self.uzil_input.DeviceType.JOY)
 			name_to_key = self._keycode_table[self.uzil_input.DeviceType.JOY][0]
+		# 觸碰
+		"touch" :
+			type_key = self.device_type_to_keycode(self.uzil_input.DeviceType.TOUCH)
+			name_to_key = self._keycode_table[self.uzil_input.DeviceType.TOUCH][0]
+		_:
+			return null
 	
 	# 產生 裝置編號 的 key值
 	var device_idx = name_device << self.DEVICE_ID_SHIFT
@@ -370,6 +376,12 @@ func _init_raw (uzil_input) :
 		[31, ["touchpad"], ValueType.BUTTON, [JOY_BUTTON_TOUCHPAD] ],
 	]
 	
+	var KEYS_RAW_TOUCH = [
+		[0, ["none"], ValueType.BUTTON, [KEY_NONE] ],
+		[1, ["touch"], ValueType.BUTTON, [KEY_NONE] ], # touch特例處理
+	]
+	
 	self.raw_to_dict(uzil_input.DeviceType.KEYBOARD, KEYS_RAW_KEYBOARD)
 	self.raw_to_dict(uzil_input.DeviceType.MOUSE, KEYS_RAW_MOUSE)
 	self.raw_to_dict(uzil_input.DeviceType.JOY, KEYS_RAW_JOY)
+	self.raw_to_dict(uzil_input.DeviceType.TOUCH, KEYS_RAW_TOUCH)

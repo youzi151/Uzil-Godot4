@@ -61,7 +61,7 @@ func _target_index () :
 	return self
 
 func _target_mgr () :
-	var target = self.BusMgr.new()
+	var target = self.BusMgr.new(null)
 	target.name = "evt_bus_mgr"
 	Uzil.add_child(target)
 	return target

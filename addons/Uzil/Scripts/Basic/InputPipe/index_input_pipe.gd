@@ -35,7 +35,8 @@ var name_to_handler_script := {}
 
 ## 自帶 處理器 腳本 (名稱:腳本路徑)
 var default_handler_scripts := {
-	"keyconvert": "handlers/input_pipe_handler_key_convert.gd"
+	"key": "handlers/input_pipe_handler_key.gd",
+	"keyconvert": "handlers/input_pipe_handler_key_convert.gd",
 }
 
 # func ==========

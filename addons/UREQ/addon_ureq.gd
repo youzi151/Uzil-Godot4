@@ -2,6 +2,7 @@
 extends EditorPlugin
 
 # Replace this value with a PascalCase autoload name, as per the GDScript style guide.
+# 特殊用途, 需要較高辨識度. 故全大寫.
 const AUTOLOAD_NAME = "UREQ"
 
 func _enter_tree():

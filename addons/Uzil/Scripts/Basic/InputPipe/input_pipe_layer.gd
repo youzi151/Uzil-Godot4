@@ -7,7 +7,10 @@
 # Variable ===================
 
 ## 辨識
-var id := ""
+var _id := ""
+
+## 排序
+var _sort := 0
 
 ## 是否啟用
 var is_active := true
@@ -27,16 +30,35 @@ var _vkey_to_event := {}
 
 # GDScript ===================
 
-func _init (inst) :
+func _init (inst, id) :
 	self._inst = inst
+	self._id = id
+
+func _to_string () -> String :
+	return self._id
 
 # Extends ====================
 
 # Public =====================
 
+## 取得 ID
+func get_id () -> String :
+	return self._id
+
 ## 啟用/關閉
 func active (_is_active := true) :
 	self.is_active = _is_active
+
+## 設置 排序
+func sort (sort : int, _is_update_inst_sort := true) :
+	self._sort = sort
+	if _is_update_inst_sort :
+		self._inst.sort_layers()
+	return self
+
+## 取得 排序
+func get_sort () -> int :
+	return self._sort
 
 # 訊號 #########
 
@@ -131,17 +153,51 @@ func on_input (vkey : int, evtlistener_or_fn) :
 	evt.on(evtlistener)
 	
 	return evtlistener
-
+	
 ## 移除 當 輸入 偵聽
-func off_input (vkey : String, evtlistener_or_tag) :
+func off_input (vkey : int, evtlistener_or_tag) :
 	if not self._vkey_to_event.has(vkey) : return
 	self._vkey_to_event[vkey].del(evtlistener_or_tag)
 
+## 註冊事件 來源處理器 以及 當輸入偵聽
+# 僅方便設置 src_key直接轉為vkey 以及 註冊事件. [br]
+# 所以有可能會有 其他自定義vkey與src_key重複的可能, 須注意.
+func on_input_src (src_and_vkey : int, evtlistener_or_fn) :
+	var handler_id := "_src_input_handler.%s" % src_and_vkey
+	var handler = self.get_handler(handler_id)
+	if handler == null :
+		handler = self.new_handler(handler_id, "key", {
+			"src" : [src_and_vkey],
+		})
+	self.add_handler(handler)
+	
+	return self.on_input(src_and_vkey, evtlistener_or_fn)
+
+## 移除 來源處理器 以及 當輸入偵聽
+# 若只是移除偵聽, 可比照依般off_input處理. [br]
+# 此處為 連同src_key直接轉為vkey的handler一起移除.
+func off_input_src (src_and_vkey : int, evtlistener_or_tag) :
+	var handler_id := "_src_input_handler.%s" % src_and_vkey
+	self.del_handler(handler_id)
+	
+	self.off_input(src_and_vkey, evtlistener_or_tag)
+
 ## 呼叫 訊號
 func call_input (input_msg) :
+	# 若 訊號已停止
 	if not input_msg.is_alive() : return
+	# 若 不持有該目標key的事件
 	if self._vkey_to_event.has(input_msg.virtual_key) == false : return
-	self._vkey_to_event[input_msg.virtual_key].emit(input_msg)
+	
+	var evt = self._vkey_to_event[input_msg.virtual_key]
+	
+	var options := {}
+	var ignores = input_msg.get_ignores()
+	if ignores.size() > 0 :
+		options.ignores = ignores
+	
+	evt.emit(input_msg, options)
+	
 
 ## 呼叫 所有訊號
 func call_all_input () :
