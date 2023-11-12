@@ -14,6 +14,8 @@ var _UREQ = null
 ## 所屬域 暫存
 var _scope = null
 
+var access = null
+
 ## 是否為異步
 var is_async := false
 
@@ -23,7 +25,7 @@ var result = null
 var errors := []
 
 ## 是否完成
-var _is_done := false
+var state := 0
 
 ## 當前 請求 占用
 var _current_requiring = null
@@ -50,7 +52,7 @@ func _process (_dt) :
 
 ## 檢查錯誤
 func check_error () :
-	if self._is_done == false :
+	if self.state == 0 :
 		if self.is_async :
 			self.errors.push_back("async requires is not finished.")
 		else :
@@ -62,7 +64,19 @@ func check_error () :
 		return null
 
 ## 執行 存取 並 確保依賴建立
-func run (access) :
+func run (access, on_done : Callable = Callable()) :
+	self.access = access
+	# 若 進行中
+	if self.state != 0 :
+		
+		if self.state == 1 :
+			await self.on_target_got
+		
+		if not on_done.is_null() :
+			on_done.call(self.result)
+			
+		return self.result
+	
 	# 若 尚未檢查過
 	if not access.is_requires_checked :
 		
@@ -108,20 +122,27 @@ func run (access) :
 	# 設置結果
 	self.result = access.target
 	# 標示為已完成
-	self._is_done = true
-	# 發送 當取得目標 信號
+	self.state = 2
+	# 呼叫事件
+	if not on_done.is_null() : on_done.call(self.result)
+	
 	self.on_target_got.emit(self.result)
 	
 	return self.result
 
+# 直到 目標已取得
+func until_target_got () :
+	if self.state != 2 :
+		await self.on_target_got
+	return self.result
+
 # Private ====================
+
 
 ## 確保 目標 已建立
 func _require_target (access) :
 	# 若 沒有忽略快取 且 已建立目標
 	if not access.is_ignore_cached and access.target != null : return
-	
-#	print("UREQ._require_target(%s)" % access.path)
 
 	# 若 當前請求中 不存在 則 直接 當前請求中 為 此模塊
 	if self._current_requiring == null :
@@ -147,7 +168,7 @@ func _require_target (access) :
 	if target == null :
 		var _script = self._require_access_script(access)
 		if _script != null : 
-	#		print("require target by script : %s" % access.id)
+#			print("require target by script : %s" % access.id)
 			# 載入 模塊
 			target = _script.new()
 	
@@ -157,6 +178,8 @@ func _require_target (access) :
 	
 	# 設置 目標
 	access.target = target
+	
+#	print("set target to "+access.target.to_string())
 	
 	# 解除 當前請求中
 	self._current_requiring = null
