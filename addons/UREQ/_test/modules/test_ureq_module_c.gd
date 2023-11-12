@@ -4,7 +4,7 @@
 # GDScript ===================
 
 func _init () :
-	print("init module c")
+	G.print("init module c")
 
 # Called when the node enters the scene tree for the first time.
 func _ready () :

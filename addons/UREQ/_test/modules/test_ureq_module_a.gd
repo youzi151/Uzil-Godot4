@@ -1,11 +1,13 @@
 
 # Variable ===================
 
+var some_text := "module_A_text"
+
 # GDScript ===================
 
 func _init () :
 	var module_b = UREQ.scope("test").access("B")
-	print("init module a")
+	G.print("init module a")
 
 # Called when the node enters the scene tree for the first time.
 func _ready () :

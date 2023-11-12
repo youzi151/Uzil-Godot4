@@ -20,7 +20,7 @@ var _id_to_access := {}
 var _alias_to_id := {}
 
 ## 當前 請求 占用
-var _current_requiring = null
+var _access_to_task := {}
 
 # GDScript ===================
 
@@ -49,10 +49,9 @@ func key () :
 ## 綁定
 func bind (id : String, target, options := {}) :
 	var access = self._UREQ.Access.new()
-	
 	access.id = id
 	access.scope = self._key
-	access.path = self._UREQ.get_access_path(self.key, id)
+	access.path = self._UREQ.get_access_path(self._key, id)
 	
 	# 依照 傳入目標 類型
 	var typ = typeof(target)
@@ -91,20 +90,68 @@ func bind (id : String, target, options := {}) :
 	self._id_to_access[id] = access
 
 ## 非同步 存取 並 確保依賴建立
-func accync (id_or_alias : String) :
+func accync (id_or_alias : String, on_done : Callable = Callable()) :
 	var access = self.get_access(id_or_alias)
 	if access == null : return null
 	
-	var task = self._UREQ.Task.new(self._UREQ, self)
+	# 是否 指定完成回呼
+	var is_on_done_exist = not on_done.is_null()
 	
-	await task.run(access)
+	# 是否 任務存在(載入中)
+	var is_task_exist = self._access_to_task.has(access)
 	
-	var err = task.check_error()
-	if err != null :
-		print_debug(err)
-		return null
+	# 任務
+	var task
+	
+	# 若 載入中
+	if is_task_exist :
+		# 取得 該任務
+		task = self._access_to_task[access]
+	else :
+		# 建立 任務
+		task = self._UREQ.Task.new(self._UREQ, self)
+		self._access_to_task[access] = task
+	
+	# 回呼
+	var wrap_callback : Callable
+	
+	# 以 Callback 方式
+	if is_on_done_exist :
+		wrap_callback = func (res):
+			
+			var result = null
+			if not self._check_error(task) :
+				result = task.result
+				
+			if not is_task_exist :
+				self._access_to_task.erase(access)
+				
+			on_done.call(result)
 		
-	return task.result
+		# 若 載入中
+		if is_task_exist :
+			# 註冊 信號
+			task.on_target_got.connect(wrap_callback, CONNECT_ONE_SHOT)
+		else :
+			task.run(access, wrap_callback)
+		
+	# 以 async/await 方式
+	else :
+		# 若 尚未載入中 則
+		if not is_task_exist :
+			task.run(access, wrap_callback)
+		
+		# 等候 取得目標
+		await task.until_target_got()
+		
+		if not is_task_exist :
+			self._access_to_task.erase(access)
+		
+		var result = null
+		if not self._check_error(task) :
+			result = task.result
+			
+		return result
 
 ## 存取 並 確保依賴建立
 func access (id_or_alias : String) :
@@ -133,3 +180,9 @@ func get_access (id_or_alias : String) :
 
 # Private =====================
 
+func _check_error (task) :
+	var err = task.check_error()
+	var is_err := err != null
+	if is_err :
+		print_debug(err)
+	return is_err
