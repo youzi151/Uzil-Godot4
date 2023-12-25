@@ -7,7 +7,7 @@ const AUTOLOAD_NAME = "Uzil_Init"
 
 func _enter_tree():
 	# Initialization of the plugin goes here.
-	self.add_autoload_singleton(AUTOLOAD_NAME, "res://addons/Uzil/Scripts/uzil_init.gd")
+	self.add_autoload_singleton(AUTOLOAD_NAME, "res://addons/Uzil/uzil_init.gd")
 
 
 func _exit_tree():
