@@ -1,76 +1,85 @@
-extends Uzil_Test_Base
+extends Node
 
 # Variable ===================
 
+@export
+var debug_label : TextEdit
+
 var obj_alives := 0
+
+# GDScript ===================
+
+func _ready () :
+	self.debug_label = self.get_node(self.debug_label_np)
+	G.on_print(func(msg):
+		self.debug_label.text += msg+"\n"
+	, "test_obj_pool")
+
+func _process (_delta) :
+	pass
+
+func _exit_tree () :
+	G.off_print("test_obj_pool")
 
 # Extends ====================
 
-func test_ready () :
-	self.test()
-
-func test_process (_delta) :
-	pass
-
-
 # Public =====================
 
-func test () :
+func test_normal () :
 	
 	var ObjPool = UREQ.acc("Uzil", "ObjPool")
 	
 	# 建立物件池
-	var pool = ObjPool.Core_Any.new_shell()
-	pool.set_size(5)
-	pool.core.set_create(func():
+	var pool = ObjPool.Strat_Any.new_core()
+	pool.strat.set_create(func():
 		self.obj_alives += 1
-		print("costtime")
+		G.print("create obj (strategy)")
 		var new_one = {}
 		new_one.msg = "hide"
 		return new_one
 	)
-	pool.core.set_destroy(func(old_one):
+	pool.strat.set_destroy(func(old_one):
 		old_one.msg = null
 		self.obj_alives -= 1
-		print("destory")
+		G.print("destroy obj (strategy)")
 	)
-	pool.core.set_init(func(new_one):
-		new_one.msg = "show"
+	pool.strat.set_init(func(new_one):
+		new_one.msg = "state : initialized"
 	)
-	pool.core.set_uninit(func(old_one):
-		old_one.msg = "hide"
+	pool.strat.set_uninit(func(old_one):
+		old_one.msg = "state : uninitialized"
 	)
 	
 	# 重置尺寸
-	print("resize start")
-	
+	pool.set_size(5)
+	G.print("pool resize start")
 	pool.resize()
 	
-	print("resize end obj alives : %s" % self.obj_alives)
+	G.print("pool resized, obj alives : %s" % self.obj_alives)
 	
 	# 開始取用
-	print("reuse start :")
+	G.print("reuse start :")
 	var reuses = []
 	for idx in range(7) :
 		var each = pool.reuse()
-		print("%s : %s" % [idx, each.msg])
-		each.msg = "changed"
+		G.print("reused : %s, %s" % [idx+1, each.msg])
 		reuses.push_back(each)
-	print("reuse end")
+	G.print("reuse end")
 	
 	# 開始回收
-	print("recovery start :")	
+	G.print("recovery start :")	
 	for idx in range(reuses.size()) :
 		var each = reuses[idx]
 		pool.recovery(each)
-		print("%s : %s" % [idx, each.msg])
+		G.print("recovery : %s, %s" % [idx+1, each.msg])
 	
-	print("recovery end. obj alive = %s" % self.obj_alives)	
+	G.print("recovery end. obj alive = %s" % self.obj_alives)	
 	
 	# 重設尺寸
 	pool.set_size(0)
 	
 	# 重置尺寸
+	G.print("pool resize 0 start")
 	pool.resize()
 	
-	print("resize. obj alive = %s" % self.obj_alives)	
+	G.print("pool resized. obj alive = %s" % self.obj_alives)	

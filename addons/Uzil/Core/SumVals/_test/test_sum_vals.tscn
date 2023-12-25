@@ -1,0 +1,331 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7ee7kw0ftt0p"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Core/SumVals/_test/test_sum_vals.gd" id="1_31kfj"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_keep_text_edit_bottom.gd" id="2_pde5q"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_label", "opt_root", "opt_1", "opt_1_1", "opt_1_2", "opt_2", "opt_2_1", "opt_2_2")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_31kfj")
+debug_label = NodePath("VBoxContainer/Control/debug_label")
+opt_root = NodePath("VBoxContainer/HBoxContainer/VBoxContainer/root")
+opt_1 = NodePath("VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer5/opt_1")
+opt_1_1 = NodePath("VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6/opt_1_1")
+opt_1_2 = NodePath("VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6/opt_1_2")
+opt_2 = NodePath("VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer5/opt_2")
+opt_2_1 = NodePath("VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer6/opt_2_1")
+opt_2_2 = NodePath("VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer6/opt_2_2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="debug_label" type="TextEdit" parent="VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_pde5q")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.6
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.2
+
+[node name="simple" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_simple()"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.38
+alignment = 1
+
+[node name="root" type="Panel" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/root"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.002
+anchor_bottom = 1.0
+offset_right = -0.0900269
+
+[node name="Root" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer/root/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.2
+bbcode_enabled = true
+text = "Root"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="SumTxt" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer/root/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.4
+bbcode_enabled = true
+text = "[b]Sum(0)[/b]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer5" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.61
+alignment = 1
+
+[node name="opt_1" type="Panel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer5"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer5/opt_1"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.002
+anchor_bottom = 1.0
+offset_right = -0.0900269
+
+[node name="SumTxt" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer5/opt_1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.4
+bbcode_enabled = true
+text = "[b]Sum(0)[/b]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="SelfValTitle" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer5/opt_1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.2
+bbcode_enabled = true
+text = "Val"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="SelfVal" type="LineEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer5/opt_1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+placeholder_text = "number"
+
+[node name="VBoxContainer6" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.52
+
+[node name="opt_1_1" type="Panel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6/opt_1_1"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.002
+anchor_bottom = 1.0
+offset_right = -0.0900269
+
+[node name="SelfValTitle" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6/opt_1_1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.2
+bbcode_enabled = true
+text = "Val"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="SelfVal" type="LineEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6/opt_1_1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+placeholder_text = "number"
+
+[node name="opt_1_2" type="Panel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6/opt_1_2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.002
+anchor_bottom = 1.0
+offset_right = -0.0900269
+
+[node name="SelfValTitle" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6/opt_1_2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.2
+bbcode_enabled = true
+text = "Val"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="SelfVal" type="LineEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6/opt_1_2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+placeholder_text = "number"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer5" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.61
+alignment = 1
+
+[node name="opt_2" type="Panel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer5"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer5/opt_2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.002
+anchor_bottom = 1.0
+offset_right = -0.0900269
+
+[node name="SumTxt" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer5/opt_2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.4
+bbcode_enabled = true
+text = "[b]Sum(0)[/b]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="SelfValTitle" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer5/opt_2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.2
+bbcode_enabled = true
+text = "Val"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="SelfVal" type="LineEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer5/opt_2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+placeholder_text = "number"
+
+[node name="VBoxContainer6" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.52
+alignment = 1
+
+[node name="opt_2_1" type="Panel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer6"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer6/opt_2_1"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.002
+anchor_bottom = 1.0
+offset_right = -0.0900269
+
+[node name="SelfValTitle" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer6/opt_2_1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.2
+bbcode_enabled = true
+text = "Val"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="SelfVal" type="LineEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer6/opt_2_1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+placeholder_text = "number"
+
+[node name="opt_2_2" type="Panel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer6"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer6/opt_2_2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.002
+anchor_bottom = 1.0
+offset_right = -0.0900269
+
+[node name="SelfValTitle" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer6/opt_2_2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.2
+bbcode_enabled = true
+text = "Val"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="SelfVal" type="LineEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer2/VBoxContainer6/opt_2_2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+placeholder_text = "number"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxContainer2/simple" to="." method="test_simple"]

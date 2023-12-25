@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctr2qbwljfpge"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Core/Invoker/_test/test_invoker.gd" id="1_gaqge"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_keep_text_edit_bottom.gd" id="2_6bfvi"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gaqge")
+debug_label = NodePath("debug_label")
+
+[node name="debug_label" type="TextEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_6bfvi")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+offset_right = 132.0
+offset_bottom = 284.0
+
+[node name="once" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_once()"
+
+[node name="interval" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_interval()"
+
+[node name="update" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_update()"
+
+[node name="frame" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_frame()"
+
+[connection signal="button_down" from="VBoxContainer/once" to="." method="test_once"]
+[connection signal="button_down" from="VBoxContainer/interval" to="." method="test_interval"]
+[connection signal="button_down" from="VBoxContainer/update" to="." method="test_update"]
+[connection signal="button_down" from="VBoxContainer/frame" to="." method="test_frame"]

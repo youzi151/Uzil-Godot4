@@ -1,48 +1,29 @@
-[gd_scene load_steps=28 format=3 uid="uid://fn3l6wmscxgj"]
+[gd_scene load_steps=12 format=3 uid="uid://chy0dbw7xo7yc"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Test/test_active.gd" id="1_u23hv"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Options/_test/test_options.gd" id="3_1mpto"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/States/_test/test_states.gd" id="4_7dhvu"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/Audio/_test/test_audio.gd" id="4_x1mhw"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/UINav/_test/test_ui_nav.gd" id="5_ed4yo"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/_test/test_page_card.gd" id="5_s2mxj"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/UINav/_test/test_ui_nav_ui.gd" id="6_n6hbf"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/node/page_card_inst_node.gd" id="6_vrket"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/node/page_card_page_node.gd" id="7_18yfx"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Advance/PageCard/node/page_card_card_node.gd" id="8_meibt"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/UserSave/_test/test_user_save.gd" id="9_fjm8a"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/I18N/_test/test_i18n.gd" id="10_57jox"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/Flow/_test/test_flow.gd" id="11_10aq3"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/InputPipe/_test/test_input_pipe.gd" id="12_jf6en"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Basic/TagSearch/_test/test_tag_search.gd" id="13_7p71r"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/_test/test_vals.gd" id="14_dcrvg"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Vars/_test/test_vars.gd" id="15_cucxf"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/SumVals/_test/test_sum_vals.gd" id="16_inp4g"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Times/_test/test_times.gd" id="17_07aw6"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Invoker/_test/test_invoker.gd" id="18_m7kjt"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/ObjPool/_test/test_obj_pool.gd" id="19_l7b3s"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Core/Evt/_test/test_evt.gd" id="20_pyx6f"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_async.gd" id="21_5drqb"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_input.gd" id="22_mt2nc"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/RNG/_test/test_rng.gd" id="23_6cdbd"]
-[ext_resource type="Script" path="res://addons/Uzil/Scripts/Util/_test/test_math.gd" id="26_tdykx"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/test_uzil.gd" id="1_5gjy7"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_to_scene.gd" id="2_35jgj"]
+[ext_resource type="PackedScene" uid="uid://cl1apas1smffm" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.tscn" id="3_2hb03"]
+[ext_resource type="PackedScene" uid="uid://ctr2qbwljfpge" path="res://addons/Uzil/Core/Invoker/_test/test_invoker.tscn" id="3_ys2r3"]
+[ext_resource type="PackedScene" uid="uid://cd713gsxua2ru" path="res://addons/Uzil/Core/Evt/_test/test_evt.tscn" id="4_umw4o"]
+[ext_resource type="PackedScene" uid="uid://c7ee7kw0ftt0p" path="res://addons/Uzil/Core/SumVals/_test/test_sum_vals.tscn" id="5_8c3gy"]
+[ext_resource type="PackedScene" uid="uid://8ht5kb7sav4q" path="res://addons/Uzil/Core/Times/_test/test_times.tscn" id="5_w60v7"]
+[ext_resource type="PackedScene" uid="uid://djoxwlrttiqk4" path="res://addons/Uzil/Core/Vals/_test/test_vals.tscn" id="6_netom"]
+[ext_resource type="PackedScene" uid="uid://dxffevoyf0xv" path="res://addons/Uzil/Core/Vars/_test/test_vars.tscn" id="7_kq6kg"]
+[ext_resource type="PackedScene" uid="uid://b3rxanb1v50yy" path="res://addons/Uzil/Core/ObjPool/_test/test_obj_pool.tscn" id="9_ihyfe"]
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_mto8b"]
+[sub_resource type="Theme" id="Theme_kt5kl"]
 
 [node name="Uzil_Test" type="Node"]
+script = ExtResource("1_5gjy7")
+scenes_config_root_np = NodePath("scene/scenes")
+select_panel_np = NodePath("scene/UI/SelectPanel")
+list_container_np = NodePath("scene/UI/SelectPanel/ScrollContainer/VBoxContainer")
+scroll_container_np = NodePath("scene/UI/SelectPanel/ScrollContainer")
+test_scene_panel_np = NodePath("test_scene")
+test_scene_container_np = NodePath("test_scene/container")
+test_scene_title_np = NodePath("test_scene/title")
 
 [node name="scene" type="Node" parent="."]
-
-[node name="debug_msg" type="CodeEdit" parent="scene"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 77.0
-offset_top = 60.0
-offset_right = -77.0
-offset_bottom = -60.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="Camera3D" type="Camera3D" parent="scene"]
 transform = Transform3D(1, 0, 0, 0, 0.92755, 0.3737, 0, -0.3737, 0.92755, 0, 0.686304, 1.33365)
@@ -50,29 +31,7 @@ transform = Transform3D(1, 0, 0, 0, 0.92755, 0.3737, 0, -0.3737, 0.92755, 0, 0.6
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="scene"]
 transform = Transform3D(0.812908, 0.186443, -0.551743, 0, 0.947372, 0.320134, 0.582393, -0.260239, 0.770126, 0, 3.74558, 0)
 
-[node name="set_test_target" type="Node" parent="." node_paths=PackedStringArray("active_target")]
-script = ExtResource("1_u23hv")
-active_target = NodePath("../Core/Invoker")
-
-[node name="============" type="Node" parent="."]
-
-[node name="Advance" type="Node" parent="."]
-
-[node name="Options" type="Node" parent="Advance"]
-script = ExtResource("3_1mpto")
-
-[node name="Audio" type="Node" parent="Advance"]
-script = ExtResource("4_x1mhw")
-active = null
-
-[node name="States" type="Node" parent="Advance"]
-script = ExtResource("4_7dhvu")
-
-[node name="UINav" type="Node" parent="Advance"]
-script = ExtResource("5_ed4yo")
-test_ui_list = Array[NodePath]([NodePath("Control/Btn"), NodePath("Control/Btn2"), NodePath("Control/Btn3")])
-
-[node name="Control" type="Control" parent="Advance/UINav"]
+[node name="UI" type="Control" parent="scene"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -80,57 +39,112 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Btn" type="Control" parent="Advance/UINav/Control"]
-anchors_preset = 0
-offset_left = 205.83
-offset_top = 135.0
-offset_right = 305.83
-offset_bottom = 235.0
-script = ExtResource("6_n6hbf")
-control_np = NodePath("Button")
-
-[node name="Button" type="Button" parent="Advance/UINav/Control/Btn"]
+[node name="SelectPanel" type="Control" parent="scene/UI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-focus_mode = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Advance/UINav/Control/Btn/Button"]
+[node name="ColorRect" type="ColorRect" parent="scene/UI/SelectPanel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 36.0
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 36
-text = "A"
-fit_content = true
-autowrap_mode = 0
+color = Color(0.239216, 0.239216, 0.239216, 1)
 
-[node name="Btn2" type="Control" parent="Advance/UINav/Control"]
-anchors_preset = 0
-offset_left = 209.0
-offset_top = 274.0
-offset_right = 309.0
-offset_bottom = 374.0
-script = ExtResource("6_n6hbf")
-control_np = NodePath("Button")
+[node name="RichTextLabel" type="RichTextLabel" parent="scene/UI/SelectPanel"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 1.0
+offset_right = 1154.0
+offset_bottom = 57.0
+theme_override_font_sizes/normal_font_size = 40
+text = "Uzil"
 
-[node name="Button" type="Button" parent="Advance/UINav/Control/Btn2"]
+[node name="RichTextLabel2" type="RichTextLabel" parent="scene/UI/SelectPanel"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 50.0
+offset_right = 1156.0
+offset_bottom = 90.0
+theme_override_font_sizes/normal_font_size = 29
+text = "select a test scene"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="scene/UI/SelectPanel"]
 layout_mode = 1
+anchors_preset = -1
+offset_left = 30.0
+offset_top = 97.0
+offset_right = 1146.0
+offset_bottom = 642.0
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="scene/UI/SelectPanel/ScrollContainer"]
+layout_mode = 2
+theme = SubResource("Theme_kt5kl")
+
+[node name="scenes" type="Node" parent="scene"]
+
+[node name="Advance" type="Node" parent="scene/scenes"]
+
+[node name="Basic" type="Node" parent="scene/scenes"]
+
+[node name="TagQ" type="Node" parent="scene/scenes/Basic"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("3_2hb03")
+
+[node name="Core" type="Node" parent="scene/scenes"]
+
+[node name="Evt" type="Node" parent="scene/scenes/Core"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("4_umw4o")
+
+[node name="Invoker" type="Node" parent="scene/scenes/Core"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("3_ys2r3")
+
+[node name="ObjPool" type="Node" parent="scene/scenes/Core"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("9_ihyfe")
+
+[node name="SumVals" type="Node" parent="scene/scenes/Core"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("5_8c3gy")
+
+[node name="Times" type="Node" parent="scene/scenes/Core"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("5_w60v7")
+
+[node name="Vals" type="Node" parent="scene/scenes/Core"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("6_netom")
+
+[node name="Vars" type="Node" parent="scene/scenes/Core"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("7_kq6kg")
+
+[node name="Util" type="Node" parent="scene/scenes"]
+
+[node name="test_scene" type="Control" parent="."]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-focus_mode = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Advance/UINav/Control/Btn2/Button"]
+[node name="back" type="Button" parent="test_scene"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 13.0
+offset_right = 37.0
+offset_bottom = 41.0
+theme_override_font_sizes/font_size = 25
+
+[node name="Label" type="Label" parent="test_scene/back"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -138,194 +152,29 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -12.0
-offset_top = -26.0
+offset_top = -13.0
 offset_right = 12.0
-offset_bottom = 24.0
+offset_bottom = 13.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 36
-text = "B"
-fit_content = true
-autowrap_mode = 0
+text = "<"
+horizontal_alignment = 1
 
-[node name="Btn3" type="Control" parent="Advance/UINav/Control"]
-anchors_preset = 0
-offset_left = 355.0
-offset_top = 275.0
-offset_right = 455.0
-offset_bottom = 375.0
-script = ExtResource("6_n6hbf")
-control_np = NodePath("Button")
+[node name="title" type="RichTextLabel" parent="test_scene"]
+layout_mode = 0
+offset_left = 54.0
+offset_right = 1154.0
+offset_bottom = 56.0
+theme_override_font_sizes/normal_font_size = 40
+text = "TEST"
 
-[node name="Button" type="Button" parent="Advance/UINav/Control/Btn3"]
+[node name="container" type="Control" parent="test_scene"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 59.0
 grow_horizontal = 2
 grow_vertical = 2
-focus_mode = 0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Advance/UINav/Control/Btn3/Button"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -12.0
-offset_top = -26.0
-offset_right = 12.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 36
-text = "C"
-fit_content = true
-autowrap_mode = 0
-
-[node name="PageCard" type="Node" parent="Advance"]
-script = ExtResource("5_s2mxj")
-pagecard_inst_nodepath = NodePath("inst")
-
-[node name="inst" type="Node" parent="Advance/PageCard"]
-script = ExtResource("6_vrket")
-inst_key = null
-pages_nodepath = Array[NodePath]([NodePath("pages/page_3d_obj"), NodePath("pages/page_window"), NodePath("pages/page_popup"), NodePath("pages/page_none"), NodePath("pages/page_all")])
-cards_nodepath = Array[NodePath]([NodePath("cards/card_3d"), NodePath("cards/card_window"), NodePath("cards/card_popup")])
-
-[node name="CSGBox3D" type="CSGBox3D" parent="Advance/PageCard/inst"]
-transform = Transform3D(0.767931, 0, -0.624726, 0, 1, 0, 0.624726, 0, 0.767931, 0, 0, -0.0939036)
-visible = false
-
-[node name="window" type="TextureRect" parent="Advance/PageCard/inst"]
-visible = false
-modulate = Color(0.537255, 0.537255, 0.537255, 0.698039)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("CanvasTexture_mto8b")
-
-[node name="popup" type="TextureRect" parent="Advance/PageCard/inst"]
-visible = false
-modulate = Color(0.643137, 0.643137, 0.643137, 1)
-offset_left = 136.0
-offset_top = 77.0
-offset_right = 554.0
-offset_bottom = 375.0
-texture = SubResource("CanvasTexture_mto8b")
-
-[node name="pages" type="Node" parent="Advance/PageCard/inst"]
-
-[node name="page_3d_obj" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_18yfx")
-cards = Array[String](["card_3d"])
-
-[node name="page_window" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_18yfx")
-cards = Array[String](["card_window"])
-
-[node name="page_popup" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_18yfx")
-cards = Array[String](["card_popup"])
-
-[node name="page_none" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_18yfx")
-
-[node name="page_all" type="Node" parent="Advance/PageCard/inst/pages"]
-script = ExtResource("7_18yfx")
-cards = Array[String](["card_3d", "card_window", "card_popup"])
-
-[node name="cards" type="Node" parent="Advance/PageCard/inst"]
-
-[node name="card_3d" type="Node" parent="Advance/PageCard/inst/cards"]
-script = ExtResource("8_meibt")
-id = null
-tags = null
-targets_nodepath = Array[NodePath]([NodePath("../../CSGBox3D")])
-
-[node name="card_window" type="Node" parent="Advance/PageCard/inst/cards"]
-script = ExtResource("8_meibt")
-id = null
-tags = Array[String](["2d"])
-targets_nodepath = Array[NodePath]([NodePath("../../window")])
-
-[node name="card_popup" type="Node" parent="Advance/PageCard/inst/cards"]
-script = ExtResource("8_meibt")
-id = null
-tags = Array[String](["2d"])
-targets_nodepath = Array[NodePath]([NodePath("../../popup")])
-
-[node name="Basic" type="Node" parent="."]
-
-[node name="UserSave" type="Node" parent="Basic"]
-script = ExtResource("9_fjm8a")
-active = null
-
-[node name="I18N" type="Node" parent="Basic"]
-script = ExtResource("10_57jox")
-
-[node name="Flow" type="Node" parent="Basic"]
-script = ExtResource("11_10aq3")
-
-[node name="InputPipe" type="Node" parent="Basic"]
-script = ExtResource("12_jf6en")
-
-[node name="TagSearch" type="Node" parent="Basic"]
-script = ExtResource("13_7p71r")
-active = null
-
-[node name="Core" type="Node" parent="."]
-
-[node name="Vals" type="Node" parent="Core"]
-script = ExtResource("14_dcrvg")
-
-[node name="Vars" type="Node" parent="Core"]
-script = ExtResource("15_cucxf")
-
-[node name="SumVals" type="Node" parent="Core"]
-script = ExtResource("16_inp4g")
-
-[node name="Times" type="Node" parent="Core"]
-script = ExtResource("17_07aw6")
-spin_panels = Array[NodePath]([NodePath("PanelContainer"), NodePath("PanelContainer2")])
-
-[node name="PanelContainer" type="PanelContainer" parent="Core/Times"]
-visible = false
-offset_left = 117.0
-offset_top = 118.0
-offset_right = 157.0
-offset_bottom = 158.0
-
-[node name="PanelContainer2" type="PanelContainer" parent="Core/Times"]
-visible = false
-offset_left = 247.0
-offset_top = 116.0
-offset_right = 287.0
-offset_bottom = 156.0
-
-[node name="Invoker" type="Node" parent="Core"]
-script = ExtResource("18_m7kjt")
-active = null
-
-[node name="ObjPool" type="Node" parent="Core"]
-script = ExtResource("19_l7b3s")
-
-[node name="Evt" type="Node" parent="Core"]
-script = ExtResource("20_pyx6f")
-
-[node name="Util" type="Node" parent="."]
-
-[node name="async" type="Node" parent="Util"]
-script = ExtResource("21_5drqb")
-
-[node name="input" type="Node" parent="Util"]
-script = ExtResource("22_mt2nc")
-
-[node name="RNG" type="Node" parent="Util"]
-script = ExtResource("23_6cdbd")
-
-[node name="math" type="Node" parent="Util"]
-script = ExtResource("26_tdykx")
+[connection signal="pressed" from="test_scene/back" to="." method="on_back_btn"]

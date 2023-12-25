@@ -5,49 +5,86 @@ extends Uzil_Test_Base
 var times := []
 
 @export
-var spin_panels : Array[NodePath] = []
+var debug_label : TextEdit
 
-var _spin_panels : Array[Node] = []
+@export
+var spin_panels : Array[Node] = []
+
+var is_test_spin := false
 
 # Extends ====================
 
-func test_ready():
-	self.process_mode = Node.PROCESS_MODE_ALWAYS
-	
-	var times_mgr = UREQ.acc("Uzil", "times_mgr")
-	var times_inst_A = times_mgr.inst("A")
-	
-	self.times.push_back(times_inst_A)
-	times_inst_A.set_timing_in_background(true, "test", 0)
-	times_inst_A.set_scale(2)
-	
-	self.times.push_back(times_mgr.inst("B"))
-	
-#	self.times.push_back(times_mgr.inst("C"))
-
-	for each_path in self.spin_panels :
-		var chain : Node = self.get_node(each_path)
-		chain.visible = true
-		self._spin_panels.push_back(chain)
-	
-func test_process(_delta):
-	var arr := []
-	for idx in range(0, self.times.size()) :
-		var each = self.times[idx]
-		arr.push_back(each.name)
-		arr.push_back(each.now())
-		(self._spin_panels[idx] as Control).rotation_degrees += 50 * each.dt() * 0.001
-	
-	print("%s:%s, %s:%s" % arr)
-
 # GDScript ===================
 
+func _ready():
+	G.on_print(func(msg) : 
+		self.debug_label.text += msg+"\n"
+	, "test_times")
+	
+	
+func _process(_delta):
+	
+	if self.is_test_spin :
+		
+		var debug_arr := []
+		
+		for idx in range(0, self.times.size()) :
+			var each = self.times[idx]
+			var dt : int = each.dt()
+			
+			# 以 delta_time 旋轉
+			(self.spin_panels[idx] as Control).rotation_degrees += 50 * dt * 0.001
+			
+			# 紀錄 名稱與當下時間
+			debug_arr.push_back(each.name)
+			debug_arr.push_back(each.now())
+			debug_arr.push_back(dt)
+		
+		G.print("%s:%s dt(%s)  |  %s:%s  dt(%s)" % debug_arr)
+
+
 func _notification(what) :
-	if not self.active : return
 	match what :
 		MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN :
-			print("focus in")
+			G.print("focus in")
 		MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT :
-			print("focus out")
+			G.print("focus out")
+
+func _exit_tree () :
+	
+	G.off_print("test_times")
 
 # Public =====================
+
+func test_normal () :
+	
+	if self.is_test_spin : 
+		self.is_test_spin = false
+		return
+	else :
+		self.is_test_spin = true
+	
+	self.times.clear()
+	
+	
+	# 時間實體管理
+	var times_mgr = UREQ.acc("Uzil", "times_mgr")
+	
+	
+	# 時間實體 A ====
+	self.times.push_back(times_mgr.inst("A"))
+	
+	# 時間實體 B ====
+	var times_inst_B = times_mgr.inst("B")
+	
+	# 設置 是否在背景計時 true:計時, "test":使用者, 0:設置優先度
+	# (以Vals機制設置, 詳見Vals)
+	times_inst_B.set_timing_in_background(true, "test", 0)
+	
+	# 設置時間比例
+	times_inst_B.set_scale(2)
+	
+	self.times.push_back(times_inst_B)
+	
+	
+
