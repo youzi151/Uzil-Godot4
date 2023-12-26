@@ -13,15 +13,16 @@
 
 [sub_resource type="Theme" id="Theme_kt5kl"]
 
-[node name="Uzil_Test" type="Node"]
+[node name="Uzil_Test" type="Node" node_paths=PackedStringArray("scenes_config_root", "select_panel", "list_container", "scroll_container", "back_btn", "test_scene_panel", "test_scene_container", "test_scene_title")]
 script = ExtResource("1_5gjy7")
-scenes_config_root_np = NodePath("scene/scenes")
-select_panel_np = NodePath("scene/UI/SelectPanel")
-list_container_np = NodePath("scene/UI/SelectPanel/ScrollContainer/VBoxContainer")
-scroll_container_np = NodePath("scene/UI/SelectPanel/ScrollContainer")
-test_scene_panel_np = NodePath("test_scene")
-test_scene_container_np = NodePath("test_scene/container")
-test_scene_title_np = NodePath("test_scene/title")
+scenes_config_root = NodePath("scene/scenes")
+select_panel = NodePath("scene/UI/SelectPanel")
+list_container = NodePath("scene/UI/SelectPanel/ScrollContainer/MarginContainer/VBoxContainer")
+scroll_container = NodePath("scene/UI/SelectPanel/ScrollContainer")
+back_btn = NodePath("scene/UI/SelectPanel/ColorRect/back")
+test_scene_panel = NodePath("test_scene")
+test_scene_container = NodePath("test_scene/container")
+test_scene_title = NodePath("test_scene/title")
 
 [node name="scene" type="Node" parent="."]
 
@@ -55,6 +56,31 @@ offset_right = 36.0
 grow_vertical = 2
 color = Color(0.239216, 0.239216, 0.239216, 1)
 
+[node name="back" type="Button" parent="scene/UI/SelectPanel/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+
+[node name="Label" type="Label" parent="scene/UI/SelectPanel/ColorRect/back"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -13.0
+offset_right = 12.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "<"
+horizontal_alignment = 1
+
 [node name="RichTextLabel" type="RichTextLabel" parent="scene/UI/SelectPanel"]
 layout_mode = 0
 offset_left = 54.0
@@ -76,13 +102,18 @@ text = "select a test scene"
 [node name="ScrollContainer" type="ScrollContainer" parent="scene/UI/SelectPanel"]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 30.0
+offset_left = 36.0
 offset_top = 97.0
 offset_right = 1146.0
 offset_bottom = 642.0
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="scene/UI/SelectPanel/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="scene/UI/SelectPanel/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="scene/UI/SelectPanel/ScrollContainer/MarginContainer"]
 layout_mode = 2
 theme = SubResource("Theme_kt5kl")
 
@@ -129,6 +160,7 @@ scene = ExtResource("7_kq6kg")
 [node name="Util" type="Node" parent="scene/scenes"]
 
 [node name="test_scene" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -136,7 +168,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="back" type="Button" parent="test_scene"]
+[node name="home" type="Button" parent="test_scene"]
 layout_mode = 0
 offset_left = 11.0
 offset_top = 13.0
@@ -144,7 +176,7 @@ offset_right = 37.0
 offset_bottom = 41.0
 theme_override_font_sizes/font_size = 25
 
-[node name="Label" type="Label" parent="test_scene/back"]
+[node name="Label" type="Label" parent="test_scene/home"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -177,4 +209,5 @@ offset_top = 59.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[connection signal="pressed" from="test_scene/back" to="." method="on_back_btn"]
+[connection signal="pressed" from="scene/UI/SelectPanel/ColorRect/back" to="." method="on_back_btn"]
+[connection signal="pressed" from="test_scene/home" to="." method="on_home_btn"]
