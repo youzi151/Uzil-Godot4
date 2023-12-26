@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_uzil.gd" id="1_5gjy7"]
 [ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_to_scene.gd" id="2_35jgj"]
-[ext_resource type="PackedScene" uid="uid://cl1apas1smffm" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.tscn" id="3_2hb03"]
+[ext_resource type="PackedScene" uid="uid://cl1apas1smffm" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.tscn" id="3_q32di"]
 [ext_resource type="PackedScene" uid="uid://ctr2qbwljfpge" path="res://addons/Uzil/Core/Invoker/_test/test_invoker.tscn" id="3_ys2r3"]
 [ext_resource type="PackedScene" uid="uid://cd713gsxua2ru" path="res://addons/Uzil/Core/Evt/_test/test_evt.tscn" id="4_umw4o"]
 [ext_resource type="PackedScene" uid="uid://c7ee7kw0ftt0p" path="res://addons/Uzil/Core/SumVals/_test/test_sum_vals.tscn" id="5_8c3gy"]
@@ -94,7 +94,7 @@ theme = SubResource("Theme_kt5kl")
 
 [node name="TagQ" type="Node" parent="scene/scenes/Basic"]
 script = ExtResource("2_35jgj")
-scene = ExtResource("3_2hb03")
+scene = ExtResource("3_q32di")
 
 [node name="Core" type="Node" parent="scene/scenes"]
 

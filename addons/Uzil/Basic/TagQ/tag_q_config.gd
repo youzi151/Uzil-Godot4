@@ -1,5 +1,5 @@
 
-## TagSearch.Config 設定
+## TagQ.Config 設定
 ## 
 ## 一些 常數 或 正則式 的設定.
 ##

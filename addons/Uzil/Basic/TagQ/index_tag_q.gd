@@ -1,6 +1,6 @@
 # desc ==========
 
-## 索引 TagSearch 標籤檢索
+## 索引 TagQ 標籤檢索
 ##
 ## 標籤檢索系統, tag可帶有negative, scope, attr屬性.[br]
 ## 可定義 如: %&/role:tank表示 角色定位 的 坦 tag, 並帶有 % 與 & 標記 供外部用途使用 [br]
@@ -32,28 +32,28 @@ var TagData
 ## 建立索引
 func index (Uzil, _parent_index) :
 	
-	self.PATH = _parent_index.PATH.path_join("TagSearch")
+	self.PATH = _parent_index.PATH.path_join("TagQ")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Basic.TagSearch",
+	UREQ.bind("Uzil", "Basic.TagQ",
 		func () :
-			self.Config = Uzil.load_script(self.PATH.path_join("tag_search_config.gd"))
-			self.Inst = Uzil.load_script(self.PATH.path_join("tag_search_inst.gd"))
-			self.Mgr = Uzil.load_script(self.PATH.path_join("tag_search_mgr.gd"))
-			self.TagData = Uzil.load_script(self.PATH.path_join("tag_search_tag_data.gd"))
+			self.Config = Uzil.load_script(self.PATH.path_join("tag_q_config.gd"))
+			self.Inst = Uzil.load_script(self.PATH.path_join("tag_q_inst.gd"))
+			self.Mgr = Uzil.load_script(self.PATH.path_join("tag_q_mgr.gd"))
+			self.TagData = Uzil.load_script(self.PATH.path_join("tag_q_tag_data.gd"))
 			return self,
 		{
-			"alias" : ["TagSearch"],
+			"alias" : ["TagQ"],
 		}
 	)
 	
 	# 綁定 實體
-	UREQ.bind("Uzil", "tag_search_mgr", 
+	UREQ.bind("Uzil", "tag_q_mgr", 
 		func () :
 			return self.Mgr.new(null), 
 		{
-			"alias" : ["tag_search", "tagsearch"],
-			"requires" : ["Basic.TagSearch"],
+			"alias" : ["tag_q", "tagq"],
+			"requires" : ["Basic.TagQ"],
 		}
 	)
 	
