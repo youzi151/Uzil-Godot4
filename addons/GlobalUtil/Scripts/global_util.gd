@@ -22,7 +22,7 @@ var v := {}
 # GDScript ===================
 
 func _init () :
-	self.Log = preload("res://addons/GlobalUtil/Scripts/logger.gd").new()
+	self.Log = ResourceLoader.load("res://addons/GlobalUtil/Scripts/logger.gd").new()
 
 # Extends ====================
 
@@ -47,6 +47,15 @@ func on_print (fn : Callable, tag : String = "") :
 ## 註銷 當印出
 func off_print (tag : String = "") :
 	self.Log.off_print(tag)
+
+## 讀取腳本
+func load_script (path : String) :
+	var stack = get_stack()
+	for each in stack :
+		if each.source == path :
+			push_error("can't load script already in run stack")
+			return null
+	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
 
 # Private ====================
 

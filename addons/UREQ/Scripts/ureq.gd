@@ -35,9 +35,9 @@ func _init () :
 	# 設置 為 全域G變數 UREQ
 	G.set_global("UREQ", self)
 	
-	self.Access = self.load_script(PATH.path_join("ureq_access.gd"))
-	self.Scope = self.load_script(PATH.path_join("ureq_scope.gd"))
-	self.Task = self.load_script(PATH.path_join("ureq_task.gd"))
+	self.Access = G.load_script(self.PATH.path_join("ureq_access.gd"))
+	self.Scope = G.load_script(self.PATH.path_join("ureq_scope.gd"))
+	self.Task = G.load_script(self.PATH.path_join("ureq_task.gd"))
 
 # Called when the node enters the scene tree for the first time.
 func _ready () :
@@ -85,15 +85,6 @@ func scope (key := "") :
 	var scope = self.Scope.new(key, self)
 	self.key_to_scope[key] = scope
 	return scope
-
-## 讀取腳本
-func load_script (path) :
-	var stack = get_stack()
-	for each in stack :
-		if each.source == path :
-			push_error("can't load script already in run stack")
-			return null
-	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
 
 
 ## 排序模塊 以依賴關係

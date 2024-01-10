@@ -20,13 +20,9 @@ G="*res://addons/GlobalUtil/Scripts/global_util.gd"
 UREQ="*res://addons/UREQ/Scripts/ureq.gd"
 Uzil_Init="*res://addons/Uzil/uzil_init.gd"
 
-[display]
-
-window/size/borderless=true
-
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GlobalUtil/plugin.cfg", "res://addons/UREQ/plugin.cfg", "res://addons/UzUpdater/plugin.cfg", "res://addons/Uzil/plugin.cfg")
+enabled=PackedStringArray("res://addons/GlobalUtil/plugin.cfg", "res://addons/UREQ/plugin.cfg", "res://addons/Uzil/plugin.cfg")
 
 [input]
 
@@ -35,8 +31,10 @@ touch={
 "events": []
 }
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true

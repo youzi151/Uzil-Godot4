@@ -1,0 +1,10 @@
+
+{
+	"requires" : [
+		"file://addons/Uzil/Basic/Res/_test/test_res_preset_middle.json",
+		"file://addons/Uzil/Basic/Res/_test/test_res_preset_base.json",
+	],
+	"resources" : [
+		"file://addons/Uzil/Basic/Res/_test/res/res_target.txt",
+	]
+}

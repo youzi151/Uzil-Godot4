@@ -17,6 +17,8 @@ var sub_indexes := []
 
 # inst ==========
 
+## 資源
+var Res
 ## 流程
 var Flow
 ## 輸入操作
@@ -37,6 +39,9 @@ var TagQ
 func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("Basic")
+	
+	self.Res = Uzil.load_script(self.PATH.path_join("Res/index_res.gd")).new()
+	self.sub_indexes.push_back(self.Res)
 	
 	self.UserSave = Uzil.load_script(self.PATH.path_join("UserSave/index_user_save.gd")).new()
 	self.sub_indexes.push_back(self.UserSave)
