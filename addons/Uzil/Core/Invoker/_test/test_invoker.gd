@@ -22,7 +22,7 @@ var update_task_tag := ""
 
 func _ready () :
 	
-	var invoker_mgr = UREQ.acc("Uzil", "invoker")
+	var invoker_mgr = UREQ.acc("Uzil", "invoker_mgr")
 	self.invoker_inst = invoker_mgr.inst()
 	
 	G.on_print(func (msg):

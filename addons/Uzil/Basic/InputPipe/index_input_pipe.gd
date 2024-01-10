@@ -103,10 +103,10 @@ func get_handler_script (name_or_path) :
 func new_handler (id, name_or_path, data) :
 	var script = self.get_handler_script(name_or_path)
 	if script == null : return null
-	var core = script.new()
-	if core == null : return null
+	var strat = script.new()
+	if strat == null : return null
 	
-	var handler = self.Handler.new(core)
+	var handler = self.Handler.new(strat)
 	handler.id = id
 	handler.load_memo(data)
 	return handler

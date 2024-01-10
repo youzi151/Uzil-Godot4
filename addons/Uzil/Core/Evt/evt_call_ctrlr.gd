@@ -15,6 +15,9 @@ var _current_listener = null
 ## 是否已停止呼叫
 var _is_call_stop := false
 
+## 特定標籤
+var _specific_tags := []
+
 ## 忽略標籤
 var _ignore_tags := []
 
@@ -48,13 +51,23 @@ func stop () :
 func is_call_stop () -> bool :
 	return self._is_call_stop
 
+## 指定
+func specific (tag : String) :
+	if not self._specific_tags.has(tag) :
+		self._specific_tags.push_back(tag)
+
+## 指定
+func specifics (tags : Array) :
+	for each in tags :
+		self.specific(each)
+
 ## 忽略
 func ignore (tag : String) :
 	if not self._ignore_tags.has(tag) :
 		self._ignore_tags.push_back(tag)
 
 ## 忽略
-func ignores (tags : Array[String]) :
+func ignores (tags : Array) :
 	for each in tags :
 		self.ignore(each)
 
@@ -63,7 +76,14 @@ func get_ignores () -> Array[String] :
 	return self._ignore_tags
 
 ## 是否忽略
-func is_ignores (tags : Array[String]) -> bool :
+func is_ignores (tags : Array) -> bool :
 	for each in self._ignore_tags :
 		if tags.has(each) : return true
+	
+	if self._specific_tags.size() > 0 :
+		for each in self._specific_tags :
+			if not tags.has(each) :
+				return true
+			
+		
 	return false

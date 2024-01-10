@@ -9,6 +9,10 @@
 
 # Interface ==================
 
+## 設置 核心
+func set_core (core) :
+	pass
+
 ## 處理 訊號
 func handle_msg (input_msg) :
 	
@@ -19,5 +23,6 @@ func handle_msg (input_msg) :
 ## 讀取
 func load_memo (_memo : Dictionary) :
 	pass
+
 # Private ====================
 

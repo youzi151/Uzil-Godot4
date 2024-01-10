@@ -3,15 +3,19 @@ extends Node
 
 # Variable ===================
 
+## 幀錯文字
 @export
 var debug_label : TextEdit
 
+## 搜尋輸入
 @export
 var search_edit : LineEdit
 
+## 成員容器
 @export
 var member_container : Node
 
+## 成員預製物件
 @export
 var member_prefab : Node
 
@@ -20,7 +24,7 @@ var tag_q = null
 
 var target_to_content := {}
 
-# GDScript ====================
+# GDScript ===================
 
 func _ready () :
 	G.on_print(func(msg):

@@ -15,7 +15,7 @@ var _id : String = ""
 var _state : int = 0
 
 ## 核心
-var _core = null
+var _strat = null
 
 ## 後續節點
 var next_chains : Array = []
@@ -26,13 +26,13 @@ var _inst_cache = null
 
 # GDScript ===================
 
-func _init (core) :
+func _init (strat) :
 	self.Flow = UREQ.acc("Uzil", "Basic.Flow")
 	
 	self._state = self.Flow.ActiveState.INACTIVE
-	self._core = core
-	if core.has_method("_set_shell") == false : return
-	core._set_shell(self)
+	self._strat = strat
+	if strat.has_method("_set_core") == false : return
+	strat._set_core(self)
 
 # Interface ==================
 
@@ -86,17 +86,19 @@ func destroy () :
 func id () -> String :
 	return self._id
 
+## 取得策略
+func strat () :
+	return self._strat
+
 ## 進入
 func enter () :
 	self._state = self.Flow.ActiveState.ACTIVE
 	self._on_enter()
 	
-
 ## 離開
 func exit () :
 	self._state = self.Flow.ActiveState.INACTIVE
 	self._on_exit()
-	
 
 ## 新增 後續節點
 func add_next (chain_id : String) :
@@ -115,45 +117,45 @@ func get_nexts () -> Array :
 
 ## 當 初始化 
 func _on_init (_args) :
-	if self._core == null : return
-	if self._core.has_method("_on_init") == false : return
-	self._core._on_init(_args)
+	if self._strat == null : return
+	if self._strat.has_method("_on_init") == false : return
+	self._strat._on_init(_args)
 
 ## 當 銷毀 
 func _on_destroy () :
-	if self._core == null : return
-	if self._core.has_method("_on_destroy") == false : return
-	self._core._on_destroy()
+	if self._strat == null : return
+	if self._strat.has_method("_on_destroy") == false : return
+	self._strat._on_destroy()
 
 ## 讀取 紀錄
 func _load_memo (_memo) :
-	if self._core == null : return
-	if self._core.has_method("_load_memo") == false : return
-	self._core._load_memo(_memo)
+	if self._strat == null : return
+	if self._strat.has_method("_load_memo") == false : return
+	self._strat._load_memo(_memo)
 
 ## 匯出 紀錄
 func _to_memo (_memo, _args) :
-	if self._core == null : return {}
-	if self._core.has_method("_to_memo") == false : return {}
-	return self._core._to_memo(_memo, _args)
+	if self._strat == null : return {}
+	if self._strat.has_method("_to_memo") == false : return {}
+	return self._strat._to_memo(_memo, _args)
 
 ## 當 進入
 func _on_enter () :
-	if self._core == null : return
-	if self._core.has_method("_on_enter") == false : return
-	self._core._on_enter()
+	if self._strat == null : return
+	if self._strat.has_method("_on_enter") == false : return
+	self._strat._on_enter()
 
 ## 當 每幀更新
 func _on_process (_dt) :
-	if self._core == null : return
-	if self._core.has_method("_on_process") == false : return
-	self._core._on_process(_dt)
+	if self._strat == null : return
+	if self._strat.has_method("_on_process") == false : return
+	self._strat._on_process(_dt)
 
 ## 當 離開
 func _on_exit () :
-	if self._core == null : return
-	if self._core.has_method("_on_exit") == false : return
-	self._core._on_exit()
+	if self._strat == null : return
+	if self._strat.has_method("_on_exit") == false : return
+	self._strat._on_exit()
 
 # Private ====================
 

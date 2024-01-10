@@ -14,15 +14,15 @@ var id := ""
 ## 來源key
 var src_keys := []
 
-## 核心
-var _core = null
+## 策略
+var _strat = null
 
 # GDScript ===================
 
-func _init (core) :
-	self._core = core
-	if self._core.has_method("_set_shell") :
-		self._core._set_shell(self)
+func _init (strat) :
+	self._strat = strat
+	if self._strat.has_method("_set_core") :
+		self._strat._set_core(self)
 	
 
 # Extends ====================
@@ -31,15 +31,15 @@ func _init (core) :
 
 ## 處理 訊號
 func handle_msg (input_msg) :
-	if self._core == null : return input_msg
+	if self._strat == null : return input_msg
 	if not input_msg.real_key in self.src_keys : return input_msg
-	return self._core.handle_msg(input_msg)
+	return self._strat.handle_msg(input_msg)
 
 ## 讀取
 func load_memo (_memo : Dictionary) :
 	if _memo.has("src") :
 		self.src_keys = _memo["src"]
-		
-	if self._core and self._core.has_method("load_memo") :
-		self._core.load_memo(_memo)
+	
+	if self._strat and self._strat.has_method("load_memo") :
+		self._strat.load_memo(_memo)
 	

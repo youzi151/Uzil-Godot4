@@ -53,16 +53,6 @@ func set_inst (inst) :
 
 # Public =====================
 
-## 設置 目錄路徑
-func set_folder (_folder_path) :
-	
-	self.folder_path = _folder_path
-	
-	# 更新 路徑
-	self._update_full_path()
-	
-	return self
-
 ## 設置 用戶 名稱
 func set_user (_user_name) :
 	
@@ -70,6 +60,16 @@ func set_user (_user_name) :
 	
 	# 設置 配置存檔 用戶名稱
 	self.profile.sync_from_user(_user_name)
+	# 更新 路徑
+	self._update_full_path()
+	
+	return self
+
+## 設置 目錄路徑
+func set_folder (_folder_path) :
+	
+	self.folder_path = _folder_path
+	
 	# 更新 路徑
 	self._update_full_path()
 	

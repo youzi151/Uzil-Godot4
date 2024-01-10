@@ -21,6 +21,9 @@ var real_key := 0
 ## 虛擬 key
 var virtual_key := 0
 
+## 排序
+var sort := 0
+
 ## 來源訊號
 var src_msg = null
 
@@ -66,13 +69,13 @@ func get_ignores (is_src_streamed := true) -> Array[String] :
 	return self._ignore_tags
 
 ## 是否忽略
-func is_ignores (tags : Array[String], is_src_streamed := true) -> bool :
+func is_ignores (tags : Array, is_src_streamed := true) -> bool :
 	var self_ignores = self.get_ignores(is_src_streamed)
 	for each in tags :
 		if self_ignores.has(each) : return true
 	return false
 
-## 忽略
+## 忽略 (不傳遞給之後有對應tag的layer)
 func ignore (tag : String, is_src_streamed := true) :
 	if not self._ignore_tags.has(tag) :
 		self._ignore_tags.push_back(tag)
@@ -82,7 +85,7 @@ func ignore (tag : String, is_src_streamed := true) :
 		if self.src_msg != null :
 			return self.src_msg.ignore(tag, true)
 
-## 終止
+## 終止 (不傳遞給之後的layer)
 func stop (is_src_streamed := true) :
 	
 	self._is_alive = false

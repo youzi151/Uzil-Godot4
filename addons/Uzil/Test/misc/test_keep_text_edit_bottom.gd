@@ -23,9 +23,11 @@ func _ready():
 		print("fallback to %s" % self.last_scroll)
 	)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	self.keep_bottom()
+
+func keep_bottom () :
 	if self.text_edit == null : return
 	
 	# 文字是否改變

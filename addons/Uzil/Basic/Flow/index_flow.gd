@@ -18,6 +18,7 @@ var PATH : String
 enum ActiveState {
 	INACTIVE,
 	ACTIVE,
+	PAUSE,
 	COMPLETE
 }
 
@@ -27,7 +28,7 @@ enum ActiveState {
 var Mgr
 ## 流程器 實體
 var Inst
-## 門檻
+## 條件
 var Gate
 ## 事件
 var Event

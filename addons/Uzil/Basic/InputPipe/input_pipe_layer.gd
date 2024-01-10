@@ -201,7 +201,9 @@ func call_input (input_msg) :
 
 ## 呼叫 所有訊號
 func call_all_input () :
-	for each in self._vkey_to_msg.values() :
+	var msgs := self._vkey_to_msg.values()
+	msgs.sort_custom(func(a, b): return a.sort < b.sort)
+	for each in msgs :
 		self.call_input(each)
 
 # Private ====================

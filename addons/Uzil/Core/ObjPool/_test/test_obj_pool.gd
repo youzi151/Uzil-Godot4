@@ -10,7 +10,6 @@ var obj_alives := 0
 # GDScript ===================
 
 func _ready () :
-	self.debug_label = self.get_node(self.debug_label_np)
 	G.on_print(func(msg):
 		self.debug_label.text += msg+"\n"
 	, "test_obj_pool")

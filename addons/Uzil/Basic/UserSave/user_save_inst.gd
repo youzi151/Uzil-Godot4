@@ -40,7 +40,7 @@ func set_setting (_setting) :
 ## 讀取 整個
 func read (path) :
 	# 開啟檔案
-	var file : FileAccess = FileAccess.open(self._get_file_path(path), FileAccess.READ)
+	var file : FileAccess = FileAccess.open(self.get_file_path(path), FileAccess.READ)
 	
 	# 若 檔案不存在 則 返回 空
 	if file == null :
@@ -51,7 +51,7 @@ func read (path) :
 	
 	# 檢查版本 並 警告 與 處理
 	# TODO
-#	print(format_version)
+#	G.print(format_version)
 	
 	# 內容
 	var content = file.get_var()
@@ -62,7 +62,8 @@ func read (path) :
 	# 返回
 	return content
 
-## 讀取 值 (若可以則優先讀取快取)
+## 讀取 字典 值 (若可以則優先讀取快取)
+# 考慮到穩定性, 不考慮 非字典中值路徑 的狀況
 func read_val (path, route) :
 	# 內容
 	var content
@@ -72,44 +73,41 @@ func read_val (path, route) :
 	# 否則 讀取
 	else :
 		content = self.read(path)
-	
 	# 若 內容 為 空 則 返回 空
-	if content == null :
-		return null
+	if content == null : return null
 	
-	# 依照 讀取到的內容 類型
-	match typeof(content) :
+	# 若 內容類型 非 字典
+	if typeof(content) != TYPE_DICTIONARY : 
+		G.print("[Uzil.Basic.UserData.Inst.read_val] content is not dictionary")
+		return null
 		
-		TYPE_DICTIONARY :
-			
-			var curr = content
-			
-			# 值 路徑
-			var routes = route.split("/")
-			for each in routes :
-				
-				# 若 下一個 路徑不存在 則 返回空
-				if curr.has(each) == false :
-					return null
-				
-				# 設 目前 為 下一個	
-				curr = curr[each]
-
-			return curr
-			
-		_ : 
-			
-			return content
+	var curr = content
+	
+	# 值 路徑
+	var routes = route.split("/", false)
+	# 若 值路徑 無效 則 返回 空
+	if routes.size() == 0 : return null
+	for each in routes :
+		
+		# 若 下一個 路徑不存在 則 返回空
+		if curr.has(each) == false :
+			return null
+		
+		# 設 目前 為 下一個	
+		curr = curr[each]
+		
+	return curr
+		
 
 ## 寫入 整個
 func write (path, content) :
 	
 	# 若 要寫入的內容 為 空 則 返回
 	if content == null :
-		return
+		content = {}
 	
 	# 取得 完整檔案路徑
-	var file_path = self._get_file_path(path)
+	var file_path = self.get_file_path(path)
 	
 	# 檢查 資料夾 是否存在
 	var dir_path = file_path.get_base_dir()
@@ -136,12 +134,11 @@ func write (path, content) :
 	if self.is_use_cache :
 		self._file_path_to_cache[path] = content
 
-## 寫入 值
+## 寫入 字典 值
+# 考慮到穩定性, 不考慮 非字典中值路徑 的狀況
 func write_val (path, route, val) :
-	# 若 值路徑 為 空 則 返回
-	if route == null :
-		print("[Uzil.Basic.UserData.Base.write_val] route is null")
-		return
+	
+	var is_erase := val == null
 		
 	# 內容
 	var content
@@ -159,38 +156,84 @@ func write_val (path, route, val) :
 		
 	# 若 內容 存在
 	else :
-		# 若 內容類型 不為 容器 (陣列或字串)
+		# 若 內容類型 不為 容器
 		var typ = typeof(content)
-		if typ != TYPE_ARRAY and typ != TYPE_DICTIONARY :
+		if typ != TYPE_DICTIONARY :
 			# 返回 (無法讀取值)
-			print("[Uzil.Basic.UserData.Base.write_val] file does not store dictionary, can not access member value")
+			G.print("[Uzil.Basic.UserData.Inst.write_val] file does not store dictionary, can not access member value")
 			return
 	
 	# 當前
 	var curr = content
+	var parent = curr
 	
 	# 每個 值路徑 (除了最後一個要寫入的)
-	var routes = route.split("/")
+	var routes = route.split("/", false)
 	var routes_size = routes.size()
-	for idx in range(routes_size-1) :
-		var each = routes[idx]
+	
+	# 若 值路徑 無效 則 返回
+	if routes_size == 0 : return
+	
+	for idx in range(routes_size) :
+		var each_route = routes[idx]
 		
-		# 若 值路徑 存在 則 取用
-		if curr.has(each) :
-			curr = curr[each]
-		# 否則 新建立
+		var is_curr_dict := typeof(curr) == TYPE_DICTIONARY
+		if not is_erase :
+			
+			if not is_curr_dict :
+				if idx == 0 :
+					curr = {}
+					content = curr
+				else :
+					curr = {}
+					var last_route = routes[idx-1]
+					parent[last_route] = curr
+			
+			# 若 超出 最後一個值路徑 則 跳出
+			if idx >= routes_size-1 : break
+			
+			# 設 上個 為 當前
+			parent = curr
+			
+			# 若 值路徑 不存在 則
+			if not curr.has(each_route) :
+				# 新建立
+				curr[each_route] = {}
+				
+			# 設 當前 為 下個
+			curr = curr[each_route]
+				
 		else :
-			var new_dict = {}
-			curr[each] = new_dict
-			curr = new_dict
+			
+			# 若 是移除 且 值路徑 又不是 dictionary 則 視為無效操作
+			if not is_curr_dict : return
+			
+			# 若 超出 最後一個值路徑 則 跳出
+			if idx >= routes_size-1 : break
+			
+			# 若 值路徑 存在 則 取用
+			if curr.has(each_route) :
+				# 設 上個 為 當前
+				parent = curr
+				curr = curr[each_route]
+		
 	
 	# 以 指定值路徑 的 最後一個 路徑 為 鍵 設置 值
 	var key = routes[routes_size-1]
-	curr[key] = val
+	
+	if not is_erase :
+		curr[key] = val
+	else :
+		if curr.has(key) :
+			curr.erase(key)
 	
 	# 寫入 內容
 	self.write(path, content)
 	
+
+## 取得 要使用的路徑
+func get_file_path (path) -> String :
+	return self._final_path.replace("%FILE%", path)
 
 # Private ====================
 
@@ -198,10 +241,7 @@ func write_val (path, route, val) :
 func _update_path () :
 	var sub_path = self.setting.get_sub_path()
 	var full_path = self.setting.get_full_path()
-#	print("full[%s], sub[%s]" % [full_path, sub_path])
+#	G.print("full[%s], sub[%s]" % [full_path, sub_path])
 	self._final_path = full_path.replace("%SUB%", sub_path)
 	self._file_path_to_cache.clear()
 
-## 取得 要使用的路徑
-func _get_file_path (path) -> String :
-	return self._final_path.replace("%FILE%", path)

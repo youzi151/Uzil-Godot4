@@ -49,9 +49,20 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 呼叫器管理
 	UREQ.bind("Uzil", "invoker_mgr", self._target_mgr, {
-		"alias" : ["invoker"],
+		"alias" : [],
 		"requires" : ["Core.Invoker"],
 	})
+	
+	# 綁定 實體
+	UREQ.bind("Uzil", "invoker", 
+		func () :
+			var mgr = UREQ.acc("Uzil", "invoker_mgr")
+			return mgr.inst(),
+		{
+			"alias" : [],
+			"requires" : ["invoker_mgr"],
+		}
+	)
 	
 	return self
 

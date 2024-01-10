@@ -50,9 +50,8 @@ func _init () :
 # Public =====================
 
 ## 更新
-func update () :
-	self._on_update.emit()
-	
+func update (evt_options = null) :
+	self._on_update.emit(null, evt_options)
 
 ## 讀取 所有語言資料
 func load_languages (langs_dir_path) :
@@ -146,12 +145,15 @@ func change_language (i18n_lang) :
 	self._on_language_changed.emit()
 
 ## 翻譯
-func trans (text : String) :
+func trans (text : String, on_step = null) :
 	# 本次 翻譯 任務
 	var trans_task = self.I18N.Task.new(self, text)
 	
 	# 是否完成
 	var is_done = false
+	
+	# 是否存在 階段回乎
+	var is_on_step_exist := on_step != null and typeof(on_step) == TYPE_CALLABLE
 	
 	# 目前 翻譯器 序號
 	var trans_idx := 0
@@ -169,14 +171,14 @@ func trans (text : String) :
 		
 		# 代換
 #		var untrans = trans_task.text
-		var is_trans = translator.handle(trans_task)
+		var is_trans = await translator.handle(trans_task)
 		
 		if is_trans :
 			var double_check = true
 			var double_check_quota = 10
 			while double_check and double_check_quota > 0 : 
 				double_check_quota -= 1
-				double_check = translator.handle(trans_task)
+				double_check = await translator.handle(trans_task)
 			
 			
 #		print("====\n%s\n===trans to===\n%s\n====" % [untrans, trans_task.text])
@@ -189,6 +191,10 @@ func trans (text : String) :
 		trans_idx += 1
 		if trans_idx >= self._translators.size() :
 			trans_idx = 0
+			
+		# 若有階段回呼 則 呼叫
+		if is_on_step_exist :
+			on_step.call(trans_task.text)
 			
 		# 若 下個翻譯器 與 最後一次有翻譯的翻譯器 一樣
 		if trans_idx == last_idx :
@@ -226,9 +232,28 @@ func off_update (listener_or_tag) :
 
 # 字典 ===============
 
-## 添加 鍵:函式
-func add_func (key : String, fn : Callable) :
-	self._key_to_func[key] = fn
+# 設置 鍵:詞
+func set_word (key : String, word) :
+	if self._current_lang == null : return null
+	if word != null :
+		self._current_lang.key_to_word[key] = word
+	else :
+		if self._current_lang.key_to_word.has(key) :
+			self._current_lang.key_to_word.erase(key)
+
+# 取得 詞
+func get_word (key : String) :
+	if self._current_lang == null : return null
+	if self._current_lang.key_to_word.has(key) == false : return null
+	return self._current_lang.key_to_word[key]
+
+## 設置 鍵:函式
+func set_func (key : String, fn) :
+	if fn is Callable :
+		self._key_to_func[key] = fn
+	elif fn == null :
+		if self._key_to_func.has(key) :
+			self._key_to_func.erase(key)
 
 ## 取得 函式
 func get_func (key : String) :

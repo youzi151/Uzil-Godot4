@@ -8,8 +8,8 @@ var times_mgr
 
 # Variable ===================
 
-## 殼
-var _shell = null
+## 核心
+var _core = null
 
 ## 呼叫器/多重時間 鍵值
 var _inst_key := ""
@@ -20,6 +20,8 @@ var _time_msec := 0
 ## 剩餘時間
 var _left_time := 0
 
+## 是否倒數中
+
 # GDScript ===================
 
 func _init () :
@@ -27,9 +29,9 @@ func _init () :
 
 # Interface ====================
 
-## 設置 殼
-func _set_shell (shell) :
-	self._shell = shell
+## 設置 核心
+func _set_core (core) :
+	self._core = core
 
 ## 當 初始化 
 func _on_init (_init_data) :
@@ -62,16 +64,17 @@ func _to_memo (_memo, _args) :
 	
 ## 當 進入
 func _on_enter () :
-	self._shell.reset()
+	self._core.reset()
 
 ## 當 每幀更新
 func _on_process (_dt) :
-	if self._shell.is_complete() : return
+	if not self._core.is_listening() : return
+	if self._core.is_complete() : return
 	
 	self._left_time -= self.times_mgr.inst(self._inst_key).dt()
 	
 	if self._left_time <= 0 :
-		self._shell.complete()
+		self._core.complete()
 
 ## 當 暫停
 func _on_pause () :

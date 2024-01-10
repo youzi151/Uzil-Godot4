@@ -105,7 +105,7 @@ func _process (_dt) :
 				continue
 				
 			# 處理訊號
-			layer.handle_msg(input_msg);
+			layer.handle_msg(input_msg)
 			
 		
 	
@@ -113,8 +113,7 @@ func _process (_dt) :
 	for layer in self._layers :
 		
 		# 若 關閉中 則 忽略
-		if not layer.is_active :
-			continue
+		if not layer.is_active : continue
 			
 		# 呼叫 所有訊號
 		layer.call_all_input()
@@ -131,11 +130,6 @@ func get_setting () :
 ## 啟用/關閉
 func active (_is_active := true) :
 	self.is_active = _is_active
-
-## 清空
-func clear () :
-	self._layers.clear()
-	self._id_to_layer.clear()
 
 ## 取得層級
 func get_layer (layer_id : String) :
@@ -157,6 +151,18 @@ func sort_layers () :
 	self._layers.sort_custom(func(a, b):
 		return a.get_sort() < b.get_sort()
 	)
+
+## 移除 層級
+func remove_layer (layer_id : String) :
+	if not self._id_to_layer.has(layer_id) : return
+	var layer = self._id_to_layer[layer_id]
+	self._id_to_layer.erase(layer_id)
+	self._layers.erase(layer)
+
+## 清空
+func clear () :
+	self._layers.clear()
+	self._id_to_layer.clear()
 
 # 轉接 Layer ======
 #

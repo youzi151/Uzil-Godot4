@@ -9,8 +9,8 @@
 ## 辨識
 var _id := ""
 
-## 核心
-var _core = null
+## 策略
+var _strat = null
 
 ## 資料
 var data := {}
@@ -24,10 +24,10 @@ var _inst_cache = null
 
 # GDScript ===================
 
-func _init (core) :
-	self._core = core
-	if core.has_method("_set_shell") == false : return
-	core._set_shell(self)
+func _init (strat) :
+	self._strat = strat
+	if strat.has_method("_set_core") == false : return
+	strat._set_core(self)
 
 # Interface ==================
 
@@ -70,11 +70,18 @@ func id () -> String :
 ## 進入
 func enter () :
 	self._on_enter()
-	
 
 ## 每幀更新
 func process (_dt) :
 	self._on_process(_dt)
+
+## 暫停
+func pause () :
+	self._on_pause()
+
+## 恢復
+func resume () :
+	self._on_resume()
 
 ## 離開
 func exit () :
@@ -92,39 +99,51 @@ func is_done () -> bool :
 
 ## 當 初始化 
 func _on_init (_init_data) :
-	if self._core == null : return
-	if self._core.has_method("_on_init") == false : return
-	self._core._on_init(_init_data)
+	if self._strat == null : return
+	if self._strat.has_method("_on_init") == false : return
+	self._strat._on_init(_init_data)
 
 ## 讀取 紀錄
 func _load_memo (_memo : Dictionary) :
-	if self._core == null : return
-	if self._core.has_method("_load_memo") == false : return
-	self._core._load_memo(_memo)
+	if self._strat == null : return
+	if self._strat.has_method("_load_memo") == false : return
+	self._strat._load_memo(_memo)
 
 ## 匯出 紀錄
 func _to_memo (_memo : Dictionary, _args) :
-	if self._core == null : return {}
-	if self._core.has_method("_to_memo") == false : return {}
-	return self._core._to_memo(_memo, _args)
+	if self._strat == null : return {}
+	if self._strat.has_method("_to_memo") == false : return {}
+	return self._strat._to_memo(_memo, _args)
 
 ## 當 進入
 func _on_enter () :
-	if self._core == null : return
-	if self._core.has_method("_on_enter") == false : return
-	self._core._on_enter()
+	if self._strat == null : return
+	if self._strat.has_method("_on_enter") == false : return
+	self._strat._on_enter()
 
 ## 當 每幀更新
 func _on_process (_dt) :
-	if self._core == null : return
-	if self._core.has_method("_on_process") == false : return
-	self._core._on_process(_dt)
+	if self._strat == null : return
+	if self._strat.has_method("_on_process") == false : return
+	self._strat._on_process(_dt)
+
+## 當 暫停
+func _on_pause () :
+	if self._strat == null : return
+	if self._strat.has_method("_on_pause") == false : return
+	self._strat._on_pause()
+
+## 當 恢復
+func _on_resume () :
+	if self._strat == null : return
+	if self._strat.has_method("_on_resume") == false : return
+	self._strat._on_resume()
 
 ## 當 離開
 func _on_exit () :
-	if self._core == null : return
-	if self._core.has_method("_on_exit") == false : return
-	self._core._on_exit()
+	if self._strat == null : return
+	if self._strat.has_method("_on_exit") == false : return
+	self._strat._on_exit()
 
 # Private ====================
 

@@ -36,7 +36,9 @@ func emit (data = null, options = null) :
 		# 若 存在 忽略標籤 則 設置 到 控制
 		if options.has("ignores") :
 			ctrlr.ignores(options.ignores)
-	
+		# 若 存在 指定標籤 則 設置 到 控制
+		if options.has("specifics") :
+			ctrlr.specifics(options.specifics)
 	# 每個 偵聽者
 	var listeners_copy := self._listener_list.duplicate()
 	for each in listeners_copy :
@@ -45,9 +47,10 @@ func emit (data = null, options = null) :
 		# 若 控制終止
 		if ctrlr.is_call_stop() : break
 		
-		# 若 沒被忽略 則 呼叫 
-		if not ctrlr.is_ignores(each.tags) :
-			each.emit(ctrlr)
+		# 若 被忽略 則 繼續 下個
+		if ctrlr.is_ignores(each.tags) : continue
+		
+		each.emit(ctrlr)
 		
 
 ## 新增 偵聽者

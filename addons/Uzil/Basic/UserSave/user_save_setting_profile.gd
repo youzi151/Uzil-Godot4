@@ -39,15 +39,15 @@ func set_inst (inst) :
 
 # Public =====================
 
-## 設置 目錄路徑
-func set_folder (_folder_path) :
-	self.folder_path = _folder_path
-	return self
-
 ## 設置 配置檔名稱
 func set_profile (profile_name) :
 	self._sub_path = profile_name
 	self._inst._update_path()
+	return self
+
+## 設置 目錄路徑
+func set_folder (_folder_path) :
+	self.folder_path = _folder_path
 	return self
 
 ## 設置 用戶 (由 UserSave_User 用戶存檔 設置)

@@ -36,19 +36,19 @@ func test_normal () :
 	# 建立 幀聽 4號
 	var listener4 = self.Evt.Listener.new().fn(func(_ctrlr):
 		# 印出事件資料
-		G.print("[4] data : %s" % (_ctrlr.data))
+		G.print("[4]listener called, data : %s" % (_ctrlr.data))
 	).tag("4").srt(4)
 	
 	# 建立 幀聽 3號
 	var listener3 = self.Evt.Listener.new().fn(func(_ctrlr):
 		# 印出事件資料
-		G.print("[3] data : %s" % (_ctrlr.data))
+		G.print("[3]listener called, data : %s" % (_ctrlr.data))
 	).tag("3").srt(3)
 	
 	# 建立 幀聽 1號
 	var listener1 = self.Evt.Listener.new().fn(func(_ctrlr):
 		# 印出事件資料
-		G.print("[1] data : %s" % (_ctrlr.data))
+		G.print("[1]listener called, data : %s" % (_ctrlr.data))
 		
 		# 中途 改變 事件資料
 		_ctrlr.data = _ctrlr.data+" changed"
@@ -59,7 +59,7 @@ func test_normal () :
 	# 建立 幀聽 2號
 	var listener2 = self.Evt.Listener.new().fn(func(_ctrlr):
 		# 印出事件資料
-		G.print("[2] data : %s" % (_ctrlr.data))
+		G.print("[2]listener called, data : %s" % (_ctrlr.data))
 		
 		# 標記忽略tag "3"
 		G.print("ignore tag \"3\"")
@@ -75,7 +75,7 @@ func test_normal () :
 	# 建立 幀聽 5號
 	var listener5 = self.Evt.Listener.new().fn(func(_ctrlr):
 		# 印出事件資料
-		G.print("[5] data : %s" % (_ctrlr.data))
+		G.print("[5]listener called, data : %s" % (_ctrlr.data))
 		
 		# 停止事件
 		_ctrlr.stop()
@@ -85,7 +85,7 @@ func test_normal () :
 	
 	# 建立 幀聽 6號
 	var listener6 = self.Evt.Listener.new().fn(func(_ctrlr):
-		G.print("[6] data : %s" % (_ctrlr.data))
+		G.print("[6]listener called, data : %s" % (_ctrlr.data))
 	).tag("6").srt(6)
 	
 	# 註冊 所有幀聽 

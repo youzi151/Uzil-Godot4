@@ -6,8 +6,8 @@
 
 # Variable ===================
 
-## 殼
-var _shell = null
+## 核心
+var _core = null
 
 ## 當 進入時 訊息
 var msg_enter := ""
@@ -18,9 +18,9 @@ var msg_exit := ""
 
 # Interface ==================
 
-## 設置 殼
-func _set_shell (shell) :
-	self._shell = shell
+## 設置 核心
+func _set_core (core) :
+	self._core = core
 
 ## 當 初始化 
 func _on_init (_init_data) :
@@ -49,12 +49,12 @@ func _to_memo (_memo, _args) :
 ## 進入
 func _on_enter () :
 	if self.msg_enter == null : return
-	print(self.msg_enter)
+	G.print(self.msg_enter)
 
 ## 離開
 func _on_exit () :
 	if self.msg_exit == null : return
-	print(self.msg_exit)
+	G.print(self.msg_exit)
 
 # Public =====================
 

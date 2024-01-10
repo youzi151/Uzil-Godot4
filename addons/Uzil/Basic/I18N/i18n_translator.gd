@@ -20,7 +20,7 @@ func _init (handler) :
 
 ## 翻譯
 func handle (trans_task) :
-	var is_trans = self._handler.handle(trans_task)
+	var is_trans = await self._handler.handle(trans_task)
 	if is_trans == true : return true
 	return false
 

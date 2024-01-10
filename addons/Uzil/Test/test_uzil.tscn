@@ -1,11 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://chy0dbw7xo7yc"]
+[gd_scene load_steps=16 format=3 uid="uid://chy0dbw7xo7yc"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_uzil.gd" id="1_5gjy7"]
 [ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_to_scene.gd" id="2_35jgj"]
+[ext_resource type="PackedScene" uid="uid://dw0odabslvb8f" path="res://addons/Uzil/Basic/Flow/_test/test_flow.tscn" id="3_cltrm"]
 [ext_resource type="PackedScene" uid="uid://cl1apas1smffm" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.tscn" id="3_q32di"]
 [ext_resource type="PackedScene" uid="uid://ctr2qbwljfpge" path="res://addons/Uzil/Core/Invoker/_test/test_invoker.tscn" id="3_ys2r3"]
+[ext_resource type="PackedScene" uid="uid://q0oqeycbaq42" path="res://addons/Uzil/Basic/I18N/_test/test_i18n.tscn" id="4_eob11"]
 [ext_resource type="PackedScene" uid="uid://cd713gsxua2ru" path="res://addons/Uzil/Core/Evt/_test/test_evt.tscn" id="4_umw4o"]
+[ext_resource type="PackedScene" uid="uid://bouka2j7rfq1n" path="res://addons/Uzil/Basic/UserSave/_test/test_user_save.tscn" id="5_01i0l"]
 [ext_resource type="PackedScene" uid="uid://c7ee7kw0ftt0p" path="res://addons/Uzil/Core/SumVals/_test/test_sum_vals.tscn" id="5_8c3gy"]
+[ext_resource type="PackedScene" uid="uid://bt5bordmhgvn2" path="res://addons/Uzil/Basic/InputPipe/_test/test_input_pipe.tscn" id="5_qujxa"]
 [ext_resource type="PackedScene" uid="uid://8ht5kb7sav4q" path="res://addons/Uzil/Core/Times/_test/test_times.tscn" id="5_w60v7"]
 [ext_resource type="PackedScene" uid="uid://djoxwlrttiqk4" path="res://addons/Uzil/Core/Vals/_test/test_vals.tscn" id="6_netom"]
 [ext_resource type="PackedScene" uid="uid://dxffevoyf0xv" path="res://addons/Uzil/Core/Vars/_test/test_vars.tscn" id="7_kq6kg"]
@@ -123,9 +127,25 @@ theme = SubResource("Theme_kt5kl")
 
 [node name="Basic" type="Node" parent="scene/scenes"]
 
+[node name="Flow" type="Node" parent="scene/scenes/Basic"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("3_cltrm")
+
+[node name="I18N" type="Node" parent="scene/scenes/Basic"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("4_eob11")
+
+[node name="InputPipe" type="Node" parent="scene/scenes/Basic"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("5_qujxa")
+
 [node name="TagQ" type="Node" parent="scene/scenes/Basic"]
 script = ExtResource("2_35jgj")
 scene = ExtResource("3_q32di")
+
+[node name="UserSave" type="Node" parent="scene/scenes/Basic"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("5_01i0l")
 
 [node name="Core" type="Node" parent="scene/scenes"]
 

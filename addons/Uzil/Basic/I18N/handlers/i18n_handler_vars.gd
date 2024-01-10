@@ -30,7 +30,8 @@ func _init () :
 func handle (trans_task) :
 	# 搜尋
 	var matches := self.regex.search_all(trans_task.text)
-#	print("[i18n_handler_vars.handle()] matches %d" % matches.size())
+	#G.print("[i18n_handler_vars.handle()] %s" % trans_task.text)
+	#G.print("[i18n_handler_vars.handle()] matches %d" % matches.size())
 	
 	# 若 沒有找到 則 返回
 	if matches.size() == 0 :
@@ -46,7 +47,7 @@ func handle (trans_task) :
 	for each in matches :
 		
 		# 變數庫 實體鍵
-		var inst_key = ""
+		var inst_key = null
 		# 鍵
 		var key : String
 		
@@ -72,7 +73,15 @@ func handle (trans_task) :
 		var full_str : String = each.get_string(0)
 		
 		# 要替換成的文字 從指定變數庫中取得
-		var replace = self.vars.inst(inst_key).get_var(key)
+		var vars_inst
+		if inst_key == null :
+			vars_inst = self.vars.inst()
+		else :
+			vars_inst = self.vars.inst(inst_key)
+		
+		var replace = vars_inst.get_var(key)
+		
+		#G.print("%s to %s" % [full_str, replace])
 		
 		# 若 要替換成的文字不存在
 		if replace == null :
@@ -84,7 +93,7 @@ func handle (trans_task) :
 				continue
 		
 		# 替換文字
-#		print("[i18n_handler_vars.handle()] replace \"%s\" to \"%s\"" % [full_str, replace])
+		#G.print("[i18n_handler_vars.handle()] replace \"%s\" to \"%s\"" % [full_str, replace])
 		trans_task.text = (trans_task.text as String).replace(full_str, str(replace))
 		
 		# 紀錄 已替換過
