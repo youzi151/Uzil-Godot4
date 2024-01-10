@@ -13,10 +13,10 @@ var _inst_key : String = ""
 ## 當前鏈節點
 var _current_chain = null
 
-## 鏈節點列表 (不用Dictionary, 因為方便可以更改狀態的ID, 而且狀態通常不會太多個)
+## 鏈節點列表 (不用Dictionary, 用列表方便可以更改ID)
 var _chains := []
 
-## 閒置節點ID (若沒有處於任何節點中(當前節點不存在)時 以此為當前節點)
+## 閒置鏈節點ID (若沒有處於任何鏈節點中(當前鏈節點不存在)時 以此為當前鏈節點)
 var _idle_chain_id : String = ""
 
 ## 當 當前鏈節點改變 事件
@@ -43,15 +43,26 @@ func process (_dt) :
 	for each in self._chains :
 		each.process(_dt)
 
+## 取得 當前鏈節點
+func get_current () :
+	return self._current_chain
+
+## 設置 閒置 鏈節點
+func set_idle_chain (chain_id : String) :
+	self._idle_chain_id = chain_id
+
+## 取得 鏈節點
+func get_chain (chain_id) :
+	for each in self._chains :
+		if each.id == chain_id :
+			return each
+	return null
+
 ## 新增 鏈節點
 func add_chain (chain) :
 	if self.get_chain(chain.id) != null : return self
 	self._chains.push_back(chain)
 	return self
-
-## 設置 閒置 鏈節點
-func set_idle_chain (chain_id : String) :
-	self._idle_chain_id = chain_id
 
 ## 建立 新 鏈節點
 func new_chain (prefer_chain_id : String, script_name : String, data := {}) :
@@ -63,6 +74,7 @@ func new_chain (prefer_chain_id : String, script_name : String, data := {}) :
 	
 	var new_id = Util.uniq_id.fix(prefer_chain_id, func(next_id):
 		for each in self._chains :
+			print("%s == %s = %s" % [each.id, next_id, each.id == next_id])
 			if each.id == next_id : return false
 		return true
 	)
@@ -75,16 +87,18 @@ func new_chain (prefer_chain_id : String, script_name : String, data := {}) :
 	
 	return chain
 
-## 取得 鏈節點
-func get_chain (chain_id) :
-	for each in self._chains :
-		if each.id == chain_id :
-			return each
-	return null
+## 移除 鏈節點
+func del_chain (chain_id : String) :
+	var exist = self.get_chain(chain_id)
+	if exist == null : return
+	self._chains.erase(exist)
 
-## 取得 當前鏈節點
-func get_current () :
-	return self._current_chain
+## 清空
+func clear () :
+	self._current_chain = null
+	self._chains.clear()
+	self._idle_chain_id = ""
+	self.on_chain_change.clear()
 
 ## 直接前往 鏈節點
 func go_chain (chain_or_id) :
@@ -108,6 +122,9 @@ func go_chain (chain_or_id) :
 	
 	# 前次鏈節點
 	var last_chain = self._current_chain
+	
+	if last_chain == null :
+		last_chain = self.get_chain(self._idle_chain_id)
 	
 	# 若 前次鏈節點 存在 則 呼叫 當 離開鏈節點
 	if last_chain != null :

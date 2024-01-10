@@ -14,9 +14,9 @@ var test_word_edit : LineEdit
 @export
 var test_vars_edit : LineEdit
 
-## 幀錯文字
+## 偵錯文字
 @export
-var debug_label : TextEdit
+var debug_log : Node = null
 
 ## 變數庫管理
 var vars
@@ -68,8 +68,8 @@ func _ready () :
 	
 	self.i18n_inst.update()
 	
-	G.on_print(func (msg):
-		self.debug_label.text += msg+"\n"
+	G.on_print(func(msg):
+		self.debug_log.add_text(msg + "\n")
 	, "test_i18n")
 
 func _process (_delta) :

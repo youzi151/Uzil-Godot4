@@ -63,6 +63,16 @@ func load_path_table (full_path : String):
 			self.key_to_path[key] = config_file.get_value(section, key, null)
 		
 
+## 新增 鍵:路徑
+func add_key_to_path (key : String, full_path : String) :
+	self.key_to_path[key] = full_path
+
+## 移除 鍵:路徑
+func del_key_to_path (key : String) :
+	if not self.key_to_path.has(key) : return
+	self.key_to_path.erase(key)
+
+
 # 物件 =============
 
 ## 準備
@@ -88,11 +98,11 @@ func request (audio_id, path_or_key : String, data = null) :
 	
 	var id = self._handle_id_in_request(audio_id)
 	
-	var audio_obj = self._create_obj(path_or_key, data)
+	var audio_obj = self._create_obj(id, path_or_key, data)
+	
+	self._id_to_obj[id] = audio_obj
 	
 	if audio_obj == null : return null
-	
-	audio_obj.name = id
 	
 	return audio_obj
 
@@ -162,11 +172,13 @@ func play (audio_id : String, data = null) :
 	audio_obj.play()
 
 ## 停止
-func stop (audio_id) :
-	if not self.is_exist(audio_id) : return
+func stop (audio_id, is_force := false) :
+	if not self.is_exist(audio_id) : 
+		G.print("%s not exist" % audio_id)
+		return
 	var audio_obj = self.get_audio(audio_id)
 	
-	audio_obj.stop()
+	audio_obj.stop(is_force)
 
 ## 停止 所有
 func stop_all () :
@@ -195,35 +207,15 @@ func pause_all () :
 
 # 層級 =============
 
-## 設置 層級
-func set_layer (audio_id : String, layer_id : String) : 
-	
-	var audio_obj = self.get_audio(audio_id)
-	if audio_obj == null : return false
-	var audio_layer = self.get_layer(layer_id)
-	if audio_layer == null : return false
-	
-	audio_layer.add_audio(audio_id)
-	audio_obj.add_layer(layer_id)
-	return true
-
-## 取消設置 層級
-func unset_layer (audio_id : String, layer_id : String) :
-	var audio_obj = self.get_audio(audio_id)
-	if audio_obj != null : audio_obj.del_layer(layer_id)
-	
-	var audio_layer = self.get_layer(layer_id)
-	if audio_layer != null : audio_layer.del_audio(audio_id)
-
 ## 新增 層級
-func add_layer (layer_id : String, data = null) :
+func set_layer (layer_id : String, data = null) :
 	var audio_layer = self.get_layer(layer_id)
 	
 	if audio_layer == null :
 		audio_layer = UREQ.acc("Uzil", "Advance.Audio").Layer.new(self)
 		self._id_to_layer[layer_id] = audio_layer
 	
-	if data :
+	if data != null :
 		audio_layer.set_data(data)
 	
 	return audio_layer
@@ -236,6 +228,28 @@ func del_layer (layer_id : String) :
 func get_layer (layer_id : String) :
 	if not self._id_to_layer.has(layer_id) : return null
 	return self._id_to_layer[layer_id]
+
+## 將 層級 加入 至 物件
+func join_layer (audio_id : String, layer_id : String) : 
+	
+	var audio_obj = self.get_audio(audio_id)
+	if audio_obj == null : return false
+	var audio_layer = self.get_layer(layer_id)
+	if audio_layer == null : return false
+	
+	audio_layer.add_audio(audio_id)
+	audio_obj.add_layer(layer_id)
+	return true
+
+## 將 層級 移除 從 物件
+func leave_layer (audio_id : String, layer_id : String) :
+	var audio_obj = self.get_audio(audio_id)
+	if audio_obj != null : audio_obj.del_layer(layer_id)
+	
+	var audio_layer = self.get_layer(layer_id)
+	if audio_layer != null : audio_layer.del_audio(audio_id)
+
+# Bus =============
 
 ## 請求 AudioBus
 func request_bus (bus_id) :
@@ -270,7 +284,7 @@ func set_bus_volume (bus_id, volume_linear : float) :
 # Private ====================
 
 ## 建立物件
-func _create_obj (path_or_key, data = null) :
+func _create_obj (id, path_or_key, data = null) :
 	var Audio = UREQ.acc("Uzil", "Audio")
 	
 	var src_path := self._get_res_path(path_or_key)
@@ -295,7 +309,7 @@ func _create_obj (path_or_key, data = null) :
 	
 	audio_player.stream = audio_stream
 	
-	var audio_obj = Audio.Obj.new(self, audio_player)
+	var audio_obj = Audio.Obj.new(self, id, audio_player)
 	(audio_obj as Node).add_child(audio_player)
 	
 	if data != null :

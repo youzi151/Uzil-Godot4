@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://c7ee7kw0ftt0p"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Core/SumVals/_test/test_sum_vals.gd" id="1_31kfj"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_keep_text_edit_bottom.gd" id="2_pde5q"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_pde5q"]
 
-[node name="root" type="Control" node_paths=PackedStringArray("debug_label", "opt_root", "opt_1", "opt_1_1", "opt_1_2", "opt_2", "opt_2_1", "opt_2_2")]
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "opt_root", "opt_1", "opt_1_1", "opt_1_2", "opt_2", "opt_2_1", "opt_2_2")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_31kfj")
-debug_label = NodePath("VBoxContainer/Control/debug_label")
+debug_log = NodePath("VBoxContainer/Control/debug_text_edit")
 opt_root = NodePath("VBoxContainer/HBoxContainer/VBoxContainer/root")
 opt_1 = NodePath("VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer5/opt_1")
 opt_1_1 = NodePath("VBoxContainer/HBoxContainer/VBoxContainer3/HBoxContainer/VBoxContainer6/opt_1_1")
@@ -33,7 +33,7 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="debug_label" type="TextEdit" parent="VBoxContainer/Control"]
+[node name="debug_text_edit" type="TextEdit" parent="VBoxContainer/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

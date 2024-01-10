@@ -4,13 +4,13 @@ extends Node
 
 @export var inst_key := "_none"
 
-@export var user : NodePath = ""
+@export var user : Node = null
 
 ## 預設狀態
 @export var default_state_id := ""
 
 ## 面板設置 狀態列表
-@export var states_nodepath : Array[NodePath] = []
+@export var states_nodes : Array[Node] = []
 
 ## 實體
 var inst = null
@@ -41,16 +41,13 @@ func request_inst () :
 	
 	self.inst.default_state_id = self.default_state_id
 	
-	if not self.user.is_empty() :
-		var _user = self.get_node(self.user)
-		if _user != null :
-			self.inst.set_user(self.get_node(self.user))
+	if self.user != null :
+		self.inst.set_user(self.user)
 	
-	# 每個指定Node路徑 取得為 Node
-	for each in self.states_nodepath :
-		var node : Node = self.get_node(each)
-		if node != null :
-			self.inst.add_state(node.request_state())
+	# 每個指定Node 取得為 State
+	for each in self.states_nodes :
+		if each != null and each.has_method("request_state") :
+			self.inst.add_state(each.request_state())
 	
 	return self.inst
 

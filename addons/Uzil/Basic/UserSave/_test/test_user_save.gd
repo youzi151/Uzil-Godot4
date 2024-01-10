@@ -2,9 +2,9 @@ extends Node
 
 # Variable ===================
 
-## 幀錯文字
+## 偵錯文字
 @export
-var debug_label : TextEdit
+var debug_log : Node = null
 
 ## 使用者名稱 輸入
 @export var user_edit : LineEdit
@@ -31,7 +31,7 @@ var current_file_name : String = ""
 
 func _ready () :
 	G.on_print(func(msg):
-		self.debug_label.text += msg+"\n"
+		self.debug_log.add_text(msg + "\n")
 	, "test_user_save")
 	
 	var user_save = UREQ.acc("Uzil", "user_save")

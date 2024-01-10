@@ -4,14 +4,15 @@ extends Node
 
 var Evt
 
+## 偵錯文字
 @export
-var debug_label : TextEdit
+var debug_log : Node = null
 
 # Extends ====================
 
 func _ready () :
 	G.on_print(func(msg) : 
-		self.debug_label.text += msg+"\n"
+		self.debug_log.add_text(msg + "\n")
 	, "test_evt")
 	
 	# 事先引用 Evt

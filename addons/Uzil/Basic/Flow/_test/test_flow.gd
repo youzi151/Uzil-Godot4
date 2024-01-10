@@ -3,8 +3,8 @@ extends Node
 # Variable ===================
 
 ## 偵錯文字
-@export 
-var debug_label : TextEdit
+@export
+var debug_log : Node = null
 
 var is_test_simple_created := false
 var is_test_simple_running := false
@@ -13,8 +13,8 @@ var is_test_simple_running := false
 
 func _ready () :
 	
-	G.on_print(func(msg) : 
-		self.debug_label.text += msg+"\n"
+	G.on_print(func(msg):
+		self.debug_log.add_text(msg + "\n")
 	, "test_flow")
 	
 	var Uzil = UREQ.acc("Uzil", "Uzil")

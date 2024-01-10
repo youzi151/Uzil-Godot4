@@ -1,9 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://chy0dbw7xo7yc"]
+[gd_scene load_steps=22 format=3 uid="uid://chy0dbw7xo7yc"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_uzil.gd" id="1_5gjy7"]
 [ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_to_scene.gd" id="2_35jgj"]
+[ext_resource type="PackedScene" uid="uid://cvsib0srhyd8g" path="res://addons/Uzil/Advance/States/_test/test_states.tscn" id="3_4lek2"]
 [ext_resource type="PackedScene" uid="uid://dw0odabslvb8f" path="res://addons/Uzil/Basic/Flow/_test/test_flow.tscn" id="3_cltrm"]
+[ext_resource type="PackedScene" uid="uid://1shkvi5t2xx0" path="res://addons/Uzil/Advance/UINav/_test/test_ui_nav.tscn" id="3_mr1vc"]
 [ext_resource type="PackedScene" uid="uid://cl1apas1smffm" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.tscn" id="3_q32di"]
+[ext_resource type="PackedScene" uid="uid://cpssqgiyffh7w" path="res://addons/Uzil/Advance/Audio/_test/test_audio.tscn" id="3_rpken"]
 [ext_resource type="PackedScene" uid="uid://ctr2qbwljfpge" path="res://addons/Uzil/Core/Invoker/_test/test_invoker.tscn" id="3_ys2r3"]
 [ext_resource type="PackedScene" uid="uid://q0oqeycbaq42" path="res://addons/Uzil/Basic/I18N/_test/test_i18n.tscn" id="4_eob11"]
 [ext_resource type="PackedScene" uid="uid://cd713gsxua2ru" path="res://addons/Uzil/Core/Evt/_test/test_evt.tscn" id="4_umw4o"]
@@ -14,6 +17,9 @@
 [ext_resource type="PackedScene" uid="uid://djoxwlrttiqk4" path="res://addons/Uzil/Core/Vals/_test/test_vals.tscn" id="6_netom"]
 [ext_resource type="PackedScene" uid="uid://dxffevoyf0xv" path="res://addons/Uzil/Core/Vars/_test/test_vars.tscn" id="7_kq6kg"]
 [ext_resource type="PackedScene" uid="uid://b3rxanb1v50yy" path="res://addons/Uzil/Core/ObjPool/_test/test_obj_pool.tscn" id="9_ihyfe"]
+[ext_resource type="PackedScene" uid="uid://exihucjhjxyp" path="res://addons/Uzil/Basic/Res/_test/test_res.tscn" id="9_u7sp0"]
+[ext_resource type="PackedScene" uid="uid://c00044uhftq6x" path="res://addons/Uzil/Util/_test/test_async.tscn" id="19_63et0"]
+[ext_resource type="PackedScene" uid="uid://q0p3dnsjppo8" path="res://addons/Uzil/Util/_test/test_input.tscn" id="20_42p7f"]
 
 [sub_resource type="Theme" id="Theme_kt5kl"]
 
@@ -125,6 +131,18 @@ theme = SubResource("Theme_kt5kl")
 
 [node name="Advance" type="Node" parent="scene/scenes"]
 
+[node name="Audio" type="Node" parent="scene/scenes/Advance"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("3_rpken")
+
+[node name="States" type="Node" parent="scene/scenes/Advance"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("3_4lek2")
+
+[node name="UINav" type="Node" parent="scene/scenes/Advance"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("3_mr1vc")
+
 [node name="Basic" type="Node" parent="scene/scenes"]
 
 [node name="Flow" type="Node" parent="scene/scenes/Basic"]
@@ -138,6 +156,10 @@ scene = ExtResource("4_eob11")
 [node name="InputPipe" type="Node" parent="scene/scenes/Basic"]
 script = ExtResource("2_35jgj")
 scene = ExtResource("5_qujxa")
+
+[node name="Res" type="Node" parent="scene/scenes/Basic"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("9_u7sp0")
 
 [node name="TagQ" type="Node" parent="scene/scenes/Basic"]
 script = ExtResource("2_35jgj")
@@ -178,6 +200,14 @@ script = ExtResource("2_35jgj")
 scene = ExtResource("7_kq6kg")
 
 [node name="Util" type="Node" parent="scene/scenes"]
+
+[node name="async" type="Node" parent="scene/scenes/Util"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("19_63et0")
+
+[node name="input" type="Node" parent="scene/scenes/Util"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("20_42p7f")
 
 [node name="test_scene" type="Control" parent="."]
 visible = false

@@ -54,6 +54,8 @@ func get_script_from_dict (dict, name_or_path) :
 	if self.is_gdscript(name_or_path):
 		return name_or_path 
 	
+	var Uzil = UREQ.acc("Uzil", "Uzil")
+	
 	var script
 	
 	# 若 有註冊 則 先試著 以 名稱 取得路徑 來 讀取
@@ -61,13 +63,13 @@ func get_script_from_dict (dict, name_or_path) :
 		var path_or_script = dict[name_or_path]
 		var typ = typeof(path_or_script)
 		if typ == TYPE_STRING :
-			script = load(path_or_script)
+			script = Uzil.load_script(path_or_script)
 		elif self.is_gdscript(path_or_script) :
 			script = path_or_script
 	
 	# 若 腳本 不存在 則 以路徑讀取
 	if script == null :
-		script = load(name_or_path)
+		script = Uzil.load_script(name_or_path)
 	
 	# 若 仍無法取得 則 返回
 	if script == null : 

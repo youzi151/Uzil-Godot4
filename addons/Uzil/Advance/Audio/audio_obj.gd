@@ -10,7 +10,7 @@ extends Node
 ## 所屬管理器
 var mgr = null
 
-## 層級
+## ID
 var _id := "_default"
 
 ## 路徑 或 關鍵字
@@ -53,7 +53,7 @@ var on_destroy = null
 
 # GDScript ===================
 
-func _init (_mgr, _audio_player) :
+func _init (_mgr, _id, _audio_player) :
 	self.mgr = _mgr
 	
 	var Evt = UREQ.acc("Uzil", "Core.Evt")
@@ -63,6 +63,9 @@ func _init (_mgr, _audio_player) :
 	
 	self.audio_player = _audio_player
 	self.audio_player.connect("finished", self._signal_finished)
+	
+	self._id = _id
+	self.name = _id
 
 func _process (_dt) :
 	
@@ -131,7 +134,7 @@ func play () :
 
 ## 停止
 func stop (is_force := true) :
-	
+	G.print("stop : %s" % self._id)
 	if self.audio_player == null : return
 	
 	# 若 非強制 且 是循環模式
@@ -190,7 +193,7 @@ func add_layer (layer_id : String) :
 	self._layers.push_back(layer_id)
 	
 	# 保證互相設置
-	self.mgr.set_layer(self._id, layer_id)
+	self.mgr.join_layer(self._id, layer_id)
 	
 	self.update_layered()
 
@@ -205,7 +208,7 @@ func del_layer (layer_id : String) :
 	self._layers.push_back(layer_id)
 	
 	# 保證互相移除
-	self.mgr.unset_layer(self.id, layer_id)
+	self.mgr.leave_layer(self.id, layer_id)
 
 ## 更新 音效物件
 func update_layered () :

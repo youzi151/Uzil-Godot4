@@ -4,8 +4,9 @@ extends Uzil_Test_Base
 
 var times := []
 
+## 偵錯文字
 @export
-var debug_label : TextEdit
+var debug_log : Node = null
 
 @export
 var spin_panels : Array[Node] = []
@@ -17,8 +18,8 @@ var is_test_spin := false
 # GDScript ===================
 
 func _ready():
-	G.on_print(func(msg) : 
-		self.debug_label.text += msg+"\n"
+	G.on_print(func(msg):
+		self.debug_log.add_text(msg + "\n")
 	, "test_times")
 	
 	

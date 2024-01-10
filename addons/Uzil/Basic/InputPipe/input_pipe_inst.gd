@@ -153,7 +153,7 @@ func sort_layers () :
 	)
 
 ## 移除 層級
-func remove_layer (layer_id : String) :
+func del_layer (layer_id : String) :
 	if not self._id_to_layer.has(layer_id) : return
 	var layer = self._id_to_layer[layer_id]
 	self._id_to_layer.erase(layer_id)

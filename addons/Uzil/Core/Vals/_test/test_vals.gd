@@ -2,8 +2,9 @@ extends Node
 
 # Variable ===================
 
+## 偵錯文字
 @export
-var debug_label : TextEdit
+var debug_log : Node = null
 
 ## 使用者 項目 預製
 @export
@@ -33,7 +34,7 @@ var modify_msg : String
 
 func _ready () :
 	G.on_print(func(msg):
-		self.debug_label.text += msg+"\n"
+		self.debug_log.add_text(msg + "\n")
 	, "test_vals")
 	
 	# 引用 類腳本

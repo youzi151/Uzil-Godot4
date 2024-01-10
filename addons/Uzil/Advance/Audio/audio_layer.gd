@@ -42,7 +42,7 @@ func add_audio (audio_id : String) :
 	self.audio_id_list.push_back(audio_id)
 	
 	# 保證互相設置
-	self.mgr.set_layer(audio_id, self.id)
+	self.mgr.join_layer(audio_id, self.id)
 
 ## 移除 音效物件
 func del_audio (audio_id : String) :
@@ -50,7 +50,7 @@ func del_audio (audio_id : String) :
 	self.audio_id_list.erase(audio_id)
 	
 	# 保證互相移除
-	self.mgr.unset_layer(audio_id, self.id)
+	self.mgr.leave_layer(audio_id, self.id)
 
 ## 設置 資料
 func set_data (data : Dictionary) :

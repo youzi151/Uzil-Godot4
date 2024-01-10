@@ -4,11 +4,23 @@
 ## 設計參考自async.js
 ## 
 
+class WaitSignal :
+	var is_done : bool = false
+	signal sign
+	func until_done () :
+		if not self.is_done : await self.sign
+	func emit () :
+		self.is_done = true
+		self.sign.emit()
+
 ## 每個成員
 func each (list_or_dict, fn_each, _fn_done = null) :
 	
 	# 總數
 	var count = list_or_dict.size()
+	
+	var wait_until_done : WaitSignal = null
+	if _fn_done == null : wait_until_done = WaitSignal.new()
 	
 	# 索引
 	var indexes
@@ -43,6 +55,8 @@ func each (list_or_dict, fn_each, _fn_done = null) :
 			# 執行最後任務
 			if _fn_done != null :
 				_fn_done.call()
+			else :
+				wait_until_done.emit()
 	
 	# 每個任務
 	for num in range(0, indexes.size()) :
@@ -91,12 +105,17 @@ func each (list_or_dict, fn_each, _fn_done = null) :
 			
 		# 執行 並 傳入 呼叫下一任務的func
 		fn_each.call(cur_idx, each_ele, ctrlr)
+	
+	if _fn_done == null : await wait_until_done.until_done()
 
 ## 每個列表成員 依序
 func each_series (list_or_dict, fn_each, _fn_done = null) :
 	
 	# 總數
 	var count = list_or_dict.size()
+	
+	var wait_until_done : WaitSignal = null
+	if _fn_done == null : wait_until_done = WaitSignal.new()
 	
 	# 索引
 	var indexes = null
@@ -157,6 +176,8 @@ func each_series (list_or_dict, fn_each, _fn_done = null) :
 				# 執行最後任務
 				if _fn_done != null:
 					_fn_done.call()
+				else :
+					wait_until_done.emit()
 			# 若 還有任務
 			else:
 				# 呼叫下一個任務
@@ -182,9 +203,15 @@ func each_series (list_or_dict, fn_each, _fn_done = null) :
 	
 	# 呼叫 首個任務
 	ref1.nextFunc.call(0)
+	
+	
+	if _fn_done == null : await wait_until_done.until_done()
 
 ## 執行次數
 func times (run_times, fn_each, _fn_done = null) :
+	
+	var wait_until_done : WaitSignal = null
+	if _fn_done == null : wait_until_done = WaitSignal.new()
 	
 	# 傳入參考
 	var ref1 := {}
@@ -234,6 +261,8 @@ func times (run_times, fn_each, _fn_done = null) :
 				# 執行 最後任務
 				if _fn_done != null :
 					_fn_done.call()
+				else :
+					wait_until_done.emit()
 		
 		# 呼叫 任務 傳入 呼叫下一個的fn
 		fn_each.call(idx, ctrlr)
@@ -241,10 +270,15 @@ func times (run_times, fn_each, _fn_done = null) :
 	# 呼叫多次
 	for idx in range(0, run_times):
 		each_call.call(idx)
+	
+	if _fn_done == null : await wait_until_done.until_done()
 
 
 ## 執行次數 依序
 func times_series (run_times, fn_each, _fn_done = null) :
+	
+	var wait_until_done : WaitSignal = null
+	if _fn_done == null : wait_until_done = WaitSignal.new()
 	
 	# 傳入參考
 	var ref1 := {}
@@ -290,6 +324,8 @@ func times_series (run_times, fn_each, _fn_done = null) :
 				# 執行 最後任務
 				if _fn_done != null :
 					_fn_done.call()
+				else :
+					wait_until_done.emit()
 			else:
 				ref1.each_call.call(nxt_idx)
 		
@@ -297,12 +333,17 @@ func times_series (run_times, fn_each, _fn_done = null) :
 		fn_each.call(cur_idx, ctrlr)
 	
 	ref1.each_call.call(0)
+	
+	if _fn_done == null : await wait_until_done.until_done()
 
 ## 執行任務
-func parallel (fn_list, _fn_done) :
+func parallel (fn_list, _fn_done = null) :
 	
 	# 總數
 	var count : int = fn_list.size()
+	
+	var wait_until_done : WaitSignal = null
+	if _fn_done == null : wait_until_done = WaitSignal.new()
 	
 	# 傳入參考
 	var ref1 := {}
@@ -327,6 +368,8 @@ func parallel (fn_list, _fn_done) :
 			# 執行最後任務
 			if _fn_done != null :
 				_fn_done.call()
+			else :
+				wait_until_done.emit()
 	
 	# 每個任務
 	for idx in range(0, count) :
@@ -362,9 +405,14 @@ func parallel (fn_list, _fn_done) :
 			
 		# 執行 並 傳入 呼叫下一任務的func
 		fn_each.call(ctrlr)
+		
+	if _fn_done == null : await wait_until_done.until_done()
 
 ## 執行任務 依序
 func waterfall (fn_list, _fn_done = null) :
+	
+	var wait_until_done : WaitSignal = null
+	if _fn_done == null : wait_until_done = WaitSignal.new()
 	
 	# 傳入參考
 	var ref1 := {}
@@ -411,6 +459,8 @@ func waterfall (fn_list, _fn_done = null) :
 				# 執行最後任務
 				if _fn_done != null:
 					_fn_done.call()
+				else :
+					wait_until_done.emit()
 					
 			# 若 還有任務
 			else:
@@ -422,3 +472,5 @@ func waterfall (fn_list, _fn_done = null) :
 	
 	# 呼叫 首個任務
 	ref1.nextFunc.call(0)
+	
+	if _fn_done == null : await wait_until_done.until_done()

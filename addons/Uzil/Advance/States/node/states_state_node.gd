@@ -5,8 +5,8 @@ extends Node
 ## 辨識 (若 留空 則 取node.name)
 @export var id : String = ""
 
-## 面板設置 核心
-@export var core := ""
+## 面板設置 策略
+@export var strat := ""
 
 ## 資料
 @export var data := {}
@@ -31,7 +31,7 @@ func _process (_dt) :
 func request_state () :
 	if self.state != null : return self.state
 	
-	self.state = UREQ.acc("Uzil", "Advance.States").State.new(self.core)
+	self.state = UREQ.acc("Uzil", "Advance.States").State.new(self.strat)
 	
 	if self.id == "" :
 		self.state.id = self.name

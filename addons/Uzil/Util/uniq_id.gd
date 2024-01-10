@@ -10,5 +10,5 @@ func fix (id : String, is_pass_fn : Callable) :
 	var i = 0
 	while not is_pass_fn.call(id + suffix) :
 		i += 1
-		suffix = "_" + i
+		suffix = "_" + str(i)
 	return id + suffix

@@ -4,7 +4,9 @@
 var state = null
 var user = null
 
-var msg := ""
+var msg_enter := ""
+var msg_process := ""
+var msg_exit := ""
 
 # GDScript ===================
 
@@ -22,7 +24,14 @@ func set_user (_user) :
 
 ## 設置 資料
 func set_data (data) :
-	self.msg = data.msg
+	if data.has("msg") :
+		self.msg_enter = data["msg"]
+	if data.has("msg_enter") :
+		self.msg_enter = data["msg_enter"]
+	if data.has("msg_process") :
+		self.msg_process = data["msg_process"]
+	if data.has("msg_exit") :
+		self.msg_exit = data["msg_exit"]
 
 ## 初始化
 func init (_user) :
@@ -30,15 +39,18 @@ func init (_user) :
 
 ## 推進
 func process (_dt) :
-	print("[test state_print] state[%s] dt[%s]" % [self.state.id, _dt])
+	if self.msg_process.is_empty() : return
+	G.print(self.msg_process)
 
 ## 當 狀態 進入
 func on_enter () :
-	print_debug("[test state_print] on_enter user = %s, msg = %s" % [self.user, self.msg])
+	if self.msg_enter.is_empty() : return
+	G.print(self.msg_enter)
 
 ## 當 狀態 離開
 func on_exit () :
-	print_debug("[test state_print] on_exit user = %s, msg = %s" % [self.user, self.msg])
+	if self.msg_exit.is_empty() : return
+	G.print(self.msg_exit)
 
 # Public =====================
 

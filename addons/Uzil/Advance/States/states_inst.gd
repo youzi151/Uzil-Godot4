@@ -57,8 +57,11 @@ func set_user (__user) :
 
 ## 新增 狀態
 func add_state (state) :
-	if self.get_state(state.id) != null : return self
+	# 移除相同ID者
+	self.del_state(state.id)
+	# 設置 使用主體
 	state.set_user(self._user)
+	# 加入
 	self._states.push_back(state)
 	return self
 
@@ -82,6 +85,13 @@ func new_state (prefer_state_id : String, script_name : String, data := {}) :
 	
 	return state
 
+## 移除 狀態
+func del_state (state_id) :
+	for idx in range(self._states.size()-1, -1, -1) :
+		var each = self._states[idx]
+		if each.id == state_id :
+			self._states.erase(each)
+
 ## 取得 狀態
 func get_state (state_id) :
 	for each in self._states :
@@ -95,9 +105,12 @@ func start () :
 	self.set_user(self._user)
 	
 	for each in self._states :
-		each.init() # 內含 是否已初始化檢查
+		each.init()
 	
 	self.go_state(self.default_state_id)
+
+func clear () :
+	self._states.clear()
 
 ## 更新
 func process (_dt) :
@@ -124,7 +137,7 @@ func go_state (state_or_id, is_force := false) :
 			next_state = state_or_id
 	
 	# 若 缺少 指定狀態 則 返回
-	if next_state == null : return
+	if next_state == null and state_or_id != null : return
 	# 若 當前狀態 已是 指定狀態 則 返回
 	if self._current_state == next_state : return
 	
@@ -143,7 +156,8 @@ func go_state (state_or_id, is_force := false) :
 	# 設為 當前狀態
 	self._current_state = next_state
 	
-	self._current_state.on_enter()
+	if self._current_state != null :
+		self._current_state.on_enter()
 
 ## 鎖住
 func lock () :

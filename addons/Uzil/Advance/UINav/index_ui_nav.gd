@@ -58,14 +58,14 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 實體管理
-	UREQ.bind("Uzil", "ui_nav",
+	UREQ.bind("Uzil", "ui_nav_mgr",
 		func () :
 			var target = self.Mgr.new(null)
 			target.name = "ui_nav"
 			Uzil.add_child(target)
 			return target,
 		{
-			"alias" : ["ui_nav_mgr"],
+			"alias" : ["ui_nav"],
 			"requires" : ["Advance.UINav"],
 		}
 	)

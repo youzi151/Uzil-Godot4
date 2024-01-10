@@ -2,8 +2,9 @@ extends Node
 
 # Variable ===================
 
+## 偵錯文字
 @export
-var debug_label : TextEdit
+var debug_log : Node = null
 
 var obj_alives := 0
 
@@ -11,7 +12,7 @@ var obj_alives := 0
 
 func _ready () :
 	G.on_print(func(msg):
-		self.debug_label.text += msg+"\n"
+		self.debug_log.add_text(msg + "\n")
 	, "test_obj_pool")
 
 func _process (_delta) :

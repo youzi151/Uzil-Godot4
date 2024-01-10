@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://djoxwlrttiqk4"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Core/Vals/_test/test_vals.gd" id="1_dp4qx"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_keep_text_edit_bottom.gd" id="2_mvt15"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_mvt15"]
 
-[node name="root" type="Control" node_paths=PackedStringArray("debug_label", "user_item_prefab", "user_item_container", "modifier_message_edit", "filter_tags_edit", "current_val_label")]
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "user_item_prefab", "user_item_container", "modifier_message_edit", "filter_tags_edit", "current_val_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dp4qx")
-debug_label = NodePath("VBoxContainer2/Control/debug_label")
+debug_log = NodePath("VBoxContainer2/Control/debug_text_edit")
 user_item_prefab = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer/UserPrefab")
 user_item_container = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer")
 modifier_message_edit = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer/Option1/HBoxContainer/ModifyMsgEdit")
@@ -31,7 +31,7 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="debug_label" type="TextEdit" parent="VBoxContainer2/Control"]
+[node name="debug_text_edit" type="TextEdit" parent="VBoxContainer2/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

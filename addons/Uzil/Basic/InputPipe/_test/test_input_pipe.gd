@@ -3,9 +3,9 @@ extends Node
 
 # Variable ===================
 
-## 幀錯文字
+## 偵錯文字
 @export
-var debug_label : TextEdit
+var debug_log : Node = null
 
 @export
 var is_updating_checkbox : CheckBox
@@ -18,7 +18,7 @@ var listeners : Array = []
 
 func _ready () :
 	G.on_print(func(msg):
-		self.debug_label.text = msg
+		self.debug_log.set_text(msg)
 	, "test_input_pipe")
 	
 	self.is_updating_checkbox.pressed.connect(func():
@@ -212,10 +212,10 @@ func test_exit () :
 	
 	# or
 	
-	input_pipe.remove_layer("L1")
-	input_pipe.remove_layer("L2")
-	input_pipe.remove_layer("L3")
-	input_pipe.remove_layer("L4")
+	input_pipe.del_layer("L1")
+	input_pipe.del_layer("L2")
+	input_pipe.del_layer("L3")
+	input_pipe.del_layer("L4")
 	
 	
 

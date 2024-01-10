@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://cl1apas1smffm"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.gd" id="1_pcrid"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_keep_text_edit_bottom.gd" id="2_d18wy"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_d18wy"]
 
-[node name="root" type="Control" node_paths=PackedStringArray("debug_label", "search_edit", "member_container", "member_prefab")]
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "search_edit", "member_container", "member_prefab")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pcrid")
-debug_label = NodePath("VBoxContainer2/Control/debug_label")
+debug_log = NodePath("VBoxContainer2/Control/debug_text_edit")
 search_edit = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal/HBoxContainer/BoxContainer/LineEdit")
 member_container = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer")
 member_prefab = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer/OptionPrefab")
@@ -29,7 +29,7 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="debug_label" type="TextEdit" parent="VBoxContainer2/Control"]
+[node name="debug_text_edit" type="TextEdit" parent="VBoxContainer2/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

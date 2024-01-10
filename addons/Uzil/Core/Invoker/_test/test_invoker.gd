@@ -7,9 +7,9 @@ var invoker_inst
 ## 是否測試每幀
 var is_test_frame := false
 
-## 幀錯文字
+## 偵錯文字
 @export
-var debug_label : TextEdit
+var debug_log : Node = null
 
 ## 單次呼叫任務
 var once_task = null
@@ -25,8 +25,8 @@ func _ready () :
 	var invoker_mgr = UREQ.acc("Uzil", "invoker_mgr")
 	self.invoker_inst = invoker_mgr.inst()
 	
-	G.on_print(func (msg):
-		self.debug_label.text += msg+"\n"
+	G.on_print(func(msg):
+		self.debug_log.add_text(msg + "\n")
 	, "test_invoker")
 
 func _process (_delta) :

@@ -2,8 +2,9 @@ extends Node
 
 # Variable ===================
 
+## 偵錯文字
 @export
-var debug_label : TextEdit
+var debug_log : Node = null
 
 @export var opt_root : Node
 
@@ -25,7 +26,7 @@ var sum_vals
 
 func _ready () :
 	G.on_print(func(msg):
-		self.debug_label.text += msg+"\n"
+		self.debug_log.add_text(msg + "\n")
 	, "test_sum_vals")
 	
 	self.SumVals = UREQ.acc("Uzil", "Core.SumVals")

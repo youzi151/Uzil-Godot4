@@ -3,9 +3,9 @@ extends Node
 
 # Variable ===================
 
-## 幀錯文字
+## 偵錯文字
 @export
-var debug_label : TextEdit
+var debug_log : Node = null
 
 ## 搜尋輸入
 @export
@@ -28,7 +28,7 @@ var target_to_content := {}
 
 func _ready () :
 	G.on_print(func(msg):
-		self.debug_label.text += msg+"\n"
+		self.debug_log.add_text(msg + "\n")
 	, "test_tag_q")
 	
 	self.TagQ = UREQ.acc("Uzil", "Basic.TagQ")

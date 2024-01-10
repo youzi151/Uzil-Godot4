@@ -47,7 +47,7 @@ func size () :
 func current () :
 	# 依照類型 取得 當前值
 	var curr = null
-	if typeof(self._current_val) == TYPE_CALLABLE :
+	if self._current_val != null and is_instance_valid(self._current_val) and typeof(self._current_val) == TYPE_CALLABLE  :
 		curr = self._current_val.call()
 	else :
 		curr = self._current_val
