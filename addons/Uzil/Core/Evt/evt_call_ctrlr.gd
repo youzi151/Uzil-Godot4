@@ -6,6 +6,8 @@
 
 # Variable ===================
 
+signal on_done
+
 ## 事件
 var _evt = null
 
@@ -15,6 +17,9 @@ var _current_listener = null
 ## 是否已停止呼叫
 var _is_call_stop := false
 
+## 是否等候中
+var _is_wait := false
+
 ## 特定標籤
 var _specific_tags := []
 
@@ -23,6 +28,7 @@ var _ignore_tags := []
 
 ## 資料
 var data = null
+
 
 # GDScript ===================
 
@@ -50,6 +56,21 @@ func stop () :
 ## 是否已經停止呼叫
 func is_call_stop () -> bool :
 	return self._is_call_stop
+
+
+## 暫停
+func wait () :
+	self._is_wait = true
+
+## 等候至完成
+func until_done () :
+	if self._is_wait : await self.on_done
+
+## 完成
+func done () :
+	self._is_wait = false
+	self.on_done.emit()
+	
 
 ## 指定
 func specific (tag : String) :

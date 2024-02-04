@@ -8,13 +8,14 @@ extends Node
 # Variable ===================
 
 ## 實體ID
-@export var inst_key := "_none"
+@export var inst_key := ""
 
 ## 頁面列表
-@export var pages_nodepath : Array[NodePath] = []
+@export var page_nodes : Array[Node] = []
 
 ## 卡片列表
-@export var cards_nodepath : Array[NodePath] = []
+@export var card_nodes : Array[Node] = []
+
 
 
 ## 實體
@@ -31,11 +32,7 @@ func _init () :
 	self.on_ready = Evt.Inst.new()
 
 func _ready () :
-	
 	self.request_inst()
-
-	# 呼叫 當準備完成 事件
-	self.on_ready.emit()
 
 func _process (_dt) :
 	pass
@@ -52,22 +49,29 @@ func request_inst () :
 	var pages := []
 	var cards := []
 	
-	# 每個指定Node路徑 取得為 Node
-	for each in self.cards_nodepath :
-		var node := self.get_node(each)
-		if node : cards.push_back(node.request_card())
-
-	for each in self.pages_nodepath :
-		var node := self.get_node(each)
-		if node : 
-			var page = node.request_page()
-			if page.get_id() == "_root" :
-				root_page = page
-			else :
-				pages.push_back(page)
+	# 每個 卡片 節點
+	for node in self.card_nodes :
+		if node == null : continue
+		# 請求/建立 卡片
+		var card = node.request_card()
+		# 加入 卡片
+		cards.push_back(card)
+	
+	# 每個 頁面 節點
+	for node in self.page_nodes :
+		if node == null : continue
+		
+		# 請求/建立 頁面
+		var page = node.request_page()
+		
+		# 加入 頁面
+		if page.id == "_root" :
+			root_page = page
+		else :
+			pages.push_back(page)
 	
 	self.inst = Inst.new(root_page)
-	if self.inst_key == "_none" :
+	if self.inst_key == "" :
 		self.inst = Inst.new(root_page)
 	else :
 		self.inst = UREQ.acc("Uzil", "page_card_mgr").inst(self.inst_key, root_page)

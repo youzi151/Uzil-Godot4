@@ -11,13 +11,12 @@ extends Node
 var _key_to_inst := {}
 
 ## 預設 設定
-var _default_config = null
+var default_config = null
 
 # GDScript ===================
 
 func _init (_dont_set_in_scene) :
 	var TagQ = UREQ.acc("Uzil", "TagQ")
-	self._default_config = TagQ.Config.new()
 
 func _process (_dt) :
 	pass
@@ -30,7 +29,7 @@ func inst (key := "_") :
 		return self._key_to_inst[key]
 	else:
 		var TagQ = UREQ.acc("Uzil", "Basic.TagQ")
-		var _inst = TagQ.Inst.new(self._default_config)
+		var _inst = TagQ.Inst.new(self.default_config)
 		
 		self._key_to_inst[key] = _inst
 		return _inst

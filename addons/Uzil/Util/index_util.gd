@@ -20,6 +20,12 @@ var sub_indexes := []
 ## 隨機
 var RNG
 
+
+# class =========
+
+## 圖
+var Graph
+
 # inst ==========
 
 ## 數學
@@ -53,6 +59,9 @@ func index (Uzil, _parent_index) :
 	# 綁定 索引
 	UREQ.bind("Uzil", "Util",
 		func () :
+			
+			self.Graph = Uzil.load_script(self.PATH.path_join("Graph/graph.gd"))
+			
 			# inner class
 			self._class._Math = Uzil.load_script(self.PATH.path_join("math.gd"))
 			self._class._Async = Uzil.load_script(self.PATH.path_join("async.gd"))

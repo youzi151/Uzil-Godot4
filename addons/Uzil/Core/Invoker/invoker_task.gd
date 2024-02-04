@@ -6,6 +6,9 @@
 
 # Variable ===================
 
+## 信號
+signal fn_done
+
 ## 行為
 var fn : Callable
 
@@ -41,10 +44,12 @@ func _init () :
 ## 呼叫
 func run () :
 	self.fn.call()
+	self.fn_done.emit()
 
 ## 呼叫 (帶參數)	
 func runArg (args) :
 	self.fn.call(args)
+	self.fn_done.emit()
 
 ## 標籤
 func tag (tag_str : String) :

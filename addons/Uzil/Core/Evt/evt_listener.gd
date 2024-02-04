@@ -13,7 +13,10 @@ var tags : Array[String] = []
 var fnc : Callable
 
 ## 排序
-var sort := 0
+var sort : int = 0
+
+## 呼叫次數 (預設 無限)
+var call_times : int = -1
 
 # GDScript ===================
 
@@ -21,12 +24,16 @@ var sort := 0
 
 ## 呼叫事件
 func emit (ctrlr) :
+	
 	var is_ctrlr_exist := ctrlr != null
 	
 	if is_ctrlr_exist :
 		ctrlr.set_current_listener(self)
 
-	self.fnc.callv([ctrlr])
+	await self.fnc.callv([ctrlr])
+	
+	if is_ctrlr_exist :
+		await ctrlr.until_done()
 	
 	if is_ctrlr_exist : 
 		ctrlr.set_current_listener(null)
@@ -34,6 +41,16 @@ func emit (ctrlr) :
 ## 設置 執行內容
 func fn (_fn: Callable) :
 	self.fnc = _fn
+	return self
+
+## 設置 呼叫次數
+func times (times : int) :
+	self.call_times = times
+	return self
+
+## 設置 單次呼叫
+func once () :
+	self.call_times = 1
 	return self
 
 ## 設置 排序

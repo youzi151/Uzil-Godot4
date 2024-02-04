@@ -119,28 +119,32 @@ func set_default (val) :
 	self._default_val = val
 	if self._user_to_data.size() == 0 :
 		self._update_current(null, null)
+	return self
 
 ## 設置
 func set_val (user, val) :
 	var data = self.get_data(user)
-	if data == null : return
+	if data == null : return self
 	data.val = val
 	if user == self._current_user :
 		self._update_current(self._current_user)
+	return self
 
 ## 設置 優先度
 func set_pri (user, priority : int) :
 	var data = self.get_data(user)
-	if data == null : return
+	if data == null : return self
 	data.pri = priority
 	self._update_users()
+	return self
 
 ## 設置 標籤
 func set_tags (user, tags : Array) :
 	var data = self.get_data(user)
-	if data == null : return
+	if data == null : return self
 	data.tags = tags.duplicate()
 	self._update_users()
+	return self
 
 ## 取得
 func get_data (user) :

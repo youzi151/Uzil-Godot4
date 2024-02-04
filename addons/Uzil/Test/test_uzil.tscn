@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://chy0dbw7xo7yc"]
+[gd_scene load_steps=23 format=3 uid="uid://chy0dbw7xo7yc"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_uzil.gd" id="1_5gjy7"]
 [ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_to_scene.gd" id="2_35jgj"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://c7ee7kw0ftt0p" path="res://addons/Uzil/Core/SumVals/_test/test_sum_vals.tscn" id="5_8c3gy"]
 [ext_resource type="PackedScene" uid="uid://bt5bordmhgvn2" path="res://addons/Uzil/Basic/InputPipe/_test/test_input_pipe.tscn" id="5_qujxa"]
 [ext_resource type="PackedScene" uid="uid://8ht5kb7sav4q" path="res://addons/Uzil/Core/Times/_test/test_times.tscn" id="5_w60v7"]
+[ext_resource type="PackedScene" uid="uid://cdnfj3kh5hfe6" path="res://addons/Uzil/Advance/PageCard/_test/test_page_card.tscn" id="6_fo4cy"]
 [ext_resource type="PackedScene" uid="uid://djoxwlrttiqk4" path="res://addons/Uzil/Core/Vals/_test/test_vals.tscn" id="6_netom"]
 [ext_resource type="PackedScene" uid="uid://dxffevoyf0xv" path="res://addons/Uzil/Core/Vars/_test/test_vars.tscn" id="7_kq6kg"]
 [ext_resource type="PackedScene" uid="uid://b3rxanb1v50yy" path="res://addons/Uzil/Core/ObjPool/_test/test_obj_pool.tscn" id="9_ihyfe"]
@@ -134,6 +135,10 @@ theme = SubResource("Theme_kt5kl")
 [node name="Audio" type="Node" parent="scene/scenes/Advance"]
 script = ExtResource("2_35jgj")
 scene = ExtResource("3_rpken")
+
+[node name="PageCard" type="Node" parent="scene/scenes/Advance"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("6_fo4cy")
 
 [node name="States" type="Node" parent="scene/scenes/Advance"]
 script = ExtResource("2_35jgj")

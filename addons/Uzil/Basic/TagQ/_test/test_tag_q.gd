@@ -107,7 +107,7 @@ func test_search () :
 	G.print("parsed tags : \n" + str(search_data.tags))
 	
 	# 搜尋目標
-	var results : Array = self.tag_q.search(to_search)
+	var results : Array = self.tag_q.search(to_search).keys()
 	
 	# 以目標找出對應內容
 	var contents : Array = []
@@ -154,7 +154,7 @@ func test_simple () :
 	inst.set_tags("Dman", ["role:sup,tank","gender:male"])
 	
 	# 搜尋
-	G.print(inst.search("-role:dps gender:male"))
-	G.print(inst.search("role:sup - role : tank"))
+	G.print(inst.search("-role:dps gender:male").keys())
+	G.print(inst.search("role:sup - role : tank").keys())
 
 	G.print("=======================")

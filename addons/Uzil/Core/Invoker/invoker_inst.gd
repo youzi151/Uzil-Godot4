@@ -82,19 +82,22 @@ func process (_dt) :
 			each.run()
 			self.tasks.remove_at(idx)
 
+## 等候
+func wait (delay_ms : int) :
+	await self.once(func():pass, delay_ms).fn_done
 
 ## 單次執行
 func once (fn, delay_ms) :
 	var task = self.Invoker.Task.new()
 	task.fn = fn
 	task.calltime_ms = self._time_now() + delay_ms
-#	print("task.calltime_ms:",task.calltime_ms)
+#	G.print("task.calltime_ms:",task.calltime_ms)
 	task.call_type = self.Invoker.CallType.ONCE
 	self.tasks.push_front(task) # 加入尾端
 	self.sort()
 	
 	return task
-	
+
 ## 間隔執行
 func interval (fn, interval_ms) :
 	var task = self.Invoker.Task.new()

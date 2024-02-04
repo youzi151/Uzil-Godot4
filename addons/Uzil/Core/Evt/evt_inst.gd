@@ -39,6 +39,7 @@ func emit (data = null, options = null) :
 		# 若 存在 指定標籤 則 設置 到 控制
 		if options.has("specifics") :
 			ctrlr.specifics(options.specifics)
+		
 	# 每個 偵聽者
 	var listeners_copy := self._listener_list.duplicate()
 	for each in listeners_copy :
@@ -50,9 +51,21 @@ func emit (data = null, options = null) :
 		# 若 被忽略 則 繼續 下個
 		if ctrlr.is_ignores(each.tags) : continue
 		
-		each.emit(ctrlr)
+		# 若 呼叫計數 存在 則 扣除
+		if each.call_times > 0 : each.call_times -= 1
 		
+		# 呼叫
+		await each.emit(ctrlr)
+		
+		# 若 呼叫計數 為 0 則 註銷
+		if each.call_times == 0 : 
+			if self._listener_list.has(each) :
+				self._listener_list.erase(each)
 
+## 新增 偵聽者
+func once (listener_or_fn) :
+	return self.on(listener_or_fn).once()
+	
 ## 新增 偵聽者
 func on (listener_or_fn) :
 	var typ := typeof(listener_or_fn)

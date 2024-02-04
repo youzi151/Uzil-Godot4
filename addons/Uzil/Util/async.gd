@@ -19,6 +19,13 @@ func each (list_or_dict, fn_each, _fn_done = null) :
 	# 總數
 	var count = list_or_dict.size()
 	
+	# 防呆
+	if count == 0:
+		# 執行最後任務
+		if _fn_done != null:
+			_fn_done.call()
+		return
+	
 	var wait_until_done : WaitSignal = null
 	if _fn_done == null : wait_until_done = WaitSignal.new()
 	
@@ -57,6 +64,7 @@ func each (list_or_dict, fn_each, _fn_done = null) :
 				_fn_done.call()
 			else :
 				wait_until_done.emit()
+		
 	
 	# 每個任務
 	for num in range(0, indexes.size()) :
@@ -113,6 +121,12 @@ func each_series (list_or_dict, fn_each, _fn_done = null) :
 	
 	# 總數
 	var count = list_or_dict.size()
+	# 防呆
+	if count == 0:
+		# 執行最後任務
+		if _fn_done != null:
+			_fn_done.call()
+		return
 	
 	var wait_until_done : WaitSignal = null
 	if _fn_done == null : wait_until_done = WaitSignal.new()
@@ -125,11 +139,6 @@ func each_series (list_or_dict, fn_each, _fn_done = null) :
 		TYPE_DICTIONARY :
 			indexes = list_or_dict.keys()
 		
-	if indexes == null or indexes.size() == 0:
-		# 執行最後任務
-		if _fn_done != null:
-			_fn_done.call()
-		return
 	
 	# 傳入參考
 	var ref1 := {}
@@ -209,6 +218,10 @@ func each_series (list_or_dict, fn_each, _fn_done = null) :
 
 ## 執行次數
 func times (run_times, fn_each, _fn_done = null) :
+	if run_times == 0 :
+		if _fn_done != null :
+			_fn_done.call()
+		return
 	
 	var wait_until_done : WaitSignal = null
 	if _fn_done == null : wait_until_done = WaitSignal.new()
@@ -276,6 +289,10 @@ func times (run_times, fn_each, _fn_done = null) :
 
 ## 執行次數 依序
 func times_series (run_times, fn_each, _fn_done = null) :
+	if run_times == 0 :
+		if _fn_done != null :
+			_fn_done.call()
+		return
 	
 	var wait_until_done : WaitSignal = null
 	if _fn_done == null : wait_until_done = WaitSignal.new()
@@ -341,6 +358,11 @@ func parallel (fn_list, _fn_done = null) :
 	
 	# 總數
 	var count : int = fn_list.size()
+	
+	if count == 0 :
+		if _fn_done != null :
+			_fn_done.call()
+		return
 	
 	var wait_until_done : WaitSignal = null
 	if _fn_done == null : wait_until_done = WaitSignal.new()
@@ -410,6 +432,11 @@ func parallel (fn_list, _fn_done = null) :
 
 ## 執行任務 依序
 func waterfall (fn_list, _fn_done = null) :
+	
+	if fn_list.size() == 0 :
+		if _fn_done != null :
+			_fn_done.call()
+		return
 	
 	var wait_until_done : WaitSignal = null
 	if _fn_done == null : wait_until_done = WaitSignal.new()

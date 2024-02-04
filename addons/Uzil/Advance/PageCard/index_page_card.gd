@@ -14,6 +14,22 @@ var PATH : String
 ## Uzil
 var Uzil
 
+# 查詢模式
+enum QueryMode {
+	# 資訊
+	INFO,
+	# 顯示
+	SHOW,
+	# 隱藏
+	HIDE,
+	# 顯示 否則 清除
+	SHOW_OR_CLEAR,
+	# 隱藏 否則 清除
+	HIDE_OR_CLEAR,
+	# 顯示 否則 隱藏
+	SHOW_OR_HIDE,
+}
+
 # sub_index =====
 
 ## 管理器

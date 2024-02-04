@@ -27,6 +27,8 @@ var TagData
 
 # other =========
 
+var default_config = null
+
 # func ==========
 
 ## 建立索引
@@ -41,6 +43,7 @@ func index (Uzil, _parent_index) :
 			self.Inst = Uzil.load_script(self.PATH.path_join("tag_q_inst.gd"))
 			self.Mgr = Uzil.load_script(self.PATH.path_join("tag_q_mgr.gd"))
 			self.TagData = Uzil.load_script(self.PATH.path_join("tag_q_tag_data.gd"))
+			self.default_config = self.Config.new()
 			return self,
 		{
 			"alias" : ["TagQ"],

@@ -6,6 +6,8 @@
 
 # Variable ===================
 
+## 任意標示符號
+var SIGN_ANY := "*"
 
 ## 屬性 衝突
 var ATTR_CONFLICT := "!"

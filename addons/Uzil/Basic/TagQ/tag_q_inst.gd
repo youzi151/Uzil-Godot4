@@ -26,11 +26,21 @@ var _cache_target_to_tags_values := []
 
 # GDScript ===================
 
-func _init (cfg) :
+func _init (cfg = null) :
+	var TagQ = UREQ.acc("Uzil", "TagQ")
+	
+	if cfg == null : cfg = TagQ.default_config
+	
 	self._config = cfg
-	self.TagData = UREQ.acc("Uzil", "TagQ").TagData
+	self.TagData = TagQ.TagData
 
 # Public =====================
+
+func clear () :
+	self._is_cached = false
+	self.target_to_tags.clear()
+	self._cache_target_to_tags_keys.clear()
+	self._cache_target_to_tags_values.clear()
 
 ## 設置 標籤
 func set_tags (target, tags : Array) :
@@ -57,12 +67,12 @@ func get_datas (target) :
 	return tag_datas.duplicate()
 
 ## 以字串搜尋
-func search (search_str : String) -> Array :
+func search (search_str : String) -> Dictionary :
 	var search_data = self.parse_search_str(search_str)
 	return self.search_tags(search_data.tags)
 
 ## 以Tags搜尋
-func search_tags (to_search_tags : Array) -> Array :
+func search_tags (to_search_tags : Array) -> Dictionary :
 	
 	# 結果 目標資料:標籤資料列表
 	var result_target_to_tag_datas := {}
@@ -92,6 +102,9 @@ func search_tags (to_search_tags : Array) -> Array :
 			tag_datas.push_back(to_search_tag)
 			
 	for tag_data in tag_datas :
+		if tag_data.scope.is_empty() :
+			tag_data.scope = self.config.SIGN_ANY
+		
 		match tag_data.search_type :
 			-1 : 
 				to_search_negative.push_back(tag_data)
@@ -114,7 +127,7 @@ func search_tags (to_search_tags : Array) -> Array :
 			# 每個 輪詢資料 標籤
 			for each_tag in each_tags :
 				# 若 ID 不同 則 忽略
-				if each_tag.id != each_to_search.id  : continue
+				if not self.id_equal(each_tag.id, each_to_search.id) : continue
 				# 若 所屬 不同 則 忽略
 				if not self.scope_equal(each_tag.scope, each_to_search.scope) : continue
 				# 若 都相同 則 標記 不通過
@@ -131,7 +144,7 @@ func search_tags (to_search_tags : Array) -> Array :
 				# 每個 輪詢資料 標籤
 				for each_tag in each_tags :
 					# 若 ID 不同 則 忽略
-					if each_tag.id != each_to_search.id  : continue
+					if not self.id_equal(each_tag.id, each_to_search.id) : continue
 					# 若 所屬 不同 則 忽略
 					if not self.scope_equal(each_tag.scope, each_to_search.scope) : continue
 					
@@ -153,11 +166,11 @@ func search_tags (to_search_tags : Array) -> Array :
 				# 每個 輪詢資料 標籤
 				for each_tag in each_tags :
 					# 若 ID 不同
-					if each_to_search.id != each_tag.id : continue
+					if not self.id_equal(each_tag.id, each_to_search.id) : continue
 					# 若 所屬 不同
 					if not self.scope_equal(each_to_search.scope, each_tag.scope) : continue
 				
-					# 判定 為 通過	
+					# 判定 為 通過
 					is_target_pass = 1
 					break
 				
@@ -168,7 +181,7 @@ func search_tags (to_search_tags : Array) -> Array :
 			# 加入 結果列表
 			result_target_to_tag_datas[each_target] = each_tags
 		
-	return result_target_to_tag_datas.keys()
+	return result_target_to_tag_datas
 
 ## 產生 快取
 func gen_cache () :
@@ -334,10 +347,14 @@ func is_attr (tag, attr) -> bool :
 	var tag_data = self.parse_tag(tag)
 	return tag_data.attr.find(attr) != -1
 
+## 辨識ID是否相等
+func id_equal (id_a : String, id_b : String) -> bool :
+	if id_a == self.config.SIGN_ANY or id_b == self.config.SIGN_ANY : return true
+	return id_a == id_b
+
 ## 所屬是否相等
 func scope_equal (scope_a : String, scope_b : String) -> bool :
-	# empty 為 任意
-	if scope_a.is_empty() or scope_b.is_empty() : return true
+	if scope_a == self.config.SIGN_ANY or scope_b == self.config.SIGN_ANY : return true
 	return scope_a == scope_b
 
 ## 去除頭尾空白
