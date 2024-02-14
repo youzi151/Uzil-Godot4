@@ -1,4 +1,4 @@
-extends Uzil_Test_Base
+extends Node
 
 # Variable ===================
 

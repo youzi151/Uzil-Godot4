@@ -45,7 +45,7 @@ func _process (_delta) :
 		self.invoker_inst.frame(func(): G.print("a : the only one can be execute"), tag_a, 4)
 		G.print("ask to update A2")
 		# 另外一組標籤, 不會受影響
-		self.invoker_inst.frame(func(): G.print("b : execute"), tag_b)
+		self.invoker_inst.frame(func(): G.print("b : execute by another tag"), tag_b)
 		G.print("ask to update B1")
 		# 優先度較低, 會被忽略的
 		self.invoker_inst.frame(func(): G.print("a : will be ignore"), tag_a)
