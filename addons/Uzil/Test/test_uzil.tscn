@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://chy0dbw7xo7yc"]
+[gd_scene load_steps=24 format=3 uid="uid://chy0dbw7xo7yc"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_uzil.gd" id="1_5gjy7"]
 [ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_to_scene.gd" id="2_35jgj"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://cdnfj3kh5hfe6" path="res://addons/Uzil/Advance/PageCard/_test/test_page_card.tscn" id="6_fo4cy"]
 [ext_resource type="PackedScene" uid="uid://djoxwlrttiqk4" path="res://addons/Uzil/Core/Vals/_test/test_vals.tscn" id="6_netom"]
 [ext_resource type="PackedScene" uid="uid://dxffevoyf0xv" path="res://addons/Uzil/Core/Vars/_test/test_vars.tscn" id="7_kq6kg"]
+[ext_resource type="PackedScene" uid="uid://bxe6jknufa3fq" path="res://addons/Uzil/Advance/Options/_test/test_options_display.tscn" id="7_s7o2e"]
 [ext_resource type="PackedScene" uid="uid://b3rxanb1v50yy" path="res://addons/Uzil/Core/ObjPool/_test/test_obj_pool.tscn" id="9_ihyfe"]
 [ext_resource type="PackedScene" uid="uid://exihucjhjxyp" path="res://addons/Uzil/Basic/Res/_test/test_res.tscn" id="9_u7sp0"]
 [ext_resource type="PackedScene" uid="uid://c00044uhftq6x" path="res://addons/Uzil/Util/_test/test_async.tscn" id="19_63et0"]
@@ -36,12 +37,6 @@ test_scene_container = NodePath("test_scene/container")
 test_scene_title = NodePath("test_scene/title")
 
 [node name="scene" type="Node" parent="."]
-
-[node name="Camera3D" type="Camera3D" parent="scene"]
-transform = Transform3D(1, 0, 0, 0, 0.92755, 0.3737, 0, -0.3737, 0.92755, 0, 0.686304, 1.33365)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="scene"]
-transform = Transform3D(0.812908, 0.186443, -0.551743, 0, 0.947372, 0.320134, 0.582393, -0.260239, 0.770126, 0, 3.74558, 0)
 
 [node name="UI" type="Control" parent="scene"]
 layout_mode = 3
@@ -147,6 +142,12 @@ scene = ExtResource("3_4lek2")
 [node name="UINav" type="Node" parent="scene/scenes/Advance"]
 script = ExtResource("2_35jgj")
 scene = ExtResource("3_mr1vc")
+
+[node name="Options" type="Node" parent="scene/scenes/Advance"]
+
+[node name="Display" type="Node" parent="scene/scenes/Advance/Options"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("7_s7o2e")
 
 [node name="Basic" type="Node" parent="scene/scenes"]
 

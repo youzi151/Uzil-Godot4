@@ -24,6 +24,9 @@ var v := {}
 func _init () :
 	self.Log = ResourceLoader.load("res://addons/GlobalUtil/Scripts/logger.gd").new()
 
+func _enter_tree () :
+	self.set_global("main_window", self.get_window())
+
 # Extends ====================
 
 # Interface ==================

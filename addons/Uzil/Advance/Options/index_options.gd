@@ -5,6 +5,15 @@
 ## 提供設置遊戲各種選項
 ## 
 
+class OptsKit :
+	var game
+	var display
+	var audio
+	func load_config () :
+		self.game.load_config(self.CONFIG_FILE_PATH)
+		self.display.load_config(self.CONFIG_FILE_PATH)
+		self.audio.load_config(self.CONFIG_FILE_PATH)
+
 # const =========
 
 ## 路徑
@@ -55,20 +64,12 @@ func index (Uzil, _parent_index) :
 ## 建立 工具組
 func create_kit () :
 	
-	var kit := {}
+	var kit := OptsKit.new()
 	var to_load_configs := []
 	
 	kit.game = self.Game.new()
-	to_load_configs.push_back(kit.game)
-	
 	kit.display = self.Display.new()
-	to_load_configs.push_back(kit.display)
-	
 	kit.audio = self.Audio.new()
-	to_load_configs.push_back(kit.audio)
-	
-	for each in to_load_configs :
-		each.load_config(self.CONFIG_FILE_PATH)
 	
 	return kit
 	

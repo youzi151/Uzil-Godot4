@@ -1,0 +1,105 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxe6jknufa3fq"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Advance/Options/_test/test_options_display.gd" id="1_6yy1i"]
+[ext_resource type="PackedScene" uid="uid://dmygwnq3d1o7n" path="res://addons/Uzil/Advance/Options/_test/test_window.tscn" id="2_3ko4n"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_3p6wc"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "subviewport")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6yy1i")
+debug_log = NodePath("HBoxContainer/VBoxContainer3/debug_text_edit")
+subviewport = NodePath("HBoxContainer/VBoxContainer2/SubViewportContainer/SubViewport")
+window_2_tscn = ExtResource("2_3ko4n")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="test_sub_window_toggle" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "Sub Window
+Toggle"
+
+[node name="test_window_size_toggle2" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "Window Size
+Toggle"
+
+[node name="test_3d_scaling_toggle" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "3D Scaling
+Toggle
+(0.1<-> 1)"
+
+[node name="test_borderless_toggle" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "Borderless
+Toggle"
+
+[node name="test_fullscreen_toggle" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "Fullscreen
+Toggle"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer/VBoxContainer2"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/VBoxContainer2/SubViewportContainer"]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(506, 648)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="Node3D" type="Node3D" parent="HBoxContainer/VBoxContainer2/SubViewportContainer/SubViewport"]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="HBoxContainer/VBoxContainer2/SubViewportContainer/SubViewport/Node3D"]
+radial_segments = 33
+rings = 11
+
+[node name="Camera3D" type="Camera3D" parent="HBoxContainer/VBoxContainer2/SubViewportContainer/SubViewport/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.929126, 0.369763, 0, -0.369763, 0.929126, 0, 1.13816, 2.44914)
+keep_aspect = 0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="HBoxContainer/VBoxContainer2/SubViewportContainer/SubViewport/Node3D"]
+transform = Transform3D(0.803109, 0.033198, 0.594907, -0.595832, 0.0447468, 0.801861, 0, -0.998447, 0.0557169, 1.43958, 0.569834, 0)
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="debug_text_edit" type="TextEdit" parent="HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2_3p6wc")
+
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_sub_window_toggle" to="." method="test_sub_window_toggle"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_window_size_toggle2" to="." method="test_window_size_toggle"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_3d_scaling_toggle" to="." method="test_3d_scaling_toggle"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_borderless_toggle" to="." method="test_borderless_toggle"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_fullscreen_toggle" to="." method="test_fullscreen_toggle"]
