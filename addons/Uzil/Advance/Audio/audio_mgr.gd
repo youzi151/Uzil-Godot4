@@ -94,7 +94,7 @@ func prepare (audio_id : String, path_or_key : String, data = null) :
 #	pass
 
 ## 請求
-func request (audio_id, path_or_key : String, data = null) :
+func request (audio_id : String, path_or_key : String, data = null) :
 	
 	var id = self._handle_id_in_request(audio_id)
 	
@@ -155,7 +155,7 @@ func set_volume (audio_id : String, volume : float) :
 
 ## 播放 (匿名, 直接指定資源)
 func emit (path_or_key : String, data = null) :
-	var audio_obj = self.request(null, path_or_key, data)
+	var audio_obj = self.request("", path_or_key, data)
 	if audio_obj :
 		audio_obj.play()
 		
@@ -172,7 +172,7 @@ func play (audio_id : String, data = null) :
 	audio_obj.play()
 
 ## 停止
-func stop (audio_id, is_force := false) :
+func stop (audio_id : String, is_force := false) :
 	if not self.is_exist(audio_id) : 
 		G.print("%s not exist" % audio_id)
 		return
@@ -334,9 +334,9 @@ func _get_res_path (path_or_key) -> String :
 	return path
 	
 ## 處理 ID 
-func _handle_id_in_request (id) -> String :
+func _handle_id_in_request (id : String) -> String :
 	# 若為空 則 取匿名ID
-	if id == null :
+	if id.is_empty() :
 		id = "_anonymous_"
 		id = UREQ.acc("Uzil", "Util").uniq_id.fix(id, func (newID) :
 			return self._id_to_obj.has(newID) == false

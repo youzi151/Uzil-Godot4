@@ -17,7 +17,7 @@ var _id := "_default"
 var path_or_key : String
 
 ## 音效播放
-var audio_player = null
+var audio_player : AudioStreamPlayer = null
 
 ## 是否撥放完後 即 銷毀
 @export var is_release_on_end := true
@@ -82,24 +82,7 @@ func _process (_dt) :
 		self.resume()
 		
 	
-	if self.audio_player == null : return
-	
-	var Util = UREQ.acc("Uzil", "Util")
-	
-	# 檢查 並 更新 目標音量
-	var target_volume_layered = self._get_layered_volume()
-	if target_volume_layered != self._target_volume :
-		self._target_volume = target_volume_layered
-		self._target_volume_db = Util.math.percent_to_db(self._target_volume)
-	
-	# 漸變目標音量
-	if self.audio_player.volume_db != self._target_volume_db :
-		var current_volume : float = Util.math.db_to_percent(self.audio_player.volume_db)
-		if self.fade_speed_volume_sec < 0 :
-			current_volume = self._target_volume
-		else :
-			current_volume = move_toward(current_volume, self._target_volume, self.fade_speed_volume_sec * _dt)
-		self.audio_player.volume_db = Util.math.percent_to_db(current_volume)
+	self._process_volume(_dt)
 		
 
 func _signal_finished () :
@@ -134,7 +117,6 @@ func play () :
 
 ## 停止
 func stop (is_force := true) :
-	G.print("stop : %s" % self._id)
 	if self.audio_player == null : return
 	
 	# 若 非強制 且 是循環模式
@@ -176,6 +158,16 @@ func set_data (data : Dictionary) :
 			self.play()
 		elif not _is_playing and self.is_playing() :
 			self.pause()
+		
+	if data.has("pitch") :
+		self.audio_player.pitch_scale = data["pitch"]
+	
+	if data.has("loop") :
+		self.is_loop = data["loop"]
+	
+	if data.has("volume") :
+		self.target_volume = data["volume"]
+		self._process_volume()
 
 ## 設置 時間
 func set_time (time : float) :
@@ -282,3 +274,26 @@ func _get_layered_is_pause () -> bool :
 	
 	return is_pause
 
+func _process_volume (_dt : float = -1.0) :
+	
+	var Util = UREQ.acc("Uzil", "Util")
+	
+	# 檢查 並 更新 目標音量
+	var target_volume_layered = self._get_layered_volume()
+	if target_volume_layered != self._target_volume :
+		self._target_volume = target_volume_layered
+		self._target_volume_db = Util.math.percent_to_db(self._target_volume)
+	
+	if self.audio_player == null : return
+	
+	# 漸變目標音量
+	if self.audio_player.volume_db != self._target_volume_db :
+		var current_volume : float = Util.math.db_to_percent(self.audio_player.volume_db)
+		if self.fade_speed_volume_sec < 0 :
+			current_volume = self._target_volume
+		else :
+			if _dt >= 0.0 :
+				current_volume = move_toward(current_volume, self._target_volume, self.fade_speed_volume_sec * _dt)
+			else :
+				current_volume = self._target_volume
+		self.audio_player.volume_db = Util.math.percent_to_db(current_volume)
