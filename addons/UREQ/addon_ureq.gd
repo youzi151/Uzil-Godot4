@@ -7,7 +7,7 @@ const AUTOLOAD_NAME = "UREQ"
 
 func _enter_tree():
 	# Initialization of the plugin goes here.
-	self.add_autoload_singleton(AUTOLOAD_NAME, "res://addons/UREQ/Scripts/ureq.gd")
+	self.add_autoload_singleton(AUTOLOAD_NAME, "res://addons/UREQ/scripts/ureq.gd")
 
 
 func _exit_tree():

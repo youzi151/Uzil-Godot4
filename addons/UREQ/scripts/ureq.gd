@@ -10,7 +10,7 @@ extends Node
 # Variable ===================
 
 const ROOT_PATH := "res://addons/UREQ"
-const PATH = ROOT_PATH + "/Scripts"
+const PATH = ROOT_PATH + "/scripts"
 
 ## 模塊存取
 var Access = null

@@ -22,7 +22,7 @@ var v := {}
 # GDScript ===================
 
 func _init () :
-	self.Log = ResourceLoader.load("res://addons/GlobalUtil/Scripts/logger.gd").new()
+	self.Log = ResourceLoader.load("res://addons/GlobalUtil/scripts/logger.gd").new()
 
 func _enter_tree () :
 	self.set_global("main_window", self.get_window())

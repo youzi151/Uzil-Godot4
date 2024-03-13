@@ -25,7 +25,7 @@ func _ready():
 	self.progress_bar_step = self.get_node(self.progress_bar_step_NP)
 	
 	# 讀取 更新器
-	var uzupdater = load("res://addons/Uzupdater/Scripts/uzupdater.gd").new()
+	var uzupdater = ResourceLoader.load("res://addons/Uzupdater/scripts/uzupdater.gd").new()
 	self.add_child(uzupdater)
 	
 	self.clear_test(uzupdater)
