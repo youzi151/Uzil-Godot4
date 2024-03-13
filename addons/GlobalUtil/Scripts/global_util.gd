@@ -43,6 +43,11 @@ func set_global (_name : String, val) :
 func print (msg) :
 	self.Log.do_print(msg)
 
+
+## 報錯
+func error (msg) :
+	self.Log.do_error(msg)
+
 ## 註冊 當印出
 func on_print (fn : Callable, tag : String = "") :
 	return self.Log.on_print(fn, tag)

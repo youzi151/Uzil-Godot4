@@ -2,9 +2,11 @@
 # Variable ===================
 
 ## 偵聽者
-var _listeners := []
+var _on_print_listeners := []
+var _on_error_listeners := []
 ## 已加入的函式
-var _added_fn := []
+var _on_print_added_fn := []
+var _on_error_added_fn := []
 
 # GDScript ===================
 
@@ -27,32 +29,66 @@ func do_print (msg) :
 	print(msg)
 	if typeof(msg) != TYPE_STRING :
 		msg = str(msg)
-	for each in self._listeners :
+	for each in self._on_print_listeners :
 		each.fn.call(msg)
-
 ## 註冊 當印出
 func on_print (fn : Callable, tag : String = "") :
-	if fn in self._added_fn :
+	if fn in self._on_print_added_fn :
 		return
 	else :
-		self._added_fn.push_back(fn)
+		self._on_print_added_fn.push_back(fn)
 		
 	var listener := {
 		"fn" : fn,
 		"tag" : tag,
 	}
-	self._listeners.push_back(listener)
+	self._on_print_listeners.push_back(listener)
 	return listener
 
 ## 註銷 當印出
 func off_print (tag : String = "") :
 	if tag == "" : return
 	
-	for idx in range(1, self._listeners.size(), -1) :
-		var each = self._listeners[idx]
+	for idx in range(1, self._on_print_listeners.size(), -1) :
+		var each = self._on_print_listeners[idx]
 		if each.tag == tag :
-			self._listeners.remove_at(idx)
-		if each.fn in self._added_fn :
-			self._added_fn.erase(each.fn)
+			self._on_print_listeners.remove_at(idx)
+		if each.fn in self._on_print_added_fn :
+			self._on_print_added_fn.erase(each.fn)
+		
+	
+
+## 報錯
+func do_error (msg) :
+	push_error(msg)
+	if typeof(msg) != TYPE_STRING :
+		msg = str(msg)
+	for each in self._on_error_listeners :
+		each.fn.call(msg)
+
+## 註冊 當印出
+func on_error (fn : Callable, tag : String = "") :
+	if fn in self._on_error_added_fn :
+		return
+	else :
+		self._on_error_added_fn.push_back(fn)
+		
+	var listener := {
+		"fn" : fn,
+		"tag" : tag,
+	}
+	self._on_error_listeners.push_back(listener)
+	return listener
+
+## 註銷 當印出
+func off_error (tag : String = "") :
+	if tag == "" : return
+	
+	for idx in range(1, self._on_error_listeners.size(), -1) :
+		var each = self._on_error_listeners[idx]
+		if each.tag == tag :
+			self._on_error_listeners.remove_at(idx)
+		if each.fn in self._on_error_added_fn :
+			self._on_error_added_fn.erase(each.fn)
 
 # Private ====================
