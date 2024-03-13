@@ -42,17 +42,14 @@ var default_transition_fn = null
 
 # GDScript ===================
 
-func _init (__root_page = null) :
+func _init () :
 	var PageCard = UREQ.acc("Uzil", "Advance.PageCard")
 	
 	var Graph = UREQ.acc("Uzil", "Util").Graph
 	self._page_graph = Graph.new()
 	
 	# 根頁面
-	if __root_page != null : 
-		self._root_page = __root_page
-	else :
-		self._root_page = PageCard.Page.new()
+	self._root_page = PageCard.Page.new()
 	self._root_page.id = "_root"
 	
 	self.reg_page(self._root_page)
@@ -122,6 +119,8 @@ func get_page (page_id : String = "") :
 			self._id_to_page[page_id] = page
 		# 返回 該頁面
 		return page
+	
+	return null
 
 ## 取得 頁面
 func get_pages () :
@@ -149,6 +148,8 @@ func get_card (card_id : String) :
 			self._id_to_card[card_id] = card
 		# 返回 該卡片
 		return card
+	
+	return null
 
 ## 取得 卡片
 func get_cards () :
@@ -173,8 +174,6 @@ func restart () :
 	# 先離開
 	for page in to_exit :
 		await page.exit()
-	for page in to_exit :
-		page.hide()
 	# 再關閉
 	for page in to_exit :
 		await page.deactive()
@@ -196,11 +195,11 @@ func restart () :
 ## 頁面 開啟
 func open (page_id : String, data : Dictionary = {}) :
 	var next_page = self.get_page(page_id)
-	if next_page == null : return
-	if next_page == self._current_page : return
+	if next_page == null : return false
+	if next_page == self._current_page : return false
 	
 	# 更換 當前頁面
-	var last_page = self._current_page	
+	var last_page = self._current_page
 	var last_page_exist := last_page != null
 	
 	# 是否在頁面堆中
@@ -221,6 +220,8 @@ func open (page_id : String, data : Dictionary = {}) :
 	# 若 不在頁面堆疊中 則 關閉 前個頁面
 	if not self._page_stack.has(last_page) :
 		await last_page.deactive()
+	
+	return true
 	
 
 ## 頁面 返回
@@ -430,6 +431,9 @@ func refresh (transition_fn = null, transition_data := {}, on_done = null) :
 		#G.print("page[%s] %s" % [page.id, card_to_state.keys().map(func(a): return "%s : %s" % [a.id, card_to_state[a]])])
 		# 每個 卡片:啟用狀態 設置到 多重數值
 		for card in card_to_state :
+			if not self._cards.has(card) :
+				G.error("[PageCard.Inst] inst not include card %s" % [card])
+				continue
 			self._card_to_active_vals[card].set_data(page, card_to_state[card])
 	
 	# 所有 卡片與啟用狀態多重數值

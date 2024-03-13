@@ -7,6 +7,9 @@ extends Node
 
 # Variable ===================
 
+## 是否註冊
+@export var is_belong_to_mgr := true
+
 ## 實體ID
 @export var inst_key := ""
 
@@ -65,16 +68,13 @@ func request_inst () :
 		var page = node.request_page()
 		
 		# 加入 頁面
-		if page.id == "_root" :
-			root_page = page
-		else :
-			pages.push_back(page)
+		pages.push_back(page)
 	
-	self.inst = Inst.new(root_page)
-	if self.inst_key == "" :
-		self.inst = Inst.new(root_page)
+	self.inst = Inst.new()
+	if self.is_belong_to_mgr :
+		self.inst = UREQ.acc("Uzil", "page_card_mgr").inst(self.inst_key)
 	else :
-		self.inst = UREQ.acc("Uzil", "page_card_mgr").inst(self.inst_key, root_page)
+		self.inst = Inst.new()
 	
 	for card in cards :
 		self.inst.reg_card(card)

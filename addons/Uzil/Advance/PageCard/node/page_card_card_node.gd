@@ -16,6 +16,9 @@ extends Node
 ## 目標物件
 @export var targets : Array[Node] = []
 
+## 註冊 到 實例:[頁面]
+@export var reg_to_inst_to_pages : Dictionary = {}
+
 ## 卡片
 var card = null
 
@@ -47,6 +50,18 @@ func request_card () :
 		if each == null : continue
 		if self.card.targets.has(each) : continue
 		self.card.targets.push_back(each)
+	
+	var page_card_mgr = UREQ.acc("Uzil", "page_card_mgr")
+	for key in self.reg_to_inst_to_pages.keys() :
+		
+		var inst = page_card_mgr.inst(key)
+		inst.reg_card(self.card)
+		
+		var pages : Array = self.reg_to_inst_to_pages[key]
+		for page_key in pages :
+			var page = inst.get_page(page_key)
+			if page == null : continue
+			
 	
 	return self.card
 

@@ -22,12 +22,12 @@ func _process (_dt) :
 # Public =====================
 
 ## 取得 頁面卡 實體
-func inst (key := "_", _root_page = null) :
+func inst (key := "") :
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:
 		var PageCard = UREQ.acc("Uzil", "Advance.PageCard")
-		var _inst = PageCard.Inst.new(_root_page)
+		var _inst = PageCard.Inst.new()
 		
 		self._key_to_inst[key] = _inst
 		return _inst

@@ -8,17 +8,26 @@ extends Node
 # Variable ===================
 
 ## 辨識
-@export var id : String = ""
+@export
+var id : String = ""
+
+## 基底查詢內容
+@export_multiline
+var base_query : String = ""
 
 ## 預設組合
-@export var default_combo_node : Node = null
+@export
+var default_combo_node : Node = null
 
 ## 組合:查詢串 表 String:String
-@export var combo_nodes : Array[Node] = []
+@export
+var combo_nodes : Array[Node] = []
 
 ## 卡片
-@export var card_ids : Array[String] = []
-@export var card_nodes : Array[Node] = []
+@export
+var card_ids : Array[String] = []
+@export
+var card_nodes : Array[Node] = []
 
 ## 頁面
 var page = null
@@ -39,10 +48,13 @@ func request_page (page_card_inst = null) :
 	
 	self.page = UREQ.acc("Uzil", "Advance.PageCard").Page.new()
 	
-	if self.id == "" :
+	if self.id.is_empty() :
 		self.page.id = self.name
 	else :
 		self.page.id = self.id
+	
+	if not self.base_query.is_empty() :
+		self.page.base_query = self.base_query
 	
 	# 組合 與 查詢字串
 	var combo_to_query_str := {}

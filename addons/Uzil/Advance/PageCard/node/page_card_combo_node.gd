@@ -11,7 +11,7 @@ extends Node
 @export var id : String = ""
 
 ## 查詢字串
-@export var query_str : String = ""
+@export_multiline var query_str : String = ""
 
 
 # GDScript ===================

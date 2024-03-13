@@ -14,6 +14,9 @@ var id : String = ""
 ## 預設組合
 var default_combo : String = ""
 
+## 基底查詢內容
+var base_query : String = ""
+
 ## 被動模式
 ## 若 開啟 則 自己無法直接控制 卡片開關
 var is_passtive_mode : bool = false
@@ -144,6 +147,11 @@ func combo (combo_id : String, query_mode : int = -1) :
 
 ## 查詢
 func query (query_str : String, query_mode : int = -1) :
+	
+	if not self.base_query.is_empty() :
+		query_str = "%s %s" % [self.base_query, query_str]
+		#G.print(query_str)
+	
 	# 該頁面的卡片ID列表
 	var cards : Array = self.get_cards()
 	# 標籤查詢結果
@@ -229,8 +237,8 @@ func set_default_behaviour (is_active : bool = true) :
 	
 	self.on_active.on(func (ctrlr) :
 		if not self.default_combo.is_empty() :
+			#G.print("[%s] self.combo(self.default_combo[%s])" % [self.id, self.default_combo])
 			self.combo(self.default_combo)
-			#G.print("[%s] self.combo(self.default_combo)" % self.id)
 	).srt(-1).tag("_default")
 	
 	self.on_deactive.on(func (ctrlr) :
