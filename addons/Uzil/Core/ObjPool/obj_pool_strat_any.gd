@@ -43,18 +43,22 @@ func set_core (__core) :
 
 ## 建立
 func create () :
+	if self._create_fn.is_null() : return null
 	return self._create_fn.call()
 
 ## 銷毀
 func destroy (target) :
+	if self._destroy_fn.is_null() : return
 	self._destroy_fn.call(target)
 
 ## 初始化
 func initial (new_one) :
+	if self._init_fn.is_null() : return new_one
 	return self._init_fn.call(new_one)
 
 ## 反初始化
 func uninitial (old_one) :
+	if self._uninit_fn.is_null() : return old_one
 	return self._uninit_fn.call(old_one)
 
 # Public =====================

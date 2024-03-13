@@ -87,7 +87,7 @@ func wait (delay_ms : int) :
 	await self.once(func():pass, delay_ms).fn_done
 
 ## 單次執行
-func once (fn, delay_ms) :
+func once (fn, delay_ms : int = 0) :
 	var task = self.Invoker.Task.new()
 	task.fn = fn
 	task.calltime_ms = self._time_now() + delay_ms
@@ -99,7 +99,7 @@ func once (fn, delay_ms) :
 	return task
 
 ## 間隔執行
-func interval (fn, interval_ms) :
+func interval (fn, interval_ms : int) :
 	var task = self.Invoker.Task.new()
 	task.fn = fn
 	task.calltime_ms = self._time_now() + interval_ms

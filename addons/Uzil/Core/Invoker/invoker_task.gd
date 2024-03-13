@@ -13,10 +13,10 @@ signal fn_done
 var fn : Callable
 
 ## 時間
-var calltime_ms := 0
+var calltime_ms : int = 0
 
 ## 間隔
-var interval_ms := 0
+var interval_ms : int = 0
 
 ## 呼叫類型
 var call_type : int = 0
@@ -25,13 +25,13 @@ var call_type : int = 0
 var tags : Array[String] = []
 
 ## 排序
-var sort := 0
+var sort : int = 0
 
 ## 重要性 (非排序依據, 而是作為是否取代的依據)
-var priority := 0
+var priority : int = 0
 
 ## 自動排序
-var auto_sort := 0
+var auto_sort : int = 0
 
 # GDScript ===================
 

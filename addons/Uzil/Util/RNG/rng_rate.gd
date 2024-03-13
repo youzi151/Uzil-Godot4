@@ -41,7 +41,7 @@ func rates (rate_arr, _is_duplicate = true) :
 
 ## 設置 機率
 func rate (idx, _rate) :
-	if idx > self._rates.size() or idx < 0 : return
+	if idx > self._rates.size() or idx < 0 : return self
 	self._rates[idx] = _rate
 	return self
 
@@ -95,7 +95,6 @@ func gen () :
 	if rate_size <= 1 : return 0
 
 	# 產生隨機====
-	
 	# 在 總比例數 中 隨機取得數字
 	var rng_num = self.rng.randi_range(1, self._rate_total)
 
@@ -109,10 +108,12 @@ func gen () :
 ## 重新調整 比率表 大小
 func _resize_rates () :
 	# 目標範圍
-	var range_size = self._max - self._min
+	var range_size = self._max - self._min + 1
 	
 	# 目標範圍 與 目前比例數量的 差距
 	var delta = range_size - self._rates.size()
+	if delta < 0 :
+		delta = 0
 	
 	# 補足 或 削減
 	if delta > 0 :

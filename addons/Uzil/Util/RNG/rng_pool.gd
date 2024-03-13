@@ -11,22 +11,22 @@ enum LoopType {
 }
 
 # 隨機類型
-var _loop_type = LoopType.RATE
+var _loop_type := LoopType.RATE
 
 # 比例隨機產生器
 var _rng_rate = null
 
 # 機率比例
-var _rates = []
+var _rates := []
 
 # 隨機池
-var _pool = {}
+var _pool := {}
 
 # 最小值
-var _min = 0
+var _min := 0
 
 # 最大值
-var _max = 0
+var _max := 0
 
 # 種子碼
 var _rng_seed = null
@@ -63,6 +63,20 @@ func equality () :
 # 設置 種子碼
 func rngseed (_seed = null) :
 	self._rng_seed = _seed
+	return self
+
+# 設置 範圍
+func size (_size) :
+	# 防呆
+	if _size < 0 :
+		_size = 0
+	
+	# 設置 最小最大值
+	self._min = 0
+	self._max = _size - 1
+
+	self._resize_rates()
+	
 	return self
 
 # 設置 範圍
@@ -105,6 +119,8 @@ func reset () :
 func next () :
 	var res = self.peek()
 	
+	if self._peeked_idx == null : return res
+	
 	# 從池中移除
 	var left_count = self._pool[self._peeked_idx]
 	left_count -= 1
@@ -128,6 +144,8 @@ func next () :
 func peek () :
 	if self._peeked_idx == null :
 		self._peeked_idx = self._gen_idx()
+	if self._peeked_idx == null :
+		return null
 	return self._get_res(self._peeked_idx)
 
 # 產生隨機
@@ -157,7 +175,7 @@ func _gen_idx () :
 				pooled_rates.push_back(self._rates[each])
 			
 			# 設置 比例隨機
-			self._rng_rate.rates(pooled_rates, false).seed(seed)
+			self._rng_rate.rates(pooled_rates, false).rngseed(seed)
 			
 			# 以 隨機數 取得 pool中的序號
 			target_idx = pooled_idxs[self._rng_rate.gen()]
@@ -169,15 +187,15 @@ func _gen_idx () :
 				var last_target_idx = target_idx
 				
 				# 重新以 隨機數 取得 pool中的序號
-				target_idx = pooled_idxs[self._rng_rate.seed(self._get_offseted_seed(seed)).gen()]
+				target_idx = pooled_idxs[self._rng_rate.rngseed(self._get_offseted_seed(seed)).gen()]
 				
 				while target_idx == last_target_idx :
 					# 重新以 隨機數 取得 pool中的序號
-					target_idx = pooled_idxs[self._rng_rate.seed(self._get_offseted_seed(seed)).gen()]
+					target_idx = pooled_idxs[self._rng_rate.rngseed(self._get_offseted_seed(seed)).gen()]
 					
 				# 復原 種子碼
 				if seed != null :
-					self._rng_rate.seed(seed)
+					self._rng_rate.rngseed(seed)
 			
 #	print("gen %s" % target_idx)
 	return target_idx
@@ -193,7 +211,7 @@ func _get_offseted_seed (seed) :
 # 重新調整 比率表 大小
 func _resize_rates () :
 	# 目標範圍
-	var range_size = self._max - self._min
+	var range_size = self._max - self._min + 1
 	
 	# 目標範圍 與 目前比例數量的 差距
 	var delta = range_size - self._rates.size()
