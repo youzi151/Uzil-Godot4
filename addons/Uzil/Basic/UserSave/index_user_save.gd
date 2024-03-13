@@ -22,9 +22,9 @@ var PROFILE_TEMPLATE_PATH : String
 const FORMAT_VERSION := "1.0.0t"
 
 ## 存檔路徑
-const SAVE_FOLDER_ROOT_PC := "./save/"
-const SAVE_FOLDER_ROOT_MOBILE := "user://save/"
-const SAVE_FOLDER_ROOT_WEB := "user://save/"
+const SAVE_FOLDER_ROOT_PC := "./userdata/"
+const SAVE_FOLDER_ROOT_MOBILE := "user://userdata/"
+const SAVE_FOLDER_ROOT_WEB := "user://userdata/"
 
 # sub_index =====
 
@@ -49,7 +49,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("UserSave")
 	
 	self.TEMPLATE_PATH = self.PATH.path_join("_template")
-	self.CONFIG_TEMPLATE_PATH = self.TEMPLATE_PATH.path_join("config")
+	self.CONFIG_TEMPLATE_PATH = self.TEMPLATE_PATH
 	self.USER_TEMPLATE_PATH = self.TEMPLATE_PATH.path_join("user")
 	self.PROFILE_TEMPLATE_PATH = self.TEMPLATE_PATH.path_join("profile")
 	
@@ -85,7 +85,8 @@ func create_kit () -> Dictionary :
 	var save_folder_root = self.get_save_folder_root()
 	
 	# 設定檔
-	var config = self.Config.new(save_folder_root, self.CONFIG_TEMPLATE_PATH)
+	var config_templates : Array = [self.CONFIG_TEMPLATE_PATH]
+	var config = self.Config.new(save_folder_root, config_templates)
 	
 	# 設定
 	var setting_profile = self.Setting_Profile.new()

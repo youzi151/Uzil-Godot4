@@ -12,13 +12,16 @@ var _write_buffered = null
 var _folder_path : String
 
 ## 模板 目錄
-var _template_path : String
+var template_paths : Array = []
+
+## 是否從模板中複製到檔案
+var is_copy_from_template_to_userdata : bool = true
 
 # GDScript ===================
 
-func _init (folder_path, template_path) :
+func _init (folder_path, _template_paths) :
 	self._folder_path = folder_path
-	self._template_path = template_path
+	self.template_paths = _template_paths
 
 # Extends ====================
 
@@ -106,7 +109,7 @@ func write (file_path : String, section : String, key_to_val : Dictionary) :
 			file = template_file
 		else :
 			file = ConfigFile.new()
-		
+			
 	for key in key_to_val.keys() :
 		# 設置 指定內容
 		file.set_value(section, key, key_to_val[key])
@@ -127,10 +130,9 @@ func read_val (file_path : String, section : String, key : String) :
 	return results[key]
 
 ## 讀取
-func read (file_path : String, section : String, keys = null) :
+func read (file_path : String, section : String = "", keys = null) :
 	# 完整路徑
 	var full_path = self._folder_path.path_join(file_path)
-	
 	# 讀取 檔案
 	var file : ConfigFile = self._read_file(full_path)
 	# 若 不存在 則 建立
@@ -149,14 +151,21 @@ func read (file_path : String, section : String, keys = null) :
 	# 若沒有指定key 則 取所有存在的key
 	if keys == null :
 		
-		if not file.has_section(section) : return results
-			
-		keys = file.get_section_keys(section)
-		var template_keys = template_file.get_section_keys(section)
-		for each in template_keys :
-			if keys.has(each) == false :
-				keys.push_back(each)
+		var exist_keys := {}
 		
+		if file.has_section(section) : 
+			for key in file.get_section_keys(section) :
+				exist_keys[key] = true
+		
+		# 若 模板檔 存在
+		if template_file != null :
+			var template_keys = template_file.get_section_keys(section)
+			for key in template_keys :
+				if not exist_keys.has(key) :
+					exist_keys[key] = true
+		
+		keys = exist_keys.keys()
+	
 	# 每個 指定要找的key
 	for key in keys :
 		
@@ -176,7 +185,7 @@ func read (file_path : String, section : String, keys = null) :
 			# 若 模板檔 存在
 			if template_file != null :
 				# 若 模板檔 存在 指定內容
-#				print("%s %s" % [section, key])
+#				G.print("%s %s" % [section, key])
 				if template_file.has_section_key(section, key) :
 					
 					# 從 模板檔 取得 結果
@@ -192,7 +201,11 @@ func read (file_path : String, section : String, keys = null) :
 			results[key] = result
 		
 	
-	if is_load_template_to_file :
+	if self.is_copy_from_template_to_userdata and is_load_template_to_file :
+		# 確保 路徑存在
+		var dir_path = ProjectSettings.globalize_path(full_path.get_base_dir())
+		if not DirAccess.dir_exists_absolute(dir_path) :
+			DirAccess.make_dir_recursive_absolute(dir_path)
 		file.save(full_path)
 	
 	return results
@@ -203,7 +216,7 @@ func read (file_path : String, section : String, keys = null) :
 ## 讀取 檔案
 func _read_file (full_path : String) :
 	
-	var file := ConfigFile.new()	
+	var file := ConfigFile.new()
 	# 若 檔案 存在
 	if FileAccess.file_exists(full_path) :
 		# 讀取
@@ -211,13 +224,20 @@ func _read_file (full_path : String) :
 		# 若 成功 則 返回
 		if err == OK :
 			return file
-			
+	
+	#G.print("file[%s] exist ? : %s" % [full_path, FileAccess.file_exists(full_path)])
+	
 	return null
 
 ## 請求 模板
 func _read_template (file_path) :
 	# 讀取 模板檔
-	var template_path = self._template_path.path_join(file_path)
-	var template_file : ConfigFile = self._read_file(template_path)
-	
-	return template_file
+	#G.print(self.template_paths)
+	for each in self.template_paths :
+		var template_path = each.path_join(file_path)
+		#G.print(file_path)
+		var template_file : ConfigFile = self._read_file(template_path)
+		#G.print(template_file)
+		if template_file == null : continue
+		return template_file
+	return null
