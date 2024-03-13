@@ -1,8 +1,15 @@
 
 # Variable ===================
 
+# State ============
+
+## 狀態
 var state = null
+
+## 使用主體
 var user = null
+
+# Custom ===========
 
 var msg_enter := ""
 var msg_process := ""
@@ -33,8 +40,8 @@ func set_data (data) :
 	if data.has("msg_exit") :
 		self.msg_exit = data["msg_exit"]
 
-## 初始化
-func init (_user) :
+## 初始化設置
+func setup () :
 	pass
 
 ## 推進

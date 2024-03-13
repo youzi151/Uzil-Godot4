@@ -2,7 +2,7 @@ extends Node
 
 # Variable ===================
 
-@export var inst_key := "_none"
+@export var inst_key := ""
 
 @export var user : Node = null
 
@@ -34,10 +34,7 @@ func _process(_dt):
 func request_inst () :
 	if self.inst != null : return self.inst
 	
-	if self.inst_key == "_none" :
-		self.inst = UREQ.acc("Uzil", "Advance.States").Inst.new()
-	else :
-		self.inst = UREQ.acc("Uzil", "states_mgr").inst(self.inst_key)
+	self.inst = UREQ.acc("Uzil", "states_mgr").inst(self.inst_key)
 	
 	self.inst.default_state_id = self.default_state_id
 	

@@ -47,17 +47,13 @@ func _process (_dt) :
 
 # Public =====================
 
-## 初始化
-func init (data = null) :
+## 初始化設置
+func setup () :
 	if self._strat == null : return
 	
-	# 初始化 策略
-	if self._strat.has_method("init") : 
-		self._strat.init(data)
-	
-	# 若 資料存在 則 設置資料
-	if data != null :
-		self.set_data(data)
+	# 初始化設置 策略
+	if self._strat.has_method("setup") : 
+		self._strat.setup()
 
 ## 更新
 func process (_dt) :

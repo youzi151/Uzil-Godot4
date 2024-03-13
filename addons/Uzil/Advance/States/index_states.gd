@@ -28,8 +28,8 @@ var name_to_state_script := {}
 
 ## 自帶 State 腳本 (名稱:腳本路徑)
 var default_state_scripts := {
-	"print" : "states/state_print.gd",
-	"pagecard_switch_deck" : "states/state_pagecard_switch_deck.gd",
+	"print" : "strats/state_print.gd",
+	"pagecard_query" : "strats/state_pagecard_query.gd",
 }
 
 # func ==========

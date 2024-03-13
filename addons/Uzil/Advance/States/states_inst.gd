@@ -105,7 +105,7 @@ func start () :
 	self.set_user(self._user)
 	
 	for each in self._states :
-		each.init()
+		each.setup()
 	
 	self.go_state(self.default_state_id)
 
