@@ -275,3 +275,11 @@ func load_script (path, is_force_reload := false) :
 		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
 	else :
 		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_REPLACE)
+
+## 讀取節點腳本
+## 避免因為已經被載入至場景/快取而出錯 bad address index
+func load_node_script (path) :
+	if ResourceLoader.has_cached(path) :
+		return ResourceLoader.load(path)
+	else :
+		return self.load_script(path)

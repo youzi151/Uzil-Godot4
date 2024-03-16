@@ -1,0 +1,83 @@
+[gd_scene load_steps=5 format=3 uid="uid://6lohckymxj2e"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Advance/EvtBubb/_test/test_evt_bubb.gd" id="1_5ilw6"]
+[ext_resource type="Script" path="res://addons/Uzil/Advance/EvtBubb/evt_bubb_handler_node.gd" id="2_kqbo8"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_m7eyb"]
+[ext_resource type="Script" path="res://addons/Uzil/Advance/EvtBubb/evt_bubb_trigger_node.gd" id="3_71ghj"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5ilw6")
+debug_log = NodePath("HBoxContainer/VBoxContainer2/debug_text_edit")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="1" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="bubb_handler_notify" type="Node" parent="HBoxContainer/VBoxContainer/1" node_paths=PackedStringArray("target")]
+script = ExtResource("2_kqbo8")
+target = NodePath("../../../..")
+
+[node name="2" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/1"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="bubb_handler_add_and_notify" type="Node" parent="HBoxContainer/VBoxContainer/1/2" node_paths=PackedStringArray("target")]
+script = ExtResource("2_kqbo8")
+target = NodePath("../../../../..")
+bubbling_mode = 1
+override_data = {
+"pass": "replaced by 2"
+}
+
+[node name="3" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/1/2"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="bubb_handler_add_only" type="Node" parent="HBoxContainer/VBoxContainer/1/2/3"]
+script = ExtResource("2_kqbo8")
+bubbling_mode = 1
+override_data = {
+"pass": "replaced by 1"
+}
+
+[node name="test_simple" type="Button" parent="HBoxContainer/VBoxContainer/1/2/3"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_simple()"
+
+[node name="trigger" type="Node" parent="HBoxContainer/VBoxContainer/1/2/3"]
+script = ExtResource("3_71ghj")
+evt_name = "test"
+evt_data = {
+"another": 5,
+"pass": "5555"
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="debug_text_edit" type="TextEdit" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_m7eyb")
+
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/1/2/3/test_simple" to="HBoxContainer/VBoxContainer/1/2/3/trigger" method="trigger"]

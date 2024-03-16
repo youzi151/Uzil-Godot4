@@ -6,10 +6,12 @@
 
 ## 是否為GDScript
 func is_gdscript (target) :
-	return typeof(target) == TYPE_OBJECT and target.get_class() == "GDScript"
+	if target == null : return false
+	return target.get_class() == "GDScript"
 
 ## 是否繼承自
 func is_extends_of (target_script, parent_script) :
+	if target_script == null or parent_script == null : return false
 	if self.is_gdscript(target_script) == false :
 		target_script = target_script.get_script()
 	if self.is_gdscript(parent_script) == false :
