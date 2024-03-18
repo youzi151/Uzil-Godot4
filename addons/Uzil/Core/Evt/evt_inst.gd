@@ -9,7 +9,7 @@ var Evt
 # Variable ===================
 
 ## 是否自動排序
-var is_auto_sort := false
+var is_auto_sort := true
 
 ## 偵聽者
 var _listener_list := []
@@ -23,9 +23,8 @@ func _init () :
 
 ## 呼叫事件
 func emit (data = null, options = null) :
-	# 自動排序
-	if self.is_auto_sort :
-		self.sort()
+	
+	var is_resort := self.is_auto_sort
 	
 	# 控制
 	var ctrlr = self.Evt.CallCtrlr.new(self)
@@ -39,6 +38,12 @@ func emit (data = null, options = null) :
 		# 若 存在 指定標籤 則 設置 到 控制
 		if options.has("specifics") :
 			ctrlr.specifics(options.specifics)
+		if options.has("no_resort") :
+			is_resort = false
+		
+	# 排序
+	if is_resort :
+		self.sort()
 		
 	# 每個 偵聽者
 	var listeners_copy := self._listener_list.duplicate()

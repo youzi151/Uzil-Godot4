@@ -25,8 +25,6 @@ var PageCard
 var States
 ## UI導航
 var UINav
-## 事件冒泡
-var EvtBubb
 
 # inst ==========
 
@@ -53,9 +51,6 @@ func index (Uzil, _parent_index) :
 	
 	self.UINav = Uzil.load_script(self.PATH.path_join("UINav/index_ui_nav.gd")).new()
 	self.sub_indexes.push_back(self.UINav)
-	
-	self.EvtBubb = Uzil.load_script(self.PATH.path_join("EvtBubb/index_evt_bubb.gd")).new()
-	self.sub_indexes.push_back(self.EvtBubb)
 	
 	# 建立索引
 	for each in self.sub_indexes :

@@ -8,6 +8,10 @@ var Evt
 @export
 var debug_log : Node = null
 
+## 取得事件串節點
+@export
+var evt_bus_getter_node : Node = null
+
 # Extends ====================
 
 func _ready () :
@@ -17,6 +21,26 @@ func _ready () :
 	
 	# 事先引用 Evt
 	self.Evt = UREQ.acc("Uzil", "Core.Evt")
+	
+	# 向 取得事件串節點 的 事件串 註冊事件
+	var evt_bus = self.evt_bus_getter_node.get_evt_bus()
+	evt_bus.on("on_test", func(_ctrlr):
+		G.print("evtbus evt[on_test] should't pass to here")
+	).srt(3)
+	evt_bus.on("on_test", func(_ctrlr):
+		G.print("evtbus evt[on_test] emit stop here")
+		_ctrlr.stop()
+	).srt(2)
+	evt_bus.on("on_test", func(_ctrlr):
+		G.print("evtbus evt[on_test] wait sec")
+		await UREQ.acc("Uzil", "invoker").wait(2000)
+	).srt(1)
+	var lis = evt_bus.on("on_test", func(_ctrlr):
+		G.print("evtbus evt[on_test] data : %s " % [str(_ctrlr.data)])
+	).srt(0)
+	G.print("aaa : %s" % [lis.fnc.get_bound_arguments()])
+	
+
 
 func _process (_delta) :
 	pass

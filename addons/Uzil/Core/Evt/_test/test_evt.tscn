@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://cd713gsxua2ru"]
+[gd_scene load_steps=5 format=3 uid="uid://cd713gsxua2ru"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Core/Evt/_test/test_evt.gd" id="1_p1may"]
+[ext_resource type="Script" path="res://addons/Uzil/Core/Evt/node/evt_bus_getter_node.gd" id="2_kjafj"]
+[ext_resource type="Script" path="res://addons/Uzil/Core/Evt/node/evt_bus_emitter_node.gd" id="2_lx1ne"]
 [ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_ymgrw"]
 
-[node name="root" type="Control" node_paths=PackedStringArray("debug_log")]
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "evt_bus_getter_node")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +14,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_p1may")
 debug_log = NodePath("HBoxContainer/VBoxContainer2/debug_text_edit")
+evt_bus_getter_node = NodePath("evt_bus_getter")
+
+[node name="evt_bus_getter" type="Node" parent="."]
+script = ExtResource("2_kjafj")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -34,6 +40,36 @@ custom_minimum_size = Vector2(132, 68)
 layout_mode = 2
 text = "test_evtbus()"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2/HBoxContainer3"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="event_bus_node" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2/HBoxContainer3/HBoxContainer4"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_evtbus
+trigger()"
+autowrap_mode = 1
+
+[node name="evt_bus_emitter" type="Node" parent="HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2/HBoxContainer3/HBoxContainer4/event_bus_node"]
+script = ExtResource("2_lx1ne")
+evt_key = "on_test"
+evt_data = {
+"arg1": 999.0
+}
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -46,3 +82,4 @@ script = ExtResource("2_ymgrw")
 
 [connection signal="button_down" from="HBoxContainer/VBoxContainer/normal" to="." method="test_normal"]
 [connection signal="button_down" from="HBoxContainer/VBoxContainer/event_bus" to="." method="test_evtbus"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2/HBoxContainer3/HBoxContainer4/event_bus_node" to="HBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2/HBoxContainer3/HBoxContainer4/event_bus_node/evt_bus_emitter" method="emit"]
