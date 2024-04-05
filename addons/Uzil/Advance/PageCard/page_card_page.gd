@@ -17,6 +17,9 @@ var default_combo : String = ""
 ## 基底查詢內容
 var base_query : String = ""
 
+## 當前查詢內容
+var current_query : String = ""
+
 ## 被動模式
 ## 若 開啟 則 自己無法直接控制 卡片開關
 var is_passtive_mode : bool = false
@@ -103,8 +106,9 @@ func get_card (card_id : String) :
 		return card
 
 ## 取得 卡片
-func get_cards () -> Array :
-	return self._cards.duplicate()
+func get_cards (is_safe := true) -> Array :
+	if is_safe : return self._cards.duplicate()
+	else : return self._cards
 
 ## 設置 卡片 狀態
 func set_card_state (target_card, is_active) :
@@ -141,8 +145,9 @@ func get_combo (combo_id : String) :
 ## 查詢
 func combo (combo_id : String, query_mode : int = -1) :
 	var query_str = self.get_combo(combo_id)
-	if query_str == null : return
-	
+	if query_str == null : 
+		G.print("[page_card_page.gd] combo[%s] not exist." % [combo_id])
+		return
 	return self.query(query_str, query_mode)
 
 ## 查詢
@@ -150,7 +155,8 @@ func query (query_str : String, query_mode : int = -1) :
 	
 	if not self.base_query.is_empty() :
 		query_str = "%s %s" % [self.base_query, query_str]
-		#G.print(query_str)
+	
+	self.current_query = query_str
 	
 	# 該頁面的卡片ID列表
 	var cards : Array = self.get_cards()
@@ -239,6 +245,8 @@ func set_default_behaviour (is_active : bool = true) :
 		if not self.default_combo.is_empty() :
 			#G.print("[%s] self.combo(self.default_combo[%s])" % [self.id, self.default_combo])
 			self.combo(self.default_combo)
+		else :
+			self.query("")
 	).srt(-1).tag("_default")
 	
 	self.on_deactive.on(func (ctrlr) :

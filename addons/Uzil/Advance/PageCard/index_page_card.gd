@@ -14,7 +14,7 @@ var PATH : String
 ## Uzil
 var Uzil
 
-# 查詢模式
+## 查詢模式
 enum QueryMode {
 	# 資訊
 	INFO,

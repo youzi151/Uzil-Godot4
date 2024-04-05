@@ -5,6 +5,10 @@ extends Node
 ## 設置 目標物件 以及 控制 目標物件 的 顯示/隱藏, 執行/暫停(process)
 ## 
 
+enum CardActiveMode {
+	VISIBLE, CALL
+}
+
 # Variable ===================
 
 ## 辨識 (若 留空 則 取node.name)
@@ -24,7 +28,7 @@ var card = null
 
 # GDScript ===================
 
-func _ready () :
+func _init () :
 	pass
 
 func _process (_dt) :
@@ -61,7 +65,7 @@ func request_card () :
 		for page_key in pages :
 			var page = inst.get_page(page_key)
 			if page == null : continue
-			
+		
 	
 	return self.card
 

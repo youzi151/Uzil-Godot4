@@ -96,8 +96,8 @@ func get_root_page () :
 
 ## 取得 頁面
 func get_page (page_id : String = "") :
-	if page_id == "_root" : return self._root_page
 	if page_id == "" : return self._current_page
+	if page_id == "_root" : return self._root_page
 	
 	# 是否需要順便更新
 	var is_need_update := false
