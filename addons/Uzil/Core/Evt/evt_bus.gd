@@ -6,7 +6,7 @@
 
 # Variable ===================
 
-# 事件表
+## 事件表
 var key_to_evt := {}
 
 # GDScript ===================
@@ -18,18 +18,21 @@ func init (_dont_set_in_scene) :
 # Public =====================
 
 ## 註冊
-func on (evt_key, listener_or_fn) :
+func on (evt_key : String, listener_or_fn) :
 	var evt = self.get_evt(evt_key)
-		
 	# 添加 偵聽者
 	var listener = evt.on(listener_or_fn)
-	
 	return listener
-	
+
 ## 註銷
 func off (evt_key, listener_or_tag) :
 	var evt = self.get_evt(evt_key)
 	evt.off(listener_or_tag)
+
+## 註銷
+func off_each (listener_or_tag) :
+	for each in key_to_evt.values() :
+		each.off(listener_or_tag)
 
 ## 清空
 func clear (evt_key = null) :
@@ -50,9 +53,11 @@ func clear (evt_key = null) :
 		self.key_to_evt.clear()
 
 ## 發送事件
-func emit (evt_key, data) :
+func emit (evt_key : String, data) :
 	var evt = self.get_evt(evt_key)
 	evt.emit(data)
+	var any_evt = self.get_evt("")
+	any_evt.emit(data)
 
 ## 排序
 func sort (_evt_key = null) :

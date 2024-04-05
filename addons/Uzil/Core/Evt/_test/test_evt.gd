@@ -10,7 +10,7 @@ var debug_log : Node = null
 
 ## 取得事件串節點
 @export
-var evt_bus_getter_node : Node = null
+var evt_bus_node : Node = null
 
 # Extends ====================
 
@@ -23,7 +23,7 @@ func _ready () :
 	self.Evt = UREQ.acc("Uzil", "Core.Evt")
 	
 	# 向 取得事件串節點 的 事件串 註冊事件
-	var evt_bus = self.evt_bus_getter_node.get_evt_bus()
+	var evt_bus = self.evt_bus_node.request_evt_bus()
 	evt_bus.on("on_test", func(_ctrlr):
 		G.print("evtbus evt[on_test] should't pass to here")
 	).srt(3)

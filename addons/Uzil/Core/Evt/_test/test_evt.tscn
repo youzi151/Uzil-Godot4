@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://cd713gsxua2ru"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Core/Evt/_test/test_evt.gd" id="1_p1may"]
-[ext_resource type="Script" path="res://addons/Uzil/Core/Evt/node/evt_bus_getter_node.gd" id="2_kjafj"]
+[ext_resource type="Script" path="res://addons/Uzil/Core/Evt/node/evt_bus_node.gd" id="2_kjafj"]
 [ext_resource type="Script" path="res://addons/Uzil/Core/Evt/node/evt_bus_emitter_node.gd" id="2_lx1ne"]
 [ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_ymgrw"]
 
-[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "evt_bus_getter_node")]
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "evt_bus_node")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,9 +14,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_p1may")
 debug_log = NodePath("HBoxContainer/VBoxContainer2/debug_text_edit")
-evt_bus_getter_node = NodePath("evt_bus_getter")
+evt_bus_node = NodePath("evt_bus_local")
 
-[node name="evt_bus_getter" type="Node" parent="."]
+[node name="evt_bus_local" type="Node" parent="."]
 script = ExtResource("2_kjafj")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]

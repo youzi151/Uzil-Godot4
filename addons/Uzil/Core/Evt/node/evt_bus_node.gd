@@ -1,7 +1,7 @@
 @tool
 extends Node
 
-## 事件串 取得器
+## 事件串 節點
 ## 
 ## 主要提供觸發器方便取得 全域或本地的事件串
 ##
@@ -57,10 +57,12 @@ func _validate_property (property: Dictionary) :
 
 # Public =====================
 
-func get_evt_bus () :
+func request_evt_bus () :
 	match self.mode :
 		EvtBusInstMode.LOCAL :
-			if self._evt_bus == null : return
+			if self._evt_bus == null : 
+				var Bus = UREQ.acc("Uzil", "Core.Evt").Bus
+				self._evt_bus = Bus.new()
 			return self._evt_bus
 			
 		EvtBusInstMode.INST_KEY :
@@ -69,9 +71,6 @@ func get_evt_bus () :
 
 func _refresh_mode () : 
 	if self.mode == EvtBusInstMode.LOCAL :
-		var Bus = UREQ.acc("Uzil", "Core.Evt").Bus
-		self._evt_bus = Bus.new()
+		self.request_evt_bus()
 	else :
-		var to_free = self._evt_bus
 		self._evt_bus = null
-		to_free.free()

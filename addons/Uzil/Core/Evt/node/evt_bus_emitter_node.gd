@@ -84,33 +84,33 @@ func _get_evt_bus () :
 	
 	match self.find_mode :
 		FindBusMode.DYNAMIC :
-			var evt_bus_node : Node = self._find_evt_bus_getter_node()
+			var evt_bus_node : Node = self._find_evt_bus_node()
 			if evt_bus_node == null : return null
-			return evt_bus_node.get_evt_bus()
+			return evt_bus_node.request_evt_bus()
 		
 		FindBusMode.STATIC :
 			return self._static_evt_bus
 		
 		FindBusMode.MANUAL :
 			if self.evt_bus_node == null : return null
-			if self.evt_bus_node.has_method("get_evt_bus") == false : return
-			return self.evt_bus_node.get_evt_bus()
+			if self.evt_bus_node.has_method("request_evt_bus") == false : return
+			return self.evt_bus_node.request_evt_bus()
 		
 		FindBusMode.INST_KEY :
 			if self.evt_bus.is_empty() : return null
 			var evt_bus_mgr = UREQ.acc("Uzil", "evt_bus_mgr")
 			return evt_bus_mgr.inst(self.evt_bus)
 
-## 尋找 事件串取得器節點
-func _find_evt_bus_getter_node () :
+## 尋找 事件串節點
+func _find_evt_bus_node () :
 	var cur : Node = self.get_parent()
 	while cur != null :
-		if cur.has_method("get_evt_bus") :
+		if cur.has_method("request_evt_bus") :
 			return cur
 		
 		for each in cur.get_children() :
 			if each == self : continue
-			if each.has_method("get_evt_bus") :
+			if each.has_method("request_evt_bus") :
 				return each
 			
 		cur = cur.get_parent()
@@ -125,7 +125,7 @@ func _refresh_mode () :
 	match self.find_mode :
 		# 若為 事先尋找
 		FindBusMode.STATIC :
-			var evt_bus_node : Node = self._find_evt_bus_getter_node()
+			var evt_bus_node : Node = self._find_evt_bus_node()
 			if evt_bus_node == null : return null
 			self._static_evt_bus = evt_bus_node.get_evt_bus()
 
