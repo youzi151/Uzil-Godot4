@@ -9,10 +9,15 @@ class OptsKit :
 	var game
 	var display
 	var audio
+	var _path : String = ""
+	func _init (path : String) :
+		self._path = path
 	func load_config () :
-		self.game.load_config(self.CONFIG_FILE_PATH)
-		self.display.load_config(self.CONFIG_FILE_PATH)
-		self.audio.load_config(self.CONFIG_FILE_PATH)
+		self.game.load_config(self._path)
+		self.display.load_config(self._path)
+		self.display.apply()
+		self.display.apply.call_deferred()
+		self.audio.load_config(self._path)
 
 # const =========
 
@@ -64,7 +69,7 @@ func index (Uzil, _parent_index) :
 ## 建立 工具組
 func create_kit () :
 	
-	var kit := OptsKit.new()
+	var kit := OptsKit.new(self.CONFIG_FILE_PATH)
 	var to_load_configs := []
 	
 	kit.game = self.Game.new()

@@ -113,6 +113,7 @@ func _init () :
 
 # Called when the node enters the scene tree for the first time.
 func _ready () :
+	
 	# 呼叫 當 準備完畢
 	self._call_once_ready()
 	
@@ -141,6 +142,10 @@ func init () :
 	
 	# 重新讀取
 	self.reload()
+	
+	# 初始化
+	var Init = UREQ.acc("Uzil", "Advance.Init")
+	Init.init_full()
 	
 	# 呼叫 當 初始化完畢
 	self._call_once_init()

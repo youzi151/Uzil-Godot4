@@ -71,10 +71,19 @@ func get_viewport (key : String = "") -> Viewport :
 
 ## 應用
 func apply () :
+	if OS.has_feature("web") : return
 	for key in self._state_of_window :
 		var window : Window = self.get_window(key)
-		if window == null : continue
-		self._apply_to_window(window, self._state_of_window[key])
+		# 若 無法取得視窗
+		if window == null : 
+			# 若 為主視窗
+			if key == "" :
+				# 以 特別方式 應用到主視窗
+				self._apply_to_main_window(self._state_of_window[key])
+		# 一般情況
+		else :
+			self._apply_to_window(window, self._state_of_window[key])
+		
 	
 	for key in self._state_of_viewport :
 		var viewport : Viewport = self.get_viewport(key)
@@ -93,6 +102,8 @@ func load_config (file_path := "", target_display_keys : Array = [], save_key_ta
 	if target_display_keys.size() == 0 :
 		windows.append_array(self._binded_window.keys())
 		viewports.append_array(self._binded_viewport.keys())
+		if not self._binded_window.has("") :
+			windows.push_back("")
 	# 若 有指定 則 填入
 	else :
 		for each in target_display_keys :
@@ -195,8 +206,9 @@ func set_viewport_scaling_3d_scale (scale : float, viewport_key := "", is_save_t
 
 ## 讀取 設定 至 視窗
 func _load_config_window (window_key : String, configs : Dictionary, save_key_tag = null) :
-#	G.print("load window config : %s" % window_key)
-
+	#G.print("load window config : %s" % window_key)
+	#G.print(configs)
+	
 	if save_key_tag == null :
 		save_key_tag = window_key
 	
@@ -278,6 +290,44 @@ func _set_state_viewport (key : String, attr : String, val) :
 		state[attr] = val
 
 ## 應用 至 視窗
+## 若需要在初始尚未有任何節點時, 就要設置視窗, 則需要透過另一種方式設置
+## 但此方法可能會在 display/window/stretch/mode 非 disabled 時造成問題.
+func _apply_to_main_window (state : Dictionary) :
+	var window_id := 0
+	var window_mode = DisplayServer.window_get_mode(window_id)
+	if "fullscreen" in state :
+		var cur = window_mode
+		var nxt = state["fullscreen"]
+		if cur != nxt :
+			DisplayServer.window_set_mode(nxt, window_id)
+			window_mode = nxt
+	
+	var nxt_borderless = null
+	var cur_borderless : bool = DisplayServer.window_get_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, window_id)
+	if window_mode == DisplayServer.WINDOW_MODE_FULLSCREEN and cur_borderless == true :
+		nxt_borderless = false
+	else :
+		if nxt_borderless == null and state.has("borderless") :
+			var state_borderless = state["borderless"]
+			if cur_borderless != state_borderless :
+				nxt_borderless = state_borderless
+	if nxt_borderless != null :
+		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, nxt_borderless, window_id)
+	
+	if window_mode == DisplayServer.WINDOW_MODE_WINDOWED and state.has("size") :
+		var cur = DisplayServer.window_get_size(window_id)
+		var nxt = state["size"]
+		if cur != nxt :
+			# 重設位置 置中
+			var screen_size : Vector2i = DisplayServer.screen_get_size(DisplayServer.window_get_current_screen(window_id))
+			DisplayServer.window_set_position(Vector2(
+				(screen_size.x - nxt.x) * 0.5,
+				(screen_size.y - nxt.y) * 0.5,
+			), window_id)
+			# 設置尺寸
+			DisplayServer.window_set_size(nxt, window_id)
+
+## 應用 至 視窗
 func _apply_to_window (window : Window, state : Dictionary) :
 	
 	if state.has("fullscreen") :
@@ -302,6 +352,12 @@ func _apply_to_window (window : Window, state : Dictionary) :
 		var cur = window.size
 		var nxt = state["size"]
 		if cur != nxt :
+			#var screen_size : Vector2i = DisplayServer.screen_get_size(DisplayServer.window_get_current_screen(0))
+			#var pos : Vector2 = Vector2(
+				#(screen_size.x - nxt.x) * 0.5,
+				#(screen_size.y - nxt.y) * 0.5,
+			#)
+			#window.position = pos
 			window.size = nxt
 		
 
@@ -365,6 +421,7 @@ func _write_to_config (key, val) :
 
 func _init_main_window () :
 	if self._binded_window.has("") : return
+	if not "main_window" in G.v : return
 	var main_window : Window = G.v["main_window"]
 	self._binded_window[""] = main_window
 	self._binded_viewport[""] = main_window.get_viewport()

@@ -25,6 +25,8 @@ var PageCard
 var States
 ## UI導航
 var UINav
+## 初始化
+var Init
 
 # inst ==========
 
@@ -51,6 +53,9 @@ func index (Uzil, _parent_index) :
 	
 	self.UINav = Uzil.load_script(self.PATH.path_join("UINav/index_ui_nav.gd")).new()
 	self.sub_indexes.push_back(self.UINav)
+	
+	self.Init = Uzil.load_script(self.PATH.path_join("Init/index_init.gd")).new()
+	self.sub_indexes.push_back(self.Init)
 	
 	# 建立索引
 	for each in self.sub_indexes :

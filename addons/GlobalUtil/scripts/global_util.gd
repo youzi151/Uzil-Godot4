@@ -65,5 +65,20 @@ func load_script (path : String) :
 			return null
 	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
 
+## 路徑
+func path (path : String) :
+	if path.begins_with("./") :
+		path = self.get_current_file_path().path_join(path.simplify_path())
+	return path
+
+## 取得當前檔案路徑
+func get_current_file_path () :
+	if OS.has_feature("editor") :
+		return ProjectSettings.globalize_path("res://")
+	elif OS.has_feature("pc") :
+		return OS.get_executable_path()
+		
+	return ""
+
 # Private ====================
 

@@ -3,7 +3,7 @@ extends EditorPlugin
 
 # Replace this value with a PascalCase autoload name, as per the GDScript style guide.
 # 特殊用途
-const AUTOLOAD_NAME = "Uzil_Init"
+const AUTOLOAD_NAME = "UzilInit"
 
 func _enter_tree():
 	# Initialization of the plugin goes here.

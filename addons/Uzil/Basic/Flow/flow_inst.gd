@@ -34,7 +34,7 @@ func _init (_dont_set_in_scene) :
 	self._times_inst = times.inst(self._key)
 
 func _process (_dt) :
-	var times_dt : int = self._times_inst.dt()
+	var times_dt : float = self._times_inst.dt_sec()
 	
 	for each in self._id_to_gate.values() :
 		each.process(times_dt)
