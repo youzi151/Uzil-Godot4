@@ -11,7 +11,7 @@ var _write_buffered = null
 ## 設定存檔 目錄
 var _folder_path : String
 
-## 模板 目錄
+## 模板 目錄 (越後面越優先)
 var template_paths : Array = []
 
 ## 是否從模板中複製到檔案
@@ -19,9 +19,8 @@ var is_copy_from_template_to_userdata : bool = true
 
 # GDScript ===================
 
-func _init (folder_path, _template_paths) :
+func _init (folder_path) :
 	self._folder_path = folder_path
-	self.template_paths = _template_paths
 
 # Extends ====================
 
@@ -233,7 +232,8 @@ func _read_file (full_path : String) :
 func _read_template (file_path) :
 	# 讀取 模板檔
 	#G.print(self.template_paths)
-	for each in self.template_paths :
+	for idx in range(self.template_paths.size()-1, -1, -1) :
+		var each : String = self.template_paths[idx]
 		var template_path = each.path_join(file_path)
 		#G.print(file_path)
 		var template_file : ConfigFile = self._read_file(template_path)

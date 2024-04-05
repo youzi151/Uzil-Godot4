@@ -10,13 +10,8 @@
 ## 路徑
 var PATH : String
 
+## 模板路徑
 var TEMPLATE_PATH : String
-## 設定檔 模板
-var CONFIG_TEMPLATE_PATH : String 
-## 用戶存檔 模板
-var USER_TEMPLATE_PATH : String 
-## 配置檔 模板
-var PROFILE_TEMPLATE_PATH : String 
 
 ## 格式版本
 const FORMAT_VERSION := "1.0.0t"
@@ -49,9 +44,6 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("UserSave")
 	
 	self.TEMPLATE_PATH = self.PATH.path_join("_template")
-	self.CONFIG_TEMPLATE_PATH = self.TEMPLATE_PATH
-	self.USER_TEMPLATE_PATH = self.TEMPLATE_PATH.path_join("user")
-	self.PROFILE_TEMPLATE_PATH = self.TEMPLATE_PATH.path_join("profile")
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Basic.UserSave", 
@@ -85,8 +77,12 @@ func create_kit () -> Dictionary :
 	var save_folder_root = self.get_save_folder_root()
 	
 	# 設定檔
-	var config_templates : Array = [self.CONFIG_TEMPLATE_PATH]
-	var config = self.Config.new(save_folder_root, config_templates)
+	var config = self.Config.new(save_folder_root)
+	config.template_paths.push_back(self.TEMPLATE_PATH)
+	config.template_paths.push_back("res://userdata")
+	# 靜態設定檔(運行時不將模板檔案複製到儲存位置)
+	if OS.has_feature("editor") or OS.has_feature("uzil.static_config") :
+		config.is_copy_from_template_to_userdata = false
 	
 	# 設定
 	var setting_profile = self.Setting_Profile.new()
@@ -99,6 +95,7 @@ func create_kit () -> Dictionary :
 	# 設置 預設
 	setting_profile.set_profile("default").set_folder(save_folder_root)
 	setting_user.set_user("unknown").set_folder(save_folder_root)
+	
 	
 	return {
 		"config" : config,
