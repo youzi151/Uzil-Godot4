@@ -143,6 +143,9 @@ func process (_dt) :
 	
 	if self.is_debug and fill > 0 : G.print("process tasks ====")
 	
+	# 已結束的任務
+	var done_tasks := []
+	
 	# 若 仍有 需處理數量
 	while fill > 0 :
 		# 取出 要讀取的任務
@@ -150,19 +153,23 @@ func process (_dt) :
 		
 		if self.is_debug : G.print("start load : %s" % task.path)
 		
-		# 請求讀取
-		ResourceLoader.load_threaded_request(task.path, task.type_hint, true, ResourceLoader.CACHE_MODE_IGNORE)
+		if not ResourceLoader.exists(task.path, task.type_hint) :
+			# 設置 空資源
+			task.res = null
+			# 加入 已結束任務
+			done_tasks.push_back(task)
+		else :
+			# 請求讀取
+			ResourceLoader.load_threaded_request(task.path, task.type_hint, true, ResourceLoader.CACHE_MODE_IGNORE)
+			
+			# 加入 讀取中任務列表
+			self.loading_tasks.push_back(task)
 		
-		# 加入 讀取中任務列表
-		self.loading_tasks.push_back(task)
 		# 減少 需處理數量
 		fill -= 1
 	
 	# 若 讀取中任務 已歸零 則 返回
 	if self.loading_tasks.size() == 0 : return
-	
-	# 已結束的任務
-	var done_tasks := []
 	
 	# 每個 讀取中的任務
 	for idx in range(self.loading_tasks.size()-1, -1, -1) :

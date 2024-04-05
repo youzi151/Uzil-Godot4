@@ -88,7 +88,7 @@ func hold (full_path : String, holder = null, options = null) :
 				loader_id = opt_loader_id
 				loader = self.id_to_loader[loader_id]
 	
-	var res_info
+	var res_info = null
 	# 若 該讀取器 存在 該路徑資源 則 取用
 	if loader.res_exist(full_path, options) :
 		res_info = loader.res_get(full_path, options)
