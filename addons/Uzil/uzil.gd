@@ -283,3 +283,26 @@ func load_node_script (path) :
 		return ResourceLoader.load(path)
 	else :
 		return self.load_script(path)
+
+## 請求 節點
+func request_node (path : String, _data : Dictionary = {}) :
+	
+	
+	var node : Node
+	if self.has_node(path) :
+		node = self.get_node(path)
+	else :
+		node = self
+		var pathes : Array = path.split("/", false)
+		for each in pathes :
+			var child : Node = null
+			if node.has_node(each) :
+				child = node.get_node(each)
+			else :
+				child = Node.new()
+				child.name = each
+				node.add_child(child)
+			
+			node = child
+		
+	return node

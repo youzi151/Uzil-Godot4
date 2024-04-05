@@ -7,6 +7,7 @@
 ## 是否為GDScript
 func is_gdscript (target) :
 	if target == null : return false
+	if target is String : return false
 	return target.get_class() == "GDScript"
 
 ## 是否繼承自

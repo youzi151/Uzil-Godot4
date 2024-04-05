@@ -26,6 +26,9 @@ var RNG
 ## 圖
 var Graph
 
+## 曲線
+var Curves
+
 # inst ==========
 
 ## 數學
@@ -44,6 +47,10 @@ var array
 var string
 ## 獨特ID
 var uniq_id
+## HTTP
+var http
+## 截圖
+var screenshot
 
 # other =========
 
@@ -60,8 +67,6 @@ func index (Uzil, _parent_index) :
 	UREQ.bind("Uzil", "Util",
 		func () :
 			
-			self.Graph = Uzil.load_script(self.PATH.path_join("Graph/graph.gd"))
-			
 			# inner class
 			self._class._Math = Uzil.load_script(self.PATH.path_join("math.gd"))
 			self._class._Async = Uzil.load_script(self.PATH.path_join("async.gd"))
@@ -72,6 +77,12 @@ func index (Uzil, _parent_index) :
 			self._class._Array = Uzil.load_script(self.PATH.path_join("array.gd"))
 			self._class._String = Uzil.load_script(self.PATH.path_join("string.gd"))
 			self._class._UniqID = Uzil.load_script(self.PATH.path_join("uniq_id.gd"))
+			self._class._Http = Uzil.load_script(self.PATH.path_join("http.gd"))
+			self._class._Screenshot = Uzil.load_script(self.PATH.path_join("screenshot.gd"))
+			
+			# class
+			self.Graph = Uzil.load_script(self.PATH.path_join("Graph/graph.gd"))
+			self.Curves = Uzil.load_script(self.PATH.path_join("curves.gd"))
 
 			self.init(_parent_index)
 			return self
@@ -97,6 +108,8 @@ func init (__parent_index) :
 	self.dict = self._class._Dictionary.new()
 	self.array = self._class._Array.new()
 	self.uniq_id = self._class._UniqID.new()
+	self.http = self._class._Http.new()
+	self.screenshot = self._class._Screenshot.new()
 	
 	var keycode = self._class._Keycode.new()
 	self.input = self._class._Input.new().init(keycode)
