@@ -1,6 +1,14 @@
+@tool
 extends Node
 
 # Variable ===================
+
+## 是否註冊
+@export var is_reg_to_mgr := true :
+	set (value) :
+		is_reg_to_mgr = value
+		if Engine.is_editor_hint() :
+			self.notify_property_list_changed()
 
 @export var inst_key := ""
 
@@ -22,11 +30,20 @@ func _init () :
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if Engine.is_editor_hint() : return
 	self.request_inst()
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_dt):
 	pass
+
+func _validate_property (property: Dictionary) :
+	match property.name : 
+		"inst_key" :
+			if self.is_reg_to_mgr :
+				property.usage |= PROPERTY_USAGE_EDITOR
+			else :
+				property.usage ^= PROPERTY_USAGE_EDITOR
 
 # Extends ====================
 
@@ -34,7 +51,11 @@ func _process(_dt):
 func request_inst () :
 	if self.inst != null : return self.inst
 	
-	self.inst = UREQ.acc("Uzil", "states_mgr").inst(self.inst_key)
+	if self.is_reg_to_mgr :
+		self.inst = UREQ.acc("Uzil", "states_mgr").inst(self.inst_key)
+	else :
+		var Inst = UREQ.acc("Uzil", "Advance.States").Inst
+		self.inst = Inst.new()
 	
 	self.inst.default_state_id = self.default_state_id
 	

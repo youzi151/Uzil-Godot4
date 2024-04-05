@@ -37,7 +37,6 @@ var state = null
 # Called when the node enters the scene tree for the first time.
 func _ready () :
 	if Engine.is_editor_hint() : return
-	
 	self.request_state()
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.

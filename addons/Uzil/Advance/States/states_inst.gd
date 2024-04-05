@@ -137,7 +137,10 @@ func go_state (state_or_id, is_force := false) :
 			next_state = state_or_id
 	
 	# 若 缺少 指定狀態 則 返回
-	if next_state == null and state_or_id != null : return
+	if next_state == null and state_or_id != null : 
+		G.print("[states_inst.gd] go_state state[%s] not found." % [state_or_id])
+		return
+	
 	# 若 當前狀態 已是 指定狀態 則 返回
 	if self._current_state == next_state : return
 	
