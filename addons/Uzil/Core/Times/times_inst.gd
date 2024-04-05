@@ -16,16 +16,17 @@ var _is_timing_vals = null
 ## 時間比例 多重數值
 var _time_scale_vals = null
 
-## 當前時間
+## 當前時間 (毫秒)
 var _time := 0
 
-## 起始時間
+## 起始時間 (毫秒)
 var _start_time := 0
 
-## 當幀時間差
+## 當幀時間差(豪秒)
 var _delta_time := 0
+var _delta_time_sec := 0.0
 
-## 前一幀時間
+## 前一幀時間 (毫秒)
 var _last_time := 0
 
 ## 暫停後多出來的時間
@@ -87,6 +88,7 @@ func process (_dt) :
 	if self._is_timing_vals.current() == false : return
 	var sys_time = self._get_sys_time()
 	self._delta_time = (sys_time - self._last_time) * self._time_scale_vals.current()
+	self._delta_time_sec = float(self._delta_time) * 0.001
 	self._last_time = sys_time
 	self._time = self._time + self._delta_time
 
@@ -94,13 +96,17 @@ func process (_dt) :
 func is_timing () :
 	return self._is_timing_vals.current()
 
-## 取得 當前時間 (毫秒)
+## 取得 當前時間 (豪秒)
 func now () :
 	return self._time
 
-## 取得 該幀時間差 (毫秒)
-func dt () :
+## 取得 該幀時間差 (豪秒)
+func dt () -> int :
 	return self._delta_time
+
+## 取得 該幀時間差 (秒)
+func dt_sec () -> float :
+	return self._delta_time_sec
 
 ## 設置 在背景計時
 func set_timing_in_background (is_timing_in_background, _user, _priority = 0) :
@@ -134,9 +140,9 @@ func pause () :
 ## 繼續
 func _resume (is_auto_pause : bool) :
 	var is_timing_last : bool = self._is_timing_vals.current()
-	print("resume")
-	print(self._is_timing_vals.current())
-	print(self._is_timing_vals._current_data)
+	#print("resume")
+	#print(self._is_timing_vals.current())
+	#print(self._is_timing_vals._current_data)
 	if is_auto_pause : 
 		self._is_timing_vals.del_data("_auto")
 		self._is_auto_pause = false
@@ -147,7 +153,7 @@ func _resume (is_auto_pause : bool) :
 		self._last_time = self._get_sys_time() - self._time_since_pause
 		
 	
-	print(self._is_timing_vals.current())
+	#print(self._is_timing_vals.current())
 		
 
 ## 暫停

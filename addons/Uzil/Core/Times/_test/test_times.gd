@@ -31,10 +31,10 @@ func _process(_delta):
 		
 		for idx in range(0, self.times.size()) :
 			var each = self.times[idx]
-			var dt : int = each.dt()
+			var dt : float = each.dt_sec()
 			
 			# 以 delta_time 旋轉
-			(self.spin_panels[idx] as Control).rotation_degrees += 50 * dt * 0.001
+			(self.spin_panels[idx] as Control).rotation_degrees += 50 * dt
 			
 			# 紀錄 名稱與當下時間
 			debug_arr.push_back(each.name)

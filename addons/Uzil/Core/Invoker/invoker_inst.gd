@@ -63,6 +63,7 @@ func process (_dt) :
 			if now > each.calltime_ms:
 				self.tasks.remove_at(idx)
 				each.run()
+				each.done()
 			
 		# 間隔
 		elif each.call_type == self.Invoker.CallType.INTERVAL:
@@ -75,16 +76,16 @@ func process (_dt) :
 					
 		# 每幀
 		elif each.call_type == self.Invoker.CallType.UPDATE:
-			each.runArg(self._times_inst.dt())
+			each.runArg(self._times_inst.dt_sec())
 		
 		# 單格
 		elif each.call_type == self.Invoker.CallType.FRAME:
-			each.run()
 			self.tasks.remove_at(idx)
+			each.run()
 
 ## 等候
 func wait (delay_ms : int) :
-	await self.once(func():pass, delay_ms).fn_done
+	await self.once(func():pass, delay_ms).on_done
 
 ## 單次執行
 func once (fn, delay_ms : int = 0) :
