@@ -43,7 +43,7 @@ func test_normal () :
 		self.obj_alives -= 1
 		G.print("destroy obj (strategy)")
 	)
-	pool.strat.set_init(func(new_one):
+	pool.strat.set_init(func(new_one, _data):
 		new_one.msg = "state : initialized"
 	)
 	pool.strat.set_uninit(func(old_one):

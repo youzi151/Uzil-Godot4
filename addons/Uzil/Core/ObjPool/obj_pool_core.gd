@@ -27,13 +27,19 @@ func set_strat (_strat) :
 	self.strat = _strat
 	return self
 
+## 設置 資料
+func set_data (data : Dictionary) :
+	if self.strat.has_method("set_data") :
+		self.strat.set_data(data)
+	return self
+
 ## 設置 容量
 func set_size (_max) :
 	self._size = _max
 	return self
 
 ## 重用
-func reuse () :
+func reuse (data = null) :
 	var new_one
 	# 若 物件池 中 已空 則 建立
 	if self._pool.size() == 0 :
@@ -43,7 +49,7 @@ func reuse () :
 		new_one = self._pool.pop_back()
 		
 	# 初始化 物件
-	self.strat.initial(new_one)
+	self.strat.initial(new_one, data)
 	
 	return new_one
 
@@ -90,7 +96,7 @@ func resize () :
 	elif delta < 0 :
 		# 加入 預計要銷毀的
 		var to_destroy = []
-		print("%s to %s delta %s" % [size, to_size, delta])
+		#G.print("%s to %s delta %s" % [size, to_size, delta])
 		for idx in range(to_size, size) :
 			to_destroy.push_back(self._pool[idx])
 		

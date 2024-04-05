@@ -1,8 +1,8 @@
 
-## ObjPool.Strat_Any物件池 策略 任意物件
+## ObjPool.Strat_Prefab物件池 策略 預製物件
 ##
 ## 可供 物件池 核心 所使用的策略[br]
-## 用來建立存取任意物件
+## 用來建立存取Prefab(PackedScene)
 ##
 
 # Static =====================
@@ -19,11 +19,11 @@ static func new_core () :
 ## 核心
 var _core
 
-## 建立 方法
-var _create_fn : Callable
+## 預製物件
+var _prefab : PackedScene
 
-## 銷毀 方法
-var _destroy_fn : Callable
+## 建立 方法
+var _created_fn : Callable
 
 ## 初始化 方法
 var _init_fn : Callable
@@ -43,25 +43,27 @@ func set_core (__core) :
 
 ## 設置 資料
 func set_data (data : Dictionary) :
+	if data.has("prefab") :
+		self.set_prefab(data["prefab"])
+	if data.has("created") :
+		self.set_created(data["created"])
 	if data.has("init") :
 		self.set_init(data["init"])
 	if data.has("uninit") :
 		self.set_uninit(data["uninit"])
-	if data.has("create") :
-		self.set_create(data["create"])
-	if data.has("destroy") :
-		self.set_destroy(data["destroy"])
 	return self
 
 ## 建立
 func create () :
-	if self._create_fn.is_null() : return null
-	return self._create_fn.call()
+	if self._prefab == null : return null
+	var inst : Node = self._prefab.instantiate()
+	if not self._created_fn.is_null() :
+		self._created_fn.call(inst)
+	return inst
 
 ## 銷毀
 func destroy (target) :
-	if self._destroy_fn.is_null() : return
-	self._destroy_fn.call(target)
+	target.queue_free()
 
 ## 初始化
 func initial (new_one, _data) :
@@ -75,14 +77,14 @@ func uninitial (old_one) :
 
 # Public =====================
 
-## 設置 建立
-func set_create (create_fn : Callable) :
-	self._create_fn = create_fn
+## 設置 預製物件
+func set_prefab (prefab : PackedScene) :
+	self._prefab = prefab
 	return self
 
-## 設置 銷毀
-func set_destroy (destroy_fn : Callable) :
-	self._destroy_fn = destroy_fn
+## 設置 建立
+func set_created (created_fn : Callable) :
+	self._created_fn = created_fn
 	return self
 
 ## 設置 初始化

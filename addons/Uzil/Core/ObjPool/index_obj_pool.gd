@@ -17,6 +17,9 @@ var Core
 
 # 策略 =====
 
+## 預製物件
+var Strat_Prefab
+
 ## 任意物件
 var Strat_Any
 
@@ -42,6 +45,7 @@ func index (Uzil, _parent_index) :
 			
 			# 任意
 			self.Strat_Any = Uzil.load_script(self.PATH.path_join("obj_pool_strat_any.gd"))
+			self.Strat_Prefab = Uzil.load_script(self.PATH.path_join("obj_pool_strat_prefab.gd"))
 			
 			return self,
 		{
