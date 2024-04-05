@@ -10,10 +10,14 @@ extends Node
 
 ## 設置來源
 enum TextureSetMode {
-	TEXTURE, NODE
+	BUTTON_SELF, TEXTURE, NODE
 }
 
 # Variable ===================
+
+## 是否啟用
+@export
+var is_enabled : bool = true
 
 ## 目標 貼圖按鈕
 @export
@@ -25,7 +29,7 @@ var texture_button : TextureButton = null :
 
 ## 設置模式
 @export
-var mode : TextureSetMode = TextureSetMode.TEXTURE :
+var mode : TextureSetMode = TextureSetMode.BUTTON_SELF :
 	set (value) :
 		mode = value
 		self.notify_property_list_changed()
@@ -44,7 +48,7 @@ var _last_texture : Texture2D = null
 @export
 var from_node : Node = null :
 	set (value) :
-		var last := from_node
+		var last : Node = from_node
 		from_node = value
 		if Engine.is_editor_hint() : return
 		self.refresh()
@@ -86,12 +90,15 @@ func _validate_property (property: Dictionary) :
 # Public =====================
 
 func refresh () :
+	if not self.is_enabled : return
 	if self.texture_button == null : return
 	var bitmap : BitMap = null
 	
 	var tex : Texture2D = null
 	
 	match self.mode :
+		TextureSetMode.BUTTON_SELF :
+			tex = self.texture_button.texture_normal
 		TextureSetMode.TEXTURE :
 			if self.target_texture != null :
 				tex = self.target_texture

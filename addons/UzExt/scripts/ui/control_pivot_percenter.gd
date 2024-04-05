@@ -20,7 +20,7 @@ var is_enabled : bool = true :
 @export
 var target : Control = null : 
 	set (value) :
-		var last := target
+		var last : Control = target
 		target = value
 		
 		if target != null :

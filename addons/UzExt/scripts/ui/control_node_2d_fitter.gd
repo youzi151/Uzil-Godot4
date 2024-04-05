@@ -1,5 +1,5 @@
 @tool
-extends Control
+extends Node
 
 ## Control與Node2D適配器
 ## 
@@ -33,7 +33,7 @@ var fit_to : FitMode = FitMode.CONTROL :
 @export
 var control : Control = null :
 	set (value) :
-		var last_control := control
+		var last_control : Control = control
 		control = value
 		
 		if last_control != null :
@@ -48,7 +48,7 @@ var control : Control = null :
 @export
 var node2d : Node2D = null :
 	set (value) :
-		var last_node2d := node2d
+		var last_node2d : Node2D = node2d
 		node2d = value
 		
 		if last_node2d != null :

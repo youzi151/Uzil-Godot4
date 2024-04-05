@@ -10,7 +10,7 @@ extends Node
 ## 目標
 @export var target : TextureButton = null :
 	set (value) :
-		var last := target
+		var last : TextureButton = target
 		target = value
 		self._target_setup(last, target)
 

@@ -5,7 +5,7 @@ extends Node
 @export
 var button : Button = null :
 	set (value) :
-		var last := button
+		var last : Button = button
 		button = value
 		if last != null :
 			if last.pressed.is_connected(self._on_pressed) :

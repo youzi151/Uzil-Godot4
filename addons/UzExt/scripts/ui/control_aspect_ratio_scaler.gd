@@ -51,7 +51,7 @@ var _is_refreshing := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready () :
-	pass
+	self._refresh()
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process (_dt) :
@@ -67,7 +67,18 @@ func _process (_dt) :
 
 func _refresh () :
 	if not self.is_enabled or self._is_refreshing : return
-	if self.src_target == null or self.dst_target == null : return
+	if self.dst_target == null : return
+	
+	var src_size := Vector2.ONE
+	var src_size_scaled := Vector2.ONE
+	if self.src_target != null :
+		src_size = self.src_target.size 
+		src_size_scaled = Vector2(src_size.x * src_target.scale.x, src_size.y * src_target.scale.y)
+	else :
+		if Engine.is_editor_hint() : return
+		if not self.is_inside_tree() : return
+		src_size = self.get_tree().root.size
+		src_size_scaled = src_size
 	
 	self._is_refreshing = true
 	
@@ -79,7 +90,7 @@ func _refresh () :
 	elif self.stretch_mode == StretchMode.HEIGHT_CONTROLS_WIDTH :
 		is_fit_width = false
 	else :
-		var src_target_ratio : float = self.src_target.size.x / self.src_target.size.y
+		var src_target_ratio : float = src_size.x / src_size.y
 		var dst_target_ratio : float = self.dst_target.size.x / self.dst_target.size.y
 		if self.stretch_mode == StretchMode.COVER :
 			is_fit_width = dst_target_ratio < src_target_ratio
@@ -87,9 +98,9 @@ func _refresh () :
 			is_fit_width = dst_target_ratio > src_target_ratio
 	
 	if is_fit_width :
-		scale = (self.src_target.size.x * self.src_target.scale.x) / self.dst_target.size.x
+		scale = src_size_scaled.x / self.dst_target.size.x
 	else :
-		scale = (self.src_target.size.y * self.src_target.scale.y) / self.dst_target.size.y
+		scale = src_size_scaled.y / self.dst_target.size.y
 	
 	self.dst_target.scale.x = scale
 	self.dst_target.scale.y = scale
