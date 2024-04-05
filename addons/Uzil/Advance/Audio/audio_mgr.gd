@@ -85,30 +85,22 @@ func prepare (audio_id : String, path_or_key : String, data = null) :
 	if audio_obj != null and audio_obj.src == src_path:
 		audio_obj.set_data(data)
 	else :
-		audio_obj = self.request(audio_id, src_path, data)
+		audio_obj = await self.request(audio_id, src_path, data)
 	
 	return audio_obj
-
-## 準備(異步)
-#func prepare_async (audio_id : String, path_or_key : String, data, cb : Callable) :
-#	pass
 
 ## 請求
 func request (audio_id : String, path_or_key : String, data = null) :
 	
 	var id = self._handle_id_in_request(audio_id)
 	
-	var audio_obj = self._create_obj(id, path_or_key, data)
+	var audio_obj = await self._create_obj(id, path_or_key, data)
 	
 	self._id_to_obj[id] = audio_obj
 	
 	if audio_obj == null : return null
 	
 	return audio_obj
-
-## 請求(異步)
-#func request_async (audio_id : String, path_or_key : String, data, cb : Callable) :
-#	pass
 
 ## 釋放
 func release (audio_id_or_obj) :
@@ -155,7 +147,7 @@ func set_volume (audio_id : String, volume : float) :
 
 ## 播放 (匿名, 直接指定資源)
 func emit (path_or_key : String, data = null) :
-	var audio_obj = self.request("", path_or_key, data)
+	var audio_obj = await self.request("", path_or_key, data)
 	if audio_obj :
 		audio_obj.play()
 		
@@ -286,12 +278,15 @@ func set_bus_volume (bus_id, volume_linear : float) :
 ## 建立物件
 func _create_obj (id, path_or_key, data = null) :
 	var Audio = UREQ.acc("Uzil", "Audio")
+	var res_mgr = UREQ.acc("Uzil", "res_mgr")
 	
 	var src_path := self._get_res_path(path_or_key)
 	
-	var audio_stream : AudioStream = load(src_path)
+	var res_info = await res_mgr.hold(src_path)
+	if res_info == null : return
+	if res_info.res == null : return
 	
-	if audio_stream == null : return null
+	var audio_stream : AudioStream = res_info.res
 	
 	var space_type = null
 	if data != null :
