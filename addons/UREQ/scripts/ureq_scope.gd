@@ -48,6 +48,8 @@ func key () :
 
 ## 綁定
 func bind (id : String, target, options := {}) :
+	self.unbind(id)
+	
 	var access = self._UREQ.Access.new()
 	access.id = id
 	access.scope = self._key
@@ -89,16 +91,24 @@ func bind (id : String, target, options := {}) :
 	self._accesses.push_back(access)
 	self._id_to_access[id] = access
 
+
+## 解除綁定
+func unbind (id : String) :
+	if not self._id_to_access.has(id) : return
+	var exist = self._id_to_access[id]
+	self._id_to_access.erase(id)
+	self._accesses.erase(exist)
+
 ## 非同步 存取 並 確保依賴建立
 func accync (id_or_alias : String, on_done : Callable = Callable()) :
 	var access = self.get_access(id_or_alias)
 	if access == null : return null
 	
 	# 是否 指定完成回呼
-	var is_on_done_exist = not on_done.is_null()
+	var is_on_done_exist : bool = not on_done.is_null()
 	
 	# 是否 任務存在(載入中)
-	var is_task_exist = self._access_to_task.has(access)
+	var is_task_exist : bool = self._access_to_task.has(access)
 	
 	# 任務
 	var task

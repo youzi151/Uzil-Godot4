@@ -197,17 +197,18 @@ func collect_requires (requires, collected := {}) -> Dictionary :
 			
 			# 若 已被加入 則 忽略
 			if collected.has(each_access.path) : continue
-			# 加入
-			collected[each_access.path] = each_access
 			
 			# 若 該存取 尚未被檢查過依賴
 			if not each_access.is_requires_checked :
+				# 加入
+				collected[each_access.path] = each_access	
 				# 把 依賴列表 轉換為 所屬域:依賴列表 表
 				var each_requires = self.requires_to_dict(scope.key(), each_access.requires)
 				# 遞迴蒐集
 				self.collect_requires(each_requires, collected)
 			
 		
+	
 	return collected
 
 ## 把 依賴列表 轉換為 所屬域:依賴列表 表
@@ -226,5 +227,12 @@ func requires_to_dict (default_scope : String, requires) -> Dictionary :
 ## 取得 模塊路徑 (辨識用, 所屬域/id)
 func get_access_path (scope, id) -> String :
 	return "%s/%s" % [scope, id]
+
+## 讀取腳本
+func load_script (path, is_force_reload := false) :
+	if not is_force_reload and ResourceLoader.has_cached(path) :
+		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+	else :
+		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_REPLACE)
 
 # Private ====================
