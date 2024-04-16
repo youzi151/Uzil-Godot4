@@ -134,7 +134,9 @@ func _notification (what) :
 # Public =====================
 
 ## 初始化 (建立索引 並 重新讀取)
-func init () :
+func init (_is_force : bool = false) :
+	if not _is_force and self._is_init : return
+	
 	self._is_init = false
 	
 	# 建立索引
@@ -290,8 +292,7 @@ func load_node_script (path) :
 		return self.load_script(path)
 
 ## 請求 節點
-func request_node (path : String, _data : Dictionary = {}) :
-	
+func request_node (path : String) :
 	
 	var node : Node
 	if self.has_node(path) :
