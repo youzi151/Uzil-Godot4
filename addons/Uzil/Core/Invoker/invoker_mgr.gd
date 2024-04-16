@@ -24,12 +24,12 @@ func _process (_dt) :
 # Public =====================
 
 ## 取得 實體
-func inst (key := "_") :
+func inst (key := "default", time_inst_or_key = null) :
 	if self._key_to_inst.has(key) :
 		return self._key_to_inst[key]
 	else:
 		var Invoker = UREQ.acc("Uzil", "Core.Invoker")
-		var _inst = Invoker.Inst.new().init(key)
+		var _inst = Invoker.Inst.new(key)
 		
 		self._key_to_inst[key] = _inst
 		return _inst

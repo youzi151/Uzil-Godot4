@@ -10,7 +10,7 @@ var Invoker
 # Variable ===================
 
 ## 關鍵字
-var _key = "default"
+var _key = "_"
 
 ## 時間實體
 var _times_inst = null
@@ -21,18 +21,14 @@ var tasks : Array = []
 
 # GDScript ===================
 
-func _init () :
+func _init (key : String = "_") :
 	self.Uzil = UREQ.acc("Uzil", "Uzil")
 	self.Invoker = UREQ.acc("Uzil", "Invoker")
 	
-	self._times_inst = UREQ.acc("Uzil", "times_mgr").inst(self._key)
+	self._key = key
+	self._times_inst = UREQ.acc("Uzil", "times_mgr").inst()
 
 # Public =====================
-
-## 初始化
-func init (key) :
-	self._key = key
-	return self
 
 ## 推進
 func process (_dt) :
@@ -82,6 +78,19 @@ func process (_dt) :
 		elif each.call_type == self.Invoker.CallType.FRAME:
 			self.tasks.remove_at(idx)
 			each.run()
+
+## 設置 時間實體
+func set_times_inst (inst_or_key) :
+	match typeof(inst_or_key) :
+		TYPE_STRING :
+			self._times_inst = UREQ.acc("Uzil", "times_mgr").inst(inst_or_key)
+		TYPE_OBJECT :
+			self._times_inst = inst_or_key
+			
+
+## 取得 時間實體
+func get_times_inst () :
+	return self._times_inst
 
 ## 等候
 func wait (delay_ms : int) :

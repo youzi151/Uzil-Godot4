@@ -66,6 +66,8 @@ func emit (data = null, options = null) :
 		if each.call_times == 0 : 
 			if self._listener_list.has(each) :
 				self._listener_list.erase(each)
+	
+	return ctrlr
 
 ## 新增 偵聽者
 func once (listener_or_fn) :

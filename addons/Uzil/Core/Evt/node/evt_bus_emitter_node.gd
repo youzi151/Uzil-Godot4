@@ -127,5 +127,5 @@ func _refresh_mode () :
 		FindBusMode.STATIC :
 			var evt_bus_node : Node = self._find_evt_bus_node()
 			if evt_bus_node == null : return null
-			self._static_evt_bus = evt_bus_node.get_evt_bus()
+			self._static_evt_bus = evt_bus_node.request_evt_bus()
 

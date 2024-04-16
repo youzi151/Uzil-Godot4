@@ -75,5 +75,5 @@ func _target_index () :
 func _target_mgr () :
 	var target = self.Mgr.new(null)
 	target.name = "invoker_mgr"
-	self.Uzil.add_child(target)
+	self.Uzil.request_node("Core/Invoker").add_child(target)
 	return target

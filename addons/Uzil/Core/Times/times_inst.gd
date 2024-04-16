@@ -123,7 +123,7 @@ func set_scale (time_scale, _user = null, _priority := 0) :
 		if _user == null :
 			self._time_scale_vals.set_default(time_scale)
 		else : 
-			self._time_scale_vals.set_data(time_scale, _user, _priority)
+			self._time_scale_vals.set_data(_user, time_scale, _priority)
 
 ## 繼續
 func resume () :

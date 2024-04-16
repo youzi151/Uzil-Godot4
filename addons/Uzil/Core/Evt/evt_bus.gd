@@ -53,7 +53,7 @@ func clear (evt_key = null) :
 		self.key_to_evt.clear()
 
 ## 發送事件
-func emit (evt_key : String, data) :
+func emit (evt_key : String, data = null) :
 	var evt = self.get_evt(evt_key)
 	evt.emit(data)
 	var any_evt = self.get_evt("")
