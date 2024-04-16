@@ -214,7 +214,7 @@ func _resize_rates () :
 	var range_size = self._max - self._min + 1
 	
 	# 目標範圍 與 目前比例數量的 差距
-	var delta = range_size - self._rates.size()
+	var delta : int = range_size - self._rates.size()
 	
 	# 補足 或 削減
 	if delta == 0 :

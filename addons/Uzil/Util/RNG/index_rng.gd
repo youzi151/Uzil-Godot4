@@ -39,4 +39,17 @@ func index (Uzil, _parent_index) :
 		}
 	)
 	
+	# 綁定 池隨機 管理
+	UREQ.bind("Uzil", "rng_pool_mgr",
+		func () :
+			var mgr = UREQ.acc("Uzil", "Util").InstMgr.new(func():
+				return UREQ.acc("Uzil", "Util.RNG").Pool.new()
+			)
+			return mgr,
+		{
+			"alias" : [],
+			"requires" : ["Util", "Util.RNG"],
+		}
+	)
+	
 	return self

@@ -4,6 +4,23 @@
 ## 設計參考自async.js
 ## 
 
+class Ctrlr :
+	var is_active : bool = true
+	var skip_fn : Callable
+	var stop_fn : Callable
+	var next_fn : Callable
+	func skip () :
+		if not self.is_active : return
+		self.skip_fn.call()
+	func stop () :
+		if not self.is_active : return
+		self.stop_fn.call()
+	func next () :
+		if not self.is_active : return
+		self.next_fn.call()
+	func deactive () :
+		self.is_active = false
+
 class WaitSignal :
 	var is_done : bool = false
 	signal sign
@@ -86,28 +103,19 @@ func each (list_or_dict, fn_each, _fn_done = null) :
 		# 成員
 		var each_ele = list_or_dict[cur_idx]
 		
-		# 傳入參考
-		var ref2 := {}
-		# 是否已呼叫下一個任務
-		ref2.is_next_called = false
-		
-		var ctrlr := {}
+		var ctrlr : Ctrlr = Ctrlr.new()
 		# 跳過
-		ctrlr.skip = func():
+		ctrlr.skip_fn = func():
 			ref1.state = 1
-			ctrlr.next.call()
+			ctrlr.next()
 		# 停止
-		ctrlr.stop = func():
+		ctrlr.stop_fn = func():
 			ref1.state = 2
-			ctrlr.next.call()
+			ctrlr.next()
 		# 下一個
-		ctrlr.next = func():
-			# 防止重複呼叫
-			if ref2.is_next_called : return
-			ref2.is_next_called = true
-			
-			# 清空 控制器
-			ctrlr.clear()
+		ctrlr.next_fn = func():
+			# 關閉 控制器
+			ctrlr.deactive()
 			
 			each_done.call()
 			
@@ -152,30 +160,21 @@ func each_series (list_or_dict, fn_each, _fn_done = null) :
 		# 索引
 		var cur_idx = indexes[num]
 		
-		# 傳入參考
-		var ref2 := {}
-		# 是否已呼叫下一個任務
-		ref2.is_next_called = false
-		
 		# 控制器
-		var ctrlr := {}
+		var ctrlr : Ctrlr = Ctrlr.new()
 		# 跳過
-		ctrlr.skip = func():
+		ctrlr.skip_fn = func():
 			ref1.state = 1
-			ctrlr.next.call()
+			ctrlr.next()
 		# 停止
-		ctrlr.stop = func():
+		ctrlr.stop_fn = func():
 			ref1.state = 2
-			ctrlr.next.call()
+			ctrlr.next()
 			
 		# 下一個任務
-		ctrlr.next = func():
-			# 防止重複呼叫
-			if ref2.is_next_called : return
-			ref2.is_next_called = true
-			
-			# 清空 控制器
-			ctrlr.clear()
+		ctrlr.next_fn = func():
+			# 關閉 控制器
+			ctrlr.deactive()
 			
 			# 若 狀態 停止 則 返回
 			if ref1.state == 2 : return
@@ -236,29 +235,20 @@ func times (run_times, fn_each, _fn_done = null) :
 	# 每個呼叫
 	var each_call = func(idx) :
 		
-		# 傳入參考
-		var ref2 := {}
-		# 是否已經呼叫過next
-		ref2.is_next_called = false
-		
 		# 控制器
-		var ctrlr := {}
+		var ctrlr : Ctrlr = Ctrlr.new()
 		# 跳過
-		ctrlr.skip = func():
+		ctrlr.skip_fn = func():
 			ref1.state = 1
-			ctrlr.next.call()
+			ctrlr.next()
 		# 停止
-		ctrlr.stop = func():
+		ctrlr.stop_fn = func():
 			ref1.state = 2
-			ctrlr.next.call()
+			ctrlr.next()
 		# 下一個
-		ctrlr.next = func():
-			# 避免重複呼叫nxt
-			if ref2.is_next_called : return
-			ref2.is_next_called = true
-		
-			# 清空 控制器
-			ctrlr.clear()
+		ctrlr.next_fn = func():
+			# 關閉 控制器
+			ctrlr.deactive()
 			
 			# 若 狀態 結束 則 返回
 			if ref1.state == 2 : return
@@ -309,29 +299,20 @@ func times_series (run_times, fn_each, _fn_done = null) :
 		var cur_idx : int = idx
 		var nxt_idx : int = idx + 1
 		
-		# 傳入參考
-		var ref2 := {}
-		# 是否已經呼叫過next
-		ref2.is_next_called = false
-		
 		# 控制器
-		var ctrlr := {}
+		var ctrlr : Ctrlr = Ctrlr.new()
 		# 跳過
-		ctrlr.skip = func():
+		ctrlr.skip_fn = func():
 			ref1.state = 1
-			ctrlr.next.call()
+			ctrlr.next()
 		# 停止
-		ctrlr.stop = func():
+		ctrlr.stop_fn = func():
 			ref1.state = 2
-			ctrlr.next.call()
+			ctrlr.next()
 		# 下一個
-		ctrlr.next = func():
-			# 避免重複呼叫nxt
-			if ref2.is_next_called : return
-			ref2.is_next_called = true
-			
-			# 清空 控制器
-			ctrlr.clear()
+		ctrlr.next_fn = func():
+			# 關閉 控制器
+			ctrlr.deactive()
 			
 			# 若 狀態 結束 則 返回
 			if ref1.state == 2 : return
@@ -399,29 +380,20 @@ func parallel (fn_list, _fn_done = null) :
 		# 任務
 		var fn_each = fn_list[idx]
 		
-		# 傳入參考
-		var ref2 := {}
-		# 是否已呼叫下一個任務
-		ref2.is_next_called = false
-		
 		# 控制器
-		var ctrlr := {}
+		var ctrlr : Ctrlr = Ctrlr.new()
 		# 跳過
-		ctrlr.skip = func () :
+		ctrlr.skip_fn = func () :
 			ref1.state = 1
-			ctrlr.next.call()
+			ctrlr.next()
 		# 停止
-		ctrlr.stop = func () :
+		ctrlr.stop_fn = func () :
 			ref1.state = 2
-			ctrlr.next.call()
+			ctrlr.next()
 		# 下一個
-		ctrlr.next = func () :
-			# 防止重複呼叫
-			if ref2.is_next_called : return
-			ref2.is_next_called = true
-			
-			# 清空 控制器
-			ctrlr.clear()
+		ctrlr.next_fn = func () :
+			# 關閉 控制器
+			ctrlr.deactive()
 			
 			each_done.call()
 			
@@ -453,29 +425,20 @@ func waterfall (fn_list, _fn_done = null) :
 		# 下一任務序號
 		var next_idx = idx + 1
 		
-		# 傳入參考
-		var ref2 := {}
-		# 是否已呼叫下一個任務
-		ref2.is_next_called = false
-		
 		# 控制器
-		var ctrlr := {}
+		var ctrlr : Ctrlr = Ctrlr.new()
 		# 跳過
-		ctrlr.skip = func () :
+		ctrlr.skip_fn = func () :
 			ref1.state = 1
-			ctrlr.next.call()
+			ctrlr.next()
 		# 停止
-		ctrlr.stop = func () :
+		ctrlr.stop_fn = func () :
 			ref1.state = 2
-			ctrlr.next.call()
+			ctrlr.next()
 		# 下一個任務
-		ctrlr.next = func():
-			# 防止重複呼叫
-			if ref2.is_next_called : return
-			ref2.is_next_called = true
-			
-			# 清空 控制器
-			ctrlr.clear()
+		ctrlr.next_fn = func():
+			# 關閉 控制器
+			ctrlr.deactive()
 			
 			# 若 狀態為停止 則 返回
 			if ref1.state == 2 : return

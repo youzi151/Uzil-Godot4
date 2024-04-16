@@ -29,6 +29,9 @@ var Graph
 ## 曲線
 var Curves
 
+## 實例管理
+var InstMgr
+
 # inst ==========
 
 ## 數學
@@ -73,6 +76,7 @@ func index (Uzil, _parent_index) :
 			self._class._GDScript = Uzil.load_script(self.PATH.path_join("gdscript.gd"))
 			self._class._Input = Uzil.load_script(self.PATH.path_join("Input/input.gd"))
 			self._class._Keycode = Uzil.load_script(self.PATH.path_join("Input/keycode.gd"))
+			self._class._ViewportMouse = Uzil.load_script(self.PATH.path_join("Input/ViewportMouse/viewport_mouse.gd"))
 			self._class._Dictionary = Uzil.load_script(self.PATH.path_join("dictionary.gd"))
 			self._class._Array = Uzil.load_script(self.PATH.path_join("array.gd"))
 			self._class._String = Uzil.load_script(self.PATH.path_join("string.gd"))
@@ -80,9 +84,11 @@ func index (Uzil, _parent_index) :
 			self._class._Http = Uzil.load_script(self.PATH.path_join("http.gd"))
 			self._class._Screenshot = Uzil.load_script(self.PATH.path_join("screenshot.gd"))
 			
+			
 			# class
 			self.Graph = Uzil.load_script(self.PATH.path_join("Graph/graph.gd"))
 			self.Curves = Uzil.load_script(self.PATH.path_join("curves.gd"))
+			self.InstMgr = Uzil.load_script(self.PATH.path_join("inst_mgr.gd"))
 
 			self.init(_parent_index)
 			return self
@@ -111,7 +117,9 @@ func init (__parent_index) :
 	self.http = self._class._Http.new()
 	self.screenshot = self._class._Screenshot.new()
 	
-	var keycode = self._class._Keycode.new()
-	self.input = self._class._Input.new().init(keycode)
+	self.input = self._class._Input.new().init(self, {
+		"keycode" : self._class._Keycode.new(),
+		"viewport_mouse" : self._class._ViewportMouse.new(),
+	})
 	
 	return self

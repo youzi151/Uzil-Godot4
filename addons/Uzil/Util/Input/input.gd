@@ -36,6 +36,9 @@ var PATH : String
 ## 鍵碼 模塊
 var keycode
 
+## 視圖滑鼠 模塊
+var viewport_mouse
+
 ## 是否 呼叫 按下
 #var _is_call_press = false
 
@@ -57,10 +60,13 @@ var updating_devices = [
 
 # GDScript ===================
 
-func init (_keycode_module) :
+func init (util, modules : Dictionary) :
 	
-	self.keycode = _keycode_module
+	self.keycode = modules["keycode"]
 	self.keycode.init(self)
+	
+	self.viewport_mouse = modules["viewport_mouse"]
+	self.viewport_mouse.init(util)
 	
 	var Uzil = UREQ.acc("Uzil", "Uzil")
 	Uzil.once_loaded(func() :
@@ -79,13 +85,15 @@ func init (_keycode_module) :
 ## 當輸入
 func on_input (event) :
 	if event is InputEventMouseButton :
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP :
-			self._set_temp_input_val(self.keycode.name_to_keycode("mouse.wu"), ButtonState.PRESSED)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN :
-			self._set_temp_input_val(self.keycode.name_to_keycode("mouse.wd"), ButtonState.PRESSED)
+		match event.button_index :
+			MOUSE_BUTTON_WHEEL_UP :
+				self._set_temp_input_val(self.keycode.name_to_keycode("mouse.wu"), ButtonState.PRESSED)
+			MOUSE_BUTTON_WHEEL_DOWN :
+				self._set_temp_input_val(self.keycode.name_to_keycode("mouse.wd"), ButtonState.PRESSED)
 
 ## 更新
 func update () :
+	
 	if self.updating_devices.has(self.DeviceType.KEYBOARD) :
 		self.update_keyboard()
 		
