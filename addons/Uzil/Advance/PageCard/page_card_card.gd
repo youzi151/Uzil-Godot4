@@ -29,30 +29,30 @@ func _process (_dt) :
 # Public =====================
 
 ## 啟用
-func active (is_force := false) :
+func active (_options := {}, is_force := false) :
 	if not is_force and self._is_active : return
 	
 	self._is_active = true
 	#G.print("%s : %s" % [self.id, self._is_active])
 	
-	await self.active_targets()
+	await self.active_targets(_options)
 
 ## 關閉
-func deactive (is_force := false) :
+func deactive (_options := {}, is_force := false) :
 	if not is_force and not self._is_active : return
 	
 	self._is_active = false
 	#G.print("%s : %s" % [self.id, self._is_active])
 	
-	await self.deactive_targets()
+	await self.deactive_targets(_options)
 
 ## 啟用目標
-func active_targets () :
+func active_targets (_options := {}) :
 	var async = UREQ.acc("Uzil", "Util").async
 	await async.each(self.targets, func(idx, each, ctrlr) :
 		if is_instance_valid(each) : 
 			if each.has_method("card_active") :
-				await each.card_active()
+				await each.card_active(_options)
 			else :
 				each.visible = true
 				each.process_mode = Node.PROCESS_MODE_INHERIT
@@ -61,12 +61,12 @@ func active_targets () :
 
 
 ## 關閉目標
-func deactive_targets () :
+func deactive_targets (_options := {}) :
 	var async = UREQ.acc("Uzil", "Util").async
 	await async.each(self.targets, func(idx, each, ctrlr) :
 		if is_instance_valid(each) : 
 			if each.has_method("card_deactive") :
-				await each.card_deactive()
+				await each.card_deactive(_options)
 			else :
 				each.visible = false
 				each.process_mode = Node.PROCESS_MODE_DISABLED

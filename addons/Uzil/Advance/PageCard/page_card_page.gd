@@ -187,7 +187,7 @@ func query (query_str : String, query_mode : int = -1) :
 		
 		PageCard.QueryMode.HIDE :
 			for card in query_result :
-				self._set_card_state(card, true)
+				self._set_card_state(card, false)
 			return self._card_to_state.duplicate()
 		
 		PageCard.QueryMode.SHOW_OR_CLEAR :

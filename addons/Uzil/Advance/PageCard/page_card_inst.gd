@@ -405,7 +405,7 @@ func nav (page_id, options : Dictionary = {}) :
 	#G.print(self._page_stack.map(func(a):return a.id))
 
 ## 刷新畫面
-func refresh (transition_fn = null, transition_data := {}, on_done = null) :
+func refresh (transition_fn = null, transition_data := {}) :
 	
 	# 要啟用的
 	var to_active := []
@@ -450,7 +450,7 @@ func refresh (transition_fn = null, transition_data := {}, on_done = null) :
 	#G.print("to_deactive : %s" % [to_deactive.map(func(a):return a.id)])
 	
 	var Util = UREQ.acc("Uzil", "Util")
-	Util.async.waterfall([
+	await Util.async.waterfall([
 		func (ctrlr) :
 			# 若 有 轉場行為 則 轉呼叫
 			if transition_fn != null : 
@@ -462,29 +462,20 @@ func refresh (transition_fn = null, transition_data := {}, on_done = null) :
 					is_callback_called = false
 				}
 				
-				var is_skip = await transition_fn.call(transition_data, func (is_skip := false) :
-					if ref.is_callback_called : return
-					ref.is_callback_called = true
-					if is_skip :
-						ctrlr.skip.call()
-					else :
-						ctrlr.next.call()
-				)
+				var is_skip = await transition_fn.call(transition_data)
 				
 				if ref.is_callback_called : return
 				match is_skip :
-					null : 
-						pass
 					true : 
 						ctrlr.skip.call()
-					false : 
+					_ : 
 						ctrlr.next.call()
 				
 			# 否則 直接 下一階段
 			else :
 				ctrlr.next.call()
 			,
-		# 最終 (若不要, 可以在transition_fn的回呼中設參數is_skip=true)
+		# 最終 (若不要, 可以在transition_fn的回傳is_skip=true)
 		func (ctrlr) :
 			# 啟用 要啟用的
 			await Util.async.each(to_active, func (idx, each, each_ctrlr) :
@@ -499,10 +490,7 @@ func refresh (transition_fn = null, transition_data := {}, on_done = null) :
 			)
 			
 			ctrlr.next.call()
-	], func () :
-		if on_done != null :
-			on_done.call()
-	)
+	])
 
 ## 設置 頁面樹
 func set_page_tree (tree_dict : Dictionary) :
