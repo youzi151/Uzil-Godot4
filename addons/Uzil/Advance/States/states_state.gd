@@ -93,7 +93,7 @@ func on_enter () :
 	# 試 呼叫 當進入
 	if self._strat == null : return
 	if self._strat.has_method("on_enter") : 
-		self._strat.on_enter()
+		await self._strat.on_enter()
 
 ## 當 狀態 離開
 func on_exit () :
@@ -102,7 +102,7 @@ func on_exit () :
 	# 試 呼叫 當離開
 	if self._strat == null : return
 	if self._strat.has_method("on_exit") : 
-		self._strat.on_exit()
+		await self._strat.on_exit()
 
 # Private ====================
 

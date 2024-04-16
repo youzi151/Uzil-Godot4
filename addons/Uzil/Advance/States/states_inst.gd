@@ -22,7 +22,7 @@ var _next_state = null
 var _states := []
 
 ## 當 狀態改變 事件
-var on_state_change = null
+var on_state_changed = null
 
 ## 對應 時間實體
 var times_inst_key = "_"
@@ -34,7 +34,7 @@ func _init (__user = null) :
 	
 	# 當 狀態改變
 	var Evt = UREQ.acc("Uzil", "Core.Evt")
-	self.on_state_change = Evt.Inst.new()
+	self.on_state_changed = Evt.Inst.new()
 	
 	self.times_mgr = UREQ.acc("Uzil", "times_mgr")
 	
@@ -93,7 +93,10 @@ func del_state (state_id) :
 			self._states.erase(each)
 
 ## 取得 狀態
-func get_state (state_id) :
+func get_state (state_id = null) :
+	if state_id == null :
+		return self._current_state
+	
 	for each in self._states :
 		if each.id == state_id :
 			return each
@@ -107,7 +110,7 @@ func start () :
 	for each in self._states :
 		each.setup()
 	
-	self.go_state(self.default_state_id)
+	await self.go_state(self.default_state_id)
 
 func clear () :
 	self._states.clear()
@@ -154,13 +157,18 @@ func go_state (state_or_id, is_force := false) :
 	
 	# 呼叫 前次狀態 當 離開狀態
 	if last_state != null :
-		last_state.on_exit()
+		await last_state.on_exit()
 	
 	# 設為 當前狀態
 	self._current_state = next_state
 	
 	if self._current_state != null :
-		self._current_state.on_enter()
+		await self._current_state.on_enter()
+	
+	self.on_state_changed.emit({
+		"last" : last_state,
+		"next" : next_state,
+	})
 
 ## 鎖住
 func lock () :
