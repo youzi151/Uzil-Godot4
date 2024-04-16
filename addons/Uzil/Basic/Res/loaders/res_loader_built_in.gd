@@ -10,6 +10,9 @@ class Task :
 	## 當 讀取完成 信號
 	signal on_loaded
 	
+	## 是否完成
+	var is_done := false
+	
 	## 資源
 	var res = null
 	## 路徑
@@ -20,6 +23,14 @@ class Task :
 	func _init (path : String, type_hint : String) :
 		self.path = path
 		self.type_hint = type_hint
+	
+	func done () :
+		self.is_done = true
+		self.on_loaded.emit()
+	
+	func until_done () :
+		if not self.is_done :
+			await self.on_loaded
 
 # Variable ===================
 
@@ -200,7 +211,7 @@ func process (_dt) :
 	# 每個已結束任務
 	for each in done_tasks :
 		# 發送 讀取完畢 Signal
-		each.on_loaded.emit()
+		each.done()
 
 ## 讀取 資源 透過路徑
 func load_by_path (full_path : String, type_hint : String = "") :
@@ -227,7 +238,8 @@ func load_by_path (full_path : String, type_hint : String = "") :
 		_ :
 			var task = self.Task.new(full_path, type_hint)
 			self.to_load_tasks.push_back(task)
-			await task.on_loaded
+			self.process(0)
+			await task.until_done()
 			res = task.res
 	
 	if self.is_debug : 

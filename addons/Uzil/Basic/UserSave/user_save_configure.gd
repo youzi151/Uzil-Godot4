@@ -158,10 +158,11 @@ func read (file_path : String, section : String = "", keys = null) :
 		
 		# 若 模板檔 存在
 		if template_file != null :
-			var template_keys = template_file.get_section_keys(section)
-			for key in template_keys :
-				if not exist_keys.has(key) :
-					exist_keys[key] = true
+			if template_file.has_section(section) :
+				var template_keys = template_file.get_section_keys(section)
+				for key in template_keys :
+					if not exist_keys.has(key) :
+						exist_keys[key] = true
 		
 		keys = exist_keys.keys()
 	

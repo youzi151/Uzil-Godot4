@@ -157,7 +157,7 @@ func on_input (vkey : int, evtlistener_or_fn) :
 ## 移除 當 輸入 偵聽
 func off_input (vkey : int, evtlistener_or_tag) :
 	if not self._vkey_to_event.has(vkey) : return
-	self._vkey_to_event[vkey].del(evtlistener_or_tag)
+	self._vkey_to_event[vkey].off(evtlistener_or_tag)
 
 ## 註冊事件 來源處理器 以及 當輸入偵聽
 # 僅方便設置 src_key直接轉為vkey 以及 註冊事件. [br]
