@@ -20,7 +20,7 @@ var path_or_key : String
 var audio_player : AudioStreamPlayer = null
 
 ## 是否撥放完後 即 銷毀
-@export var is_release_on_end := true
+@export var is_release_on_end := false
 
 ## 是否循環
 @export var is_loop := false
@@ -85,11 +85,18 @@ func _process (_dt) :
 	self._process_volume(_dt)
 		
 
+func _exit_tree () :
+	self.on_destroy.emit(self)
+
 func _signal_finished () :
 	
 	var is_stream_loop = false
+	
 	if self.audio_player.stream :
-		is_stream_loop = (self.audio_player.stream as AudioStreamOggVorbis).loop
+		if self.audio_player.stream is AudioStreamOggVorbis :
+			is_stream_loop = (self.audio_player.stream as AudioStreamOggVorbis).loop
+		
+	
 	if self.is_loop and not is_stream_loop :
 		
 		# 呼叫 循環事件
@@ -100,10 +107,17 @@ func _signal_finished () :
 	if not self.is_loop :
 		# 呼叫 停止事件
 		self.on_end.emit()
+		
+		if self.is_release_on_end :
+			self.queue_free()
 
 # Extends ====================
 
 # Public =====================
+
+## 取得 ID
+func get_id () : 
+	return self._id
 
 ## 是否播放中
 func is_playing () -> bool :

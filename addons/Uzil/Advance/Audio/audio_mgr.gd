@@ -16,8 +16,8 @@ var _id_to_obj := {}
 ## 預設層級
 var default_layers := []
 
-## 路徑表
-var key_to_path := {}
+## 設置表
+var key_to_preset := {}
 
 var _container_layer : Node = null
 var _container_obj : Node = null
@@ -46,32 +46,24 @@ func _process(_dt):
 
 # Public =====================
 
-## 讀取 路徑表
-func load_path_table (full_path : String):
-	var config_file = ConfigFile.new()
-	var err = config_file.load(full_path)
-	if err == OK :
-		var section
-		var sections = config_file.get_sections()
-		if sections.size() == 0 :
-			section = ""
-		else :
-			section = sections[0]
-			
-		var keys = config_file.get_section_keys(section)
-		for key in keys :
-			self.key_to_path[key] = config_file.get_value(section, key, null)
-		
+## 設置 配置
+func set_preset (key : String, data) :
+	if data == null :
+		if self.key_to_preset.has(key) :
+			self.key_to_preset.erase(key)
+	else :
+		match typeof(data) :
+			TYPE_STRING :
+				self.key_to_preset[key] = {
+					"file" : data
+				}
+			TYPE_DICTIONARY :
+				self.key_to_preset[key] = data
 
-## 新增 鍵:路徑
-func add_key_to_path (key : String, full_path : String) :
-	self.key_to_path[key] = full_path
-
-## 移除 鍵:路徑
-func del_key_to_path (key : String) :
-	if not self.key_to_path.has(key) : return
-	self.key_to_path.erase(key)
-
+## 取得 配置
+func get_preset (key : String) :
+	if not self.key_to_preset.has(key) : return null
+	return self.key_to_preset[key]
 
 # 物件 =============
 
@@ -80,7 +72,10 @@ func prepare (audio_id : String, path_or_key : String, data = null) :
 	
 	var audio_obj = self.get_audio(audio_id)
 	
-	var src_path = self._get_res_path(path_or_key)
+	var src_path : String = path_or_key
+	var preset = self.get_preset(path_or_key)
+	if preset != null and preset.has("file") :
+		src_path = preset["file"]
 	
 	if audio_obj != null and audio_obj.src == src_path:
 		audio_obj.set_data(data)
@@ -90,13 +85,18 @@ func prepare (audio_id : String, path_or_key : String, data = null) :
 	return audio_obj
 
 ## 請求
-func request (audio_id : String, path_or_key : String, data = null) :
+func request (audio_id : String, path_or_key : String, data := {}) :
 	
 	var id = self._handle_id_in_request(audio_id)
 	
 	var audio_obj = await self._create_obj(id, path_or_key, data)
 	
 	self._id_to_obj[id] = audio_obj
+	audio_obj.on_destroy.on(func(_ctrlr):
+		var _id = _ctrlr.data.get_id()
+		if self._id_to_obj.has(_id) :
+			self._id_to_obj.erase(_id)
+	)
 	
 	if audio_obj == null : return null
 	
@@ -115,6 +115,8 @@ func release (audio_id_or_obj) :
 		for key in self._id_to_obj.keys() :
 			if self._id_to_obj[key] == audio_id_or_obj :
 				self._id_to_obj.erase(key)
+				audio_id_or_obj.queue_free()
+				break
 
 # 操作 =============
 
@@ -146,8 +148,9 @@ func set_volume (audio_id : String, volume : float) :
 	audio_obj.set_volume(volume)
 
 ## 播放 (匿名, 直接指定資源)
-func emit (path_or_key : String, data = null) :
+func emit (path_or_key : String, data := {}) :
 	var audio_obj = await self.request("", path_or_key, data)
+	audio_obj.is_release_on_end = true
 	if audio_obj :
 		audio_obj.play()
 		
@@ -276,11 +279,23 @@ func set_bus_volume (bus_id, volume_linear : float) :
 # Private ====================
 
 ## 建立物件
-func _create_obj (id, path_or_key, data = null) :
+func _create_obj (id : String, path_or_key : String, data : Dictionary = {}) :
 	var Audio = UREQ.acc("Uzil", "Audio")
 	var res_mgr = UREQ.acc("Uzil", "res_mgr")
 	
-	var src_path := self._get_res_path(path_or_key)
+	if not data.is_empty() :
+		data = data.duplicate()
+	
+	var src_path : String = path_or_key
+	
+	var preset = self.get_preset(path_or_key)
+	if preset != null : 
+		
+		if preset.has("file") :
+			src_path = preset["file"]
+		
+		if data != null :
+			data.merge(preset, false)
 	
 	var res_info = await res_mgr.hold(src_path)
 	if res_info == null : return
@@ -314,20 +329,7 @@ func _create_obj (id, path_or_key, data = null) :
 	
 	return audio_obj
 
-## 取得 資源路徑 (以路徑或關鍵字)
-func _get_res_path (path_or_key) -> String :
-	var path = path_or_key
-	
-	if self.key_to_path.has(path_or_key) :
-		path = self.key_to_path[path_or_key]
-		
-#	var vars_inst = UREQ.acc("Uzil", "vars").inst("_audio")
-#	if vars_inst.has_key(path_or_key) :
-#		var new_path = vars_inst.get_var(path_or_key)
-#		if typeof(new_path) == TYPE_STRING :
-#			path = new_path
-	return path
-	
+
 ## 處理 ID 
 func _handle_id_in_request (id : String) -> String :
 	# 若為空 則 取匿名ID

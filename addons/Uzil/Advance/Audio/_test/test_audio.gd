@@ -28,7 +28,7 @@ func test_simple () :
 	var invoker = UREQ.acc("Uzil", "invoker")
 	
 	# 清除前次
-	audio_mgr.del_key_to_path("test_key")
+	audio_mgr.set_preset("test_key", null)
 	audio_mgr.del_layer("layer1")
 	audio_mgr.del_layer("layer2")
 	audio_mgr.stop("obj1", true)
@@ -36,7 +36,7 @@ func test_simple () :
 	invoker.cancel_tag("test_audio_simple")
 	
 	# 設置 key與路徑
-	audio_mgr.add_key_to_path("test_key", Audio.PATH.path_join("_test/test.ogg"))
+	audio_mgr.set_preset("test_key", Audio.PATH.path_join("_test/test.ogg"))
 	
 	# 設置 層級
 	# 層級1 音量100% 優先度5
@@ -45,7 +45,7 @@ func test_simple () :
 	var _layer_test2 = audio_mgr.set_layer("layer2").set_volume(0).set_priority(1)
 	
 	# 請求 並 設置 音效物件
-	var audio_test1 = audio_mgr.request("obj1", "test_key", {"bus":"BGM"})
+	var audio_test1 = await audio_mgr.request("obj1", "test_key", {"bus":"BGM"})
 	audio_test1.add_layers(["layer1", "layer2"])
 	audio_test1.is_loop = true
 	# 播放
