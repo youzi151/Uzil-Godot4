@@ -2,16 +2,18 @@ extends Node
 
 # Variable ===================
 
+## 是否自動讀取
 @export
 var is_auto_load : bool = true
 
+## 是否釋放當前
 @export
 var is_release_current : bool = true
 
 ## 下一個要讀取的場景
 ## 不能直接用PackedScene, 因為這樣會因為資源關連而直接預載. 無法實現一些動態需求.
 @export
-var next_scene : String = ""
+var next_scene_path : String = ""
 
 # GDScript ===================
 
@@ -22,7 +24,6 @@ func _init () :
 func _ready () :
 	if self.is_auto_load :
 		self.change_scene.call_deferred()
-	
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process (_dt) :
@@ -34,8 +35,9 @@ func _process (_dt) :
 
 # Public =====================
 
+## 切換場景
 func change_scene () :
-	var res_info = await UREQ.acc("Uzil", "res").hold(self.next_scene)
+	var res_info = await UREQ.acc("Uzil", "res").hold(self.next_scene_path)
 	if res_info == null : return
 	
 	var scene : PackedScene = res_info.res

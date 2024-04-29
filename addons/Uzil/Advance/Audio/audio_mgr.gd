@@ -91,14 +91,15 @@ func request (audio_id : String, path_or_key : String, data := {}) :
 	
 	var audio_obj = await self._create_obj(id, path_or_key, data)
 	
-	self._id_to_obj[id] = audio_obj
+	if audio_obj == null : return null
+	
 	audio_obj.on_destroy.on(func(_ctrlr):
 		var _id = _ctrlr.data.get_id()
 		if self._id_to_obj.has(_id) :
 			self._id_to_obj.erase(_id)
 	)
 	
-	if audio_obj == null : return null
+	self._id_to_obj[id] = audio_obj
 	
 	return audio_obj
 
