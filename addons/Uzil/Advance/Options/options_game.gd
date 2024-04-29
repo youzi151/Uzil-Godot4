@@ -37,12 +37,12 @@ func load_config (file_path := "") :
 		file_path = UREQ.acc("Uzil", "Advance.Options").CONFIG_FILE_PATH
 	
 	var to_load_keys := [
-		self.KEY_LANGUAGE, 
+		self.KEY_LANGUAGE,
 		self.KEY_IS_RUN_IN_BACKGROUND,
 	]
 	
 	var user_save = UREQ.acc("Uzil", "user_save")
-	var configs = user_save.config.read(file_path, self.CFG_SECTION_NAME, to_load_keys)
+	var configs = user_save.config.reads(file_path, to_load_keys, {"section":self.CFG_SECTION_NAME})
 	
 	if configs.has(self.KEY_LANGUAGE) :
 		self.set_language(configs[self.KEY_LANGUAGE], false)
@@ -90,5 +90,5 @@ func set_language (lang_code_or_name : String, is_save_to_config := true) :
 func _write_to_config (key, val) :
 	var Options = UREQ.acc("Uzil", "Advance.Options")
 	var user_save = UREQ.acc("Uzil", "user_save")
-	user_save.config.write_val(Options.CONFIG_FILE_PATH, self.CFG_SECTION_NAME, key, val)
+	user_save.config.write(Options.CONFIG_FILE_PATH, key, val, {"section":self.CFG_SECTION_NAME})
 

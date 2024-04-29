@@ -7,10 +7,10 @@
 ## display/window/size/viewport_width, viewport_height 設為 0 [br]
 ##
 
+# Variable ===================
+
 ## 在 設定檔案 中的 區塊名稱
 const CFG_SECTION_NAME := "display"
-
-# Variable ===================
 
 ## 鍵:視窗
 var _binded_window := {}
@@ -132,7 +132,7 @@ func load_config (file_path := "", target_display_keys : Array = [], save_key_ta
 	
 	# 取得 存檔配置 設定檔 (以要讀取的所有key)
 	var user_save = UREQ.acc("Uzil", "user_save")
-	var configs = user_save.config.read(file_path, self.CFG_SECTION_NAME, to_load_keys)
+	var configs = user_save.config.reads(file_path, to_load_keys, {"section":"display"})
 	
 	# 把 設定 讀取到各個display
 	for each in windows :
@@ -413,10 +413,9 @@ func _get_key_with_suffix (window_key : String, key : String) -> String :
 
 ## 寫入 至 設定檔案
 func _write_to_config (key, val) :
-	
 	var Options = UREQ.acc("Uzil", "Advance.Options")
 	var user_save = UREQ.acc("Uzil", "user_save")
-	user_save.config.write_val(Options.CONFIG_FILE_PATH, self.CFG_SECTION_NAME, key, val)
+	user_save.config.write(Options.CONFIG_FILE_PATH, key, val, {"section":self.CFG_SECTION_NAME})
 #	print(Options.CONFIG_FILE_PATH)
 
 func _init_main_window () :

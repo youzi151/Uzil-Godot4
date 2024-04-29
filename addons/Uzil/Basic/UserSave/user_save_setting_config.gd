@@ -1,13 +1,13 @@
 
-## UserSave.Setting.User 用戶存檔 設置 用戶
+## UserSave.Setting.Config 用戶存檔 設置 設定
 ##
-## 存取 用戶 本身相關存檔資料 設置
+## 存取 設定 相關存檔資料 設置
 ## 
 
 # Variable ===================
 
 ## 路徑格式
-var _path_format : String = "{FOLDER}/{USER}/comm/{FILE}"
+var _path_format : String = "{FOLDER}/{FILE}"
 
 ## 路徑變數
 var _path_var : Dictionary = {}
@@ -45,17 +45,12 @@ func add_template_folders (folder_paths : Array) :
 
 # Public =====================
 
-## 設置 用戶 名稱
-func set_user (_user_name) :
-	self._path_var["USER"] = _user_name
-	self._update_path()
-	return self
-
 ## 設置 目錄路徑
 func set_folder (_folder_path) :
 	self._path_var["FOLDER"] = _folder_path
 	self._update_path()
 	return self
+
 
 # Private ====================
 

@@ -18,7 +18,6 @@ config/features=PackedStringArray("4.2", "GL Compatibility")
 
 G="*res://addons/GlobalUtil/scripts/global_util.gd"
 UREQ="*res://addons/UREQ/scripts/ureq.gd"
-Uzil_Init="*res://addons/Uzil/uzil_init.gd"
 UzilInit="*res://addons/Uzil/uzil_init.gd"
 
 [editor_plugins]

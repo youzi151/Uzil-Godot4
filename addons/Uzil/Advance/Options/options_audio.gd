@@ -38,15 +38,18 @@ func load_config (file_path := "") :
 	if file_path == "" :
 		file_path = Options.CONFIG_FILE_PATH
 	
-	var configs = user_save.config.read(file_path, self.CFG_SECTION_NAME, null)
+	var configs = user_save.config.read(file_path, "", {"section":self.CFG_SECTION_NAME})
 	
 	var keys : Array = configs.keys()
 	
 	for key in keys :
 		var each : String = key
+		
+		# 去頭
 		if each.begins_with(self.KEY_BUS_PREFIX) :
 			each = each.get_slice(self.KEY_BUS_PREFIX, 1)
 			
+			# 去尾
 			if each.ends_with(self.KEY_BUS_VOLUME_SUFFIX) :
 				each = each.get_slice(self.KEY_BUS_VOLUME_SUFFIX, 0)
 				
@@ -73,5 +76,5 @@ func set_bus_volume (bus_id : String, volume_linear : float, is_save_to_config :
 func _write_to_config (key, val) :
 	var Options = UREQ.acc("Uzil", "Advance.Options")
 	var user_save = UREQ.acc("Uzil", "user_save")
-	user_save.config.write_val(Options.CONFIG_FILE_PATH, self.CFG_SECTION_NAME, key, val)
+	user_save.config.write(Options.CONFIG_FILE_PATH, key, val, {"section":self.CFG_SECTION_NAME})
 

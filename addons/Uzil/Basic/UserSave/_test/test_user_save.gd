@@ -104,9 +104,9 @@ func test_save () :
 	
 	# 若 沒有值路徑 則 視為 整個檔案
 	if route == "" :
-		inst.write(self.current_file_name, val)
+		inst.write(self.current_file_name, "", val)
 	else :
-		inst.write_val(self.current_file_name, route, val)
+		inst.write(self.current_file_name, route, val)
 	
 	G.print("saved")
 
@@ -126,7 +126,7 @@ func test_load () :
 	if route == "" :
 		val = inst.read(self.current_file_name)
 	else :
-		val = inst.read_val(self.current_file_name, route)
+		val = inst.read(self.current_file_name, route)
 	
 	# 若 值存在 則 設置到 值輸入
 	if val != null :
@@ -150,11 +150,11 @@ func test_simple () :
 	G.print("uzil usersave path : %s" % UserSave.get_save_folder_root())
 	
 	G.print("== write/read full string")
-	user_save.user.write("user_fullstr.sav", "fff")
+	user_save.user.write("user_fullstr.sav", "", "fff")
 	G.print(user_save.user.read("user_fullstr.sav"))
 	
 	G.print("== write/read full dict")
-	user_save.user.write("user_fulldict.sav", {
+	user_save.user.writes("user_fulldict.sav", {
 		"test1":{
 			"test2":456
 		},
@@ -166,20 +166,20 @@ func test_simple () :
 	G.print(user_save.user.read("user_fulldict.sav"))
 	
 	G.print("== write/read dict val")
-	user_save.user.write_val("user_fulldict.sav", "test1/test2", 789)
-	G.print(user_save.user.read_val("user_fulldict.sav", "test1/test2"))
+	user_save.user.write("user_fulldict.sav", "test1/test2", 789)
+	G.print(user_save.user.read("user_fulldict.sav", "test1/test2"))
 	
 	
 	G.print("== read full dict")
 	G.print(user_save.user.read("user_fulldict.sav"))
 	
 	G.print("== write/read dict val overwrite val by route")
-	user_save.user.write_val("user_fulldict.sav", "test1/test2/test3", 789)
-	G.print(user_save.user.read_val("user_fulldict.sav", "test1/test2/test3"))
+	user_save.user.write("user_fulldict.sav", "test1/test2/test3", 789)
+	G.print(user_save.user.read("user_fulldict.sav", "test1/test2/test3"))
 	
 	G.print("== erase/read dict val")
-	user_save.user.write_val("user_fulldict.sav", "test/test_rm", null)
-	G.print(user_save.user.read_val("user_fulldict.sav", "test"))
+	user_save.user.write("user_fulldict.sav", "test/test_rm", null)
+	G.print(user_save.user.read("user_fulldict.sav", "test"))
 	
 	G.print("== read full dict")
 	G.print(user_save.user.read("user_fulldict.sav"))
@@ -188,19 +188,25 @@ func test_simple () :
 	user_save.user.setting.set_user("steam_9527")
 	
 	G.print("== write/read user")
-	user_save.user.write("user_steam_fullstr.sav", "strrrrr")
+	user_save.user.write("user_steam_fullstr.sav", "", "strrrrr")
 	G.print(user_save.user.read("user_steam_fullstr.sav"))
 	
 	G.print("== write/read profile")
 	user_save.profile.setting.set_profile("John")
-	user_save.profile.write("profile_fullstr.sav", "pppppppp")
+	user_save.profile.write("profile_fullstr.sav", "", "pppppppp")
 	G.print(user_save.profile.read("profile_fullstr.sav"))
 	
 
 func _update_file_path_label () :
 	var user_save = UREQ.acc("Uzil", "user_save")
-	
+	var path_var : Dictionary = {"FILE":self.current_file_name}
 	if self._is_save_to_profile :
-		self.file_full_path_label.text = user_save.profile.get_file_path(self.current_file_name)
+		path_var.merge(user_save.profile.setting.get_path_var(), false)
+		G.print(user_save.profile.setting.get_path_format())
+		G.print(path_var)
+		self.file_full_path_label.text = user_save.profile.setting.get_path_format().format(path_var)
 	else :
-		self.file_full_path_label.text = user_save.user.get_file_path(self.current_file_name)
+		path_var.merge(user_save.user.setting.get_path_var(), false)
+		G.print(user_save.user.setting.get_path_format())
+		G.print(path_var)
+		self.file_full_path_label.text = user_save.user.setting.get_path_format().format(path_var)
