@@ -203,13 +203,12 @@ func _get_data (route_or_data, is_new_if_not_exist = true) :
 		
 		# 上一層路由
 		var route : String = (route_or_data as String)
-		var routes := Array(route.split("."))
-		routes.pop_back()
+		var parent_routes : Array= route.rsplit(".", true, 1)
 		
 		# 若 路由存在 則 
-		if routes.size() > 0 : 
+		if parent_routes.size() > 1 : 
 			# 取得 資料 (以串接後的路由)
-			parent_data = self._get_data(".".join(routes))
+			parent_data = self._get_data(parent_routes[0])
 		# 不存在 則 視為 根資料
 		else :
 			parent_data = self._root_data

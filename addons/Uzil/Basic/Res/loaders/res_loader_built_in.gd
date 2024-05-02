@@ -164,6 +164,7 @@ func process (_dt) :
 		
 		if self.is_debug : G.print("start load : %s" % task.path)
 		
+		# 若不存在
 		if not ResourceLoader.exists(task.path, task.type_hint) :
 			# 設置 空資源
 			task.res = null
@@ -178,9 +179,6 @@ func process (_dt) :
 		
 		# 減少 需處理數量
 		fill -= 1
-	
-	# 若 讀取中任務 已歸零 則 返回
-	if self.loading_tasks.size() == 0 : return
 	
 	# 每個 讀取中的任務
 	for idx in range(self.loading_tasks.size()-1, -1, -1) :
