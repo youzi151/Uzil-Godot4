@@ -53,7 +53,7 @@ func _ready () :
 			new_text = "<#label_word#>"
 		self.i18n_inst.set_word("label_word", new_text)
 		self.i18n_inst.update({
-			"specifics" : ["test_word_edit"]
+			"attends" : ["test_word_edit"]
 		})
 	)
 	
@@ -62,7 +62,7 @@ func _ready () :
 			new_text = "<$label_vars$>"
 		self.vars_inst.set_var("label_vars", new_text)
 		self.i18n_inst.update({
-			"specifics" : ["test_vars_edit"]
+			"attends" : ["test_vars_edit"]
 		})
 	)
 	

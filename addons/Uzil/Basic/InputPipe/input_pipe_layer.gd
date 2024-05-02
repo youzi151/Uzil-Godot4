@@ -191,10 +191,14 @@ func call_input (input_msg) :
 	
 	var evt = self._vkey_to_event[input_msg.virtual_key]
 	
+	# 把 訊號 的 忽略/特定 標籤 設置到 事件呼叫的options中
 	var options := {}
-	var ignores = input_msg.get_ignores()
+	var ignores : Array = input_msg.get_ignores()
 	if ignores.size() > 0 :
-		options.ignores = ignores
+		options.ignores = ignores.duplicate()
+	var attends : Array = input_msg.get_attends()
+	if attends.size() > 0 :
+		options.attends = attends.duplicate()
 	
 	evt.emit(input_msg, options)
 	

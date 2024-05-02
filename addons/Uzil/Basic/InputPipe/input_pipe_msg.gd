@@ -12,7 +12,10 @@ var id := ""
 ## 是否啟用
 var _is_alive := true
 
-## 忽略標記
+## 特定標籤
+var _attend_tags : Array[String] = []
+
+## 忽略標籤
 var _ignore_tags : Array[String] = []
 
 ## 實際 key
@@ -55,6 +58,50 @@ func is_alive (is_src_streamed := true) -> bool :
 	# 直接 返回 有效
 	return true
 
+
+## 指定 (不傳遞給之後缺少對應tag的layer)
+func attend (tag : String, is_src_streamed := true) :
+	if not self._attend_tags.has(tag) :
+		self._attend_tags.push_back(tag)
+	
+	# 若 要 連同 源頭
+	if is_src_streamed :
+		if self.src_msg != null :
+			return self.src_msg.attend(tag, true)
+
+## 指定
+func attends (tags : Array, is_src_streamed := true) :
+	for each in tags :
+		self.attend(each, is_src_streamed)
+
+## 取得 特定標籤
+func get_attends (is_src_streamed := true) -> Array[String] :
+	# 若 要 連同 源頭
+	if is_src_streamed : 
+		if self.src_msg != null :
+			var attends = self.src_msg.get_attends().duplicate()
+			for each in self._attend_tags :
+				if not attends.has(each) :
+					attends.push_back(each)
+			return attends
+	
+	return self._attend_tags
+
+## 忽略 (不傳遞給之後有對應tag的layer)
+func ignore (tag : String, is_src_streamed := true) :
+	if not self._ignore_tags.has(tag) :
+		self._ignore_tags.push_back(tag)
+		
+	# 若 要 連同 源頭
+	if is_src_streamed :
+		if self.src_msg != null :
+			return self.src_msg.ignore(tag, true)
+
+## 忽略
+func ignores (tags : Array, is_src_streamed := true) :
+	for each in tags :
+		self.ignore(each, is_src_streamed)
+
 ## 取得 忽略標籤
 func get_ignores (is_src_streamed := true) -> Array[String] :
 	# 若 要 連同 源頭
@@ -68,22 +115,22 @@ func get_ignores (is_src_streamed := true) -> Array[String] :
 	
 	return self._ignore_tags
 
-## 是否忽略
-func is_ignores (tags : Array, is_src_streamed := true) -> bool :
+
+## 是否應該被處理
+func should_handle (tags : Array, is_src_streamed := true) -> bool :
+	
 	var self_ignores = self.get_ignores(is_src_streamed)
 	for each in tags :
-		if self_ignores.has(each) : return true
-	return false
-
-## 忽略 (不傳遞給之後有對應tag的layer)
-func ignore (tag : String, is_src_streamed := true) :
-	if not self._ignore_tags.has(tag) :
-		self._ignore_tags.push_back(tag)
+		if self_ignores.has(each) : return false
+	
+	var self_attends = self.get_attends(is_src_streamed)
+	if self_attends.size() > 0 :
+		for each in self._attend_tags :
+			if not tags.has(each) :
+				return false
 		
-	# 若 要 連同 源頭
-	if is_src_streamed :
-		if self.src_msg != null :
-			return self.src_msg.ignore(tag, true)
+	return true
+
 
 ## 終止 (不傳遞給之後的layer)
 func stop (is_src_streamed := true) :

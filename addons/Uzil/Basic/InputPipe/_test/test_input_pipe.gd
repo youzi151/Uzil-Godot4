@@ -115,7 +115,7 @@ func test_enter():
 	# Listener2
 	input_layer1.on_input(1111, func(ctrlr):
 		var input_msg = ctrlr.data
-		self.to_print("Layer1 2 key[1111] val:%s (can be ignore)" % input_msg.val)
+		self.to_print("Layer1 2 key[1111] val:%s (should be ignore when pressed)" % input_msg.val)
 	).tag("to_ignore_listener_a")
 	
 	# Listener3
@@ -131,7 +131,7 @@ func test_enter():
 	# Listener4
 	input_layer1.on_input(1111, func(ctrlr):
 		var input_msg = ctrlr.data
-		self.to_print("Layer1 4 key[1111] val:%s (can stop before this)" % input_msg.val)
+		self.to_print("Layer1 4 key[1111] val:%s (should stop before this when pressed)" % input_msg.val)
 	)
 	
 	# Listener(8888)
@@ -146,7 +146,7 @@ func test_enter():
 	# Listener(1111) (應要被tag忽略 所以此處不會接收到事件)
 	input_layer2.on_input(1111, func(ctrlr):
 		var input_msg = ctrlr.data
-		self.to_print("Layer2 key[1111] val:%s isAlive:%s (can be ignore)" % [input_msg.val, input_msg.is_alive()])
+		self.to_print("Layer2 key[1111] val:%s isAlive:%s (should be ignore when pressed)" % [input_msg.val, input_msg.is_alive()])
 	).tag("to_ignore_listener_a")
 	
 	# Listener(8888)
@@ -185,8 +185,8 @@ func test_enter():
 		if msg_1111 != null :
 			# 若 值 為 按下
 			if msg_1111.val == Util.input.ButtonState.PRESSED :
-				# 若 沒有 忽略的tag
-				if not msg_1111.is_ignores(["to_ignore_listener_a"]):
+				# 若 應該要處理
+				if msg_1111.should_handle(["to_ignore_listener_a"]):
 					# 改 得到的值 為 0
 					val_modified = 0
 		

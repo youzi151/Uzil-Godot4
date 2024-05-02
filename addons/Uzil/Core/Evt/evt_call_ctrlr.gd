@@ -1,7 +1,8 @@
 
 ## Evt.CallCtrlr 事件呼叫控制
 ## 
-## 事件呼叫的過程中, 用來控制是否停止
+## 事件呼叫的過程中, 用來控制是否停止.
+## 特定/忽略標籤 會用在 與 listener.tags 來 決定該listener應不應該被處理.
 ## 
 
 # Variable ===================
@@ -21,7 +22,7 @@ var _is_call_stop := false
 var _is_wait := false
 
 ## 特定標籤
-var _specific_tags := []
+var _attend_tags := []
 
 ## 忽略標籤
 var _ignore_tags := []
@@ -73,14 +74,14 @@ func done () :
 	
 
 ## 指定
-func specific (tag : String) :
-	if not self._specific_tags.has(tag) :
-		self._specific_tags.push_back(tag)
+func attend (tag : String) :
+	if not self._attend_tags.has(tag) :
+		self._attend_tags.push_back(tag)
 
 ## 指定
-func specifics (tags : Array) :
+func attends (tags : Array) :
 	for each in tags :
-		self.specific(each)
+		self.attend(each)
 
 ## 忽略
 func ignore (tag : String) :
@@ -92,19 +93,15 @@ func ignores (tags : Array) :
 	for each in tags :
 		self.ignore(each)
 
-## 取得 忽略標籤
-func get_ignores () -> Array[String] :
-	return self._ignore_tags
-
-## 是否忽略
-func is_ignores (tags : Array) -> bool :
-	for each in self._ignore_tags :
-		if tags.has(each) : return true
+## 是否應該被處理
+func should_handle (tags : Array) -> bool :
+	for each in tags :
+		if self._ignore_tags.has(each) : return false
 	
-	if self._specific_tags.size() > 0 :
-		for each in self._specific_tags :
+	if self._attend_tags.size() > 0 :
+		for each in self._attend_tags :
 			if not tags.has(each) :
-				return true
+				return false
 			
 		
-	return false
+	return true

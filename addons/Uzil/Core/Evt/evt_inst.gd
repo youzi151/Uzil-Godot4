@@ -36,8 +36,8 @@ func emit (data = null, options = null) :
 		if options.has("ignores") :
 			ctrlr.ignores(options.ignores)
 		# 若 存在 指定標籤 則 設置 到 控制
-		if options.has("specifics") :
-			ctrlr.specifics(options.specifics)
+		if options.has("attends") :
+			ctrlr.attends(options.attends)
 		if options.has("no_resort") :
 			is_resort = false
 		
@@ -53,8 +53,8 @@ func emit (data = null, options = null) :
 		# 若 控制終止
 		if ctrlr.is_call_stop() : break
 		
-		# 若 被忽略 則 繼續 下個
-		if ctrlr.is_ignores(each.tags) : continue
+		# 若 不應被處理 則 繼續 下個
+		if not ctrlr.should_handle(each.tags) : continue
 		
 		# 若 呼叫計數 存在 則 扣除
 		if each.call_times > 0 : each.call_times -= 1
