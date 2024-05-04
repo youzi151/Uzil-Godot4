@@ -23,9 +23,6 @@ var data := {}
 
 # GDScript ===================
 
-func _process (_dt) :
-	pass
-
 # Public =====================
 
 ## 啟用

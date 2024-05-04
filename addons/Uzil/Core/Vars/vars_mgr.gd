@@ -11,9 +11,6 @@ var key_to_inst := {}
 
 # GDScript ===================
 
-func _init () :
-	pass
-
 # Public =====================
 
 ## 取得 實體

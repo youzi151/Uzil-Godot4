@@ -36,14 +36,6 @@ func _init (_ureq, _scope) :
 	self._UREQ = _ureq
 	self._scope = _scope
 
-# Called when the node enters the scene tree for the first time.
-func _ready () :
-	pass
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
-	pass
-
 # Extends ====================
 
 # Interface ==================
@@ -64,7 +56,7 @@ func check_error () :
 		return null
 
 ## 執行 存取 並 確保依賴建立
-func run (access, on_done : Callable = Callable()) :
+func run (access, on_done: Callable = Callable()) :
 	self.access = access
 	# 若 進行中
 	if self.state != 0 :

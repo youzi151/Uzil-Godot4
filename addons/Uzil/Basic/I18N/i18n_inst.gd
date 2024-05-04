@@ -145,7 +145,7 @@ func change_language (i18n_lang) :
 	self._on_language_changed.emit()
 
 ## 翻譯
-func trans (text : String, on_step = null) :
+func trans (text: String, on_step = null) :
 	# 本次 翻譯 任務
 	var trans_task = self.I18N.Task.new(self, text)
 	
@@ -233,7 +233,7 @@ func off_update (listener_or_tag) :
 # 字典 ===============
 
 # 設置 鍵:詞
-func set_word (key : String, word) :
+func set_word (key: String, word) :
 	if self._current_lang == null : return null
 	if word != null :
 		self._current_lang.key_to_word[key] = word
@@ -242,13 +242,13 @@ func set_word (key : String, word) :
 			self._current_lang.key_to_word.erase(key)
 
 # 取得 詞
-func get_word (key : String) :
+func get_word (key: String) :
 	if self._current_lang == null : return null
 	if self._current_lang.key_to_word.has(key) == false : return null
 	return self._current_lang.key_to_word[key]
 
 ## 設置 鍵:函式
-func set_func (key : String, fn) :
+func set_func (key: String, fn) :
 	if fn is Callable :
 		self._key_to_func[key] = fn
 	elif fn == null :
@@ -256,7 +256,7 @@ func set_func (key : String, fn) :
 			self._key_to_func.erase(key)
 
 ## 取得 函式
-func get_func (key : String) :
+func get_func (key: String) :
 	if self._key_to_func.has(key) == false :
 		return null
 	return self._key_to_func[key]

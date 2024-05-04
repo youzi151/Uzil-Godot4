@@ -36,7 +36,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Core.ObjPool",
-		func () :
+		func():
 			# 核心 =====
 			
 			self.Core = Uzil.load_script(self.PATH.path_join("obj_pool_core.gd"))

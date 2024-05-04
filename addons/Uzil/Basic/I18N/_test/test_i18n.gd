@@ -48,7 +48,7 @@ func _ready () :
 	self.vars_inst.set_var("test_label_time", 0)
 	self.vars_inst.set_var("test_label_time_str", 0)
 	
-	self.test_word_edit.text_changed.connect(func (new_text : String) :
+	self.test_word_edit.text_changed.connect(func(new_text: String) :
 		if new_text == null or new_text == "" :
 			new_text = "<#label_word#>"
 		self.i18n_inst.set_word("label_word", new_text)
@@ -57,7 +57,7 @@ func _ready () :
 		})
 	)
 	
-	self.test_vars_edit.text_changed.connect(func (new_text : String) :
+	self.test_vars_edit.text_changed.connect(func(new_text: String) :
 		if new_text == null or new_text == "" :
 			new_text = "<$label_vars$>"
 		self.vars_inst.set_var("label_vars", new_text)
@@ -119,17 +119,17 @@ func test_simple () :
 	]
 	
 	# 函式 ======
-	self.i18n_inst.set_func("test", func () :
+	self.i18n_inst.set_func("test", func():
 		self.test_num += 1
 		return "FUNC(%s)" % self.test_num	
 	)
-	self.i18n_inst.set_func("to_test", func () :
+	self.i18n_inst.set_func("to_test", func():
 		return "<^test^>"
 	)
-	self.i18n_inst.set_func("num", func () :
+	self.i18n_inst.set_func("num", func():
 		return 99.87
 	)
-	self.i18n_inst.set_func("dict", func () :
+	self.i18n_inst.set_func("dict", func():
 		return {"arr":[1, 2, 3]}
 	)
 	to_trans += "<\uFFFF^test^\uFFFF> : <^test^> <^to_test^> <^test^> num[<^num^>] dict[<^dict^>]"

@@ -51,7 +51,7 @@ func _ready () :
 		self.opt_1.get_node("HBoxContainer/SumTxt").text = "[b]Sum (%s)[/b]" % ctrlr.data
 	)
 	var opt_1_self_val : LineEdit = self.opt_1.get_node("HBoxContainer/SelfVal")
-	opt_1_self_val.text_changed.connect(func(txt : String):
+	opt_1_self_val.text_changed.connect(func(txt: String):
 		if not txt.is_valid_float() : return
 		self.sum_vals.set_val(opt_1_route, txt.to_float())
 	)
@@ -61,7 +61,7 @@ func _ready () :
 	# OPT 1.1 #####
 	var opt_1_1_route := "1.1" 
 	var opt_1_1_self_val : LineEdit = self.opt_1_1.get_node("HBoxContainer/SelfVal")
-	opt_1_1_self_val.text_changed.connect(func(txt : String):
+	opt_1_1_self_val.text_changed.connect(func(txt: String):
 		if not txt.is_valid_float() : return
 		self.sum_vals.set_val(opt_1_1_route, txt.to_float())
 	)
@@ -71,7 +71,7 @@ func _ready () :
 	# OPT 1.2 #####
 	var opt_1_2_route := "1.2" 
 	var opt_1_2_self_val : LineEdit = self.opt_1_2.get_node("HBoxContainer/SelfVal")
-	opt_1_2_self_val.text_changed.connect(func(txt : String):
+	opt_1_2_self_val.text_changed.connect(func(txt: String):
 		if not txt.is_valid_float() : return
 		self.sum_vals.set_val(opt_1_2_route, txt.to_float())
 	)
@@ -84,7 +84,7 @@ func _ready () :
 		self.opt_2.get_node("HBoxContainer/SumTxt").text = "[b]Sum (%s)[/b]" % ctrlr.data
 	)
 	var opt_2_self_val : LineEdit = self.opt_2.get_node("HBoxContainer/SelfVal")
-	opt_2_self_val.text_changed.connect(func(txt : String):
+	opt_2_self_val.text_changed.connect(func(txt: String):
 		if not txt.is_valid_float() : return
 		self.sum_vals.set_val(opt_2_route, txt.to_float())
 	)
@@ -94,7 +94,7 @@ func _ready () :
 	# OPT 2.1 #####
 	var opt_2_1_route := "2.1" 
 	var opt_2_1_self_val : LineEdit = self.opt_2_1.get_node("HBoxContainer/SelfVal")
-	opt_2_1_self_val.text_changed.connect(func(txt : String):
+	opt_2_1_self_val.text_changed.connect(func(txt: String):
 		if not txt.is_valid_float() : return
 		self.sum_vals.set_val(opt_2_1_route, txt.to_float())
 	)
@@ -104,7 +104,7 @@ func _ready () :
 	# OPT 2.2 #####
 	var opt_2_2_route := "2.2" 
 	var opt_2_2_self_val : LineEdit = self.opt_2_2.get_node("HBoxContainer/SelfVal")
-	opt_2_2_self_val.text_changed.connect(func(txt : String):
+	opt_2_2_self_val.text_changed.connect(func(txt: String):
 		if not txt.is_valid_float() : return
 		self.sum_vals.set_val(opt_2_2_route, txt.to_float())
 	)
@@ -139,7 +139,7 @@ func test_simple () :
 	)
 	
 	# 設置 加總值 方式
-	sum_vals.set_summary_val_fn(func (val, sub_vals) :
+	sum_vals.set_summary_val_fn(func(val, sub_vals) :
 		var total = 0
 		if val != null :
 			total += val

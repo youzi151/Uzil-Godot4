@@ -78,12 +78,12 @@ func add_card (card) :
 	self._id_to_card[card.id] = card
 
 ## 新增 卡片
-func add_cards (cards : Array) :
+func add_cards (cards: Array) :
 	for each in cards :
 		self.add_card(each)
 
 ## 取得 卡片
-func get_card (card_id : String) : 
+func get_card (card_id: String) : 
 	# 是否需要順便更新
 	var is_need_update := false
 	
@@ -134,16 +134,16 @@ func clear_card_to_state () :
 	self._card_to_state.clear()
 
 ## 設置 組合
-func set_combo (combo_id : String, query_str : String) :
+func set_combo (combo_id: String, query_str: String) :
 	self._combo_to_query[combo_id] = query_str
 
 ## 取得 組合
-func get_combo (combo_id : String) :
+func get_combo (combo_id: String) :
 	if not self._combo_to_query.has(combo_id) : return null
 	return self._combo_to_query[combo_id]
 
 ## 查詢
-func combo (combo_id : String, query_mode : int = -1) :
+func combo (combo_id: String, query_mode: int = -1) :
 	var query_str = self.get_combo(combo_id)
 	if query_str == null : 
 		G.print("[page_card_page.gd] combo[%s] not exist." % [combo_id])
@@ -151,7 +151,7 @@ func combo (combo_id : String, query_mode : int = -1) :
 	return self.query(query_str, query_mode)
 
 ## 查詢
-func query (query_str : String, query_mode : int = -1) :
+func query (query_str: String, query_mode: int = -1) :
 	
 	if not self.base_query.is_empty() :
 		query_str = "%s %s" % [self.base_query, query_str]
@@ -235,13 +235,13 @@ func prepare_query () :
 		self._tag_q.set_tags(card, tags)
 
 ## 設置 預設行為
-func set_default_behaviour (is_active : bool = true) :
+func set_default_behaviour (is_active := true) :
 	
 	self.on_active.off_by_tag("_default")
 	
 	if not is_active : return
 	
-	self.on_active.on(func (ctrlr) :
+	self.on_active.on(func(ctrlr) :
 		if not self.default_combo.is_empty() :
 			#G.print("[%s] self.combo(self.default_combo[%s])" % [self.id, self.default_combo])
 			self.combo(self.default_combo)
@@ -249,38 +249,38 @@ func set_default_behaviour (is_active : bool = true) :
 			self.query("")
 	).srt(-1).tag("_default")
 	
-	self.on_deactive.on(func (ctrlr) :
+	self.on_deactive.on(func(ctrlr) :
 		self.clear_card_to_state()
 		#G.print("[%s] self.clear_card_to_state()" % self.id)
 	).srt(-1).tag("_default")
 
 ## 當 啟用
-func active (data : Dictionary = {}) :
+func active (data := {}) :
 	#G.print("page [%s] active" % self.id)
 	await self.on_active.emit(data)
 
 ## 當 關閉
-func deactive (data : Dictionary = {}) :
+func deactive (data := {}) :
 	#G.print("page [%s] deactive" % self.id)
 	await self.on_deactive.emit(data)
 
 ## 當 進入
-func enter (data : Dictionary = {}) :
+func enter (data := {}) :
 	#G.print("page [%s] enter" % self.id)
 	await self.on_enter.emit(data)
 
 ## 當 離開
-func exit (data : Dictionary = {}) :
+func exit (data := {}) :
 	#G.print("page [%s] exit" % self.id)
 	await self.on_exit.emit(data)
 
 ## 當 聚焦
-func focus (data : Dictionary = {}) :
+func focus (data := {}) :
 	#G.print("page [%s] focus" % self.id)
 	await self.on_focus.emit(data)
 
 ## 當 失焦
-func unfocus (data : Dictionary = {}) :
+func unfocus (data := {}) :
 	#G.print("page [%s] unfocus" % self.id)
 	await self.on_unfocus.emit(data)
 

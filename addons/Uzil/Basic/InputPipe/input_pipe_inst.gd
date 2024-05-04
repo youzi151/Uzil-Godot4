@@ -132,7 +132,7 @@ func active (_is_active := true) :
 	self.is_active = _is_active
 
 ## 取得層級
-func get_layer (layer_id : String) :
+func get_layer (layer_id: String) :
 	var layer
 	if self._id_to_layer.has(layer_id) :
 		layer = self._id_to_layer[layer_id]
@@ -153,7 +153,7 @@ func sort_layers () :
 	)
 
 ## 移除 層級
-func del_layer (layer_id : String) :
+func del_layer (layer_id: String) :
 	if not self._id_to_layer.has(layer_id) : return
 	var layer = self._id_to_layer[layer_id]
 	self._id_to_layer.erase(layer_id)
@@ -219,7 +219,7 @@ func clear () :
 # Private ====================
 
 ## 取得輸入 信號
-func _get_msg (src_key : int) :
+func _get_msg (src_key: int) :
 	# 建立訊號
 	var input_msg = self.InputPipe.Msg.new().init(src_key)
 	

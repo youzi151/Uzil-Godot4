@@ -60,7 +60,7 @@ var updating_devices = [
 
 # GDScript ===================
 
-func init (util, modules : Dictionary) :
+func init (util, modules: Dictionary) :
 	
 	self.keycode = modules["keycode"]
 	self.keycode.init(self)
@@ -194,7 +194,7 @@ func update_touch () :
 		self.update_button(DeviceType.TOUCH, 0, _keycode, keyinfo)
 
 ## 更新 按鈕類
-func update_button (device_type, device_idx, _keycode, keyinfo) :
+func update_button (device_type: int, device_idx: int, _keycode: int, keyinfo) :
 	# 從 暫存 取出 前次輸入值
 	var input_val_last = self.get_input(_keycode)
 	# 偵測取得 當前 輸入值
@@ -243,30 +243,30 @@ func update_button (device_type, device_idx, _keycode, keyinfo) :
 		
 
 ## 取得 前次輸入 (優先從暫存取得)
-func get_input (_keycode : int) :
+func get_input (_keycode: int) :
 	if self._keycode_to_input_val.has(_keycode) :
 		return self._keycode_to_input_val[_keycode]
 	else :
 		return null
 
 ## 設置 輸入
-func _set_input_val (_keycode, val) :
+func _set_input_val (_keycode: int, val) :
 	self._keycode_to_input_val[_keycode] = val
 
 
 ## 取得 暫時輸入
-func _get_temp_input (_keycode : int) :
+func _get_temp_input (_keycode: int) :
 	if self._temp_keycode_to_input_val.has(_keycode) :
 		return self._temp_keycode_to_input_val[_keycode]
 	else :
 		return null
 
 ## 設置 暫時輸入
-func _set_temp_input_val (_keycode, val) :
+func _set_temp_input_val (_keycode: int, val) :
 	self._temp_keycode_to_input_val[_keycode] = val
 
 ## 偵測 輸入
-func detect_input (device_type, device_idx, val_type, gdkeys) :
+func detect_input (device_type: int, device_idx: int, val_type: int, gdkeys) :
 	match device_type :
 		DeviceType.KEYBOARD :
 			match val_type :
@@ -288,7 +288,7 @@ func detect_input (device_type, device_idx, val_type, gdkeys) :
 					return self.detect_input_touch_button(device_idx, gdkeys)
 
 ## 偵測 輸入 鍵盤按鍵
-func detect_input_keyboard_button (gdkeys) :
+func detect_input_keyboard_button (gdkeys: Array) :
 	# 若 任一個 gdkey 按壓中 則 視為 按壓
 	for gdkey in gdkeys:
 		if Input.is_key_pressed(gdkey) :
@@ -297,7 +297,7 @@ func detect_input_keyboard_button (gdkeys) :
 	return ButtonState.RELEASE
 
 ## 偵測 輸入 滑鼠按鍵
-func detect_input_mouse_button (gdkeys) :
+func detect_input_mouse_button (gdkeys: Array) :
 	# 若 任一個 gdkey 按壓中 則 視為 按壓
 	for gdkey in gdkeys:
 		if Input.is_mouse_button_pressed(gdkey) :
@@ -306,7 +306,7 @@ func detect_input_mouse_button (gdkeys) :
 	return ButtonState.RELEASE
 
 ## 偵測 輸入 搖桿按鍵
-func detect_input_joy_button (device_idx, gdkeys) :
+func detect_input_joy_button (device_idx: int, gdkeys: Array) :
 	# 若 任一個 gdkey 按壓中 則 視為 按壓
 	for gdkey in gdkeys:
 		if Input.is_joy_button_pressed(device_idx, gdkey) :
@@ -315,12 +315,12 @@ func detect_input_joy_button (device_idx, gdkeys) :
 	return ButtonState.RELEASE
 
 ## 偵測 輸入 搖桿軸
-func detect_input_joy_axis (device_idx, gdkeys) :
+func detect_input_joy_axis (device_idx: int, gdkeys: Array) :
 	
 	# 值 加總
-	var sum = 0
+	var sum : float = 0.0
 	# 有效數
-	var valid_count = 0
+	var valid_count : int = 0
 	
 	# 每個 gdkey
 	for gdkey in gdkeys :
@@ -343,7 +343,7 @@ func detect_input_joy_axis (device_idx, gdkeys) :
 		return sum / valid_count
 
 ## 偵測 輸入 觸碰
-func detect_input_touch_button (device_idx, gdkeys) :
+func detect_input_touch_button (device_idx: int, gdkeys: Array) :
 	# 以 滑鼠左鍵 暫代, 暫時沒有 直接取得 touch方式
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) :
 		return ButtonState.PRESSED

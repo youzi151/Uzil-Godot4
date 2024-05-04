@@ -57,15 +57,7 @@ var _is_track_scale : bool = false
 
 # GDScript ===================
 
-func _init () :
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready () :
-	pass
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
+func _process (_dt: float) :
 	if self._is_track_scale :
 		if self._last_scale != self.src_target.scale :
 			self._sync_size()
@@ -113,7 +105,7 @@ func _sync_size_to (target : Control) :
 	
 
 ## 對目標做...事
-func _do_to_targets (fn : Callable) :
+func _do_to_targets (fn: Callable) :
 	for each in self.dst_targets :
 		fn.call(each)
 
@@ -133,12 +125,12 @@ func _reg_to_src (last_src, new_src) :
 			self._is_track_scale = true
 			self._last_scale = new_src.scale
 
-func _connect (target : Control) :
+func _connect (target: Control) :
 	if target == null : return
 	if not target.resized.is_connected(self._sync_size) :
 		target.resized.connect(self._sync_size)
 
-func _disconnect (target : Control) :
+func _disconnect (target: Control) :
 	if target == null : return
 	if target.resized.is_connected(self._sync_size) :
 		target.resized.disconnect(self._sync_size)

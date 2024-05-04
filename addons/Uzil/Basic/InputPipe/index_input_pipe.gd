@@ -48,7 +48,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Basic.InputPipe",
-		func () :
+		func():
 			self.Setting = Uzil.load_script(self.PATH.path_join("input_pipe_setting.gd"))
 			self.Msg = Uzil.load_script(self.PATH.path_join("input_pipe_msg.gd"))
 			self.Layer = Uzil.load_script(self.PATH.path_join("input_pipe_layer.gd"))
@@ -67,7 +67,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 實體
 	UREQ.bind("Uzil", "input_pipe", 
-		func () :
+		func():
 			var target = self.get_inst()
 			target.name = "input_pipe"
 			Uzil.add_child(target)

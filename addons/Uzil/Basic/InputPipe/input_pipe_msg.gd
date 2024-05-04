@@ -40,7 +40,7 @@ var val = null
 # Public =====================
 
 ## 初始化
-func init (key : int) :
+func init (key: int) :
 	self.real_key = key
 	self.virtual_key = key
 	return self
@@ -60,7 +60,7 @@ func is_alive (is_src_streamed := true) -> bool :
 
 
 ## 指定 (不傳遞給之後缺少對應tag的layer)
-func attend (tag : String, is_src_streamed := true) :
+func attend (tag: String, is_src_streamed := true) :
 	if not self._attend_tags.has(tag) :
 		self._attend_tags.push_back(tag)
 	
@@ -70,7 +70,7 @@ func attend (tag : String, is_src_streamed := true) :
 			return self.src_msg.attend(tag, true)
 
 ## 指定
-func attends (tags : Array, is_src_streamed := true) :
+func attends (tags: Array, is_src_streamed := true) :
 	for each in tags :
 		self.attend(each, is_src_streamed)
 
@@ -88,7 +88,7 @@ func get_attends (is_src_streamed := true) -> Array[String] :
 	return self._attend_tags
 
 ## 忽略 (不傳遞給之後有對應tag的layer)
-func ignore (tag : String, is_src_streamed := true) :
+func ignore (tag: String, is_src_streamed := true) :
 	if not self._ignore_tags.has(tag) :
 		self._ignore_tags.push_back(tag)
 		
@@ -98,7 +98,7 @@ func ignore (tag : String, is_src_streamed := true) :
 			return self.src_msg.ignore(tag, true)
 
 ## 忽略
-func ignores (tags : Array, is_src_streamed := true) :
+func ignores (tags: Array, is_src_streamed := true) :
 	for each in tags :
 		self.ignore(each, is_src_streamed)
 
@@ -117,7 +117,7 @@ func get_ignores (is_src_streamed := true) -> Array[String] :
 
 
 ## 是否應該被處理
-func should_handle (tags : Array, is_src_streamed := true) -> bool :
+func should_handle (tags: Array, is_src_streamed := true) -> bool :
 	
 	var self_ignores = self.get_ignores(is_src_streamed)
 	for each in tags :

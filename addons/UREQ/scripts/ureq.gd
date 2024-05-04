@@ -39,14 +39,6 @@ func _init () :
 	self.Scope = G.load_script(self.PATH.path_join("ureq_scope.gd"))
 	self.Task = G.load_script(self.PATH.path_join("ureq_task.gd"))
 
-# Called when the node enters the scene tree for the first time.
-func _ready () :
-	pass
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
-	pass
-
 # Extends ====================
 
 # Interface ==================
@@ -54,31 +46,31 @@ func _process (_dt) :
 # Public =====================
 
 ## 存取 (全域) access
-func gacc (id : String) :
+func gacc (id: String) :
 	return self.scope().access(id)
 
 ## 存取 (全域) access
-func gaccync (id : String) :
+func gaccync (id: String) :
 	return await self.scope().accync(id)
 
 ## 存取 (指定 所屬域) access
-func acc (key : String, id : String) :
+func acc (key: String, id: String) :
 	return self.scope(key).access(id)
 
 ## 存取 (指定 所屬域) access
-func accync (key : String, id : String) :
+func accync (key: String, id: String) :
 	return await self.scope(key).accync(id)
 
 ## 綁定 (全域)
-func gbind (id : String, inst, options := {}) :
+func gbind (id: String, inst, options := {}) :
 	return self.scope().bind(id, inst, options)
 
 ## 綁定 (指定 所屬域)
-func bind (key : String, id : String, inst, options := {}) :
+func bind (key: String, id: String, inst, options := {}) :
 	self.scope(key).bind(id, inst, options)
 
 ## 取得 所屬域
-func scope (key := "") :
+func scope (key: String = "") :
 	if self.key_to_scope.has(key) :
 		return self.key_to_scope[key]
 	
@@ -88,7 +80,7 @@ func scope (key := "") :
 
 
 ## 排序模塊 以依賴關係
-func get_sort_require_list (_accesses : Array) -> Array :
+func get_sort_require_list (_accesses: Array) -> Array :
 	## 卡恩演算法
 	
 	# 下一個要檢查的佇列
@@ -180,7 +172,7 @@ func get_sort_require_list (_accesses : Array) -> Array :
 
 
 ## 蒐集 依賴資訊 (回傳 路徑:Access表)
-func collect_requires (requires, collected := {}) -> Dictionary :
+func collect_requires (requires: Dictionary, collected := {}) -> Dictionary :
 	# 每個 在依賴中 的 所屬域
 	for scope_key in requires :
 		# 所屬域
@@ -212,7 +204,7 @@ func collect_requires (requires, collected := {}) -> Dictionary :
 	return collected
 
 ## 把 依賴列表 轉換為 所屬域:依賴列表 表
-func requires_to_dict (default_scope : String, requires) -> Dictionary :
+func requires_to_dict (default_scope: String, requires) -> Dictionary :
 	
 	var scope_to_requires : Dictionary
 	
@@ -225,7 +217,7 @@ func requires_to_dict (default_scope : String, requires) -> Dictionary :
 	return scope_to_requires
 
 ## 取得 模塊路徑 (辨識用, 所屬域/id)
-func get_access_path (scope, id) -> String :
+func get_access_path (scope: String, id: String) -> String :
 	return "%s/%s" % [scope, id]
 
 ## 讀取腳本

@@ -18,7 +18,7 @@ func _init (_uzupdater) :
 # Public =====================
 
 ## 下載 到 指定位置
-func download (url, save_to, on_complete) :
+func download (url: String, save_to: String, on_complete: Callable) :
 	
 #	print("download \"%s\" save to \"%s\"" % [url, save_to])
 	var http_request = HTTPRequest.new()
@@ -45,11 +45,11 @@ func download (url, save_to, on_complete) :
 	return {"err":err, "req":http_request}
 
 ## 發送 請求
-func request (url, method:int, data_str, on_complete) :
+func request (url: String, method: int, data_str: String, on_complete: Callable) :
 	var http_request = HTTPRequest.new()
 	self.uzupdater.add_child(http_request)
 	
-	http_request.request_completed.connect(func (result, response_code, headers, body) :
+	http_request.request_completed.connect(func(result, response_code, headers, body):
 #		print("http.request.request_completed result[%s] response_code[%s]" % [result, response_code])
 		self.uzupdater.remove_child(http_request)
 		on_complete.call({

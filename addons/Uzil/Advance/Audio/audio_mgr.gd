@@ -34,20 +34,12 @@ func _init (_dont_set_in_scene) :
 	self.add_child(self._container_obj)
 	
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_dt):
-	pass
-
 # Extends ====================
 
 # Public =====================
 
 ## 設置 配置
-func set_preset (key : String, data) :
+func set_preset (key: String, data) :
 	if data == null :
 		if self.key_to_preset.has(key) :
 			self.key_to_preset.erase(key)
@@ -61,14 +53,14 @@ func set_preset (key : String, data) :
 				self.key_to_preset[key] = data
 
 ## 取得 配置
-func get_preset (key : String) :
+func get_preset (key: String) :
 	if not self.key_to_preset.has(key) : return null
 	return self.key_to_preset[key]
 
 # 物件 =============
 
 ## 準備
-func prepare (audio_id : String, path_or_key : String, data = null) :
+func prepare (audio_id: String, path_or_key: String, data = null) :
 	
 	var audio_obj = self.get_audio(audio_id)
 	
@@ -85,7 +77,7 @@ func prepare (audio_id : String, path_or_key : String, data = null) :
 	return audio_obj
 
 ## 請求
-func request (audio_id : String, path_or_key : String, data := {}) :
+func request (audio_id: String, path_or_key: String, data := {}) :
 	
 	var id = self._handle_id_in_request(audio_id)
 	
@@ -122,34 +114,34 @@ func release (audio_id_or_obj) :
 # 操作 =============
 
 ## 取得
-func get_audio (audio_id : String) :
+func get_audio (audio_id: String) :
 	if not self.is_exist(audio_id) : return null
 	return self._id_to_obj[audio_id]
 
 ## 是否存在
-func is_exist (audio_id : String) -> bool :
+func is_exist (audio_id: String) -> bool :
 	return self._id_to_obj.has(audio_id)
 
 ## 是否播放中
-func is_playing (audio_id : String) :
+func is_playing (audio_id: String) :
 	if not self.is_exist(audio_id) : return null
 	var audio_obj = self.get_audio(audio_id)
 	return audio_obj.is_playing()
 
 ## 設置
-func set_data (audio_id : String, data) :
+func set_data (audio_id: String, data) :
 	if not self.is_exist(audio_id) : return
 	var audio_obj = self.get_audio(audio_id)
 	audio_obj.set_data(data)
 
 ## 設置 音量
-func set_volume (audio_id : String, volume : float) :
+func set_volume (audio_id: String, volume: float) :
 	if not self.is_exist(audio_id) : return
 	var audio_obj = self.get_audio(audio_id)
 	audio_obj.set_volume(volume)
 
 ## 播放 (匿名, 直接指定資源)
-func emit (path_or_key : String, data := {}) :
+func emit (path_or_key: String, data := {}) :
 	var audio_obj = await self.request("", path_or_key, data)
 	audio_obj.is_release_on_end = true
 	if audio_obj :
@@ -158,7 +150,7 @@ func emit (path_or_key : String, data := {}) :
 	return audio_obj
 
 ## 播放
-func play (audio_id : String, data = null) :
+func play (audio_id: String, data = null) :
 	if not self.is_exist(audio_id) : return
 	var audio_obj = self.get_audio(audio_id)
 	
@@ -168,7 +160,7 @@ func play (audio_id : String, data = null) :
 	audio_obj.play()
 
 ## 停止
-func stop (audio_id : String, is_force := false) :
+func stop (audio_id: String, is_force := false) :
 	if not self.is_exist(audio_id) : 
 		G.print("%s not exist" % audio_id)
 		return
@@ -182,7 +174,7 @@ func stop_all () :
 		each.stop()
 
 ## 復原
-func resume (audio_id : String) :
+func resume (audio_id: String) :
 	var audio_obj = self.get_audio(audio_id)
 	if audio_obj == null : return
 	audio_obj.resume()
@@ -192,7 +184,7 @@ func resume_all () :
 	pass
 
 ## 暫停
-func pause (audio_id : String) :
+func pause (audio_id: String) :
 	var audio_obj = self.get_audio(audio_id)
 	if audio_obj == null : return
 	audio_obj.pause()
@@ -204,7 +196,7 @@ func pause_all () :
 # 層級 =============
 
 ## 新增 層級
-func set_layer (layer_id : String, data = null) :
+func set_layer (layer_id: String, data = null) :
 	var audio_layer = self.get_layer(layer_id)
 	
 	if audio_layer == null :
@@ -217,16 +209,16 @@ func set_layer (layer_id : String, data = null) :
 	return audio_layer
 
 ## 移除 層級
-func del_layer (layer_id : String) :
+func del_layer (layer_id: String) :
 	self._id_to_layer.erase(layer_id)
 
 ## 取得 層級
-func get_layer (layer_id : String) :
+func get_layer (layer_id: String) :
 	if not self._id_to_layer.has(layer_id) : return null
 	return self._id_to_layer[layer_id]
 
 ## 將 層級 加入 至 物件
-func join_layer (audio_id : String, layer_id : String) : 
+func join_layer (audio_id: String, layer_id: String) : 
 	
 	var audio_obj = self.get_audio(audio_id)
 	if audio_obj == null : return false
@@ -238,7 +230,7 @@ func join_layer (audio_id : String, layer_id : String) :
 	return true
 
 ## 將 層級 移除 從 物件
-func leave_layer (audio_id : String, layer_id : String) :
+func leave_layer (audio_id: String, layer_id: String) :
 	var audio_obj = self.get_audio(audio_id)
 	if audio_obj != null : audio_obj.del_layer(layer_id)
 	
@@ -248,7 +240,7 @@ func leave_layer (audio_id : String, layer_id : String) :
 # Bus =============
 
 ## 請求 AudioBus
-func request_bus (bus_id) :
+func request_bus (bus_id: String) :
 	var bus_idx := self.get_bus_idx(bus_id)
 	if bus_idx != -1 :
 		return bus_idx
@@ -259,20 +251,14 @@ func request_bus (bus_id) :
 	return bus_idx
 
 ## 取得 AudioBus 序號
-func get_bus_idx (bus_id) -> int :
+func get_bus_idx (bus_id: String) -> int :
 	var bus_idx := AudioServer.get_bus_index(bus_id)
 	if bus_idx == -1 :
-		if typeof(bus_id) != TYPE_INT :
-			return -1
-			
-		if bus_id < 0 or bus_id > AudioServer.bus_count :
-			return -1
-		
-		bus_idx = bus_id
-		
+		if bus_id.is_valid_int() :
+			bus_idx = bus_id.to_int()
 	return bus_idx
 
-func set_bus_volume (bus_id, volume_linear : float) :
+func set_bus_volume (bus_id: String, volume_linear: float) :
 	var bus_idx = self.request_bus(bus_id)
 	var volume_db = UREQ.acc("Uzil", "Util").math.percent_to_db(volume_linear)
 	AudioServer.set_bus_volume_db(bus_idx, volume_db)
@@ -280,7 +266,7 @@ func set_bus_volume (bus_id, volume_linear : float) :
 # Private ====================
 
 ## 建立物件
-func _create_obj (id : String, path_or_key : String, data : Dictionary = {}) :
+func _create_obj (id: String, path_or_key: String, data := {}) :
 	var Audio = UREQ.acc("Uzil", "Audio")
 	var res_mgr = UREQ.acc("Uzil", "res_mgr")
 	
@@ -332,11 +318,11 @@ func _create_obj (id : String, path_or_key : String, data : Dictionary = {}) :
 
 
 ## 處理 ID 
-func _handle_id_in_request (id : String) -> String :
+func _handle_id_in_request (id: String) -> String :
 	# 若為空 則 取匿名ID
 	if id.is_empty() :
 		id = "_anonymous_"
-		id = UREQ.acc("Uzil", "Util").uniq_id.fix(id, func (newID) :
+		id = UREQ.acc("Uzil", "Util").uniq_id.fix(id, func(newID) :
 			return self._id_to_obj.has(newID) == false
 		)
 		

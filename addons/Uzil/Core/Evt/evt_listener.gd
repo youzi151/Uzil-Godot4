@@ -47,7 +47,7 @@ func fn (_fn: Callable) :
 	return self
 
 ## 設置 呼叫次數
-func times (times : int) :
+func times (times: int) :
 	self.call_times = times
 	return self
 
@@ -57,12 +57,12 @@ func once () :
 	return self
 
 ## 設置 排序
-func srt (_srt : int) :
+func srt (_srt: int) :
 	self.sort = _srt
 	return self
 
 ## 設置 標籤
-func tag (_tag : String) :
+func tag (_tag: String) :
 	if not self.tags.has(_tag) :
 		self.tags.push_back(_tag)
 	return self

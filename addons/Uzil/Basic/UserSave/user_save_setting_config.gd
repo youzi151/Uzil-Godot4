@@ -37,7 +37,7 @@ func get_path_var () -> Dictionary :
 	return self._path_var.duplicate()
 
 ## 添加模板目錄
-func add_template_folders (folder_paths : Array) :
+func add_template_folders (folder_paths: Array) :
 	for each in folder_paths :
 		if not self.template_folders.has(each) :
 			self.template_folders.push_back(each)

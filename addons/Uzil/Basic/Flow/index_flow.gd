@@ -66,7 +66,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Basic.Flow", 
-		func () :
+		func():
 			
 			self.Gate = Uzil.load_script(self.PATH.path_join("flow_gate.gd"))
 			self.Event = Uzil.load_script(self.PATH.path_join("flow_event.gd"))
@@ -94,7 +94,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 實體
 	UREQ.bind("Uzil", "flow_mgr", 
-		func () :
+		func():
 			var target = self.Mgr.new(null)
 			target.name = "flow_mgr"
 			Uzil.add_child(target)

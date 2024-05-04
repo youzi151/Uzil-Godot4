@@ -58,13 +58,13 @@ func test_simple () :
 	)
 	
 	# 數秒後
-	invoker.once(func () :
+	invoker.once(func():
 		# 層級1 降低優先度至-1
 		layer_test1.set_priority(-1)
 		G.print("layer_test1 set_priority : -1")
 		
 		# 數秒後
-		invoker.once(func () :
+		invoker.once(func():
 			# 停止音效
 			audio_test1.stop()
 			G.print("audio_test1 stop")
@@ -76,7 +76,7 @@ func test_simple () :
 		, 2000).tag("test_audio_simple")
 	, 2000).tag("test_audio_simple")
 
-func test_process(_delta):
+func test_process (_delta) :
 #	print(DisplayServer.window_get_size()) 
 	pass
 

@@ -20,7 +20,7 @@ class Task :
 	## 指定類型
 	var type_hint : String
 	
-	func _init (path : String, type_hint : String) :
+	func _init (path: String, type_hint: String) :
 		self.path = path
 		self.type_hint = type_hint
 	
@@ -70,15 +70,15 @@ func _init (res_inst) :
 # Interface ==================
 
 ## 檢查 資源是否存在
-func res_exist (full_path : String, options = null) :
+func res_exist (full_path: String, options = null) :
 	return self.full_path_to_res_info.has(full_path)
 
 ## 取得 資源
-func res_get (full_path : String, options = null) :
+func res_get (full_path: String, options = null) :
 	return self.full_path_to_res_info[full_path]
 
 ## 讀取 資源
-func res_load (full_path : String, options = null) :
+func res_load (full_path: String, options = null) :
 	
 	var res_info = null
 	
@@ -212,7 +212,7 @@ func process (_dt) :
 		each.done()
 
 ## 讀取 資源 透過路徑
-func load_by_path (full_path : String, type_hint : String = "") :
+func load_by_path (full_path: String, type_hint: String = "") :
 	# 試取得 檔案路徑
 	var file_path = self.res_inst.get_file_path_if_is(full_path)
 	# 資源

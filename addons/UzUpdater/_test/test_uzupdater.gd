@@ -17,7 +17,6 @@ var update_task
 
 # GDScript ===================
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	self.progress_bar_sub = self.get_node(self.progress_bar_sub_NP)
@@ -54,8 +53,6 @@ func _ready():
 		self.update_progress("update main", ["file","main"])
 	)
 
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_dt):
 	
 	# 若 在更新 更新器

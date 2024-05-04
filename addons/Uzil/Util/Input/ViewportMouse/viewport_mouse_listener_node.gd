@@ -8,7 +8,7 @@ var _mouse_pos : Vector2 = Vector2.ZERO
 # GDScript ===================
 
 ## 輸入 (蒐集資訊)
-func _input (event : InputEvent) :
+func _input (event: InputEvent) :
 	if (event is InputEventMouseButton) :
 		self._mouse_pos = event.position
 	elif (event is InputEventMouseMotion) :

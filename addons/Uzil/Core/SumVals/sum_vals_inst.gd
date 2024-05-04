@@ -25,17 +25,17 @@ var _result_modifier_fn : Callable
 
 func _init () :
 	self._root_data = self._new_data("", null)
-	self._summary_val_fn = func (val, _sub_vals) : return val
-	self._result_modifier_fn = func (val) : return val
+	self._summary_val_fn = func(val, _sub_vals) : return val
+	self._result_modifier_fn = func(val) : return val
 	
 # Public =====================
 
 ## 設置 總結 函式
-func set_summary_val_fn (fn : Callable) :
+func set_summary_val_fn (fn: Callable) :
 	self._summary_val_fn = fn
 
 ## 設置 結果修改 函式
-func set_result_modifier_fn (fn : Callable) :
+func set_result_modifier_fn (fn: Callable) :
 	self._result_modifier_fn = fn
 
 ## 設置預設

@@ -66,7 +66,7 @@ func add_state (state) :
 	return self
 
 ## 建立 新 狀態
-func new_state (prefer_state_id : String, script_name : String, data := {}) :
+func new_state (prefer_state_id: String, script_name: String, data := {}) :
 	
 	var States = UREQ.acc("Uzil", "Advance.States")
 	var Util = UREQ.acc("Uzil", "Util")

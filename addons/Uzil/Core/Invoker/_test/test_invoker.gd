@@ -72,7 +72,7 @@ func _exit_tree () :
 # Public =====================
 
 ## 單次
-func test_once (delay_ms : int = 3000) :
+func test_once (delay_ms: int = 3000) :
 	
 	# 若 尚未被建立
 	if self.once_task == null :
@@ -93,7 +93,7 @@ func test_once (delay_ms : int = 3000) :
 		G.print("cancel once task")
 
 ## 間隔
-func test_interval (times : int = 3) :
+func test_interval (times: int = 3) :
 	G.print("start call %s times" % times)
 	
 	# 要透過參考 否則 會有 閉包取值 問題

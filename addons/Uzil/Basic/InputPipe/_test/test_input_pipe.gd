@@ -53,7 +53,7 @@ func _exit_tree () :
 
 # Public =====================
 
-func test_enter():
+func test_enter () :
 	var InputPipe = UREQ.acc("Uzil", "InputPipe")
 	var input_pipe = UREQ.acc("Uzil", "input_pipe")
 	var Util = UREQ.acc("Uzil", "Util")

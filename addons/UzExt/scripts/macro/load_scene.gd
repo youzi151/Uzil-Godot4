@@ -17,17 +17,9 @@ var next_scene_path : String = ""
 
 # GDScript ===================
 
-func _init () :
-	pass
-
-# Called when the node enters the scene tree for the first time.
 func _ready () :
 	if self.is_auto_load :
 		self.change_scene.call_deferred()
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
-	pass
 
 # Extends ====================
 

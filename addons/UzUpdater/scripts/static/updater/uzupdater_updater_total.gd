@@ -13,7 +13,7 @@
 # Public =====================
 
 ## 開始
-func start_update (task, on_done_fn : Callable) :
+func start_update (task, on_done_fn: Callable) :
 	print("==== updater_total update start")
 	
 	var uzupdater = task.uzupdater
@@ -23,20 +23,20 @@ func start_update (task, on_done_fn : Callable) :
 	sub_progress.max = 1.0
 	
 	uzupdater.async.waterfall([
-		func (ctrlr) :
+		func(ctrlr):
 			# 處理 版本資訊
-			self.handle_version_file(task, func (err) :
+			self.handle_version_file(task, func(err):
 				
 				# 若 錯誤
 				if err != null :
 					print("handle version file error : %s" % err)
 					return
 					
-				ctrlr.next.call()
+				ctrlr.next()
 			)
 			,
 			
-		func (ctrlr) :
+		func(ctrlr):
 			task.state = uzupdater.Task.UPDATE_STATE.Uzupdater
 
 			# 更新器 的 更新器
@@ -49,11 +49,11 @@ func start_update (task, on_done_fn : Callable) :
 					print("update uzupdater error : %s" % err)
 					return
 
-				ctrlr.next.call()
+				ctrlr.next()
 			)
 			,
 			
-		func (ctrlr) :
+		func(ctrlr):
 			
 			task.state = uzupdater.Task.UPDATE_STATE.Main
 			
@@ -67,11 +67,11 @@ func start_update (task, on_done_fn : Callable) :
 					print("update main error : %s" % err)
 					return
 					
-				ctrlr.next.call()
+				ctrlr.next()
 			)
 			, 
 	],
-		func () :
+		func():
 			
 			task.state = uzupdater.Task.UPDATE_STATE.Done
 			
@@ -90,7 +90,7 @@ func start_update (task, on_done_fn : Callable) :
 
 ## 處理 版本資訊
 ## 僅 設置 當前版本資訊 以及 新版版本資訊, 實際差異由各更新器自行比對
-func handle_version_file (task, callback_fn) :
+func handle_version_file (task, callback_fn: Callable) :
 	
 	var uzupdater = task.uzupdater
 	
@@ -114,7 +114,7 @@ func handle_version_file (task, callback_fn) :
 		VERSION_DATA_DOWNLOAD_URL,
 		HTTPClient.METHOD_POST,
 		"",
-		func (response) :
+		func(response):
 			
 			if response.result != HTTPRequest.RESULT_SUCCESS :
 				callback_fn.call(uzupdater.http.result_string(response.result))

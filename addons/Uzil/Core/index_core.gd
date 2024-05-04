@@ -36,9 +36,6 @@ var SumVals
 
 # func ==========
 
-func _init () :
-	pass
-
 ## 建立索引
 func index (Uzil, _parent_index) :
 	

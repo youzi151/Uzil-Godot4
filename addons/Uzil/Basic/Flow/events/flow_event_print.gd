@@ -27,7 +27,7 @@ func _on_init (_init_data) :
 	pass
 
 ## 讀取 紀錄
-func _load_memo (_memo : Dictionary) :
+func _load_memo (_memo: Dictionary) :
 	
 	if _memo.has("msg") :
 		self.msg_enter = _memo["msg"]

@@ -10,14 +10,6 @@ var _on_error_added_fn := []
 
 # GDScript ===================
 
-# Called when the node enters the scene tree for the first time.
-func _ready () :
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (delta) :
-	pass
-
 # Extends ====================
 
 # Interface ==================
@@ -31,8 +23,9 @@ func do_print (msg) :
 		msg = str(msg)
 	for each in self._on_print_listeners :
 		each.fn.call(msg)
+
 ## 註冊 當印出
-func on_print (fn : Callable, tag : String = "") :
+func on_print (fn: Callable, tag: String = "") :
 	if fn in self._on_print_added_fn :
 		return
 	else :
@@ -46,10 +39,10 @@ func on_print (fn : Callable, tag : String = "") :
 	return listener
 
 ## 註銷 當印出
-func off_print (tag : String = "") :
+func off_print (tag: String = "") :
 	if tag == "" : return
 	
-	for idx in range(1, self._on_print_listeners.size(), -1) :
+	for idx in range(self._on_print_listeners.size()-1, -1, -1) :
 		var each = self._on_print_listeners[idx]
 		if each.tag == tag :
 			self._on_print_listeners.remove_at(idx)
@@ -67,7 +60,7 @@ func do_error (msg) :
 		each.fn.call(msg)
 
 ## 註冊 當印出
-func on_error (fn : Callable, tag : String = "") :
+func on_error (fn: Callable, tag: String = "") :
 	if fn in self._on_error_added_fn :
 		return
 	else :
@@ -81,10 +74,10 @@ func on_error (fn : Callable, tag : String = "") :
 	return listener
 
 ## 註銷 當印出
-func off_error (tag : String = "") :
+func off_error (tag: String = "") :
 	if tag == "" : return
 	
-	for idx in range(1, self._on_error_listeners.size(), -1) :
+	for idx in range(self._on_print_listeners.size()-1, -1, -1) :
 		var each = self._on_error_listeners[idx]
 		if each.tag == tag :
 			self._on_error_listeners.remove_at(idx)

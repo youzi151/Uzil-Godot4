@@ -102,7 +102,7 @@ func prepare_update (task) :
 	
 
 ## 開始
-func start_update (task, callback_fn : Callable) :
+func start_update (task, callback_fn: Callable) :
 	print("==== updater_pck update start")
 	
 	var uzupdater = task.uzupdater
@@ -128,7 +128,7 @@ func start_update (task, callback_fn : Callable) :
 		# 檢查 階段 ====
 			
 		# 下載 階段 ====
-		func (ctrlr) :
+		func(ctrlr):
 			
 			# 確保 建立 目錄
 			if not DirAccess.dir_exists_absolute(PCK_STORE_DIR_PATH) :
@@ -137,7 +137,7 @@ func start_update (task, callback_fn : Callable) :
 			# 每個 要更新的PCK
 			uzupdater.async.each_series(
 				to_update_list,
-				func (idx, each, ctrlr) :
+				func(idx, each, ctrlr):
 					
 					var url = PCK_DOWNLOAD_URL.path_join(each+".pck")
 					var store = PCK_STORE_DIR_PATH.path_join(each+".pck")
@@ -168,19 +168,19 @@ func start_update (task, callback_fn : Callable) :
 								
 							return
 						
-						ctrlr.next.call()
+						ctrlr.next()
 					
 					# 開始下載
 					self.download_pck(task, sub_progress, url, store, ref2.on_download_done)
 					
 					,
-				func () :
-					ctrlr.next.call()
+				func():
+					ctrlr.next()
 			)
 			,
 			
 		# 載入 階段 ====
-		func (ctrlr) :
+		func(ctrlr):
 			
 			# PCK存放目錄
 			var pck_dst_dir : DirAccess = DirAccess.open(PCK_STORE_DIR_PATH)
@@ -198,15 +198,15 @@ func start_update (task, callback_fn : Callable) :
 					self._end_update(task, callback_fn, "load pck failed : %s" % each)
 					return
 			
-			ctrlr.next.call()
-	], func () :
+			ctrlr.next()
+	], func():
 		print("==== updater_pck update end")
 		self._end_update(task, callback_fn, null)
 	)
 
 # Public =====================
 
-func start_update_test (task, callback_fn : Callable) :
+func start_update_test (task, callback_fn: Callable) :
 	
 	# check
 	
@@ -231,7 +231,7 @@ func start_update_test (task, callback_fn : Callable) :
 	
 	callback_fn.call()
 
-func download_pck (task, sub_progress, download_url, store_path, on_downloaded) :
+func download_pck (task, sub_progress, download_url: String, store_path: String, on_downloaded: Callable) :
 	
 	var uzupdater = task.uzupdater
 	
@@ -243,7 +243,7 @@ func download_pck (task, sub_progress, download_url, store_path, on_downloaded) 
 	var result = uzupdater.http.download(
 		download_url, store_path,
 		# 當 完成下載
-		func (response) :
+		func(response):
 			# 移除 更新行為:進度更新
 			if ref.has("update_progress_fn") :
 				ref.update_progress_fn.call(0)
@@ -266,7 +266,7 @@ func download_pck (task, sub_progress, download_url, store_path, on_downloaded) 
 	
 	# 更新行為:進度更新
 	# 依照 下載進度 設置 任務子進度
-	ref.update_progress_fn = func (_dt) :
+	ref.update_progress_fn = func(_dt):
 		
 		var downloaded = ref.request.get_downloaded_bytes()
 		sub_progress.cur = downloaded
@@ -281,9 +281,9 @@ func download_pck (task, sub_progress, download_url, store_path, on_downloaded) 
 
 # Private ====================
 
-func _get_sub_progress_key (pck_file_name) :
+func _get_sub_progress_key (pck_file_name: String) :
 	return "updater_pck."+pck_file_name
 
-func _end_update (task, callback_fn, err) :
+func _end_update (task, callback_fn: Callable, err) :
 	task.erase_updater_data(self.UPDATER_KEY)
 	callback_fn.call(err)

@@ -44,9 +44,6 @@ func _ready () :
 	if Engine.is_editor_hint() : return
 	self.request_inst()
 
-func _process (_dt) :
-	pass
-
 func _validate_property (property: Dictionary) :
 	match property.name : 
 		"inst_key" :

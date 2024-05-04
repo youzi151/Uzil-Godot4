@@ -17,13 +17,13 @@ var is_test_spin := false
 
 # GDScript ===================
 
-func _ready():
+func _ready () :
 	G.on_print(func(msg):
 		self.debug_log.add_text(msg + "\n")
 	, "test_times")
 	
 	
-func _process(_delta):
+func _process (_delta: float) :
 	
 	if self.is_test_spin :
 		
@@ -44,7 +44,7 @@ func _process(_delta):
 		G.print("%s:%s dt(%s)  |  %s:%s  dt(%s)" % debug_arr)
 
 
-func _notification(what) :
+func _notification (what) :
 	match what :
 		MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN :
 			G.print("focus in")

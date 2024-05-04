@@ -21,18 +21,18 @@ func _init () :
 # Public =====================
 
 ## 是否有
-func has_key (key : String) :
+func has_key (key: String) :
 	return self._key_to_data.has(key)
 
 ## 取得 變數
-func get_var (key : String) :
+func get_var (key: String) :
 	if self._key_to_data.has(key) :
 		return self._key_to_data[key]
 	else :
 		return null
 
 ## 取得 變數
-func set_var (key : String, val) :
+func set_var (key: String, val) :
 	var exist = null
 	if self._key_to_data.has(key)  :
 		exist = self._key_to_data[key]

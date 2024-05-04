@@ -48,33 +48,6 @@ var Advance
 ## 子索引
 var sub_indexes := []
 
-# 宣告 便於 外部使用 的 模塊中類別
-
-## 時間 管理
-#var times
-### 呼叫器 管理
-#var invoker
-### 事件 管理
-#var evtbus
-### 變數庫
-#var vars
-#
-### 流程
-#var flow
-### 用戶存檔
-#var user_save
-### 輸入管道
-#var input_pipe
-### 在地化
-#var i18n
-### 標籤檢索
-#var tag_q
-#
-### 狀態機
-#var states
-### 音效
-#var audio
-
 ## 當 建立索引後
 var _once_indexed := []
 ## 當 讀取後
@@ -111,7 +84,6 @@ func _init () :
 	
 	# 此處不呼叫初始化或重新讀取 因為在Uzil尚未完全建立前 init底下的其他script會無法引用到Uzil
 
-# Called when the node enters the scene tree for the first time.
 func _ready () :
 	
 	# 呼叫 當 準備完畢
@@ -119,7 +91,7 @@ func _ready () :
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
+func _process (_dt: float) :
 	if not self._is_init : return
 	self.on_process.emit({"dt":_dt})
 
@@ -134,7 +106,7 @@ func _notification (what) :
 # Public =====================
 
 ## 初始化 (建立索引 並 重新讀取)
-func init (_is_force : bool = false) :
+func init (_is_force: bool = false) :
 	if not _is_force and self._is_init : return
 	
 	self._is_init = false
@@ -200,7 +172,7 @@ func reload () :
 	self._call_once_loaded()
 
 ## 註冊 當 建立索引
-func once_indexed (callable) :
+func once_indexed (callable: Callable) :
 	if self._is_indexed :
 		callable.call()
 		return
@@ -219,7 +191,7 @@ func _call_once_indexed () :
 	self._once_indexed.clear()
 
 ## 註冊 當 讀取完畢
-func once_loaded (callable) :
+func once_loaded (callable: Callable) :
 	if self._is_loaded :
 		callable.call()
 		return
@@ -238,7 +210,7 @@ func _call_once_loaded () :
 	self._once_loaded.clear()
 
 ## 註冊 當 初始化完畢
-func once_init (callable) :
+func once_init (callable: Callable) :
 	if self._is_init :
 		callable.call()
 		return
@@ -258,7 +230,7 @@ func _call_once_init () :
 
 
 ## 註冊 當 準備完畢
-func once_ready (callable) :
+func once_ready (callable: Callable) :
 	if self._is_ready :
 		callable.call()
 		return
@@ -277,7 +249,7 @@ func _call_once_ready () :
 	self._once_ready.clear()
 
 ## 讀取腳本
-func load_script (path, is_force_reload := false) :
+func load_script (path: String, is_force_reload := false) :
 	if not is_force_reload and ResourceLoader.has_cached(path) :
 		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
 	else :
@@ -285,14 +257,14 @@ func load_script (path, is_force_reload := false) :
 
 ## 讀取節點腳本
 ## 避免因為已經被載入至場景/快取而出錯 bad address index
-func load_node_script (path) :
+func load_node_script (path: String) :
 	if ResourceLoader.has_cached(path) :
 		return ResourceLoader.load(path)
 	else :
 		return self.load_script(path)
 
 ## 請求 節點
-func request_node (path : String) :
+func request_node (path: String) :
 	
 	var node : Node
 	if self.has_node(path) :

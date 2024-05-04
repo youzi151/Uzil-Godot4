@@ -46,7 +46,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Advance.Audio",
-		func () :
+		func():
 			self.Mgr = Uzil.load_script(self.PATH.path_join("audio_mgr.gd"))
 			self.Obj = Uzil.load_script(self.PATH.path_join("audio_obj.gd"))
 			self.Layer = Uzil.load_script(self.PATH.path_join("audio_layer.gd"))
@@ -58,7 +58,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 實體管理
 	UREQ.bind("Uzil", "audio_mgr", 
-		func () :
+		func():
 			var target = self.Mgr.new(null)
 			target.name = "audio_mgr"
 			Uzil.add_child(target)

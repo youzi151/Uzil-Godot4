@@ -59,7 +59,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Basic.UserSave", 
-		func () :
+		func():
 			self.Inst = Uzil.load_script(self.PATH.path_join("user_save_inst.gd"))
 			self.Strat_File = Uzil.load_script(self.PATH.path_join("user_save_strat_file.gd"))
 			self.Strat_Cfg = Uzil.load_script(self.PATH.path_join("user_save_strat_cfg.gd"))
@@ -74,7 +74,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 工具組
 	UREQ.bind("Uzil", "user_save",
-		func () :
+		func():
 			return self.create_kit(),
 		{
 			"alias" : ["usersave"],

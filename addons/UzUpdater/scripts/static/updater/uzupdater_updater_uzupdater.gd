@@ -13,7 +13,7 @@
 # Public =====================
 
 ## 開始
-func start_update (task, on_done_fn) :
+func start_update (task, on_done_fn: Callable) :
 	print("updater_uzupdater start_update")
 	
 	# debug skip
@@ -41,10 +41,10 @@ func start_update (task, on_done_fn) :
 	
 	uzupdater.async.waterfall([
 		# check
-		func (ctrlr) :
+		func(ctrlr):
 			
 			if not is_need_update :
-				ctrlr.stop.call()
+				ctrlr.stop()
 				return
 			
 			# 取得大小
@@ -64,12 +64,12 @@ func start_update (task, on_done_fn) :
 					sub_progress.max = pck_data.size
 				
 			
-			ctrlr.next.call()
+			ctrlr.next()
 			,
 		
 		# download
 			
-		func (ctrlr) :
+		func(ctrlr):
 			
 			var dir_path = ProjectSettings.globalize_path(FILE_PATH.get_base_dir())
 			if not DirAccess.dir_exists_absolute(dir_path) :
@@ -81,7 +81,7 @@ func start_update (task, on_done_fn) :
 			var result = uzupdater.http.download(
 				DOWNLOAD_URL,
 				FILE_PATH,
-				func (response) :
+				func(response):
 					uzupdater.off_process(ref2.process_fn)
 					
 					if response.result != HTTPRequest.RESULT_SUCCESS :
@@ -89,11 +89,11 @@ func start_update (task, on_done_fn) :
 						return
 						
 					print("update uzupdater download done")
-					ctrlr.next.call()
+					ctrlr.next()
 			)
 			ref2.request = result.req
 			
-			ref2.process_fn = func (_dt) :
+			ref2.process_fn = func(_dt):
 				var downloaded = ref2.request.get_downloaded_bytes()
 				ref1.sub_progress.cur = downloaded
 				
@@ -103,7 +103,7 @@ func start_update (task, on_done_fn) :
 			uzupdater.on_process(ref2.process_fn)	
 			,
 	],
-	func () :
+	func():
 		# load
 		var is_success = ProjectSettings.load_resource_pack(FILE_PATH)
 		print(FILE_PATH)

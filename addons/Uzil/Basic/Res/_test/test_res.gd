@@ -13,7 +13,7 @@ func _ready () :
 		self.debug_log.add_text(msg + "\n")
 	, "test_res")
 
-func _exit_tree() :
+func _exit_tree () :
 	G.off_print("test_res")
 
 # Extends ====================

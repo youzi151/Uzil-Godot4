@@ -31,7 +31,7 @@ class WaitSignal :
 		self.sign.emit()
 
 ## 每個成員
-func each (list_or_dict, fn_each, _fn_done = null) :
+func each (list_or_dict, fn_each: Callable, _fn_done = null) :
 	
 	# 總數
 	var count = list_or_dict.size()
@@ -64,7 +64,7 @@ func each (list_or_dict, fn_each, _fn_done = null) :
 	ref1.state = 0
 	
 	# 每當執行完畢
-	var each_done = func () :
+	var each_done = func():
 		# 若 狀態 結束 則 返回
 		if ref1.state == 2 : return
 		
@@ -125,7 +125,7 @@ func each (list_or_dict, fn_each, _fn_done = null) :
 	if _fn_done == null : await wait_until_done.until_done()
 
 ## 每個列表成員 依序
-func each_series (list_or_dict, fn_each, _fn_done = null) :
+func each_series (list_or_dict, fn_each: Callable, _fn_done = null) :
 	
 	# 總數
 	var count = list_or_dict.size()
@@ -154,7 +154,7 @@ func each_series (list_or_dict, fn_each, _fn_done = null) :
 	ref1.state = 0
 	
 	# 下一個
-	ref1.nextFunc = func(num):
+	ref1.nextFunc = func(num: int):
 		var nxt_num = num + 1
 		
 		# 索引
@@ -216,7 +216,7 @@ func each_series (list_or_dict, fn_each, _fn_done = null) :
 	if _fn_done == null : await wait_until_done.until_done()
 
 ## 執行次數
-func times (run_times, fn_each, _fn_done = null) :
+func times (run_times: int, fn_each: Callable, _fn_done = null) :
 	if run_times == 0 :
 		if _fn_done != null :
 			_fn_done.call()
@@ -233,7 +233,7 @@ func times (run_times, fn_each, _fn_done = null) :
 	ref1.state = 0
 	
 	# 每個呼叫
-	var each_call = func(idx) :
+	var each_call = func(idx: int):
 		
 		# 控制器
 		var ctrlr : Ctrlr = Ctrlr.new()
@@ -278,7 +278,7 @@ func times (run_times, fn_each, _fn_done = null) :
 
 
 ## 執行次數 依序
-func times_series (run_times, fn_each, _fn_done = null) :
+func times_series (run_times: int, fn_each: Callable, _fn_done = null) :
 	if run_times == 0 :
 		if _fn_done != null :
 			_fn_done.call()
@@ -293,7 +293,7 @@ func times_series (run_times, fn_each, _fn_done = null) :
 	ref1.state = 0
 	
 	# 每個呼叫
-	ref1.each_call = func(idx) :
+	ref1.each_call = func(idx: int):
 		
 		# 序號暫存
 		var cur_idx : int = idx
@@ -356,7 +356,7 @@ func parallel (fn_list, _fn_done = null) :
 	ref1.state = 0
 	
 	# 每當執行完畢
-	var each_done := func () :
+	var each_done := func():
 		# 若已經結束 則 返回
 		if ref1.state == 2 : return
 		
@@ -383,15 +383,15 @@ func parallel (fn_list, _fn_done = null) :
 		# 控制器
 		var ctrlr : Ctrlr = Ctrlr.new()
 		# 跳過
-		ctrlr.skip_fn = func () :
+		ctrlr.skip_fn = func():
 			ref1.state = 1
 			ctrlr.next()
 		# 停止
-		ctrlr.stop_fn = func () :
+		ctrlr.stop_fn = func():
 			ref1.state = 2
 			ctrlr.next()
 		# 下一個
-		ctrlr.next_fn = func () :
+		ctrlr.next_fn = func():
 			# 關閉 控制器
 			ctrlr.deactive()
 			
@@ -419,7 +419,7 @@ func waterfall (fn_list, _fn_done = null) :
 	ref1.state = 0
 	
 	# 下一個任務
-	ref1.nextFunc = func(idx):
+	ref1.nextFunc = func(idx: int):
 		# 任務
 		var fn = fn_list[idx]
 		# 下一任務序號
@@ -428,11 +428,11 @@ func waterfall (fn_list, _fn_done = null) :
 		# 控制器
 		var ctrlr : Ctrlr = Ctrlr.new()
 		# 跳過
-		ctrlr.skip_fn = func () :
+		ctrlr.skip_fn = func():
 			ref1.state = 1
 			ctrlr.next()
 		# 停止
-		ctrlr.stop_fn = func () :
+		ctrlr.stop_fn = func():
 			ref1.state = 2
 			ctrlr.next()
 		# 下一個任務

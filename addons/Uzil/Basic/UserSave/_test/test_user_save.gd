@@ -37,7 +37,7 @@ func _ready () :
 	var user_save = UREQ.acc("Uzil", "user_save")
 	
 	# 當 使用者 輸入
-	self.user_edit.text_changed.connect(func(new_text : String):
+	self.user_edit.text_changed.connect(func(new_text: String):
 		if new_text == "" or new_text == null :
 			new_text = "Test"
 			self.user_edit.text = new_text
@@ -46,7 +46,7 @@ func _ready () :
 	user_save.user.setting.set_user(self.user_edit.text)
 	
 	# 當 配置 輸入
-	self.profile_edit.text_changed.connect(func(new_text : String):
+	self.profile_edit.text_changed.connect(func(new_text: String):
 		if new_text == "" or new_text == null :
 			new_text = "default"
 			self.profile_edit.text = new_text
@@ -62,7 +62,7 @@ func _ready () :
 	self._is_save_to_profile = self.save_to_profile_checkbox.button_pressed
 	
 	# 當 檔名 輸入
-	self.file_name_edit.text_changed.connect(func(new_text : String):
+	self.file_name_edit.text_changed.connect(func(new_text: String):
 		if new_text == "" or new_text == null :
 			new_text = "test.sav"
 			self.file_name_edit.text = new_text

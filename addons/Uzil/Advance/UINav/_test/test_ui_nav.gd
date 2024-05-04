@@ -39,7 +39,7 @@ func _exit_tree () :
 # Extends ====================
 
 
-func test_process(_delta):
+func test_process (_delta: float) :
 	var dir = Vector2.ZERO
 	
 	# 取得 不同方向 的 按鍵輸入
@@ -124,7 +124,7 @@ func test_ui_setup () :
 	var chain_origin = inst.new_chain("origin", "vec2", {
 		"target":null,
 		# 取得 位置getter
-		"pos_getter":func () :
+		"pos_getter":func():
 			# 以 各個UI 的 平均中心點 為 位置
 			var center_pos := Vector2.ZERO
 			for each in self.test_ui_list :

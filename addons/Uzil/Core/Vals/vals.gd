@@ -66,7 +66,7 @@ func current_user () :
 	return self._current_user
 
 ## 設置 過濾標籤
-func set_filters (filters : Array) :
+func set_filters (filters: Array) :
 	self._filter_ptags.clear()
 	self._filter_ntags.clear()
 	for each in filters :
@@ -131,7 +131,7 @@ func set_val (user, val) :
 	return self
 
 ## 設置 優先度
-func set_pri (user, priority : int) :
+func set_pri (user, priority: int) :
 	var data = self.get_data(user)
 	if data == null : return self
 	data.pri = priority
@@ -139,7 +139,7 @@ func set_pri (user, priority : int) :
 	return self
 
 ## 設置 標籤
-func set_tags (user, tags : Array) :
+func set_tags (user, tags: Array) :
 	var data = self.get_data(user)
 	if data == null : return self
 	data.tags = tags.duplicate()

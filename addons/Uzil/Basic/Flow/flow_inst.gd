@@ -48,7 +48,7 @@ func _process (_dt) :
 # Interface ==================
 
 ## 讀取 紀錄
-func load_memo (_memo : Dictionary) :
+func load_memo (_memo: Dictionary) :
 	
 	if _memo.has("chains") :
 		var _chains = _memo["chains"]
@@ -145,33 +145,33 @@ func to_memo (_args = null) :
 # Public =====================
 
 ## 初始化
-func init (key : String) :
+func init (key: String) :
 	self._key = key
 	return self
 
 ## 取得 節點
-func get_chain (id : String) :
+func get_chain (id: String) :
 	if self._id_to_chain.has(id) :
 		return self._id_to_chain[id]
 	else :
 		return null
 
 ## 取得 事件
-func get_event (id : String) :
+func get_event (id: String) :
 	if self._id_to_event.has(id) :
 		return self._id_to_event[id]
 	else :
 		return null
 
 ## 取得 條件
-func get_gate (id : String) :
+func get_gate (id: String) :
 	if self._id_to_gate.has(id) :
 		return self._id_to_gate[id]
 	else :
 		return null
 
 ## 重新命名 節點
-func rename_chain (id : String, new_id : String) :
+func rename_chain (id: String, new_id: String) :
 	
 	if not self._id_to_chain.has(id) : return
 		
@@ -183,7 +183,7 @@ func rename_chain (id : String, new_id : String) :
 	return new_id
 
 ## 重新命名 節點
-func rename_event (id : String, new_id : String) :
+func rename_event (id: String, new_id: String) :
 	
 	if not self._id_to_event.has(id) : return
 		
@@ -195,7 +195,7 @@ func rename_event (id : String, new_id : String) :
 	return new_id
 
 ## 重新命名 節點
-func rename_gate (id : String, new_id : String) :
+func rename_gate (id: String, new_id: String) :
 	
 	if not self._id_to_gate.has(id) : return
 	
@@ -207,7 +207,7 @@ func rename_gate (id : String, new_id : String) :
 	return new_id
 
 ## 創建 節點
-func new_chain (data : Dictionary, is_overwrite := false) :
+func new_chain (data: Dictionary, is_overwrite := false) :
 	
 	# 試著 取得腳本
 	var script = null
@@ -232,7 +232,7 @@ func new_chain (data : Dictionary, is_overwrite := false) :
 	return new_one
 
 ## 創建 節點
-func new_event (data : Dictionary, is_overwrite := false) :
+func new_event (data: Dictionary, is_overwrite := false) :
 	
 	# 試著 取得腳本
 	var script = null
@@ -254,7 +254,7 @@ func new_event (data : Dictionary, is_overwrite := false) :
 	return new_one
 
 ## 創建 條件
-func new_gate (data : Dictionary, is_overwrite := false) :
+func new_gate (data: Dictionary, is_overwrite := false) :
 	
 	# 試著 取得腳本
 	var script = null
@@ -276,21 +276,21 @@ func new_gate (data : Dictionary, is_overwrite := false) :
 	return new_one
 
 ## 移除 節點
-func del_chain (id : String) :
+func del_chain (id: String) :
 	if not self._id_to_chain.has(id) : return
 	var to_rm = self._id_to_chain[id]
 	self._id_to_chain.erase(id)
 	to_rm.destroy()
 
 ## 移除 事件
-func del_event (id : String) :
+func del_event (id: String) :
 	if not self._id_to_event.has(id) : return
 	var to_rm = self._id_to_event[id]
 	self._id_to_event.erase(id)
 	to_rm.destroy()
 
 # 移除 節點
-func del_gate (id : String) :
+func del_gate (id: String) :
 	if not self._id_to_gate.has(id) : return
 	var to_rm = self._id_to_gate[id]
 	self._id_to_gate.erase(id)
@@ -385,7 +385,7 @@ func _add_gate (gate, is_overwrite := false) :
 	# 寫入
 	self._id_to_gate[id] = gate
 
-func _get_fix_id (perfer_id : String, dict : Dictionary) :
+func _get_fix_id (perfer_id: String, dict: Dictionary) :
 	var idx = 0
 	var id = "%s" % perfer_id
 	while dict.has(id) :

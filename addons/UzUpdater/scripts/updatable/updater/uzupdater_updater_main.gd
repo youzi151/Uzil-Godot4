@@ -13,7 +13,7 @@
 # Public =====================
 
 ## 開始
-func start_update (task, callback_fn : Callable) :
+func start_update (task, callback_fn: Callable) :
 	print("==== updater_main update start")
 #	print("uzupdater updater main in pck")
 	
@@ -46,7 +46,7 @@ func start_update (task, callback_fn : Callable) :
 					return
 				
 				# 下個更新器
-				ctrlr.next.call()
+				ctrlr.next()
 			),
 		func():
 			print("==== updater_main update end")

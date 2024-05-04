@@ -74,27 +74,27 @@ func done () :
 	
 
 ## 指定
-func attend (tag : String) :
+func attend (tag: String) :
 	if not self._attend_tags.has(tag) :
 		self._attend_tags.push_back(tag)
 
 ## 指定
-func attends (tags : Array) :
+func attends (tags: Array) :
 	for each in tags :
 		self.attend(each)
 
 ## 忽略
-func ignore (tag : String) :
+func ignore (tag: String) :
 	if not self._ignore_tags.has(tag) :
 		self._ignore_tags.push_back(tag)
 
 ## 忽略
-func ignores (tags : Array) :
+func ignores (tags: Array) :
 	for each in tags :
 		self.ignore(each)
 
 ## 是否應該被處理
-func should_handle (tags : Array) -> bool :
+func should_handle (tags: Array) -> bool :
 	for each in tags :
 		if self._ignore_tags.has(each) : return false
 	

@@ -42,7 +42,7 @@ func on_exit (chain) :
 	pass
 
 ## 取得 鄰近值 (提供別的鏈結點進行比較)
-func get_near_val (chain, key : String, req_data := {}) :
+func get_near_val (chain, key: String, req_data := {}) :
 	if key == "pos2D" :
 		if chain.data.has("position") :
 			return chain.data.position

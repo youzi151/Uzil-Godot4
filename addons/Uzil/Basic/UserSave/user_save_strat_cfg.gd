@@ -13,7 +13,7 @@
 # Public =====================
 
 ## 讀取
-func read (inst, file_path : String, routes : Array, options : Dictionary) :
+func read (inst, file_path: String, routes: Array, options: Dictionary) :
 	# 總結果
 	var results : Dictionary = {}
 	
@@ -140,7 +140,7 @@ func read (inst, file_path : String, routes : Array, options : Dictionary) :
 	return results
 
 ## 寫入
-func write (inst, file_path : String, route_to_val : Dictionary, options := {}) :
+func write (inst, file_path: String, route_to_val: Dictionary, options := {}) :
 
 	# 常規路徑
 	var regular_path : String = inst._get_regular_path(file_path)
@@ -208,7 +208,7 @@ func write (inst, file_path : String, route_to_val : Dictionary, options := {}) 
 	return exist_cfg.save(regular_path)
 
 ## 解析路徑
-func parse_route (route : String) -> Dictionary :
+func parse_route (route: String) -> Dictionary :
 	var section : String = ""
 	var key : String = ""
 	var routes : Array = []
@@ -237,7 +237,7 @@ func parse_route (route : String) -> Dictionary :
 # Private ====================
 
 ## 讀取 檔案
-func _read_file (full_path : String) :
+func _read_file (full_path: String) :
 	if not FileAccess.file_exists(full_path) : return null
 	
 	var file := ConfigFile.new()
@@ -253,7 +253,7 @@ func _read_file (full_path : String) :
 	return null
 
 ## 取得 內容 從 設定 中
-func _get_content_from_cfg (cfg_file : ConfigFile, section : String, key : String = "") :
+func _get_content_from_cfg (cfg_file: ConfigFile, section: String, key: String = "") :
 	
 	var file_content = null
 	

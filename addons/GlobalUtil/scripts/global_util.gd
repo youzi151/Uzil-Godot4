@@ -34,7 +34,7 @@ func _enter_tree () :
 # Public =====================
 
 ## 設置 全域變數
-func set_global (_name : String, val) :
+func set_global (_name: String, val) :
 	self.v[_name] = val
 	if _name in self :
 		self[_name] = val
@@ -49,7 +49,7 @@ func error (msg) :
 	self.Log.do_error(msg)
 
 ## 註冊 當印出
-func on_print (fn : Callable, tag : String = "") :
+func on_print (fn: Callable, tag: String = "") :
 	return self.Log.on_print(fn, tag)
 
 ## 註銷 當印出
@@ -57,7 +57,7 @@ func off_print (tag : String = "") :
 	self.Log.off_print(tag)
 
 ## 讀取腳本
-func load_script (path : String) :
+func load_script (path: String) :
 	var stack = get_stack()
 	for each in stack :
 		if each.source == path :
@@ -66,7 +66,7 @@ func load_script (path : String) :
 	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
 
 ## 路徑
-func path (path : String) :
+func path (path: String) :
 	if path.begins_with("./") :
 		path = self.get_current_file_path().path_join(path.simplify_path())
 	return path

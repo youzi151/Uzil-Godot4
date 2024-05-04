@@ -34,12 +34,6 @@ var page = null
 
 # GDScript ===================
 
-func _ready () :
-	pass
-
-func _process (_dt) :
-	pass
-
 # Public =====================
 
 func request_page (page_card_inst = null) :

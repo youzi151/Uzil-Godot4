@@ -30,7 +30,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Advance.Init",
-		func () :
+		func():
 			self.LoadPCKs = Uzil.load_script(self.PATH.path_join("init_load_pcks.gd"))
 			self.LoadOpts = Uzil.load_script(self.PATH.path_join("init_load_opts.gd"))
 			return self,

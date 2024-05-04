@@ -28,12 +28,6 @@ var card = null
 
 # GDScript ===================
 
-func _init () :
-	pass
-
-func _process (_dt) :
-	pass
-
 # Public =====================
 
 func request_card () :

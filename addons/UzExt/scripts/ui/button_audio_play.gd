@@ -45,7 +45,7 @@ var preset_key : String = ""
 
 # GDScript ===================
 
-func _validate_property (property : Dictionary) -> void :
+func _validate_property (property: Dictionary) -> void :
 	match property.name : 
 		"audio_id" :
 			match self.src_mode : 

@@ -35,7 +35,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Basic.Res",
-		func () :
+		func():
 			
 			self.Inst = Uzil.load_script(self.PATH.path_join("res_inst.gd"))
 			self.Info = Uzil.load_script(self.PATH.path_join("res_info.gd"))
@@ -48,7 +48,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 實體
 	UREQ.bind("Uzil", "res", 
-		func () :
+		func():
 			var inst = self.Inst.new()
 			inst.name = "res"
 			Uzil.add_child(inst)

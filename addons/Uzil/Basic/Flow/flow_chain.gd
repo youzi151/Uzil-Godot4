@@ -61,7 +61,7 @@ func to_memo (_memo = null, _args = null) :
 # Public =====================
 
 ## 初始化
-func init (inst_id : String, init_data : Dictionary) :
+func init (inst_id: String, init_data: Dictionary) :
 	self._inst_cache = null
 	self._inst_id = inst_id
 	
@@ -101,12 +101,12 @@ func exit () :
 	self._on_exit()
 
 ## 新增 後續節點
-func add_next (chain_id : String) :
+func add_next (chain_id: String) :
 	self.next_chains.push_back(chain_id)
 	
 
 ## 移除 後續節點
-func del_next (chain_id : String) :
+func del_next (chain_id: String) :
 	self.next_chains.erase(chain_id)
 
 ## 取得 後續節點

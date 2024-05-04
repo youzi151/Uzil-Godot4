@@ -28,7 +28,7 @@ func set_strat (_strat) :
 	return self
 
 ## 設置 資料
-func set_data (data : Dictionary) :
+func set_data (data: Dictionary) :
 	if self.strat.has_method("set_data") :
 		self.strat.set_data(data)
 	return self

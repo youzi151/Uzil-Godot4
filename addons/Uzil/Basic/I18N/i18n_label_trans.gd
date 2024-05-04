@@ -29,12 +29,9 @@ var on_update_listener = null
 
 # GDScript ===================
 
-func _init () :
-	pass
-
 func _ready () :
 	var Uzil = UREQ.acc("Uzil", "Uzil")
-	Uzil.once_ready(func () :
+	Uzil.once_ready(func():
 		self.i18n = UREQ.acc("Uzil", "i18n")
 	
 		# 註冊 當 多語系更新時 更新
@@ -49,9 +46,7 @@ func _exit_tree () :
 	if self.on_update_listener != null :
 		self.i18n.off_update(self.on_update_listener)
 
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_dt):
+func _process (_dt: float) :
 	if self.update_mode == UpdateMode.PROCESS :
 		self.update()
 

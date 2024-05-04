@@ -104,7 +104,7 @@ func _ready () :
 	)
 	
 	# 設置 修改器行為
-	var set_modifier := func (txt) :
+	var set_modifier := func(txt) :
 		self.modify_msg = txt
 		
 		# 設置 修改內容 行為

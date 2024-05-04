@@ -16,10 +16,6 @@ var _key_to_inst := {}
 func _init (_dont_set_in_scene) :
 	pass
 
-func _process (_dt) :
-	pass
-
-
 # Public =====================
 
 func inst (key := "_") :

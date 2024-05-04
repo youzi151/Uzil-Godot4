@@ -45,7 +45,7 @@ func init (Util) :
 	return self
 
 ## 取得 對應視圖 的 實例
-func in_viewport (viewport : Viewport) :
+func in_viewport (viewport: Viewport) :
 	return self._inst_mgr.inst(str(viewport.get_instance_id()))
 
 # Private ====================

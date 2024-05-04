@@ -10,7 +10,7 @@ extends Node
 @export var members : Dictionary = {}
 
 
-func get_member (key : String) :
+func get_member (key: String) :
 	if not self.members.has(key) : return null
 	var member = self.members[key]
 	if member is NodePath :

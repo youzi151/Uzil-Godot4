@@ -22,9 +22,6 @@ var _is_disabled := false
 
 # GDScript ===================
 
-func _init () :
-	pass
-
 func _ready () :
 	if self.button == null : return
 	
@@ -35,7 +32,7 @@ func _ready () :
 		self.button.button_down.connect(self.on_btn_down)
 		self.button.button_up.connect(self.on_btn_up)
 
-func _process (_dt) :
+func _process (_dt: float) :
 	if self.button == null : return
 	
 	var is_update : bool = false

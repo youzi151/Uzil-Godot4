@@ -24,7 +24,7 @@ var _access_to_task := {}
 
 # GDScript ===================
 
-func _init (key, _ureq) :
+func _init (key: String, _ureq) :
 	self._UREQ = _ureq
 	self._key = key
 
@@ -47,7 +47,7 @@ func key () :
 	return self._key
 
 ## 綁定
-func bind (id : String, target, options := {}) :
+func bind (id: String, target, options := {}) :
 	self.unbind(id)
 	
 	var access = self._UREQ.Access.new()
@@ -93,14 +93,14 @@ func bind (id : String, target, options := {}) :
 
 
 ## 解除綁定
-func unbind (id : String) :
+func unbind (id: String) :
 	if not self._id_to_access.has(id) : return
 	var exist = self._id_to_access[id]
 	self._id_to_access.erase(id)
 	self._accesses.erase(exist)
 
 ## 非同步 存取 並 確保依賴建立
-func accync (id_or_alias : String, on_done : Callable = Callable()) :
+func accync (id_or_alias: String, on_done: Callable = Callable()) :
 	var access = self.get_access(id_or_alias)
 	if access == null : return null
 	
@@ -127,7 +127,7 @@ func accync (id_or_alias : String, on_done : Callable = Callable()) :
 	
 	# 以 Callback 方式
 	if is_on_done_exist :
-		wrap_callback = func (res):
+		wrap_callback = func(res):
 			
 			var result = null
 			if not self._check_error(task) :
@@ -164,7 +164,7 @@ func accync (id_or_alias : String, on_done : Callable = Callable()) :
 		return result
 
 ## 存取 並 確保依賴建立
-func access (id_or_alias : String) :
+func access (id_or_alias: String) :
 	var access = self.get_access(id_or_alias)
 	if access == null : return null
 	
@@ -179,7 +179,7 @@ func access (id_or_alias : String) :
 	return task.result
 
 ## 取得 模塊
-func get_access (id_or_alias : String) :
+func get_access (id_or_alias: String) :
 	# 若 存在 則 返回
 	if self._id_to_access.has(id_or_alias) :
 		return self._id_to_access[id_or_alias]

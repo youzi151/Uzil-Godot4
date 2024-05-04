@@ -33,24 +33,24 @@ func test_waterfall () :
 	
 	self.Util.async.waterfall(
 		[
-			func (ctrlr) :
+			func(ctrlr):
 				G.print("A")
 				ctrlr.next.call(),
-			func (ctrlr) :
+			func(ctrlr):
 				G.print("B")
-				self.invoker.inst().once(func () :
+				self.invoker.inst().once(func():
 					ctrlr.next.call()
 				, 1000),
-			func (ctrlr) :
+			func(ctrlr):
 				G.print("C")
 #				ctrlr.stop.call()
 				ctrlr.skip.call()
 				,
-			func (ctrlr) :
+			func(ctrlr):
 				G.print("D")
 				ctrlr.next.call(),
 		],
-		func () :
+		func():
 			G.print("final")
 	)
 	
@@ -60,24 +60,24 @@ func test_parallel () :
 	
 	await self.Util.async.parallel(
 		[
-			func (ctrlr) :
+			func(ctrlr):
 				G.print("A")
 				ctrlr.next.call()
 				# ctrlr.skip.call()
 				,
-			func (ctrlr) :
-				self.invoker.inst().once(func () :
+			func(ctrlr):
+				self.invoker.inst().once(func():
 					G.print("B")
 					ctrlr.next.call()
 				, 1000)
 				,
-			func (ctrlr) :
+			func(ctrlr):
 				G.print("C")
 				ctrlr.next.call()
 				# ctrlr.stop.call()
 				,
 		],
-		#func () :
+		#func():
 			#G.print("final")
 	)
 	G.print("final")
@@ -88,8 +88,8 @@ func test_each_series_list () :
 	
 	self.Util.async.each_series(
 		["hello", "world", "godot"],
-		func (idx, each, ctrlr) :
-			self.invoker.inst().once(func () :
+		func(idx, each, ctrlr) :
+			self.invoker.inst().once(func():
 				G.print("%s : %s" % [idx, each])
 				
 				if idx == 1 : 
@@ -100,7 +100,7 @@ func test_each_series_list () :
 					ctrlr.next.call()
 				
 			, 3000-(500*idx)),
-		func () :
+		func() :
 			G.print("final")
 	)
 	
@@ -110,8 +110,8 @@ func test_each_series_dict () :
 	
 	self.Util.async.each_series(
 		{"first": "hello", "second": "world", "third": "godot"},
-		func (key, each, ctrlr) :
-			self.invoker.inst().once(func () :
+		func(key, each, ctrlr):
+			self.invoker.inst().once(func():
 				G.print("%s : %s" % [key, each])
 				
 				if key == "second" : 
@@ -122,7 +122,7 @@ func test_each_series_dict () :
 					ctrlr.next.call()
 				
 			, 1000),
-		func () :
+		func():
 			G.print("final")
 	)
 
@@ -133,8 +133,8 @@ func test_each_list () :
 	
 	self.Util.async.each(
 		["hello", "world", "godot"],
-		func (idx, each, ctrlr) :
-			self.invoker.inst().once(func () :
+		func(idx, each, ctrlr):
+			self.invoker.inst().once(func():
 				G.print("%s : %s" % [idx, each])
 				if idx == 1 : 
 					ctrlr.skip.call()
@@ -143,8 +143,8 @@ func test_each_list () :
 				else :
 					ctrlr.next.call()
 			, 3000-(500*idx)),
-		func () :
-			G.print("final")
+		func():
+			G.print("final here, should skip from 1")
 	)
 
 func test_each_dict () :
@@ -156,9 +156,9 @@ func test_each_dict () :
 	
 	self.Util.async.each(
 		{"first": "hello", "second": "world", "third": "godot"},
-		func (key, each, ctrlr) :
+		func(key, each, ctrlr):
 			ref.delay -= 500
-			self.invoker.inst().once(func () :
+			self.invoker.inst().once(func():
 				G.print("%s : %s" % [key, each])
 				if key == "second" : 
 					ctrlr.skip.call()
@@ -167,8 +167,8 @@ func test_each_dict () :
 				else :
 					ctrlr.next.call()
 			, ref.delay),
-		func () :
-			G.print("final")
+		func():
+			G.print("final here, should skip from second")
 	)
 
 func test_times_series () :
@@ -177,8 +177,8 @@ func test_times_series () :
 	
 	self.Util.async.times_series(
 		5,
-		func (idx, ctrlr) :
-			self.invoker.inst().once(func () :
+		func(idx, ctrlr) :
+			self.invoker.inst().once(func():
 				G.print(idx)
 				if idx == 2 : 
 					ctrlr.skip.call()
@@ -188,7 +188,7 @@ func test_times_series () :
 					ctrlr.next.call()
 					
 			, 3000),
-		func () :
+		func():
 			G.print("final")
 	)
 
@@ -198,8 +198,8 @@ func test_times () :
 	
 	self.Util.async.times(
 		5,
-		func (idx, ctrlr) :
-			self.invoker.inst().once(func () :
+		func(idx, ctrlr):
+			self.invoker.inst().once(func():
 				G.print(idx)
 				if idx == 2 : 
 #					ctrlr.skip.call()
@@ -208,6 +208,6 @@ func test_times () :
 				else :
 					ctrlr.next.call()
 			, 2000),
-		func () :
+		func():
 			G.print("final")
 	)

@@ -35,7 +35,7 @@ func _set_core (core) :
 	self._core = core
 
 ## 讀取 紀錄
-func _load_memo (_memo : Dictionary) :
+func _load_memo (_memo: Dictionary) :
 	
 	if _memo.has("events") : 
 		self._events = _memo["events"]
@@ -131,19 +131,19 @@ func resume () :
 	self._on_resume()
 
 ## 新增 事件
-func add_event (__id : String) :
+func add_event (__id: String) :
 	self._events.push_back(__id)
 
 ## 移除 事件
-func del_event (__id : String) :
+func del_event (__id: String) :
 	self._events.erase(__id)
 
 ## 新增 條件
-func add_gate (__id : String) :
+func add_gate (__id: String) :
 	self._gates.push_back(__id)
 
 ## 移除 條件
-func del_gate (__id : String) :
+func del_gate (__id: String) :
 	self._gates.erase(__id)
 	
 

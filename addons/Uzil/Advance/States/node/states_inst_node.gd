@@ -25,16 +25,11 @@ var inst = null
 
 # GDScript ===================
 
-func _init () :
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready () :
 	if Engine.is_editor_hint() : return
 	self.request_inst()
 
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_dt):
+func _process (_dt: float) :
 	pass
 
 func _validate_property (property: Dictionary) :

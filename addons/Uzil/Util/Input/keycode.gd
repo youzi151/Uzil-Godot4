@@ -4,6 +4,11 @@
 ## 定義各種輸入裝置與輸入鍵的代碼
 ## 
 
+class KeyInfo :
+	var names := []
+	var value_type := -1
+	var gdkeys := []
+
 ## 輸入裝置類型 遮罩
 const DEVICE_TYPE_MASK     := 0b01111000000000000
 ## 輸入裝置類型 遮罩 偏移
@@ -34,26 +39,26 @@ func init (uzil_input) :
 	return self
 
 ## 取得 裝置類型
-func get_device_type (keycode) -> int :
+func get_device_type (keycode: int) -> int :
 	return (keycode & self.DEVICE_TYPE_MASK) >> self.DEVICE_TYPE_SHIFT
 
 ## 取得 輸入裝置序號
-func get_device_index (keycode) -> int :
+func get_device_index (keycode: int) -> int :
 	return (keycode & self.DEVICE_ID_MASK) >> self.DEVICE_ID_SHIFT
 
 ## 取得 輸入鍵
-func get_key (keycode) -> int :
+func get_key (keycode: int) -> int :
 	return (keycode & self.KEYCODE_MASK)
 
 ## 取得 裝置類型 的 key:資訊
-func get_key_infos (device_type) :
+func get_key_infos (device_type: int) :
 	if self.device_type_to_keycode_infos.has(device_type) :
 		return self.device_type_to_keycode_infos[device_type]
 	else :
 		return null
 
 ## 以 名稱 取得 gdkeys
-func name_to_gdkeys (name) :
+func name_to_gdkeys (name: String) :
 	var _keycode = self.name_to_keycode(name)
 	if _keycode == null :
 		return null
@@ -64,7 +69,7 @@ func name_to_gdkeys (name) :
 	return gdkeys
 
 ## 以 名稱 取得 gdkeys
-func key_to_gdkeys (device_type, key) :
+func key_to_gdkeys (device_type: int, key: int) :
 	# 若 找不到 該裝置類型 的 表
 	if not self._keycode_table.has(device_type) :
 		return null
@@ -80,7 +85,7 @@ func key_to_gdkeys (device_type, key) :
 	
 
 ## 以 名稱 取得 key
-func name_to_keycode (name_str : String) :
+func name_to_keycode (name_str: String) :
 	# 一律視為小寫
 	name_str = name_str.to_lower()
 	
@@ -154,11 +159,11 @@ func name_to_keycode (name_str : String) :
 		return null
 
 ## 轉換 裝置類型 至 keycode
-func device_type_to_keycode (device_type) :
+func device_type_to_keycode (device_type: int) :
 	return device_type << self.DEVICE_TYPE_SHIFT
 
 ## 讀取 原始資料 至 表 
-func raw_to_dict (device_type, raw) :
+func raw_to_dict (device_type: int, raw: Array) :
 	
 	# 建立或取得 查詢表
 	var tb
@@ -196,7 +201,7 @@ func raw_to_dict (device_type, raw) :
 		_key_to_gdkeys[key] = gdkeys.duplicate()
 			
 		# 加入 key:資訊
-		var info = {}
+		var info : KeyInfo = KeyInfo.new()
 		info.names = names.duplicate()
 		info.value_type = val_type
 		info.gdkeys = gdkeys.duplicate()

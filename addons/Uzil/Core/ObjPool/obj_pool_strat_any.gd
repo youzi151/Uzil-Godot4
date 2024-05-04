@@ -42,7 +42,7 @@ func set_core (__core) :
 	return self
 
 ## 設置 資料
-func set_data (data : Dictionary) :
+func set_data (data: Dictionary) :
 	if data.has("init") :
 		self.set_init(data["init"])
 	if data.has("uninit") :
@@ -76,21 +76,21 @@ func uninitial (old_one) :
 # Public =====================
 
 ## 設置 建立
-func set_create (create_fn : Callable) :
+func set_create (create_fn: Callable) :
 	self._create_fn = create_fn
 	return self
 
 ## 設置 銷毀
-func set_destroy (destroy_fn : Callable) :
+func set_destroy (destroy_fn: Callable) :
 	self._destroy_fn = destroy_fn
 	return self
 
 ## 設置 初始化
-func set_init (initial_fn : Callable) :
+func set_init (initial_fn: Callable) :
 	self._init_fn = initial_fn
 	return self
 
 ## 設置 反初始化
-func set_uninit (uninitial_fn : Callable) :
+func set_uninit (uninitial_fn: Callable) :
 	self._uninit_fn = uninitial_fn
 	return self

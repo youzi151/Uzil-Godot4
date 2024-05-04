@@ -1,3 +1,7 @@
+## ScreenShot 擷圖相關
+##
+## 擷取 viewport 當前顯示 為 圖像資料
+##
 
 # Variable ===================
 
@@ -9,7 +13,7 @@
 
 # Public =====================
 
-func get_png_buffer (viewport : Viewport, options : Dictionary = {}) :
+func get_png_buffer (viewport: Viewport, options := {}) :
 	
 	var image : Image = viewport.get_texture().get_image()
 	if "size" in options :
@@ -18,7 +22,7 @@ func get_png_buffer (viewport : Viewport, options : Dictionary = {}) :
 		image.resize(size.x, size.y)
 	return image.save_png_to_buffer()
 	
-func get_jpg_buffer (viewport : Viewport, options : Dictionary = {}) :
+func get_jpg_buffer (viewport: Viewport, options := {}) :
 	
 	var image : Image = viewport.get_texture().get_image()
 	

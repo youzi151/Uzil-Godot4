@@ -13,7 +13,7 @@ var pos : Vector2 = Vector2.ZERO
 # Public =====================
 
 ## 設置 位置
-func set_position (pos : Vector2) :
+func set_position (pos: Vector2) :
 	self.pos = pos
 
 ## 取得 位置

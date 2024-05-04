@@ -42,7 +42,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Advance.UINav",
-		func () :
+		func():
 			self.Mgr = Uzil.load_script(self.PATH.path_join("ui_nav_mgr.gd"))
 			self.Inst = Uzil.load_script(self.PATH.path_join("ui_nav_inst.gd"))
 			self.Chain = Uzil.load_script(self.PATH.path_join("ui_nav_chain.gd"))
@@ -59,7 +59,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 實體管理
 	UREQ.bind("Uzil", "ui_nav_mgr",
-		func () :
+		func():
 			var target = self.Mgr.new(null)
 			target.name = "ui_nav"
 			Uzil.add_child(target)

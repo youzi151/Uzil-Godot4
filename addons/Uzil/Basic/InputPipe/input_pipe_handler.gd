@@ -36,7 +36,7 @@ func handle_msg (input_msg) :
 	return self._strat.handle_msg(input_msg)
 
 ## 讀取
-func load_memo (_memo : Dictionary) :
+func load_memo (_memo: Dictionary) :
 	if _memo.has("src") :
 		self.src_keys = _memo["src"]
 	

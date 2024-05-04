@@ -33,9 +33,6 @@ var _is_btn_down := false
 
 # GDScript ===================
 
-func _init () :
-	pass
-
 func _ready () :
 	self._target_setup(null, self.target)
 

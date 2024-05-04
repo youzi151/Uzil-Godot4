@@ -12,12 +12,12 @@ func _on_init (_init_data) :
 	pass
 
 # 讀取 紀錄
-func _load_memo (_memo : Dictionary) :
+func _load_memo (_memo: Dictionary) :
 	if _memo.has("msg") :
 		self.msg = _memo["msg"]
 
 # 匯出 紀錄
-func _to_memo (_memo : Dictionary, _args) :
+func _to_memo (_memo: Dictionary, _args) :
 	_memo["msg"] = self.msg
 	return _memo
 

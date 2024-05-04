@@ -34,16 +34,12 @@ var _inst_cache = null
 func _init (__handler) :
 	self._handler = __handler
 
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
-	pass
-
 # Extends ====================
 
 # Public =====================
 
 ## 初始化
-func init (inst_id : String, data = null) :
+func init (inst_id: String, data = null) :
 	if self._is_inited : return
 	
 	self._inst_id = inst_id
@@ -71,7 +67,7 @@ func process (_dt) :
 			handler.process(self, _dt)
 
 ## 設置 ID
-func set_id (_id : String) :
+func set_id (_id: String) :
 	self.id = _id
 	return self
 
@@ -168,7 +164,7 @@ func get_handler_script () :
 	return handler.get_script()
 
 ## 取得 鄰近值 (提供別的鏈結點進行比較)
-func get_near_val (key : String, req_data := {}) :
+func get_near_val (key: String, req_data := {}) :
 	# 呼叫 所屬類型
 	var handler = self.get_handler()
 	if handler == null : return null

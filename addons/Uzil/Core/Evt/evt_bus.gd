@@ -18,7 +18,7 @@ func init (_dont_set_in_scene) :
 # Public =====================
 
 ## 註冊
-func on (evt_key : String, listener_or_fn) :
+func on (evt_key: String, listener_or_fn) :
 	var evt = self.get_evt(evt_key)
 	# 添加 偵聽者
 	var listener = evt.on(listener_or_fn)
@@ -53,7 +53,7 @@ func clear (evt_key = null) :
 		self.key_to_evt.clear()
 
 ## 發送事件
-func emit (evt_key : String, data = null) :
+func emit (evt_key: String, data = null) :
 	var evt = self.get_evt(evt_key)
 	evt.emit(data)
 	var any_evt = self.get_evt("")

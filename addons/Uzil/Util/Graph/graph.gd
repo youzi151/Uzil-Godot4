@@ -35,14 +35,14 @@ func _init (_data = null) :
 # Public =====================
 
 ## 取得 路徑點
-func get_point (id : int) -> Point :
+func get_point (id: int) -> Point :
 	if self.id_to_point.has(id) :
 		return self.id_to_point[id]
 	else :
 		return null
 
 ## 設置 路徑點
-func set_point (id : int, data : Dictionary) : 
+func set_point (id: int, data: Dictionary) : 
 	
 	var point
 	
@@ -97,7 +97,7 @@ func refresh () :
 		#G.print("%s : %s" % [point_id, point.id_to_src])
 
 ## 尋找路徑
-func find_path (start_id : int, end_id : int, options : Dictionary = {}) :
+func find_path (start_id: int, end_id: int, options:= {}) :
 	var start_point : Point = self.get_point(start_id)
 	var end_point : Point = self.get_point(end_id)
 	

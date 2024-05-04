@@ -44,7 +44,7 @@ func get_path_var () -> Dictionary :
 	return self._path_var.duplicate()
 
 ## 添加模板目錄
-func add_template_folders (folder_paths : Array) :
+func add_template_folders (folder_paths: Array) :
 	for each in folder_paths :
 		if not self.template_folders.has(each) :
 			self.template_folders.push_back(each)
@@ -53,13 +53,13 @@ func add_template_folders (folder_paths : Array) :
 # Public =====================
 
 ## 設置 配置檔名稱
-func set_profile (profile_name : String) :
+func set_profile (profile_name: String) :
 	self._path_var["PROFILE"] = profile_name
 	self._update_path()
 	return self
 
 ## 設置 目錄路徑
-func set_folder (folder_path : String) :
+func set_folder (folder_path: String) :
 	self._path_var["FOLDER"] = folder_path
 	self._update_path()
 	return self

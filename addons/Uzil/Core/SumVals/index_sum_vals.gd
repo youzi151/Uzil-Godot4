@@ -32,7 +32,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Core.SumVals",
-		func () :
+		func():
 			self.Inst = Uzil.load_script(self.PATH.path_join("sum_vals_inst.gd"))
 			self.Data = Uzil.load_script(self.PATH.path_join("sum_vals_data.gd"))
 			return self,

@@ -115,7 +115,7 @@ func test_3d_scaling_toggle () :
 	G.print("scaling 3d scale : %s -> %s" % [last_scale, scale])
 	
 ## 切換 主視窗/子視窗 無邊框
-func test_borderless_toggle():
+func test_borderless_toggle () :
 	var options = UREQ.acc("Uzil", "options")
 	
 	var is_borderless : bool = options.display.get_window_borderless()
@@ -124,7 +124,7 @@ func test_borderless_toggle():
 	options.display.apply()
 
 ## 切換 主視窗/子視窗 全螢幕
-func test_fullscreen_toggle():
+func test_fullscreen_toggle () :
 	var options = UREQ.acc("Uzil", "options")
 	
 	var fullscreen_mode : int = options.display.get_window_fullscreen_mode("")

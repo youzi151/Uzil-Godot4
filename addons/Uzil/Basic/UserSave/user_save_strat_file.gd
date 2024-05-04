@@ -18,7 +18,7 @@ func _init (format_version_str) :
 # Public =====================
 
 ## 讀取
-func read (inst, file_path : String, routes : Array, options : Dictionary) :
+func read (inst, file_path: String, routes: Array, options: Dictionary) :
 	
 	# 總結果
 	var results : Dictionary = {}
@@ -119,7 +119,7 @@ func read (inst, file_path : String, routes : Array, options : Dictionary) :
 
 
 ## 寫入
-func write (inst, file_path : String, route_to_val : Dictionary, options := {}) :
+func write (inst, file_path: String, route_to_val: Dictionary, options := {}) :
 	
 	# 要寫入的內容
 	var to_write = null
@@ -179,7 +179,7 @@ func write (inst, file_path : String, route_to_val : Dictionary, options := {}) 
 	inst._path_to_cache[regular_path] = self._make_standalone(to_write)
 
 ## 解析路徑
-func parse_route (route : String) -> Dictionary :
+func parse_route (route: String) -> Dictionary :
 	var splited : Array = route.split("/", true)
 	if splited[0] == "" : splited.pop_front()
 	return {
@@ -195,7 +195,7 @@ func _make_standalone (file_content) :
 		_ :
 			return file_content
 
-func _read_file (path : String) :
+func _read_file (path: String) :
 	
 	if not FileAccess.file_exists(path) : return null
 	

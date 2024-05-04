@@ -26,22 +26,18 @@ var _state_of_viewport := {}
 func _init () :
 	self._init_main_window()
 
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_dt):
-	pass
-
 # Extends ====================
 
 # Public =====================
 
 ## 綁定視窗
-func bind_window (key : String, window : Window) :
+func bind_window (key: String, window: Window) :
 	if key == "" : return false
 	self._binded_window[key] = window
 	return true
 
 ## 取得 視窗
-func get_window (key : String = "") -> Window :
+func get_window (key: String = "") -> Window :
 	var res : Window = null
 	if key == "" : self._init_main_window()
 	if self._binded_window.has(key) :
@@ -53,13 +49,13 @@ func get_window (key : String = "") -> Window :
 	else : return null
 
 ## 綁定視窗
-func bind_viewport (key : String, viewport : Viewport) :
+func bind_viewport (key: String, viewport: Viewport) :
 	if key == "" : return false
 	self._binded_viewport[key] = viewport
 	return true
 
 ## 取得 視窗
-func get_viewport (key : String = "") -> Viewport :
+func get_viewport (key: String = "") -> Viewport :
 	var res : Viewport = null
 	if self._binded_viewport.has(key) :
 		res = self._binded_viewport[key]
@@ -91,7 +87,7 @@ func apply () :
 		self._apply_to_viewport(viewport, self._state_of_viewport[key])
 
 ## 讀取 設定檔案
-func load_config (file_path := "", target_display_keys : Array = [], save_key_tag = null) :
+func load_config (file_path := "", target_display_keys: Array = [], save_key_tag = null) :
 	if file_path == "" :
 		file_path = UREQ.acc("Uzil", "Advance.Options").CONFIG_FILE_PATH
 	
@@ -150,7 +146,7 @@ func get_window_size (window_key := "", _is_from_state := true) -> Vector2i :
 	return window.get_size_with_decorations()
 
 ## 設置 解析度
-func set_window_size (size : Vector2i, window_key : String = "", is_save_to_config : bool = true) :
+func set_window_size (size: Vector2i, window_key: String = "", is_save_to_config := true) :
 	self._set_state_window(window_key, "size", size)
 	if is_save_to_config :
 		self._write_to_config(self._get_key_window_size(window_key), size)
@@ -166,7 +162,7 @@ func get_window_borderless (window_key := "", _is_from_state := true) -> bool :
 	return window.get_flag(Window.FLAG_BORDERLESS)
 
 ## 設置 邊框
-func set_window_borderless (is_borderless : bool, window_key := "", is_save_to_config := true) :
+func set_window_borderless (is_borderless: bool, window_key := "", is_save_to_config := true) :
 	self._set_state_window(window_key, "borderless", is_borderless)
 	if is_save_to_config :
 		self._write_to_config(self._get_key_window_borderless(window_key), is_borderless)
@@ -181,7 +177,7 @@ func get_window_fullscreen_mode (window_key := "", _is_from_state := true) -> in
 	return window.mode
 
 ## 設置 視窗模式
-func set_window_fullscreen_mode (fullscreen_mode : int, window_key := "", is_save_to_config := true) :
+func set_window_fullscreen_mode (fullscreen_mode: int, window_key := "", is_save_to_config := true) :
 	self._set_state_window(window_key, "fullscreen", fullscreen_mode)
 	if is_save_to_config :
 		self._write_to_config(self._get_key_window_fullscreen_mode(window_key), fullscreen_mode)
@@ -197,7 +193,7 @@ func get_viewport_scaling_3d_scale (viewport_key := "", _is_from_state := true) 
 	return viewport.scaling_3d_scale
 
 ## 設置 3D渲染比例
-func set_viewport_scaling_3d_scale (scale : float, viewport_key := "", is_save_to_config := true) :
+func set_viewport_scaling_3d_scale (scale: float, viewport_key := "", is_save_to_config := true) :
 	self._set_state_viewport(viewport_key, "scaling_3d_scale", scale)
 	if is_save_to_config :
 		self._write_to_config(self._get_key_viewport_scaling_3d_scale(viewport_key), scale)
@@ -205,7 +201,7 @@ func set_viewport_scaling_3d_scale (scale : float, viewport_key := "", is_save_t
 # Private ====================
 
 ## 讀取 設定 至 視窗
-func _load_config_window (window_key : String, configs : Dictionary, save_key_tag = null) :
+func _load_config_window (window_key: String, configs: Dictionary, save_key_tag = null) :
 	#G.print("load window config : %s" % window_key)
 	#G.print(configs)
 	
@@ -239,7 +235,7 @@ func _load_config_window (window_key : String, configs : Dictionary, save_key_ta
 		#self.set_window_content_scale(configs[content_scale], window_key, false)
 
 ## 讀取 設定 至 視圖
-func _load_config_viewport (viewport_key : String, configs : Dictionary, save_key_tag = null) :
+func _load_config_viewport (viewport_key: String, configs: Dictionary, save_key_tag = null) :
 	if save_key_tag == null :
 		save_key_tag = viewport_key
 	
@@ -249,21 +245,21 @@ func _load_config_viewport (viewport_key : String, configs : Dictionary, save_ke
 		self.set_viewport_scaling_3d_scale(configs[scaling_3d_scale], viewport_key, false)
 
 ## 取得 視窗 狀態
-func _get_window_state (key : String, attr : String) :
+func _get_window_state (key: String, attr: String) :
 	if not self._state_of_window.has(key) : return null
 	var state : Dictionary = self._state_of_window[key]
 	if not state.has(attr) : return null
 	return state[attr]
 
 ## 取得 視圖 狀態
-func _get_viewport_state (key : String, attr : String) :
+func _get_viewport_state (key: String, attr: String) :
 	if not self._state_of_viewport.has(key) : return null
 	var state : Dictionary = self._state_of_viewport[key]
 	if not state.has(attr) : return null
 	return state[attr]
 
 ## 設置 視窗 狀態
-func _set_state_window (key : String, attr : String, val) :
+func _set_state_window (key: String, attr: String, val) :
 	var state := {}
 	if self._state_of_window.has(key) :
 		state = self._state_of_window[key]
@@ -277,7 +273,7 @@ func _set_state_window (key : String, attr : String, val) :
 	
 
 ## 設置 視圖 狀態
-func _set_state_viewport (key : String, attr : String, val) :
+func _set_state_viewport (key: String, attr: String, val) :
 	var state := {}
 	if self._state_of_viewport.has(key) :
 		state = self._state_of_viewport[key]
@@ -292,7 +288,7 @@ func _set_state_viewport (key : String, attr : String, val) :
 ## 應用 至 視窗
 ## 若需要在初始尚未有任何節點時, 就要設置視窗, 則需要透過另一種方式設置
 ## 但此方法可能會在 display/window/stretch/mode 非 disabled 時造成問題.
-func _apply_to_main_window (state : Dictionary) :
+func _apply_to_main_window (state: Dictionary) :
 	var window_id := 0
 	var window_mode = DisplayServer.window_get_mode(window_id)
 	if "fullscreen" in state :
@@ -328,7 +324,7 @@ func _apply_to_main_window (state : Dictionary) :
 			DisplayServer.window_set_size(nxt, window_id)
 
 ## 應用 至 視窗
-func _apply_to_window (window : Window, state : Dictionary) :
+func _apply_to_window (window: Window, state: Dictionary) :
 	
 	if state.has("fullscreen") :
 		var cur = window.mode
@@ -362,7 +358,7 @@ func _apply_to_window (window : Window, state : Dictionary) :
 		
 
 ## 應用 至 視圖
-func _apply_to_viewport (viewport : Viewport, state : Dictionary) :
+func _apply_to_viewport (viewport: Viewport, state: Dictionary) :
 	
 	if state.has("scaling_3d_scale") :
 		var cur = viewport.scaling_3d_scale
@@ -371,7 +367,7 @@ func _apply_to_viewport (viewport : Viewport, state : Dictionary) :
 			viewport.scaling_3d_scale = nxt
 
 ## 取得 視窗 狀態快照
-func _get_snapshot_window (window : Window) :
+func _get_snapshot_window (window: Window) :
 	return {
 		"size" : window.size,
 		"fullscreen" : window.mode,
@@ -379,33 +375,33 @@ func _get_snapshot_window (window : Window) :
 	}
 
 ## 取得 視圖 狀態快照
-func _get_snapshot_viewport (viewport : Viewport) :
+func _get_snapshot_viewport (viewport: Viewport) :
 	return {
 		"scaling_3d_scale" : viewport.scaling_3d_scale,
 	}
 
 ## 取得 視窗模式 的 關鍵字
-func _get_key_window_fullscreen_mode (window_key : String) -> String :
+func _get_key_window_fullscreen_mode (window_key: String) -> String :
 	return self._get_key_with_suffix(window_key, "window%s_fullscreen_mode")
 
 ## 取得 視窗大小 的 關鍵字	
-func _get_key_window_size (window_key : String) -> String :
+func _get_key_window_size (window_key: String) -> String :
 	return self._get_key_with_suffix(window_key, "window%s_size")
 
 ## 取得 視窗無邊框 的 關鍵字
-func _get_key_window_borderless (window_key : String) -> String :
+func _get_key_window_borderless (window_key: String) -> String :
 	return self._get_key_with_suffix(window_key, "window%s_borderless")
 
 ## 取得 視窗內容比例 的 關鍵字
-#func _get_key_window_content_scale (window_key : String) -> String :
+#func _get_key_window_content_scale (window_key: String) -> String :
 	#return self._get_key_with_suffix(window_key, "window%s_content_scale")
 
 ## 取得 視窗內容比例 的 關鍵字
-func _get_key_viewport_scaling_3d_scale (window_key : String) -> String :
+func _get_key_viewport_scaling_3d_scale (window_key: String) -> String :
 	return self._get_key_with_suffix(window_key, "viewport%s_scaling_3d_scale")
 
 ## 取得 指定視窗 的 關鍵字
-func _get_key_with_suffix (window_key : String, key : String) -> String :
+func _get_key_with_suffix (window_key: String, key: String) -> String :
 	var suffix = ""
 	if not window_key.is_empty() : 
 		suffix = "_%s" % window_key

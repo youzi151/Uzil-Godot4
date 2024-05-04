@@ -55,7 +55,7 @@ func done () :
 	self.on_done.emit()
 
 ## 標籤
-func tag (tag_str : String) :
+func tag (tag_str: String) :
 	if not self.tags.has(tag_str):
 		self.tags.push_back(tag_str)
 	return self

@@ -3,9 +3,6 @@
 
 # GDScript ===================
 
-func _init () :
-	pass
-
 # Extends ====================
 
 # Interface ==================
@@ -13,7 +10,7 @@ func _init () :
 # Public =====================
 
 ## 上傳檔案
-func upload_file_buffer (url : String, file_name : String, content_type : String, content : PackedByteArray) :
+func upload_file_buffer (url: String, file_name: String, content_type: String, content: PackedByteArray) :
 	
 	var http_node : Node = UREQ.acc("Uzil", "Uzil").request_node("Http")
 	
@@ -44,7 +41,7 @@ func upload_file_buffer (url : String, file_name : String, content_type : String
 	]
 	var error := request.request_raw(url, headers, HTTPClient.METHOD_POST, body)
 	
-	if error != OK:
+	if error != OK :
 		push_error("An error occurred in the HTTP request : %s" % [error])
 		
 	await request.request_completed

@@ -32,7 +32,7 @@ func _init (strat) :
 # Interface ==================
 
 ## 讀取 紀錄
-func load_memo (_memo : Dictionary) :
+func load_memo (_memo: Dictionary) :
 	
 	if _memo.has("is_done") :
 		self._is_done = _memo["is_done"]
@@ -43,7 +43,7 @@ func load_memo (_memo : Dictionary) :
 	self._load_memo(_memo)
 
 ## 匯出 紀錄
-func to_memo (_memo : Dictionary, _args = null) :
+func to_memo (_memo: Dictionary, _args = null) :
 	_memo = self._to_memo(_memo, _args)
 	
 	_memo["is_done"] = self._is_done
@@ -54,7 +54,7 @@ func to_memo (_memo : Dictionary, _args = null) :
 # Public =====================
 
 ## 初始化
-func init (inst_id : String, init_data : Dictionary) :
+func init (inst_id: String, init_data: Dictionary) :
 	self._inst_cache = null
 	self._inst_id = inst_id
 	
@@ -104,13 +104,13 @@ func _on_init (_init_data) :
 	self._strat._on_init(_init_data)
 
 ## 讀取 紀錄
-func _load_memo (_memo : Dictionary) :
+func _load_memo (_memo: Dictionary) :
 	if self._strat == null : return
 	if self._strat.has_method("_load_memo") == false : return
 	self._strat._load_memo(_memo)
 
 ## 匯出 紀錄
-func _to_memo (_memo : Dictionary, _args) :
+func _to_memo (_memo: Dictionary, _args) :
 	if self._strat == null : return {}
 	if self._strat.has_method("_to_memo") == false : return {}
 	return self._strat._to_memo(_memo, _args)

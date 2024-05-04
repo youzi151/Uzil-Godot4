@@ -42,7 +42,7 @@ func set_core (__core) :
 	return self
 
 ## 設置 資料
-func set_data (data : Dictionary) :
+func set_data (data: Dictionary) :
 	if data.has("prefab") :
 		self.set_prefab(data["prefab"])
 	if data.has("created") :
@@ -78,21 +78,21 @@ func uninitial (old_one) :
 # Public =====================
 
 ## 設置 預製物件
-func set_prefab (prefab : PackedScene) :
+func set_prefab (prefab: PackedScene) :
 	self._prefab = prefab
 	return self
 
 ## 設置 建立
-func set_created (created_fn : Callable) :
+func set_created (created_fn: Callable) :
 	self._created_fn = created_fn
 	return self
 
 ## 設置 初始化
-func set_init (initial_fn : Callable) :
+func set_init (initial_fn: Callable) :
 	self._init_fn = initial_fn
 	return self
 
 ## 設置 反初始化
-func set_uninit (uninitial_fn : Callable) :
+func set_uninit (uninitial_fn: Callable) :
 	self._uninit_fn = uninitial_fn
 	return self

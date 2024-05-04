@@ -137,18 +137,18 @@ func test_evtbus () :
 	evtbus.clear()
 	
 	# 註冊 幀聽 1號
-	var listener = evtbus.on("onTestCall", func (ctrlr) :
+	var listener = evtbus.on("onTestCall", func(ctrlr) :
 		G.print("onTestCall : listener1 : %s" % (ctrlr.data["msg"]))
 	).srt(10)
 	
 	# 註冊 幀聽 2號(待移除)
-	var listener_to_del = evtbus.on("onTestCall", func (_ctrlr) :
+	var listener_to_del = evtbus.on("onTestCall", func(_ctrlr) :
 		G.print("onTestCall : should be delete")
 	).srt(20)
 	
 	# 註冊 幀聽 3號
 	var sort = 15 # 排序
-	evtbus.on("onTestCall", self.Evt.Listener.new().fn(func (_ctrlr) :
+	evtbus.on("onTestCall", self.Evt.Listener.new().fn(func(_ctrlr) :
 		var data = _ctrlr.data
 		G.print("onTestCall : listener3 sort[%s] : msg[%s]" % [sort, data["msg"]])
 		

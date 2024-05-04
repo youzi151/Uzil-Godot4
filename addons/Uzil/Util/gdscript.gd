@@ -62,7 +62,7 @@ func get_script_from_dict (dict, name_or_path) :
 	var script
 	
 	# 若 有註冊 則 先試著 以 名稱 取得路徑 來 讀取
-	if dict.has(name_or_path):
+	if dict.has(name_or_path) :
 		var path_or_script = dict[name_or_path]
 		var typ = typeof(path_or_script)
 		if typ == TYPE_STRING :

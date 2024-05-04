@@ -70,15 +70,7 @@ var _last_scale : Vector2 = Vector2.ZERO
 
 # GDScript ===================
 
-func _init () :
-	pass
-
-# Called when the node enters the scene tree for the first time.
-func _ready () :
-	pass
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
+func _process (_dt: float) :
 	if not is_enabled : return
 	
 	# 檢查目標的scale有無變化
@@ -141,7 +133,7 @@ func sync () :
 # Private ====================
 
 ## 取得 node2d原始尺寸
-func _get_node2d_raw_size (target : Node2D) :
+func _get_node2d_raw_size (target: Node2D) :
 	
 	var size := Vector2.ZERO
 	if "texture" in target :
@@ -171,7 +163,7 @@ func _set_node2d_scale_to_size (target : Node2D, size : Vector2) :
 	return tex_size
 
 ## 重設 node2d 位置
-func _reset_node2d_position (target, node2d_size : Vector2) :
+func _reset_node2d_position (target, node2d_size: Vector2) :
 	
 	if target is Sprite2D :
 		if target.centered :
@@ -192,22 +184,22 @@ func _reset_node2d_position (target, node2d_size : Vector2) :
 		target.position = pos
 	
 
-func _connect_control (target : Control) :
+func _connect_control (target: Control) :
 	if target == null : return
 	if not target.resized.is_connected(self.sync) :
 		target.resized.connect(self.sync)
 
-func _disconnect_control (target : Control) :
+func _disconnect_control (target: Control) :
 	if target == null : return
 	if target.resized.is_connected(self.sync) :
 		target.resized.disconnect(self.sync)
 
-func _connect_node2d (target : Node2D) :
+func _connect_node2d (target: Node2D) :
 	if target == null : return
 	if not target.item_rect_changed.is_connected(self.sync) :
 		target.item_rect_changed.connect(self.sync)
 
-func _disconnect_node2d (target : Node2D) :
+func _disconnect_node2d (target: Node2D) :
 	if target == null : return
 	if target.item_rect_changed.is_connected(self.sync) :
 		target.item_rect_changed.disconnect(self.sync)

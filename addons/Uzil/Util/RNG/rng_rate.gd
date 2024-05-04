@@ -8,23 +8,23 @@
 var rng
 
 ## 比例表
-var _rates = []
+var _rates := []
 
 ## 比例總和
-var _rate_total = 0
+var _rate_total := 0
 
 ## 最小值
-var _min = 0
+var _min := 0
 
 ## 最大值
-var _max = 0
+var _max := 0
 
 ## 初始化
 func _init () :
 	self.rng = RandomNumberGenerator.new()
 
 ## 設置 機率表
-func rates (rate_arr, _is_duplicate = true) :
+func rates (rate_arr: Array, _is_duplicate := true) :
 	if _is_duplicate :
 		self._rates = rate_arr.duplicate()
 	else :
@@ -40,7 +40,7 @@ func rates (rate_arr, _is_duplicate = true) :
 	return self
 
 ## 設置 機率
-func rate (idx, _rate) :
+func rate (idx: int, _rate: int) :
 	if idx > self._rates.size() or idx < 0 : return self
 	self._rates[idx] = _rate
 	return self
@@ -73,7 +73,7 @@ func rngseed (_seed) :
 	return self
 
 ## 設置 範圍
-func minmax (min, max) :
+func minmax (min: int, max: int) :
 	# 防呆
 	if min > max :
 		var tmp = max
@@ -90,13 +90,13 @@ func minmax (min, max) :
 
 ## 產生隨機數
 func gen () :
-	var rate_size = self._rates.size()
+	var rate_size : int = self._rates.size()
 
 	if rate_size <= 1 : return 0
 
 	# 產生隨機====
 	# 在 總比例數 中 隨機取得數字
-	var rng_num = self.rng.randi_range(1, self._rate_total)
+	var rng_num : int = self.rng.randi_range(1, self._rate_total)
 
 	# 在 比例 中 遞減 直到耗盡 選出 該比例的 序號 -> 
 	for idx in range(0, rate_size) :
@@ -108,10 +108,10 @@ func gen () :
 ## 重新調整 比率表 大小
 func _resize_rates () :
 	# 目標範圍
-	var range_size = self._max - self._min + 1
+	var range_size : int = self._max - self._min + 1
 	
 	# 目標範圍 與 目前比例數量的 差距
-	var delta = range_size - self._rates.size()
+	var delta : int = range_size - self._rates.size()
 	if delta < 0 :
 		delta = 0
 	

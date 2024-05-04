@@ -36,16 +36,9 @@ var _is_syncing := false
 
 # GDScript ===================
 
-func _init () :
-	pass
-
 # Called when the node enters the scene tree for the first time.
 func _ready () :
 	self.sync.call_deferred()
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
-	pass
 
 # Extends ====================
 
@@ -84,12 +77,12 @@ func _reg_to_src (last_src, new_src) :
 	if new_src != null :
 		self._connect(new_src)
 
-func _connect (target : Control) :
+func _connect (target: Control) :
 	if target == null : return
 	if not target.resized.is_connected(self._sync_size) :
 		target.resized.connect(self._sync_size)
 
-func _disconnect (target : Control) :
+func _disconnect (target: Control) :
 	if target == null : return
 	if target.resized.is_connected(self._sync_size) :
 		target.resized.disconnect(self._sync_size)

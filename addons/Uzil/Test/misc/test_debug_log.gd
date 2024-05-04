@@ -20,7 +20,6 @@ var _is_text_changed : bool = false
 
 # GDScript ===================
 
-# Called when the node enters the scene tree for the first time.
 func _ready () :
 	if self.text_edit == null :
 		var slf : Node = self
@@ -31,7 +30,6 @@ func _ready () :
 		#G.print("fallback to %s" % self._last_scroll)
 	#)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process (_delta) :
 	
 	self._update_text()
@@ -84,7 +82,7 @@ func _unhandled_input (event) :
 # Public =====================
 
 ## 設置 文字
-func set_text (msg : String) :
+func set_text (msg: String) :
 	self._is_text_changed = true
 	self.text_edit.text = msg
 
@@ -93,7 +91,7 @@ func get_text () -> String :
 	return self.text_edit.text
 
 ## 添加 文字
-func add_text (msg : String) :
+func add_text (msg: String) :
 	if self.is_editing() :
 		self._queue_text += msg
 	else :

@@ -41,14 +41,14 @@ func set_inst (inst) :
 	self._inst = inst
 
 ## 取得 設定
-func get_setting (handler_id : String) :
+func get_setting (handler_id: String) :
 	if self.handdler_to_setting.has(handler_id) == false : 
 		return null
 	return self.handdler_to_setting[handler_id]
 
 
 ## 設置 設定
-func set_setting (handler_id : String, data : Dictionary) :
+func set_setting (handler_id: String, data: Dictionary) :
 	self.handdler_to_setting[handler_id] = data
 	for layer in self._inst.get_layers() :
 		var handler = layer.get_handler(handler_id)
@@ -58,7 +58,7 @@ func set_setting (handler_id : String, data : Dictionary) :
 
 
 ## 覆寫 設定
-func override_setting (handler_id : String, data : Dictionary) :
+func override_setting (handler_id: String, data: Dictionary) :
 	var exist : Dictionary
 	if (self.handdler_to_setting.has(handler_id)) :
 		exist = self.handdler_to_setting[handler_id]

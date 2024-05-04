@@ -13,15 +13,10 @@ var label : RichTextLabel = null
 
 # GDScript ===================
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	self.bg = self.get_node(self.bg_npath)
 	self.inner = self.get_node(self.inner_npath)
 	self.label = self.get_node(self.label_npath)
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_dt):
-	pass
 
 # Extends ====================
 

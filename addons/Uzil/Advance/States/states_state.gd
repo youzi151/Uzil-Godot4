@@ -39,9 +39,6 @@ func _init (_strat_or_script_id) :
 		
 	self._is_inited = true
 
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
-	pass
 
 # Extends ====================
 
@@ -66,7 +63,7 @@ func process (_dt) :
 			self._strat.process(_dt)
 
 ## 設置 ID
-func set_id (_id : String) :
+func set_id (_id: String) :
 	self.id = _id
 	return self
 

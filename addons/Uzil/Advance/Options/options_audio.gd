@@ -18,14 +18,6 @@ var bus_to_volume := {}
 
 # GDScript ===================
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_dt):
-	pass
-
 # Extends ====================
 
 # Public =====================
@@ -58,7 +50,7 @@ func load_config (file_path := "") :
 		
 
 ## 設置 混和器 音量
-func set_bus_volume (bus_id : String, volume_linear : float, is_save_to_config := true) :
+func set_bus_volume (bus_id: String, volume_linear: float, is_save_to_config := true) :
 	var audio = UREQ.acc("Uzil", "audio")
 	
 	audio.set_bus_volume(bus_id, volume_linear)

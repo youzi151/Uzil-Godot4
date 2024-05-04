@@ -21,7 +21,7 @@ func handle_msg (input_msg) :
 	return input_msg
 
 ## 讀取
-func load_memo (_memo : Dictionary) :
+func load_memo (_memo: Dictionary) :
 	pass
 
 # Private ====================

@@ -11,15 +11,15 @@ extends Node
 # Variable ===================
 
 ## 根路徑
-const ROOT_PATH = "res://addons/Uzupdater"
+const ROOT_PATH := "res://addons/Uzupdater"
 
 ## 腳本路徑
-const PATH = ROOT_PATH + "/Scripts"
+const PATH := ROOT_PATH + "/Scripts"
 
 ## 靜態腳本路徑
-const STATIC_PATH = PATH + "/static"
+const STATIC_PATH := PATH + "/static"
 ## 可更新腳本路徑
-const UPDATABLE_PATH = PATH + "/updatable"
+const UPDATABLE_PATH := PATH + "/updatable"
 
 ## 任務
 var Task
@@ -56,7 +56,7 @@ func _init () :
 	# 讀取 內容層
 	self.reload_content()
 
-func _process (_dt) :
+func _process (_dt: float) :
 	for each in self._process_fn_list :
 		each.call(_dt)
 
@@ -65,7 +65,7 @@ func _process (_dt) :
 # Public =====================
 
 ## 開始更新
-func start_update (_on_done_fn = null) :
+func start_update (_on_done_fn: Callable = Callable()) :
 	
 	# 任務
 	var task = self.Task.new()
@@ -76,18 +76,18 @@ func start_update (_on_done_fn = null) :
 		
 		task.is_done = true
 		
-		if _on_done_fn != null :
+		if not _on_done_fn.is_null() :
 			_on_done_fn.call()
 	)
 	
 	return task
 
 ## 讀取 腳本
-func load_script (path) :
+func load_script (path: String) :
 	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
 
 ## 讀取 更新器
-func load_updater (file_name, _is_updatable = true) :
+func load_updater (file_name: String, _is_updatable := true) :
 	var dir : String = self.STATIC_PATH
 	if _is_updatable : 
 		dir = self.UPDATABLE_PATH
@@ -98,12 +98,12 @@ func reload_content () :
 #	print("reload_content")
 	self.config = self.load_script(self.UPDATABLE_PATH.path_join("uzupdater_config.gd")).new(self)
 
-func on_process (_on_process : Callable) :
+func on_process (_on_process: Callable) :
 	if self._process_fn_list.has(_on_process) : return _on_process
 	self._process_fn_list.push_back(_on_process)
 	return _on_process
 
-func off_process (_on_process : Callable) :
+func off_process (_on_process: Callable) :
 	if not self._process_fn_list.has(_on_process) : return
 	self._process_fn_list.erase(_on_process)
 

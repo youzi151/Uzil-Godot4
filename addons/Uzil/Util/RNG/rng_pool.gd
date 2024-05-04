@@ -43,13 +43,13 @@ func _init () :
 	self._rng_rate = RNG.Rate.new()
 
 # 設置 機率表
-func rates (rate_arr) :
+func rates (rate_arr: Array) :
 	self._rates = rate_arr.duplicate()
 	self._resize_rates()
 	return self
 
 # 設置 機率
-func rate (idx, _rate) :
+func rate (idx: int, _rate: int) :
 	if idx > self._rates.size() or idx < 0 : return
 	self._rates[idx] = _rate
 	return self
@@ -66,7 +66,7 @@ func rngseed (_seed = null) :
 	return self
 
 # 設置 範圍
-func size (_size) :
+func size (_size: int) :
 	# 防呆
 	if _size < 0 :
 		_size = 0
@@ -80,10 +80,10 @@ func size (_size) :
 	return self
 
 # 設置 範圍
-func minmax (min, max) :
+func minmax (min: int, max: int) :
 	# 防呆
 	if min > max :
-		var tmp = max
+		var tmp : int = max
 		max = min
 		min = tmp
 	
@@ -96,7 +96,7 @@ func minmax (min, max) :
 	return self
 
 # 設置 循環類型
-func loop (typ) :
+func loop (typ: LoopType) :
 	self._loop_type = typ
 	self.reset()
 	return self
@@ -122,7 +122,7 @@ func next () :
 	if self._peeked_idx == null : return res
 	
 	# 從池中移除
-	var left_count = self._pool[self._peeked_idx]
+	var left_count : int = self._pool[self._peeked_idx]
 	left_count -= 1
 	if left_count <= 0 :
 		self._pool.erase(self._peeked_idx)
@@ -201,7 +201,7 @@ func _gen_idx () :
 	return target_idx
 
 
-func _get_res (idx) :
+func _get_res (idx: int) :
 	return self._min + idx
 
 func _get_offseted_seed (seed) :
@@ -211,7 +211,7 @@ func _get_offseted_seed (seed) :
 # 重新調整 比率表 大小
 func _resize_rates () :
 	# 目標範圍
-	var range_size = self._max - self._min + 1
+	var range_size : int = self._max - self._min + 1
 	
 	# 目標範圍 與 目前比例數量的 差距
 	var delta : int = range_size - self._rates.size()

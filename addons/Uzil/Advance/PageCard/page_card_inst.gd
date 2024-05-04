@@ -57,9 +57,6 @@ func _init () :
 	self._current_page = self._root_page
 	self._page_stack.push_back(self._root_page)
 
-func _process (_dt) :
-	pass
-
 # Public =====================
 
 ## 註冊 頁面
@@ -95,7 +92,7 @@ func get_root_page () :
 	return self._root_page
 
 ## 取得 頁面
-func get_page (page_id : String = "") :
+func get_page (page_id: String = "") :
 	if page_id == "" : return self._current_page
 	if page_id == "_root" : return self._root_page
 	
@@ -127,7 +124,7 @@ func get_pages () :
 	return self._pages.duplicate()
 
 ## 取得 卡片
-func get_card (card_id : String) :
+func get_card (card_id: String) :
 	# 是否需要順便更新
 	var is_need_update := false
 	
@@ -193,7 +190,7 @@ func restart () :
 	self.refresh()
 
 ## 頁面 開啟
-func open (page_id : String, data : Dictionary = {}) :
+func open (page_id: String, data := {}) :
 	var next_page = self.get_page(page_id)
 	if next_page == null : return false
 	if next_page == self._current_page : return false
@@ -225,7 +222,7 @@ func open (page_id : String, data : Dictionary = {}) :
 	
 
 ## 頁面 返回
-func back (until_page_id : String = "", data : Dictionary = {}) :
+func back (until_page_id: String = "", data := {}) :
 	#G.print("self._page_stack")
 	#G.print(self._page_stack.map(func(a):return a.id))
 	
@@ -275,7 +272,7 @@ func back (until_page_id : String = "", data : Dictionary = {}) :
 		await each.deactive(data)
 
 ## 頁面 變更
-func change (page_id : String, data : Dictionary = {}) :
+func change (page_id: String, data := {}) :
 	var next_page = self.get_page(page_id)
 	if next_page == null : return
 	if next_page == self._current_page : return
@@ -305,7 +302,7 @@ func change (page_id : String, data : Dictionary = {}) :
 	if not self._page_stack.has(last_page) :
 		await last_page.deactive(data)
 
-func nav (page_id, options : Dictionary = {}) :
+func nav (page_id, options := {}) :
 	#G.print("self._page_stack")
 	#G.print(self._page_stack.map(func(a):return a.id))
 	
@@ -451,7 +448,7 @@ func refresh (transition_fn = null, transition_data := {}) :
 	
 	var Util = UREQ.acc("Uzil", "Util")
 	await Util.async.waterfall([
-		func (ctrlr) :
+		func(ctrlr) :
 			# 若 有 轉場行為 則 轉呼叫
 			if transition_fn != null : 
 				
@@ -476,15 +473,15 @@ func refresh (transition_fn = null, transition_data := {}) :
 				ctrlr.next.call()
 			,
 		# 最終 (若不要, 可以在transition_fn的回傳is_skip=true)
-		func (ctrlr) :
+		func(ctrlr) :
 			# 啟用 要啟用的
-			await Util.async.each(to_active, func (idx, each, each_ctrlr) :
+			await Util.async.each(to_active, func(idx, each, each_ctrlr) :
 				await each.active()
 				each_ctrlr.next.call()
 			)
 			
 			# 關閉 要關閉的
-			await Util.async.each(to_deactive, func (idx, each, each_ctrlr) :
+			await Util.async.each(to_deactive, func(idx, each, each_ctrlr) :
 				await each.deactive()
 				each_ctrlr.next.call()
 			)
@@ -493,7 +490,7 @@ func refresh (transition_fn = null, transition_data := {}) :
 	])
 
 ## 設置 頁面樹
-func set_page_tree (tree_dict : Dictionary) :
+func set_page_tree (tree_dict: Dictionary) :
 	var queue := [[self._root_page.id, tree_dict]]
 	
 	#G.print("set_page_tree========")
@@ -514,7 +511,7 @@ func set_page_tree (tree_dict : Dictionary) :
 	self.calculate_page_tree()
 
 ## 設置 頁面樹中 頁面的後續頁面
-func set_page_next (page_or_id, next_pages : Array) :
+func set_page_next (page_or_id, next_pages: Array) :
 	var page = self._get_target_page(page_or_id)
 	if page == null : return
 	

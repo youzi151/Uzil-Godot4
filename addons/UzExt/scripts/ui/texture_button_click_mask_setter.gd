@@ -61,7 +61,7 @@ func _ready () :
 	self.refresh()
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
+func _process (_dt: float) :
 	if Engine.is_editor_hint() : return
 	
 	if self.mode == TextureSetMode.NODE :

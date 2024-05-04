@@ -60,15 +60,6 @@ func _init (_dont_set_in_scene) :
 		Times.Priority.CONFIG
 	)
 
-# Called when the node enters the scene tree for the first time.
-func _ready () :
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_delta) :
-	pass
-
 func _notification (msg) :
 	# 若在 背景中計時 則 忽略
 	if self._is_timing_in_background_vals.current() : return
@@ -138,7 +129,7 @@ func pause () :
 
 
 ## 繼續
-func _resume (is_auto_pause : bool) :
+func _resume (is_auto_pause: bool) :
 	var is_timing_last : bool = self._is_timing_vals.current()
 	#print("resume")
 	#print(self._is_timing_vals.current())
@@ -157,7 +148,7 @@ func _resume (is_auto_pause : bool) :
 		
 
 ## 暫停
-func _pause (is_auto_pause : bool) :
+func _pause (is_auto_pause: bool) :
 	var is_timing_last : bool = self._is_timing_vals.current()
 	
 	self._is_auto_pause = is_auto_pause

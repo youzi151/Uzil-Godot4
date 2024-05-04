@@ -50,7 +50,6 @@ var test_scene_title : RichTextLabel
 ## 已讀取的場景
 var loaded_scene : Node
 
-# Called when the node enters the scene tree for the first time.
 func _ready () :
 	
 	# 取得設定場景
@@ -63,8 +62,7 @@ func _ready () :
 	self.select_panel.visible = true
 	self.test_scene_panel.visible = false
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process (delta: float) :
 	
 	var vbar = self.scroll_container.get_v_scroll_bar()
 	vbar.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE ,Control.PRESET_MODE_KEEP_SIZE)
@@ -86,7 +84,7 @@ func on_back_btn () :
 	self.go_test(self.current_test_data_dir.parent)
 
 ## 前往 測試 (目錄或場景)
-func go_test (test_data : Dictionary) :
+func go_test (test_data: Dictionary) :
 	# 若 為 測試場景 則 開啟測試場景
 	if test_data.has("scene") :
 		self._open_test_scene(test_data)
@@ -105,7 +103,7 @@ func go_test (test_data : Dictionary) :
 		self.back_btn.visible = false
 
 ## 開啟 測試目錄
-func _open_test_dir (test_data : Dictionary) :
+func _open_test_dir (test_data: Dictionary) :
 	
 	# 清除 舊的
 	for each in self.current_sub_test_nodes :
@@ -125,7 +123,7 @@ func _open_test_dir (test_data : Dictionary) :
 	
 
 ## 開啟 測試場景
-func _open_test_scene (test_data : Dictionary) :
+func _open_test_scene (test_data: Dictionary) :
 	
 	var scene : PackedScene = test_data.scene
 	var node : Node = test_data.node
@@ -147,7 +145,7 @@ func _open_test_scene (test_data : Dictionary) :
 
 
 ## 取得 測試資料
-func _get_test_data (node : Node) :
+func _get_test_data (node: Node) :
 	
 	# 測試資料
 	var test_data := {
@@ -173,14 +171,14 @@ func _get_test_data (node : Node) :
 	return test_data
 
 ## 新增 按鈕
-func _add_btn (name : String, test_data : Dictionary) :
+func _add_btn (name: String, test_data: Dictionary) :
 	# 按鈕
 	var btn := Button.new()
 	btn.custom_minimum_size = Vector2(300, 50)
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	#btn.text = "%s (%s)" % [name, scene.resource_path.get_file().get_basename()]
 	btn.text = "%s" % [name]
-	btn.pressed.connect(func () :
+	btn.pressed.connect(func():
 		self.go_test(test_data)
 	)
 	

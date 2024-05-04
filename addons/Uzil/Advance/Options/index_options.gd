@@ -10,7 +10,7 @@ class OptsKit :
 	var display
 	var audio
 	var _path : String = ""
-	func _init (path : String) :
+	func _init (path: String) :
 		self._path = path
 	func load_config () :
 		self.game.load_config(self._path)
@@ -47,7 +47,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Advance.Options",
-		func () :
+		func():
 			self.Game = Uzil.load_script(self.PATH.path_join("options_game.gd"))
 			self.Display = Uzil.load_script(self.PATH.path_join("options_display.gd"))
 			self.Audio = Uzil.load_script(self.PATH.path_join("options_audio.gd"))
@@ -59,7 +59,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 工具組
 	UREQ.bind("Uzil", "options",
-		func () :
+		func():
 			return self.create_kit(),
 		{
 			"requires" : ["Advance.Options"],

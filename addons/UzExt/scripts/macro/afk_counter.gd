@@ -18,12 +18,7 @@ var afk_time_sec : float = -1.0
 
 # GDScript ===================
 
-# Called when the node enters the scene tree for the first time.
-func _ready () :
-	pass
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process (_dt) :
+func _process (_dt: float) :
 	if not self.is_enabled : return
 	
 	if Input.is_anything_pressed() :

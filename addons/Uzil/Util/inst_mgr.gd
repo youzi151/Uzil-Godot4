@@ -14,7 +14,7 @@ var create_inst_fn : Callable
 
 # GDScript ===================
 
-func _init (create_fn : Callable) :
+func _init (create_fn: Callable) :
 	self.create_inst_fn = create_fn
 
 # Extends ====================

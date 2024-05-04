@@ -154,7 +154,7 @@ func get_time () -> float :
 	return self.audio_player.get_playback_position()
 
 ## 設置 資料
-func set_data (data : Dictionary) :
+func set_data (data: Dictionary) :
 	if data.has("time") :
 		self.set_time(data["time"])
 	
@@ -184,17 +184,17 @@ func set_data (data : Dictionary) :
 		self._process_volume()
 
 ## 設置 時間
-func set_time (time : float) :
+func set_time (time: float) :
 	self.audio_player.seek(time)
 
 ## 設置 音效bus
-func set_bus (bus : String) -> bool :
+func set_bus (bus: String) -> bool :
 	self.audio_player.bus = bus
 	self.mgr.request_bus(bus)
 	return self.audio_player.bus == bus
 
 ## 加入 層級
-func add_layer (layer_id : String) :
+func add_layer (layer_id: String) :
 	if self._layers.has(layer_id) : return
 	self._layers.push_back(layer_id)
 	
@@ -204,12 +204,12 @@ func add_layer (layer_id : String) :
 	self.update_layered()
 
 ## 加入 層級
-func add_layers (layer_id_list : Array) :
+func add_layers (layer_id_list: Array) :
 	for layer_id in layer_id_list :
 		self.add_layer(layer_id)
 
 ## 移除 層級
-func del_layer (layer_id : String) :
+func del_layer (layer_id: String) :
 	if self._layers.has(layer_id) : return
 	self._layers.push_back(layer_id)
 	
@@ -288,7 +288,7 @@ func _get_layered_is_pause () -> bool :
 	
 	return is_pause
 
-func _process_volume (_dt : float = -1.0) :
+func _process_volume (_dt: float = -1.0) :
 	
 	var Util = UREQ.acc("Uzil", "Util")
 	

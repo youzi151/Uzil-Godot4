@@ -5,7 +5,7 @@
 ## 
 
 ## 轉換 百分比 至 分貝
-func percent_to_db (linear) -> float :
+func percent_to_db (linear: float) -> float :
 	if linear > 0 :
 		return log(linear) * 20.0
 	else :
@@ -13,7 +13,7 @@ func percent_to_db (linear) -> float :
 		
 
 ## 轉換 分貝 至 百分比
-func db_to_percent (db) -> float :
+func db_to_percent (db: float) -> float :
 	if db != 0 : 
 		return pow(10.0, db / 20.0)
 	else :

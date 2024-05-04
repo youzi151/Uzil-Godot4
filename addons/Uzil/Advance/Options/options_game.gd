@@ -19,14 +19,6 @@ var _is_run_in_background := false
 
 # GDScript ===================
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_dt):
-	pass
-
 # Extends ====================
 
 # Public =====================
@@ -56,7 +48,7 @@ func get_run_in_background () -> bool :
 	return self._is_run_in_background
 
 ## 設置 背景執行
-func set_run_in_background (is_run_in_background : bool, is_save_to_config : bool = true) :
+func set_run_in_background (is_run_in_background: bool, is_save_to_config := true) :
 	
 	# 設置 自己 的 是否在背景中執行
 	self._is_run_in_background = is_run_in_background
@@ -75,7 +67,7 @@ func get_language () -> String :
 	return lang.code
 
 ## 設置 邊框
-func set_language (lang_code_or_name : String, is_save_to_config := true) :
+func set_language (lang_code_or_name: String, is_save_to_config := true) :
 	# 設置 語言
 	var i18n = UREQ.acc("Uzil", "i18n")
 	i18n.change_language(lang_code_or_name)

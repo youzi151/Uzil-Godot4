@@ -25,7 +25,7 @@ var on_chain_change = null
 
 # GDScript ===================
 
-func _init (__inst_key : String) :
+func _init (__inst_key: String) :
 	
 	self._inst_key = __inst_key
 	
@@ -48,7 +48,7 @@ func get_current () :
 	return self._current_chain
 
 ## 設置 閒置 鏈節點
-func set_idle_chain (chain_id : String) :
+func set_idle_chain (chain_id: String) :
 	self._idle_chain_id = chain_id
 
 ## 取得 鏈節點
@@ -65,7 +65,7 @@ func add_chain (chain) :
 	return self
 
 ## 建立 新 鏈節點
-func new_chain (prefer_chain_id : String, script_name : String, data := {}) :
+func new_chain (prefer_chain_id: String, script_name: String, data := {}) :
 	
 	var UINav = UREQ.acc("Uzil", "Advance.UINav")
 	var Util = UREQ.acc("Uzil", "Util")
@@ -88,7 +88,7 @@ func new_chain (prefer_chain_id : String, script_name : String, data := {}) :
 	return chain
 
 ## 移除 鏈節點
-func del_chain (chain_id : String) :
+func del_chain (chain_id: String) :
 	var exist = self.get_chain(chain_id)
 	if exist == null : return
 	self._chains.erase(exist)

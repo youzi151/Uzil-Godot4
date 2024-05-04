@@ -71,7 +71,7 @@ func _target_index () :
 	self.Inst = self.Uzil.load_script(self.PATH.path_join("times_inst.gd"))
 	self.Mgr = self.Uzil.load_script(self.PATH.path_join("times_mgr.gd"))
 	
-	self.Uzil.on_notification.on(func (_ctrlr):
+	self.Uzil.on_notification.on(func(_ctrlr):
 		if not self.is_effect_to_godot_process : return
 		
 		var what = _ctrlr.data["what"]

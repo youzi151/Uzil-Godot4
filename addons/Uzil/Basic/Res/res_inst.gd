@@ -45,11 +45,6 @@ func _init () :
 	
 	self.default_loader = self.built_in_loader
 
-# Called when the node enters the scene tree for the first time.
-func _ready () :
-	pass
-
-## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process (_dt) :
 	self.built_in_loader.process(_dt)
 
@@ -60,7 +55,7 @@ func _process (_dt) :
 # Public =====================
 
 ## 設置 讀取器
-func set_loader (id : String, loader) :
+func set_loader (id: String, loader) :
 	if id == "" :
 		if loader != null :
 			self.default_loader = loader
@@ -73,7 +68,7 @@ func set_loader (id : String, loader) :
 # Hold/Drop =========
 
 ## 持有
-func hold (full_path : String, holder = null, options = null) :
+func hold (full_path: String, holder = null, options = null) :
 	
 	# 讀取器
 	var loader = self.default_loader
@@ -135,7 +130,7 @@ func drop (res_info, holder) :
 # Prehold ===========
 
 ## 預載
-func prehold (full_path : String, options = null) :
+func prehold (full_path: String, options = null) :
 	
 	var loader_id := ""
 	
@@ -161,7 +156,7 @@ func prehold (full_path : String, options = null) :
 	return res_info
 
 ## 解除預載
-func unprehold (full_path : String, loader_id : String = "") :
+func unprehold (full_path: String, loader_id: String = "") :
 	var loader = self.default_loader
 	# 建構ID
 	var id = self.make_res_info_id(full_path, loader_id)
@@ -180,7 +175,7 @@ func unprehold (full_path : String, loader_id : String = "") :
 # Preset ============
 
 ## 持有 配置
-func prehold_preset (preset_path : String) -> bool :
+func prehold_preset (preset_path: String) -> bool :
 	
 	self._print("prehold_preset ===========")
 	
@@ -239,7 +234,7 @@ func prehold_preset (preset_path : String) -> bool :
 	
 
 ## 釋放 預載配置
-func unprehold_preset (preset_path : String) :
+func unprehold_preset (preset_path: String) :
 	# 試取得 為 檔案路徑
 	var file_path = self.get_file_path_if_is(preset_path)
 	if file_path != null : preset_path = file_path
@@ -250,7 +245,7 @@ func unprehold_preset (preset_path : String) :
 
 
 ## 蒐集 配置相關資訊 (回傳 路徑:資訊表)
-func collect_preset_info (preset_path : String, path_to_info : Dictionary = {}, preset_path_to_file_path : Dictionary = {}) :
+func collect_preset_info (preset_path: String, path_to_info: Dictionary = {}, preset_path_to_file_path := {}) :
 	
 	# 試取得 為 檔案路徑
 	var file_path = self.get_file_path_if_is(preset_path)
@@ -301,7 +296,7 @@ func collect_preset_info (preset_path : String, path_to_info : Dictionary = {}, 
 	return path_to_info
 
 ## 取得 排序後的 配置資訊
-func get_sorted_preset_info (preset_path : String) :
+func get_sorted_preset_info (preset_path: String) :
 	
 	# 蒐集 配置相關資訊 (包含該配置的依賴, 以及依賴的依賴...等)
 	var preset_path_to_info = await self.collect_preset_info(preset_path)
@@ -370,7 +365,7 @@ func get_sorted_preset_info (preset_path : String) :
 # Utility ===========
 
 ## 取得 檔案路徑 若為檔案路徑
-func get_file_path_if_is (full_path : String) :
+func get_file_path_if_is (full_path: String) :
 	
 	# 從 快取 找
 	if self.path_to_file_path.has(full_path) :
@@ -398,7 +393,7 @@ func get_file_path_if_is (full_path : String) :
 	return file_path
 
 ## 建立 資源資訊 辨識
-func make_res_info_id (full_path : String, loader_id : String) :
+func make_res_info_id (full_path: String, loader_id: String) :
 	if loader_id.is_empty() : 
 		loader_id = "_"
 	return "%s|%s" % [loader_id, full_path]
@@ -406,7 +401,7 @@ func make_res_info_id (full_path : String, loader_id : String) :
 # Private ====================
 
 ## 取得 配置持有者
-func get_preset_holder (preset_path : String) -> String :
+func get_preset_holder (preset_path: String) -> String :
 	return "_preset:%s" % preset_path
 
 ## 偵錯

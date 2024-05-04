@@ -8,7 +8,6 @@ var debug_log : Node = null
 
 # GDScript ===================
 
-# Called when the node enters the scene tree for the first time.
 func _ready () :
 	G.on_print(func(msg):
 		self.debug_log.add_text(msg + "\n")

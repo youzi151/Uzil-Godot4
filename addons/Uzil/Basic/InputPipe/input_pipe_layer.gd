@@ -50,7 +50,7 @@ func active (_is_active := true) :
 	self.is_active = _is_active
 
 ## 設置 排序
-func sort (sort : int, _is_update_inst_sort := true) :
+func sort (sort: int, _is_update_inst_sort := true) :
 	self._sort = sort
 	if _is_update_inst_sort :
 		self._inst.sort_layers()
@@ -76,7 +76,7 @@ func handle_msg (input_msg) :
 		
 
 ## 以 虛擬key 取得 輸入訊號
-func get_msg (vkey : int) :
+func get_msg (vkey: int) :
 	if self._vkey_to_msg.has(vkey) == false : return null
 	return self._vkey_to_msg[vkey]
 	
@@ -93,7 +93,7 @@ func get_handlers () -> Array :
 	return self._handlers
 
 ## 取得 處理器
-func get_handler (handler_id : String) :
+func get_handler (handler_id: String) :
 	if self._id_to_handler.has(handler_id) :
 		return self._id_to_handler[handler_id] 
 	else :
@@ -116,7 +116,7 @@ func new_handler (id, name_or_path, data) :
 	return handler
 
 ## 移除 處理器
-func del_handler (handler_id : String) :
+func del_handler (handler_id: String) :
 	if not self._id_to_handler.has(handler_id) : return
 	
 	var exist = self._id_to_handler[handler_id]
@@ -128,14 +128,14 @@ func del_handler (handler_id : String) :
 # 輸入 #########
 
 ## 取得 輸入訊號
-func get_input (vkey : int) :
+func get_input (vkey: int) :
 	if self._vkey_to_msg.has(vkey) : 
 		return self._vkey_to_msg[vkey]
 	else : 
 		return null
 
 ## 新增 當 輸入 偵聽
-func on_input (vkey : int, evtlistener_or_fn) :
+func on_input (vkey: int, evtlistener_or_fn) :
 	var Evt = null
 	var evtlistener = evtlistener_or_fn
 	if typeof(evtlistener_or_fn) == TYPE_CALLABLE :
@@ -155,14 +155,14 @@ func on_input (vkey : int, evtlistener_or_fn) :
 	return evtlistener
 	
 ## 移除 當 輸入 偵聽
-func off_input (vkey : int, evtlistener_or_tag) :
+func off_input (vkey: int, evtlistener_or_tag) :
 	if not self._vkey_to_event.has(vkey) : return
 	self._vkey_to_event[vkey].off(evtlistener_or_tag)
 
 ## 註冊事件 來源處理器 以及 當輸入偵聽
 # 僅方便設置 src_key直接轉為vkey 以及 註冊事件. [br]
 # 所以有可能會有 其他自定義vkey與src_key重複的可能, 須注意.
-func on_input_src (src_and_vkey : int, evtlistener_or_fn) :
+func on_input_src (src_and_vkey: int, evtlistener_or_fn) :
 	var handler_id := "_src_input_handler.%s" % src_and_vkey
 	var handler = self.get_handler(handler_id)
 	if handler == null :
@@ -176,7 +176,7 @@ func on_input_src (src_and_vkey : int, evtlistener_or_fn) :
 ## 移除 來源處理器 以及 當輸入偵聽
 # 若只是移除偵聽, 可比照依般off_input處理. [br]
 # 此處為 連同src_key直接轉為vkey的handler一起移除.
-func off_input_src (src_and_vkey : int, evtlistener_or_tag) :
+func off_input_src (src_and_vkey: int, evtlistener_or_tag) :
 	var handler_id := "_src_input_handler.%s" % src_and_vkey
 	self.del_handler(handler_id)
 	

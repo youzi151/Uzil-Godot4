@@ -21,7 +21,7 @@ var tasks : Array = []
 
 # GDScript ===================
 
-func _init (key : String = "_") :
+func _init (key: String = "_") :
 	self.Uzil = UREQ.acc("Uzil", "Uzil")
 	self.Invoker = UREQ.acc("Uzil", "Invoker")
 	
@@ -93,11 +93,11 @@ func get_times_inst () :
 	return self._times_inst
 
 ## 等候
-func wait (delay_ms : int) :
+func wait (delay_ms: int) :
 	await self.once(func():pass, delay_ms).on_done
 
 ## 單次執行
-func once (fn, delay_ms : int = 0) :
+func once (fn, delay_ms: int = 0) :
 	var task = self.Invoker.Task.new()
 	task.fn = fn
 	task.calltime_ms = self._time_now() + delay_ms
@@ -109,7 +109,7 @@ func once (fn, delay_ms : int = 0) :
 	return task
 
 ## 間隔執行
-func interval (fn, interval_ms : int) :
+func interval (fn, interval_ms: int) :
 	var task = self.Invoker.Task.new()
 	task.fn = fn
 	task.calltime_ms = self._time_now() + interval_ms
@@ -131,7 +131,7 @@ func update (fn) :
 	return task
 
 ## 該影格僅執行一次 (以tag取代而不重複，若有排序需求建議使用Vals替代)
-func frame (fn, _tag : String = "", _priority = 0) :
+func frame (fn, _tag: String = "", _priority :int = 0) :
 	
 	var is_cancel = false
 	

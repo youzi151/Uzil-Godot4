@@ -42,7 +42,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 索引
 	UREQ.bind("Uzil", "Basic.I18N",
-		func () :
+		func():
 			self.Inst = Uzil.load_script(self.PATH.path_join("i18n_inst.gd"))
 			self.Trans = Uzil.load_script(self.PATH.path_join("i18n_translator.gd"))
 			self.Task = Uzil.load_script(self.PATH.path_join("i18n_task.gd"))
@@ -59,7 +59,7 @@ func index (Uzil, _parent_index) :
 	
 	# 綁定 實體
 	UREQ.bind("Uzil", "i18n",
-		func () :
+		func():
 			return self.create_inst(Uzil),
 		{
 			"requires" : ["Basic.I18N"],

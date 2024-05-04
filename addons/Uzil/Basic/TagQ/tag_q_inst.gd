@@ -43,7 +43,7 @@ func clear () :
 	self._cache_target_to_tags_values.clear()
 
 ## 設置 標籤
-func set_tags (target, tags : Array) :
+func set_tags (target, tags: Array) :
 	var total_tag_datas := []
 	for tag in tags :
 		var tag_datas = self.parse_tags(tag)
@@ -52,7 +52,7 @@ func set_tags (target, tags : Array) :
 	self.set_datas(target, total_tag_datas)
 
 ## 設置 資料
-func set_datas (target, tag_datas : Array) :
+func set_datas (target, tag_datas: Array) :
 	var verified := []
 	for each in tag_datas :
 		if each.get_script() == self.TagData :
@@ -67,12 +67,12 @@ func get_datas (target) :
 	return tag_datas.duplicate()
 
 ## 以字串搜尋
-func search (search_str : String) -> Dictionary :
+func search (search_str: String) -> Dictionary :
 	var search_data = self.parse_search_str(search_str)
 	return self.search_tags(search_data.tags)
 
 ## 以Tags搜尋
-func search_tags (to_search_tags : Array) -> Dictionary :
+func search_tags (to_search_tags: Array) -> Dictionary :
 	
 	# 結果 目標資料:標籤資料列表
 	var result_target_to_tag_datas := {}
@@ -190,7 +190,7 @@ func gen_cache () :
 	self._is_cached = true
 
 ## 解析 搜尋字串
-func parse_search_str (search_str : String) -> Dictionary :
+func parse_search_str (search_str: String) -> Dictionary :
 	
 	# 結果 解析後的標籤資料列表
 	var result_tags := self.parse_tags(search_str)
@@ -200,7 +200,7 @@ func parse_search_str (search_str : String) -> Dictionary :
 	}
 
 ## 解析 標籤 (可複數)
-func parse_tags (to_parse_str : String) -> Array :
+func parse_tags (to_parse_str: String) -> Array :
 	
 	# 正則相符結果 (重複使用)
 	var matches : Array[RegExMatch]
@@ -272,7 +272,7 @@ func parse_tags (to_parse_str : String) -> Array :
 
 
 ## 解析 標籤
-func parse_tag (tags_str : String) -> Array :
+func parse_tag (tags_str: String) -> Array :
 	var tag_data_list := []
 	
 	var matches : Array[RegExMatch]
@@ -348,17 +348,17 @@ func is_attr (tag, attr) -> bool :
 	return tag_data.attr.find(attr) != -1
 
 ## 辨識ID是否相等
-func id_equal (id_a : String, id_b : String) -> bool :
+func id_equal (id_a: String, id_b: String) -> bool :
 	if id_a == self.config.SIGN_ANY or id_b == self.config.SIGN_ANY : return true
 	return id_a == id_b
 
 ## 所屬是否相等
-func scope_equal (scope_a : String, scope_b : String) -> bool :
+func scope_equal (scope_a: String, scope_b: String) -> bool :
 	if scope_a == self.config.SIGN_ANY or scope_b == self.config.SIGN_ANY : return true
 	return scope_a == scope_b
 
 ## 去除頭尾空白
-func _without_begin_end_space (text : String) -> String :
+func _without_begin_end_space (text: String) -> String :
 	var regex_match = self._config.no_begin_end_space_regex.search(text)
 	if regex_match == null : return text
 	return regex_match.get_string()

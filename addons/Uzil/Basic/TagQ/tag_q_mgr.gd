@@ -18,10 +18,6 @@ var default_config = null
 func _init (_dont_set_in_scene) :
 	var TagQ = UREQ.acc("Uzil", "TagQ")
 
-func _process (_dt) :
-	pass
-
-
 # Public =====================
 
 func inst (key := "_") :

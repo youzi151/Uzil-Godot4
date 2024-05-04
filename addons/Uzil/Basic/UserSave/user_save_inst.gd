@@ -51,24 +51,24 @@ func set_setting (_setting) :
 
 ## 讀取 字典 值 (若可以則優先讀取快取)
 # 考慮到穩定性, 不考慮 非字典中值路徑 的狀況
-func read (path : String, route : String = "", options := {}) :
+func read (path: String, route: String = "", options := {}) :
 	var content = self.reads(path, [route], options)
 	if content == null : return null
 	if not content.has(route) : return null
 	return content[route]
 
 ## 讀取 字典 值 以 多個路徑
-func reads (file_path : String, routes : Array, options := {}) :
+func reads (file_path: String, routes: Array, options := {}) :
 	var readed = self.strat.read(self, file_path, routes, options)
 	return readed
 
 ## 寫入 字典 值
 # 考慮到穩定性, 不考慮 非字典中值路徑 的狀況
-func write (file_path : String, route : String, val, options := {}) :
+func write (file_path: String, route: String, val, options := {}) :
 	self.writes(file_path, {route:val}, options)
 
 ## 寫入 字典 值 以 多個路徑:值
-func writes (file_path : String, route_to_val : Dictionary, options := {}) :
+func writes (file_path: String, route_to_val: Dictionary, options := {}) :
 	# 若 只有一個 且為 空鍵 則 標記為 整個寫入
 	if route_to_val.size() == 1 and route_to_val.has("") :
 		options["full_content"] = true
@@ -83,7 +83,7 @@ func _get_regular_path (file_path) -> String :
 	return self._base_path.format(path_var).simplify_path()
 
 ## 是否使用快取
-func _is_allow_cache (options : Dictionary) -> bool :
+func _is_allow_cache (options: Dictionary) -> bool :
 	if "allow_cache" in options :
 		return options["allow_cache"]
 	elif self.setting.flags.has("allow_cache") :
@@ -91,7 +91,7 @@ func _is_allow_cache (options : Dictionary) -> bool :
 	return true
 
 ## 取得 內容 值
-func _get_content_val (file_content : Dictionary, route_parts : Array, options : Dictionary) :
+func _get_content_val (file_content: Dictionary, route_parts: Array, options: Dictionary) :
 	# 若 路徑不存在 則 返回 本身
 	if route_parts.size() == 0 : 
 		return file_content
@@ -115,7 +115,7 @@ func _get_content_val (file_content : Dictionary, route_parts : Array, options :
 	return curr
 
 ## 設置 內容 值
-func _set_content_val (file_content : Dictionary, route_parts : Array, val, options : Dictionary) :
+func _set_content_val (file_content: Dictionary, route_parts: Array, val, options: Dictionary) :
 	
 	# 是否為清除
 	var is_erase : bool = val == null
@@ -192,7 +192,7 @@ func _on_setting_update (_ctrlr) :
 
 
 ## 解析路徑
-func _parse_route (route : String) -> Dictionary :
+func _parse_route (route: String) -> Dictionary :
 	if self.strat.has_method("parse_route") :
 		return self.strat.parse_route(route)
 	else :

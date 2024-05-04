@@ -64,13 +64,10 @@ func _ready () :
 		LifeMode.STATIC :
 			self._request_existed()
 
-func _process (_dt) :
-	pass
-
 # Interface ==================
 
 ## 啟用卡片
-func card_active (_options : Dictionary) :
+func card_active (_options: Dictionary) :
 	
 	# 是否顯示
 	var visible := true
@@ -90,7 +87,7 @@ func card_active (_options : Dictionary) :
 		self.container.visible = visible
 
 ## 關閉卡片
-func card_deactive (_options : Dictionary) :
+func card_deactive (_options: Dictionary) :
 	match self.life_mode :
 		LifeMode.DYNAMIC :
 			self._release_existed()
@@ -180,7 +177,7 @@ func _show_existed (is_show := true) :
 			each.process_mode = Node.PROCESS_MODE_DISABLED
 
 ## 當 更新模式
-func _refresh_mode (last_mode : int, next_mode : int) :
+func _refresh_mode (last_mode: int, next_mode: int) :
 	if last_mode == next_mode : return
 	match last_mode :
 		LifeMode.DYNAMIC :

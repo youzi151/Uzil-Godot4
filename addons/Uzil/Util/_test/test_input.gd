@@ -24,7 +24,7 @@ func _ready () :
 	G.print(self.util.input.keycode.device_type_to_keycode_infos)
 	
 
-func _process (_delta) :
+func _process (_delta: float) :
 	aaa -= _delta
 	if aaa < 0 : 
 		aaa = 2000

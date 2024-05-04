@@ -23,9 +23,6 @@ var _is_sorted : bool = true
 
 # GDScript ===================
 
-func _init () :
-	pass
-
 # Extends ====================
 
 # Interface ==================
@@ -44,7 +41,7 @@ func is_valid () :
 	return true
 
 ## 新增 影格
-func add_frame (time : float, val : float, lx : float = 0.0, ly : float = 0.0, rx : float = 0.0, ry : float = 0.0) :
+func add_frame (time: float, val: float, lx: float = 0.0, ly: float = 0.0, rx: float = 0.0, ry: float = 0.0) :
 	var point : Point = Point.new()
 	point.x = time
 	point.y = val
@@ -63,7 +60,7 @@ func sort_frame () :
 	self._is_sorted = true
 
 ## 取得 時機點上的值
-func get_val (time : float, math : Object = null) :
+func get_val (time: float, math: Object = null) :
 	if not self._is_sorted :
 		self.sort_frame()
 	
