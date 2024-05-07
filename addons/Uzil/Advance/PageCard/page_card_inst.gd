@@ -464,29 +464,29 @@ func refresh (transition_fn = null, transition_data := {}) :
 				if ref.is_callback_called : return
 				match is_skip :
 					true : 
-						ctrlr.skip.call()
+						ctrlr.skip()
 					_ : 
-						ctrlr.next.call()
+						ctrlr.next()
 				
 			# 否則 直接 下一階段
 			else :
-				ctrlr.next.call()
+				ctrlr.next()
 			,
 		# 最終 (若不要, 可以在transition_fn的回傳is_skip=true)
 		func(ctrlr) :
 			# 啟用 要啟用的
 			await Util.async.each(to_active, func(idx, each, each_ctrlr) :
 				await each.active()
-				each_ctrlr.next.call()
+				each_ctrlr.next()
 			)
 			
 			# 關閉 要關閉的
 			await Util.async.each(to_deactive, func(idx, each, each_ctrlr) :
 				await each.deactive()
-				each_ctrlr.next.call()
+				each_ctrlr.next()
 			)
 			
-			ctrlr.next.call()
+			ctrlr.next()
 	])
 
 ## 設置 頁面樹

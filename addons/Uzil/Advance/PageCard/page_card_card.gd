@@ -53,7 +53,7 @@ func active_targets (_options := {}) :
 			else :
 				each.visible = true
 				each.process_mode = Node.PROCESS_MODE_INHERIT
-		ctrlr.next.call()
+		ctrlr.next()
 	)
 
 
@@ -67,7 +67,7 @@ func deactive_targets (_options := {}) :
 			else :
 				each.visible = false
 				each.process_mode = Node.PROCESS_MODE_DISABLED
-		ctrlr.next.call()
+		ctrlr.next()
 	)
 
 # Private ====================

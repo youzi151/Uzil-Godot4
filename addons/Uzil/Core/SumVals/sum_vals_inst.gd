@@ -25,8 +25,8 @@ var _result_modifier_fn : Callable
 
 func _init () :
 	self._root_data = self._new_data("", null)
-	self._summary_val_fn = func(val, _sub_vals) : return val
-	self._result_modifier_fn = func(val) : return val
+	self._summary_val_fn = func(val, _sub_vals): return val
+	self._result_modifier_fn = func(val): return val
 	
 # Public =====================
 

@@ -224,7 +224,7 @@ func prehold_preset (preset_path: String) -> bool :
 				fn_list.push_back(func(ctrlr):
 					# 持有資源
 					await self.hold(path, holder, options)
-					ctrlr.next.call()
+					ctrlr.next()
 				)
 			
 			# 執行並等待 所有 非同步 持有資源
