@@ -30,7 +30,7 @@ var target_script : GDScript = null
 var is_ignore_cached_script := false
 
 ## 建立目標的函式
-var create_target_fn = null
+var create_target_fn : Callable = Callable()
 
 ## 依賴的其他模塊 
 ## (可為 Array(id_or_alias_list) / Dictionary(scope_key:id_or_alias_list))

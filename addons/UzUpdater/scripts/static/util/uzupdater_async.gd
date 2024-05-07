@@ -201,7 +201,7 @@ func each_series (list_or_dict, fn_each: Callable, _fn_done = null) :
 			TYPE_DICTIONARY :
 				is_exist = list_or_dict.has(cur_idx)
 		if not is_exist : 
-			ctrlr.next.call()
+			ctrlr.next()
 			return
 		
 		# 每個

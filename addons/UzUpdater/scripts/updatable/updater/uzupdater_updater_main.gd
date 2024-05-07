@@ -29,7 +29,7 @@ func start_update (task, callback_fn: Callable) :
 		each[1].prepare_update(task)
 	
 	# 每個 更新器 依序 開始更新
-	uzupdater.async.each_series(
+	await uzupdater.async.each_series(
 		updater_list,
 		func(idx, each, ctrlr):
 			# 名稱
@@ -48,9 +48,9 @@ func start_update (task, callback_fn: Callable) :
 				# 下個更新器
 				ctrlr.next()
 			),
-		func():
-			print("==== updater_main update end")
-			callback_fn.call(null)
 	)
-
+	
+	print("==== updater_main update end")
+	callback_fn.call(null)
+	
 # Private ====================

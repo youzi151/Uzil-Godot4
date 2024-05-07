@@ -49,10 +49,13 @@ var unpack_id_to_container : Dictionary = {}
 
 ## 預製物件
 @export
-var prefabs : Array[PackedScene] = []
+var prefabs : Array[String] = []
 
 ## 已建立的
 var _existed : Array[Node] = []
+
+## 是否正在請求建立
+var _request_existed_signal_ctrlr = null
 
 # GDScript ===================
 
@@ -62,7 +65,7 @@ func _ready () :
 	
 	match self.life_mode :
 		LifeMode.STATIC :
-			self._request_existed()
+			await self._request_existed({"visible": false})
 
 # Interface ==================
 
@@ -77,8 +80,10 @@ func card_active (_options: Dictionary) :
 	# 若為 動態 或 被動 則 請求
 	match self.life_mode :
 		LifeMode.DYNAMIC, LifeMode.PASSTIVE :
-			self._request_existed(_options)
-	
+			await self._request_existed(_options)
+		LifeMode.STATIC :
+			if self._existed.size() == 0 :
+				await self._request_existed(_options)
 	# 顯示
 	self._show_existed(visible)
 	
@@ -106,11 +111,22 @@ func card_deactive (_options: Dictionary) :
 ## 請求/建立
 func _request_existed (_options := {}) :
 	if not self._existed.is_empty() : return
+	# 若 已在請求建立中 則 等候
+	if self._request_existed_signal_ctrlr != null :
+		await self._request_existed_signal_ctrlr.until_emit()
+		return
 	
+	self._request_existed_signal_ctrlr = UREQ.acc("Uzil", "Util").async.SignalWaiter.new()
+	
+	var res = UREQ.acc("Uzil", "res")
 	var node_path_to_container : Dictionary = {}
-	
+	var packed_scenes := []
 	for each in self.prefabs :
-		
+		var res_info = await res.hold(each)
+		if res_info == null : continue
+		packed_scenes.push_back(res_info.res)
+	
+	for each in packed_scenes :
 		var new_one : Node = each.instantiate()
 		
 		# 加入 已建立列表
@@ -153,8 +169,14 @@ func _request_existed (_options := {}) :
 				# 移交 給 容器
 				node.get_parent().remove_child(node)
 				container.add_child(node)
-			
-		
+	
+	# 是否顯示
+	if "visible" in _options :
+		var visible = _options["visible"]
+		self._show_existed(visible)
+	
+	self._request_existed_signal_ctrlr.emit()
+	self._request_existed_signal_ctrlr = null
 
 ## 釋放
 func _release_existed () :
@@ -184,4 +206,4 @@ func _refresh_mode (last_mode: int, next_mode: int) :
 			self._release_existed()
 	match next_mode :
 		LifeMode.STATIC :
-			self._request_existed()
+			await self._request_existed({"visible": false})

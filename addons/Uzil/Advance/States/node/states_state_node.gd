@@ -30,6 +30,10 @@ var strat_id := ""
 @export
 var strat_script : GDScript = null
 
+## 是否自動轉換NodePath
+@export
+var is_auto_convert_node_path : bool = true
+
 ## 資料
 @export
 var data : Dictionary = {}
@@ -89,12 +93,10 @@ func request_state () :
 	# (可能是傳參考而非複製?)
 	var new_data : Dictionary = {}
 	
-	for key in self.data :
-		var each = self.data[key]
-		if typeof(each) == TYPE_NODE_PATH :
-			new_data[key] = self.get_node(each)
-		else :
-			new_data[key] = each
+	if self.is_auto_convert_node_path :
+		new_data = self._convert_node_path_to_node_in_dict(self.data)
+	else :
+		new_data = self.data.duplicate()
 	
 	self.state.set_data(new_data)
 	
@@ -102,3 +104,34 @@ func request_state () :
 
 # Private ====================
 
+## 轉換 字典中的 節點路徑 為 節點
+func _convert_node_path_to_node_in_dict (data: Dictionary) :
+	var new_data : Dictionary = {}
+	for key in data :
+		var each = data[key]
+		match typeof(each) :
+			TYPE_NODE_PATH :
+				new_data[key] = self.get_node(each)
+			TYPE_ARRAY :
+				new_data[key] = self._convert_node_path_to_node_in_array(each)
+			TYPE_DICTIONARY :
+				new_data[key] = self._convert_node_path_to_node_in_dict(each)
+			_ :
+				new_data[key] = each
+	return new_data
+
+## 轉換 陣列中的 節點路徑 為 節點
+func _convert_node_path_to_node_in_array (arr: Array) :
+	var new_arr : Array = []
+	for idx in arr.size() :
+		var each = arr[idx]
+		match typeof(each) :
+			TYPE_NODE_PATH :
+				new_arr.push_back(self.get_node(each))
+			TYPE_ARRAY :
+				new_arr.push_back(self._convert_node_path_to_node_in_array(each))
+			TYPE_DICTIONARY :
+				new_arr.push_back(self._convert_node_path_to_node_in_dict(each))
+			_ :
+				new_arr.push_back(each)
+	return new_arr

@@ -46,7 +46,8 @@ class WaitCtrlr :
 	func _notification (what: int) -> void :
 		if what != NOTIFICATION_PREDELETE : return
 		# 移除 已連接
-		if self.signal_connected.is_connected(self.callable_connected) :
+		if is_instance_valid(self.signal_connected) and self.signal_connected.is_connected(self.callable_connected) :
+			push_warning("WTF:%s" % self.signal_connected.is_connected(self.callable_connected))
 			self.signal_connected.disconnect(self.callable_connected)
 	
 	## 直到觸發
@@ -55,7 +56,8 @@ class WaitCtrlr :
 	
 	## 手動關閉 (或者可從計數歸零自動解構時斷開連接)
 	func close () :
-		if self.signal_connected.is_connected(self.callable_connected) :
+		if is_instance_valid(self.signal_connected) and self.signal_connected.is_connected(self.callable_connected) :
+			push_warning("WTFclose:%s" % self.signal_connected.is_connected(self.callable_connected))
 			self.signal_connected.disconnect(self.callable_connected)
 
 

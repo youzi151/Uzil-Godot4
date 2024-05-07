@@ -153,7 +153,7 @@ func _require_target (access) :
 	
 	# 若 目標還未取得成功 則 以 方法 建立
 	if target == null :
-		if access.create_target_fn != null :
+		if not access.create_target_fn.is_null() :
 			target = await access.create_target_fn.call()
 	
 	# 若 目標還未取得成功 則 以 腳本 建立

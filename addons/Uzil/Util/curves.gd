@@ -1,7 +1,9 @@
-extends Object
 
+## 控制項模式
 enum HandleMode {
+	# 相對百分比
 	PERCENT,
+	# 絕對位置
 	POSITION,
 }
 
@@ -15,10 +17,13 @@ class Point :
 
 # Variable ===================
 
-var frames : Array[Point] = []
-
+## 控制項模式
 var handle_mode : HandleMode = HandleMode.PERCENT
 
+## 影格
+var frames : Array[Point] = []
+
+## 是否已排序
 var _is_sorted : bool = true
 
 # GDScript ===================
