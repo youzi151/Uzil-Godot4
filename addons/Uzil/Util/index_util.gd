@@ -40,6 +40,8 @@ var math
 var async
 ## 腳本相關
 var gdscript
+## 訊號相關
+var signals
 ## 輸入
 var input
 ## 字典
@@ -74,6 +76,7 @@ func index (Uzil, _parent_index) :
 			self._class._Math = Uzil.load_script(self.PATH.path_join("math.gd"))
 			self._class._Async = Uzil.load_script(self.PATH.path_join("async.gd"))
 			self._class._GDScript = Uzil.load_script(self.PATH.path_join("gdscript.gd"))
+			self._class._Signals = Uzil.load_script(self.PATH.path_join("signals.gd"))
 			self._class._Input = Uzil.load_script(self.PATH.path_join("Input/input.gd"))
 			self._class._Keycode = Uzil.load_script(self.PATH.path_join("Input/keycode.gd"))
 			self._class._ViewportMouse = Uzil.load_script(self.PATH.path_join("Input/ViewportMouse/viewport_mouse.gd"))
@@ -83,7 +86,6 @@ func index (Uzil, _parent_index) :
 			self._class._UniqID = Uzil.load_script(self.PATH.path_join("uniq_id.gd"))
 			self._class._Http = Uzil.load_script(self.PATH.path_join("http.gd"))
 			self._class._Screenshot = Uzil.load_script(self.PATH.path_join("screenshot.gd"))
-			
 			
 			# class
 			self.Graph = Uzil.load_script(self.PATH.path_join("Graph/graph.gd"))
@@ -110,6 +112,7 @@ func init (__parent_index) :
 	self.math = self._class._Math.new()
 	self.async = self._class._Async.new()
 	self.gdscript = self._class._GDScript.new()
+	self.signals = self._class._Signals.new()
 	self.string = self._class._String.new()
 	self.dict = self._class._Dictionary.new()
 	self.array = self._class._Array.new()
