@@ -26,7 +26,7 @@ func init () :
 		uzil_node.free()
 	
 	# 讀取並建立 Uzil節點
-	var uzil = ResourceLoader.load("res://addons/Uzil/uzil.gd", "", ResourceLoader.CACHE_MODE_IGNORE).new()
+	var uzil = G.load_script("res://addons/Uzil/uzil.gd").new()
 	uzil.name = "Uzil"
 	
 	# 加為 G節點 子節點

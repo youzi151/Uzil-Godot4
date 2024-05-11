@@ -221,10 +221,7 @@ func get_access_path (scope: String, id: String) -> String :
 	return "%s/%s" % [scope, id]
 
 ## 讀取腳本
-func load_script (path, is_force_reload := false) :
-	if not is_force_reload and ResourceLoader.has_cached(path) :
-		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
-	else :
-		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_REPLACE)
+func load_script (path: String, is_reload: bool = false) :
+	return G.load_script(path, is_reload)
 
 # Private ====================

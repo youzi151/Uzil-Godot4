@@ -171,8 +171,15 @@ func process (_dt) :
 			# 加入 已結束任務
 			done_tasks.push_back(task)
 		else :
+			var cache_mode := -1
+			if ResourceLoader.has_cached(task.path) :
+				cache_mode = ResourceLoader.CACHE_MODE_IGNORE_DEEP
+			
 			# 請求讀取
-			ResourceLoader.load_threaded_request(task.path, task.type_hint, true, ResourceLoader.CACHE_MODE_IGNORE)
+			if cache_mode == -1 :
+				ResourceLoader.load_threaded_request(task.path, task.type_hint, true, cache_mode)
+			else :
+				ResourceLoader.load_threaded_request(task.path, task.type_hint, true)
 			
 			# 加入 讀取中任務列表
 			self.loading_tasks.push_back(task)

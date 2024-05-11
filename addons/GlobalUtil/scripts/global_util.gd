@@ -57,13 +57,31 @@ func off_print (tag : String = "") :
 	self.Log.off_print(tag)
 
 ## 讀取腳本
-func load_script (path: String) :
+func load_script (path: String, is_reload := false) :
 	var stack = get_stack()
 	for each in stack :
 		if each.source == path :
 			push_error("can't load script already in run stack")
 			return null
-	return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
+	
+	var ext : String = path.get_extension()
+	if not ext.begins_with("gd") : return null
+	
+	var pathc : String = path
+	if ext == "gd" : pathc = path + "c"
+	if ResourceLoader.exists(pathc) :
+		path = pathc
+	
+	var cache_mode = -1
+	if is_reload :
+		cache_mode = ResourceLoader.CACHE_MODE_IGNORE_DEEP
+	
+	#print(path)
+	#print("exist : %s" % [ResourceLoader.exists(path)])
+	#print("has_cached : %s" % [ResourceLoader.has_cached(path)])
+	
+	if cache_mode != -1 : return ResourceLoader.load(path, &"GDScript", cache_mode)
+	else : return ResourceLoader.load(path, &"GDScript")
 
 ## 路徑
 func path (path: String) :

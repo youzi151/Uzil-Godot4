@@ -249,11 +249,8 @@ func _call_once_ready () :
 	self._once_ready.clear()
 
 ## 讀取腳本
-func load_script (path: String, is_force_reload := false) :
-	if not is_force_reload and ResourceLoader.has_cached(path) :
-		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
-	else :
-		return ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_REPLACE)
+func load_script (path: String, is_reload := false) :
+	return G.load_script(path, is_reload)
 
 ## 讀取節點腳本
 ## 避免因為已經被載入至場景/快取而出錯 bad address index

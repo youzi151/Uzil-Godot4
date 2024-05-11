@@ -2,14 +2,14 @@
 ## 路徑點
 class Point :
 	## 辨識
-	var id : int
+	var id : int = 0
 	## 權重
-	var weight : int
-	## ID:下一路徑點 表
-	var id_to_next : Dictionary
-	## ID:來源路徑點 表 
+	var weight : int = 0
+	## 下一路徑點ID:距離 表
+	var id_to_next : Dictionary = {}
+	## 來源路徑點ID:距離 表 
 	## (由來源節點的id_to_next在refresh自動計算而來)
-	var id_to_src : Dictionary
+	var id_to_src : Dictionary = {}
 
 # Variable ===================
 
@@ -44,16 +44,13 @@ func get_point (id: int) -> Point :
 ## 設置 路徑點
 func set_point (id: int, data: Dictionary) : 
 	
-	var point
-	
 	if data == null :
 		if self.id_to_point.has(id) :
 			self.id_to_point.erase(id)
 		return
 	
-	if self.id_to_point.has(id) :
-		point = self.id_to_point[id]
-	else :
+	var point : Point = self.get_point(id)
+	if point == null :
 		point = Point.new()
 		point.id = id
 		self.id_to_point[id] = point
@@ -74,7 +71,7 @@ func refresh () :
 	# 每個 點
 	for point_id : int in self.id_to_point :
 		
-		var point : Point = self.id_to_point[point_id]
+		var point : Point = self.get_point(point_id)
 		
 		# 的 每個 接續點
 		for next_id : int in point.id_to_next.keys() :
@@ -85,7 +82,7 @@ func refresh () :
 				continue
 			
 			# 取得 接續點
-			var next_point : Point = self.id_to_point[next_id]
+			var next_point = self.id_to_point[next_id]
 			var edge : int = point.id_to_next[next_id]
 			# 把 自己 設置到 接續點 的 來源
 			if not next_point.id_to_src.has(point_id) :
@@ -97,7 +94,7 @@ func refresh () :
 		#G.print("%s : %s" % [point_id, point.id_to_src])
 
 ## 尋找路徑
-func find_path (start_id: int, end_id: int, options:= {}) :
+func find_path (start_id: int, end_id: int, options := {}) :
 	var start_point : Point = self.get_point(start_id)
 	var end_point : Point = self.get_point(end_id)
 	
@@ -163,7 +160,7 @@ func find_path (start_id: int, end_id: int, options:= {}) :
 			
 			# 每個 檢查項目 : 尾端, 路徑
 			var each_queue : Array = queue.pop_front()
-			var last : Point = each_queue[0]
+			var last = each_queue[0]
 			var path : Array = each_queue[1]
 			
 			# 若 尾端 已經達到 終點 則 加入 到達的路徑
