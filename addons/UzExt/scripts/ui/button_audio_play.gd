@@ -72,7 +72,7 @@ func _exit_tree () :
 	if Engine.is_editor_hint() : return
 	
 	# 取得 自身 對應 音效物件
-	var audio_mgr = UREQ.acc("Uzil", "audio_mgr")
+	var audio_mgr = UREQ.acc("Uzil:audio_mgr")
 	var id : String = self._get_preset_audio_id()
 	var audio = audio_mgr.get_audio(id)
 	# 若 不存在 則 返回
@@ -94,14 +94,14 @@ func _on_pressed () :
 			if self.audio_id.is_empty() : return
 			
 			# 播放 指定ID 的 音效物件
-			var audio_mgr = UREQ.acc("Uzil", "audio_mgr")
+			var audio_mgr = UREQ.acc("Uzil:audio_mgr")
 			audio_mgr.play(self.audio_id)
 			
 		SrcMode.PRESET :
 			if self.preset_key.is_empty() : return
 			
 			# 試取得 配置對應ID 的 音效物件
-			var audio_mgr = UREQ.acc("Uzil", "audio_mgr")
+			var audio_mgr = UREQ.acc("Uzil:audio_mgr")
 			var _id : String = self._get_preset_audio_id()
 			var audio = audio_mgr.get_audio(_id)
 			# 若 不存在 則 請求建立

@@ -29,7 +29,7 @@ func _ready () :
 
 ## 切換場景
 func change_scene () :
-	var res_info = await UREQ.acc("Uzil", "res").hold(self.next_scene_path)
+	var res_info = await UREQ.acc(&"Uzil:res").hold(self.next_scene_path)
 	if res_info == null : return
 	
 	var scene : PackedScene = res_info.res
