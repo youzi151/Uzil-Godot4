@@ -54,8 +54,8 @@ var _id_to_layer := {}
 # GDScript ===================
 
 func _init (setting) :
-	self.InputPipe = UREQ.acc("Uzil", "Basic.InputPipe")
-	self.Util = UREQ.acc("Uzil", "Util")
+	self.InputPipe = UREQ.acc(&"Uzil:Basic.InputPipe")
+	self.Util = UREQ.acc(&"Uzil:Util")
 	
 	self._setting = setting
 	self._setting.set_inst(self)

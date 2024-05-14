@@ -58,7 +58,7 @@ var is_debug := false
 # GDScript ===================
 
 func _init (res_inst) :
-	self.Res = UREQ.acc("Uzil", "Res")
+	self.Res = UREQ.acc(&"Uzil:Basic.Res")
 	
 	self.res_inst = res_inst
 	

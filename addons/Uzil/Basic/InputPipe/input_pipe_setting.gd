@@ -12,7 +12,7 @@ static func load_from_file (path) :
 	
 	var setting = new()
 	
-	var user_save = UREQ.acc("Uzil", "user_save")
+	var user_save = UREQ.acc(&"Uzil:user_save")
 	
 	var setting_data = user_save.user.read(path)
 	if setting_data != null :

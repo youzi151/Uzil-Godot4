@@ -41,7 +41,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("UINav")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Advance.UINav",
+	UREQ.bind(&"Uzil", &"Advance.UINav",
 		func():
 			self.Mgr = Uzil.load_script(self.PATH.path_join("ui_nav_mgr.gd"))
 			self.Inst = Uzil.load_script(self.PATH.path_join("ui_nav_inst.gd"))
@@ -58,7 +58,7 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 實體管理
-	UREQ.bind("Uzil", "ui_nav_mgr",
+	UREQ.bind(&"Uzil", &"ui_nav_mgr",
 		func():
 			var target = self.Mgr.new(null)
 			target.name = "ui_nav"
@@ -83,7 +83,7 @@ func get_handler (name) :
 	if self._name_to_handler_inst.has(name) :
 		inst = self._name_to_handler_inst[name]
 	else :
-		var Util = UREQ.acc("Uzil", "Util")
+		var Util = UREQ.acc(&"Uzil:Util")
 		var script = Util.gdscript.get_script_from_dict(self.name_to_handler_script, name)
 		inst = script.new()
 		self._name_to_handler_inst[name] = inst

@@ -33,10 +33,10 @@ func _init (__user = null) :
 	self._user = __user
 	
 	# 當 狀態改變
-	var Evt = UREQ.acc("Uzil", "Core.Evt")
+	var Evt = UREQ.acc(&"Uzil:Core.Evt")
 	self.on_state_changed = Evt.Inst.new()
 	
-	self.times_mgr = UREQ.acc("Uzil", "times_mgr")
+	self.times_mgr = UREQ.acc(&"Uzil:times_mgr")
 	
 
 
@@ -68,8 +68,8 @@ func add_state (state) :
 ## 建立 新 狀態
 func new_state (prefer_state_id: String, script_name: String, data := {}) :
 	
-	var States = UREQ.acc("Uzil", "Advance.States")
-	var Util = UREQ.acc("Uzil", "Util")
+	var States = UREQ.acc(&"Uzil:Advance.States")
+	var Util = UREQ.acc(&"Uzil:Util")
 	
 	var state = States.State.new(script_name)
 	

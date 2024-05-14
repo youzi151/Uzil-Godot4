@@ -10,7 +10,7 @@
 # Public =====================
 
 func load () :
-	UREQ.acc("Uzil", "options").load_config()
+	UREQ.acc(&"Uzil:options").load_config()
 
 # Private ====================
 

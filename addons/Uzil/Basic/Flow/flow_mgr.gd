@@ -22,7 +22,7 @@ func inst (key := "_") :
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:
-		var Flow = UREQ.acc("Uzil", "Basic.Flow")
+		var Flow = UREQ.acc(&"Uzil:Basic.Flow")
 		var _inst = Flow.Inst.new(null).init(key)
 		_inst.name = key
 		self.add_child(_inst)

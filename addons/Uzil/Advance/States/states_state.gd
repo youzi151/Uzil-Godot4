@@ -19,7 +19,7 @@ var _is_active := false
 func _init (_strat_or_script_id) :
 	if self._is_inited : return
 	
-	var States = UREQ.acc("Uzil", "Advance.States")
+	var States = UREQ.acc(&"Uzil:Advance.States")
 	
 	# 若 為 id字串
 	if typeof(_strat_or_script_id) == TYPE_STRING :

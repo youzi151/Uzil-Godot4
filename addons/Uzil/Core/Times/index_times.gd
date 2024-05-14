@@ -49,12 +49,12 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("Times")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Core.Times", self._target_index, {
+	UREQ.bind(&"Uzil", &"Core.Times", self._target_index, {
 		"alias" : ["Times"],
 	})
 	
 	# 綁定 實體管理
-	UREQ.bind("Uzil", "times_mgr", self._target_mgr, {
+	UREQ.bind(&"Uzil", &"times_mgr", self._target_mgr, {
 		"alias" : ["times"],
 		"requires" : ["Core.Times"],
 	})

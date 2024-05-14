@@ -25,7 +25,7 @@ func _ready () :
 		self.debug_log.add_text(msg + "\n")
 	, "test_ui_nav")
 	
-	self.input = UREQ.acc("Uzil", "Util").input
+	self.input = UREQ.acc(&"Uzil:Util").input
 	
 	# ui 初期設置
 	self.test_ui_setup()
@@ -112,7 +112,7 @@ func test_process (_delta: float) :
 # Public =====================
 
 func test_ui_setup () :
-	var ui_nav_mgr = UREQ.acc("Uzil", "ui_nav_mgr")
+	var ui_nav_mgr = UREQ.acc(&"Uzil:ui_nav_mgr")
 	
 	# 取得 實例
 	var inst = ui_nav_mgr.inst("test_ui")
@@ -180,10 +180,10 @@ func test_ui_setup () :
 ## 測試 偵錯Log
 func test_log () :
 	G.print("==== start test log =============")
-	var invoker_mgr = UREQ.acc("Uzil", "invoker_mgr")
+	var invoker_mgr = UREQ.acc(&"Uzil:invoker_mgr")
 	
 	# 取得 實例
-	var ui_nav_mgr = UREQ.acc("Uzil", "ui_nav_mgr")
+	var ui_nav_mgr = UREQ.acc(&"Uzil:ui_nav_mgr")
 	var inst = ui_nav_mgr.inst("test_log")
 	# 清空
 	inst.clear()
@@ -215,7 +215,7 @@ func test_log () :
 	# 設置 待機鏈節點 為 原點
 	inst.set_idle_chain(chain_origin.id)
 
-	var array_util = UREQ.acc("Uzil", "Util").array
+	var array_util = UREQ.acc(&"Uzil:Util").array
 	
 	# 註冊 當 鏈節點變更
 	inst.on_chain_change.on(func(ctrlr):

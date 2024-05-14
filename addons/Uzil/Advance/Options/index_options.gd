@@ -46,7 +46,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("Options")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Advance.Options",
+	UREQ.bind(&"Uzil", &"Advance.Options",
 		func():
 			self.Game = Uzil.load_script(self.PATH.path_join("options_game.gd"))
 			self.Display = Uzil.load_script(self.PATH.path_join("options_display.gd"))
@@ -58,7 +58,7 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 工具組
-	UREQ.bind("Uzil", "options",
+	UREQ.bind(&"Uzil", &"options",
 		func():
 			return self.create_kit(),
 		{

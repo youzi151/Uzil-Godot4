@@ -150,7 +150,7 @@ func on_exit () :
 
 ## 取得 處理器
 func get_handler () :
-	var UINav = UREQ.acc("Uzil", "Advance.UINav")
+	var UINav = UREQ.acc(&"Uzil:Advance.UINav")
 	return UINav.get_handler(self._handler)
 
 ## 取得 處理器 類型 (提供別的鏈結點進行比較)
@@ -188,7 +188,7 @@ func get_nearest_neighbor (req_data := {}) :
 ## 取得所屬
 func _get_inst () :
 	if self._inst_cache == null :
-		var ui_nav_mgr = UREQ.acc("Uzil", "ui_nav_mgr")
+		var ui_nav_mgr = UREQ.acc(&"Uzil:ui_nav_mgr")
 		self._inst_cache = ui_nav_mgr.inst(self._inst_id)
 	return self._inst_cache
 

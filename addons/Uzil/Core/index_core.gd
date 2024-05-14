@@ -45,7 +45,7 @@ func index (Uzil, _parent_index) :
 	self.Vals = Uzil.load_script(self.PATH.path_join("Vals/vals.gd"))
 		
 	# 綁定 索引 多重變數
-	UREQ.bind("Uzil", "Core.Vals", self.Vals, {
+	UREQ.bind(&"Uzil", &"Core.Vals", self.Vals, {
 		"alias" : ["Vals"]
 	})
 	

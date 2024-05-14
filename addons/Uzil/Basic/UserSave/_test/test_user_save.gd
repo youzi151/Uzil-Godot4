@@ -34,7 +34,7 @@ func _ready () :
 		self.debug_log.add_text(msg + "\n")
 	, "test_user_save")
 	
-	var user_save = UREQ.acc("Uzil", "user_save")
+	var user_save = UREQ.acc(&"Uzil:user_save")
 	
 	# 當 使用者 輸入
 	self.user_edit.text_changed.connect(func(new_text: String):
@@ -84,7 +84,7 @@ func _exit_tree () :
 # Public =====================
 
 func test_save () :
-	var user_save = UREQ.acc("Uzil", "user_save")
+	var user_save = UREQ.acc(&"Uzil:user_save")
 	var route = self.save_route_edit.text
 	
 	var val = self.save_val_edit.text
@@ -111,7 +111,7 @@ func test_save () :
 	G.print("saved")
 
 func test_load () :
-	var user_save = UREQ.acc("Uzil", "user_save")
+	var user_save = UREQ.acc(&"Uzil:user_save")
 	var route = self.save_route_edit.text
 	var val = null
 	
@@ -143,8 +143,8 @@ func test_load () :
 
 func test_simple () :
 	
-	var UserSave = UREQ.acc("Uzil", "Basic.UserSave")
-	var user_save = UREQ.acc("Uzil", "user_save")
+	var UserSave = UREQ.acc(&"Uzil:Basic.UserSave")
+	var user_save = UREQ.acc(&"Uzil:user_save")
 	
 	G.print("os user path : %s" % OS.get_user_data_dir())
 	G.print("uzil usersave path : %s" % UserSave.get_save_folder_root())
@@ -198,7 +198,7 @@ func test_simple () :
 	
 
 func _update_file_path_label () :
-	var user_save = UREQ.acc("Uzil", "user_save")
+	var user_save = UREQ.acc(&"Uzil:user_save")
 	var path_var : Dictionary = {"FILE":self.current_file_name}
 	if self._is_save_to_profile :
 		path_var.merge(user_save.profile.setting.get_path_var(), false)

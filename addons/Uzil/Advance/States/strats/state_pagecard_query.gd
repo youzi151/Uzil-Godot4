@@ -62,7 +62,7 @@ func process (_dt) :
 
 ## 當 狀態 進入
 func on_enter () :
-	var page_card_mgr = UREQ.acc("Uzil", "page_card_mgr")
+	var page_card_mgr = UREQ.acc(&"Uzil:page_card_mgr")
 	
 	var pagecard_inst = page_card_mgr.inst(self.inst_key)
 	

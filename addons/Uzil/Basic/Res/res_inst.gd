@@ -35,10 +35,10 @@ var is_debug := false
 # GDScript ===================
 
 func _init () :
-	var Uzil = UREQ.acc("Uzil", "Uzil")
-	var Res = UREQ.acc("Uzil", "Res")
+	var Uzil = UREQ.acc(&"Uzil:Uzil")
+	var Res = UREQ.acc(&"Uzil:Basic.Res")
 	
-	self.Util = UREQ.acc("Uzil", "Util")
+	self.Util = UREQ.acc(&"Uzil:Util")
 	
 	self.built_in_loader = Uzil.load_script(Res.PATH.path_join("loaders/res_loader_built_in.gd")).new(self)
 	self.set_loader("_built_in", self.built_in_loader)

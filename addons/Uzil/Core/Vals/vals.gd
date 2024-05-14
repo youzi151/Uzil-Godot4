@@ -33,7 +33,7 @@ var on_update = null
 # GDScript ===================
 
 func _init () :
-	var Evt = UREQ.acc("Uzil", "Core.Evt")
+	var Evt = UREQ.acc(&"Uzil:Core.Evt")
 	self.on_update = Evt.Inst.new()
 
 # Public =====================

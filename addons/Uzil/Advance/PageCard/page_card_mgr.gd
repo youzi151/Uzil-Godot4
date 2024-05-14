@@ -22,7 +22,7 @@ func inst (key := "") :
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:
-		var PageCard = UREQ.acc("Uzil", "Advance.PageCard")
+		var PageCard = UREQ.acc(&"Uzil:Advance.PageCard")
 		var _inst = PageCard.Inst.new()
 		
 		self._key_to_inst[key] = _inst

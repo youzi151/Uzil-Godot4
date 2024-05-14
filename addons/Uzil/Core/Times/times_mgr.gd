@@ -28,7 +28,7 @@ func inst (key := "_") :
 	if self.key_to_inst.has(key) :
 		return self.key_to_inst[key]
 	else:
-		var Times = UREQ.acc("Uzil", "Core.Times")
+		var Times = UREQ.acc(&"Uzil:Core.Times")
 		var _inst = Times.Inst.new(null)
 		_inst.name = key
 		self.add_child(_inst)

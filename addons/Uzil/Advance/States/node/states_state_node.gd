@@ -71,7 +71,7 @@ func request_state () :
 	if self.state != null : 
 		return self.state
 	
-	var State = UREQ.acc("Uzil", "Advance.States").State
+	var State = UREQ.acc(&"Uzil:Advance.States").State
 	match self.strat_set_type :
 		StratSetType.SCRIPT_ID :
 			self.state = State.new(self.strat_id)

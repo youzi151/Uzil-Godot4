@@ -17,7 +17,7 @@ func _input (event: InputEvent) :
 		return
 	
 	# 設置 到 此節點所在視圖 的 對應實例
-	UREQ.acc("Uzil", "Util").input.viewport_mouse.in_viewport(self.get_tree().root).set_position(self._mouse_pos)
+	UREQ.acc(&"Uzil:Util").input.viewport_mouse.in_viewport(self.get_tree().root).set_position(self._mouse_pos)
 
 # Extends ====================
 

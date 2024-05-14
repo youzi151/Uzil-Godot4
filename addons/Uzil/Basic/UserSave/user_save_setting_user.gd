@@ -24,7 +24,7 @@ var on_update = null
 # GDScript ===================
 
 func _init () :
-	self.on_update = UREQ.acc("Uzil", "Evt").Inst.new()
+	self.on_update = UREQ.acc(&"Uzil:Core.Evt").Inst.new()
 
 # Interface ==================
 

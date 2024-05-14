@@ -110,7 +110,7 @@ func add_handler (handler) :
 
 ## 建立 並 新增 處理器
 func new_handler (id, name_or_path, data) :
-	var InputPipe = UREQ.acc("Uzil", "Basic.InputPipe")
+	var InputPipe = UREQ.acc(&"Uzil:Basic.InputPipe")
 	var handler = InputPipe.new_handler(id, name_or_path, data)
 	self.add_handler(handler)
 	return handler
@@ -139,14 +139,14 @@ func on_input (vkey: int, evtlistener_or_fn) :
 	var Evt = null
 	var evtlistener = evtlistener_or_fn
 	if typeof(evtlistener_or_fn) == TYPE_CALLABLE :
-		if Evt == null : Evt = UREQ.acc("Uzil", "Core.Evt")
+		if Evt == null : Evt = UREQ.acc(&"Uzil:Core.Evt")
 		evtlistener = Evt.Listener.new().fn(evtlistener_or_fn)
 	
 	var evt
 	if self._vkey_to_event.has(vkey) :
 		evt = self._vkey_to_event[vkey]
 	else :
-		if Evt == null : Evt = UREQ.acc("Uzil", "Core.Evt")
+		if Evt == null : Evt = UREQ.acc(&"Uzil:Core.Evt")
 		evt = Evt.Inst.new()
 		self._vkey_to_event[vkey] = evt
 	

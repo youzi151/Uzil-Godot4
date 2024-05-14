@@ -116,9 +116,9 @@ func _request_existed (_options := {}) :
 		await self._request_existed_signal_ctrlr.until_emit()
 		return
 	
-	self._request_existed_signal_ctrlr = UREQ.acc("Uzil", "Util").async.SignalWaiter.new()
+	self._request_existed_signal_ctrlr = UREQ.acc(&"Uzil:Util").async.SignalWaiter.new()
 	
-	var res = UREQ.acc("Uzil", "res")
+	var res = UREQ.acc(&"Uzil:res")
 	var node_path_to_container : Dictionary = {}
 	var packed_scenes := []
 	for each in self.prefabs :

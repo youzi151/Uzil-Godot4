@@ -22,11 +22,11 @@ var tasks : Array = []
 # GDScript ===================
 
 func _init (key: String = "_") :
-	self.Uzil = UREQ.acc("Uzil", "Uzil")
-	self.Invoker = UREQ.acc("Uzil", "Invoker")
+	self.Uzil = UREQ.acc(&"Uzil:Uzil")
+	self.Invoker = UREQ.acc(&"Uzil:Core.Invoker")
 	
 	self._key = key
-	self._times_inst = UREQ.acc("Uzil", "times_mgr").inst()
+	self._times_inst = UREQ.acc(&"Uzil:times_mgr").inst()
 
 # Public =====================
 
@@ -83,7 +83,7 @@ func process (_dt) :
 func set_times_inst (inst_or_key) :
 	match typeof(inst_or_key) :
 		TYPE_STRING :
-			self._times_inst = UREQ.acc("Uzil", "times_mgr").inst(inst_or_key)
+			self._times_inst = UREQ.acc(&"Uzil:times_mgr").inst(inst_or_key)
 		TYPE_OBJECT :
 			self._times_inst = inst_or_key
 			

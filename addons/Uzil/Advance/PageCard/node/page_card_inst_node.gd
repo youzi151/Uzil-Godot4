@@ -37,7 +37,7 @@ var on_ready = null
 func _init () :
 	if Engine.is_editor_hint() : return
 	# 當準備完成 事件
-	var Evt = UREQ.acc("Uzil", "Core.Evt")
+	var Evt = UREQ.acc(&"Uzil:Core.Evt")
 	self.on_ready = Evt.Inst.new()
 
 func _ready () :
@@ -58,7 +58,7 @@ func request_inst () :
 	
 	if self.inst != null : return self.inst
 	
-	var Inst = UREQ.acc("Uzil", "Advance.PageCard").Inst
+	var Inst = UREQ.acc(&"Uzil:Advance.PageCard").Inst
 	
 	var root_page = null
 	var pages := {}
@@ -89,7 +89,7 @@ func request_inst () :
 			pages[page] = true
 	
 	if self.is_reg_to_mgr :
-		self.inst = UREQ.acc("Uzil", "page_card_mgr").inst(self.inst_key)
+		self.inst = UREQ.acc(&"Uzil:page_card_mgr").inst(self.inst_key)
 	else :
 		self.inst = Inst.new()
 	

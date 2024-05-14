@@ -34,14 +34,14 @@ func request_card () :
 	
 	if self.card != null : return self.card
 	
-	self.card = UREQ.acc("Uzil", "Advance.PageCard").Card.new()
+	self.card = UREQ.acc(&"Uzil:Advance.PageCard").Card.new()
 	
 	if self.id == "" :
 		self.card.id = self.name
 	else :
 		self.card.id = self.id
 	
-	var TagQ = UREQ.acc("Uzil", "TagQ")
+	var TagQ = UREQ.acc(&"Uzil:Basic.TagQ")
 	self.card.tags = self.tags.duplicate()
 	
 	for each in self.targets :
@@ -49,7 +49,7 @@ func request_card () :
 		if self.card.targets.has(each) : continue
 		self.card.targets.push_back(each)
 	
-	var page_card_mgr = UREQ.acc("Uzil", "page_card_mgr")
+	var page_card_mgr = UREQ.acc(&"Uzil:page_card_mgr")
 	for key in self.reg_to_inst_to_pages.keys() :
 		
 		var inst = page_card_mgr.inst(key)

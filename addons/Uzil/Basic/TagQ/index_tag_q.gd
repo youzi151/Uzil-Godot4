@@ -37,7 +37,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("TagQ")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Basic.TagQ",
+	UREQ.bind(&"Uzil", &"Basic.TagQ",
 		func():
 			self.Config = Uzil.load_script(self.PATH.path_join("tag_q_config.gd"))
 			self.Inst = Uzil.load_script(self.PATH.path_join("tag_q_inst.gd"))
@@ -51,7 +51,7 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 實體
-	UREQ.bind("Uzil", "tag_q_mgr", 
+	UREQ.bind(&"Uzil", &"tag_q_mgr", 
 		func():
 			return self.Mgr.new(null), 
 		{

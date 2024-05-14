@@ -31,7 +31,7 @@ var _inst_mgr = null
 # Public =====================
 
 func init (Util) :
-	var Uzil = UREQ.acc("Uzil", "Uzil")
+	var Uzil = UREQ.acc(&"Uzil:Uzil")
 	
 	self.PATH = Util.PATH.path_join("Input/ViewportMouse")
 	

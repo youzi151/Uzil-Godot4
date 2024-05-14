@@ -58,7 +58,7 @@ func index (Uzil, _parent_index) :
 	self.TEMPLATE_PATHS.push_back("res://userdata")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Basic.UserSave", 
+	UREQ.bind(&"Uzil", &"Basic.UserSave", 
 		func():
 			self.Inst = Uzil.load_script(self.PATH.path_join("user_save_inst.gd"))
 			self.Strat_File = Uzil.load_script(self.PATH.path_join("user_save_strat_file.gd"))
@@ -73,7 +73,7 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 工具組
-	UREQ.bind("Uzil", "user_save",
+	UREQ.bind(&"Uzil", &"user_save",
 		func():
 			return self.create_kit(),
 		{

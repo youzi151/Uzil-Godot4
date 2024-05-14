@@ -24,7 +24,7 @@ var on_update = null
 # GDScript ===================
 
 func _init (setting_user) :
-	self.on_update = UREQ.acc("Uzil", "Evt").Inst.new()
+	self.on_update = UREQ.acc(&"Uzil:Core.Evt").Inst.new()
 	
 	var user_path_var : Dictionary = setting_user.get_path_var()
 	if "USER" in user_path_var :

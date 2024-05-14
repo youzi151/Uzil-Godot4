@@ -31,8 +31,8 @@ func _exit_tree () :
 
 func test_log () :
 	
-	var states_mgr = UREQ.acc("Uzil", "states_mgr")
-	var invoker = UREQ.acc("Uzil", "invoker")
+	var states_mgr = UREQ.acc(&"Uzil:states_mgr")
+	var invoker = UREQ.acc(&"Uzil:invoker")
 	
 	# 取得 實例
 	var inst = states_mgr.inst("test")

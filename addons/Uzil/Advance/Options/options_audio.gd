@@ -24,8 +24,8 @@ var bus_to_volume := {}
 
 ## 讀取 設定檔案
 func load_config (file_path := "") :
-	var Options = UREQ.acc("Uzil", "Advance.Options")
-	var user_save = UREQ.acc("Uzil", "user_save")
+	var Options = UREQ.acc(&"Uzil:Advance.Options")
+	var user_save = UREQ.acc(&"Uzil:user_save")
 	
 	if file_path == "" :
 		file_path = Options.CONFIG_FILE_PATH
@@ -51,7 +51,7 @@ func load_config (file_path := "") :
 
 ## 設置 混和器 音量
 func set_bus_volume (bus_id: String, volume_linear: float, is_save_to_config := true) :
-	var audio = UREQ.acc("Uzil", "audio")
+	var audio = UREQ.acc(&"Uzil:audio")
 	
 	audio.set_bus_volume(bus_id, volume_linear)
 	
@@ -66,7 +66,7 @@ func set_bus_volume (bus_id: String, volume_linear: float, is_save_to_config := 
 
 ## 寫入 至 設定檔案
 func _write_to_config (key, val) :
-	var Options = UREQ.acc("Uzil", "Advance.Options")
-	var user_save = UREQ.acc("Uzil", "user_save")
+	var Options = UREQ.acc(&"Uzil:Advance.Options")
+	var user_save = UREQ.acc(&"Uzil:user_save")
 	user_save.config.write(Options.CONFIG_FILE_PATH, key, val, {"section":self.CFG_SECTION_NAME})
 

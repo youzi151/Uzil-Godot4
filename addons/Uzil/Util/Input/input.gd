@@ -68,7 +68,7 @@ func init (util, modules: Dictionary) :
 	self.viewport_mouse = modules["viewport_mouse"]
 	self.viewport_mouse.init(util)
 	
-	var Uzil = UREQ.acc("Uzil", "Uzil")
+	var Uzil = UREQ.acc(&"Uzil:Uzil")
 	Uzil.once_loaded(func() :
 		Uzil.on_process.on(func(ctrlr):
 			self.update()

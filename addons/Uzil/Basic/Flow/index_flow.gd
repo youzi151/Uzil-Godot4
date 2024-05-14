@@ -65,7 +65,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("Flow")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Basic.Flow", 
+	UREQ.bind(&"Uzil", &"Basic.Flow", 
 		func():
 			
 			self.Gate = Uzil.load_script(self.PATH.path_join("flow_gate.gd"))
@@ -93,7 +93,7 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 實體
-	UREQ.bind("Uzil", "flow_mgr", 
+	UREQ.bind(&"Uzil", &"flow_mgr", 
 		func():
 			var target = self.Mgr.new(null)
 			target.name = "flow_mgr"
@@ -121,15 +121,15 @@ func import_gate_script (import_name, path_or_script) :
 
 ## 取得 節點 腳本
 func get_chain_script (name_or_path) :
-	var Util = UREQ.acc("Uzil", "Util")
+	var Util = UREQ.acc(&"Uzil:Util")
 	return Util.gdscript.get_script_from_dict(self.name_to_chain_script, name_or_path)
 
 ## 取得 事件 腳本
 func get_event_script (name_or_path) :
-	var Util = UREQ.acc("Uzil", "Util")
+	var Util = UREQ.acc(&"Uzil:Util")
 	return Util.gdscript.get_script_from_dict(self.name_to_event_script, name_or_path)
 
 ## 取得 條件 腳本
 func get_gate_script (name_or_path) :
-	var Util = UREQ.acc("Uzil", "Util")
+	var Util = UREQ.acc(&"Uzil:Util")
 	return Util.gdscript.get_script_from_dict(self.name_to_gate_script, name_or_path)

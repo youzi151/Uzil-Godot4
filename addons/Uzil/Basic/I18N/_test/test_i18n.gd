@@ -33,17 +33,17 @@ var test_num := 0
 # GDScript ===================
 
 func _ready () : 
-	var I18N = UREQ.acc("Uzil", "I18N")
+	var I18N = UREQ.acc(&"Uzil:Basic.I18N")
 	
 	# 請求 預設實例
-	self.i18n_inst = UREQ.acc("Uzil", "i18n")
+	self.i18n_inst = UREQ.acc(&"Uzil:i18n")
 	# 讀取 所有語言資料
 	self.i18n_inst.load_languages(I18N.PATH.path_join("_test/langs"))
 	# 切換語言
 	self.i18n_inst.change_language("tchinese")
 	
 	# 設置變數庫變數
-	self.vars = UREQ.acc("Uzil", "vars")
+	self.vars = UREQ.acc(&"Uzil:vars")
 	self.vars_inst = self.vars.inst()
 	self.vars_inst.set_var("test_label_time", 0)
 	self.vars_inst.set_var("test_label_time_str", 0)
@@ -95,7 +95,7 @@ func test_normal () :
 	G.print(self.i18n_inst.trans(txt))
 
 func test_simple () :
-	var I18N = UREQ.acc("Uzil", "I18N")
+	var I18N = UREQ.acc(&"Uzil:Basic.I18N")
 	
 	# 準備要翻譯的
 	var to_trans = ""

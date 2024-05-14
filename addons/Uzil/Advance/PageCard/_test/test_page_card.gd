@@ -75,7 +75,7 @@ func _exit_tree () :
 
 ## 測試 純頁面
 func test_page_only () :
-	var invoker = UREQ.acc("Uzil", "invoker_mgr").inst()
+	var invoker = UREQ.acc(&"Uzil:invoker_mgr").inst()
 	
 	var page = self.page_only_node.request_page()
 	
@@ -183,7 +183,7 @@ func test_page_inst_nav_top_right_graft_on_3 () :
 
 ## 測試 頁面實體 導航 相關
 func test_page_inst_nav () :
-	var invoker = UREQ.acc("Uzil", "invoker")
+	var invoker = UREQ.acc(&"Uzil:invoker")
 	
 	self.pagecard_inst.restart()
 	

@@ -30,7 +30,7 @@ func _ready () :
 	
 	self.test_enter()
 	
-	var invoker = UREQ.acc("Uzil", "invoker")
+	var invoker = UREQ.acc(&"Uzil:invoker")
 	invoker.interval(func():
 		if not self.is_updating_checkbox.button_pressed : return
 		if self._to_print == "" : return
@@ -54,9 +54,9 @@ func _exit_tree () :
 # Public =====================
 
 func test_enter () :
-	var InputPipe = UREQ.acc("Uzil", "InputPipe")
-	var input_pipe = UREQ.acc("Uzil", "input_pipe")
-	var Util = UREQ.acc("Uzil", "Util")
+	var InputPipe = UREQ.acc(&"Uzil:Basic.InputPipe")
+	var input_pipe = UREQ.acc(&"Uzil:input_pipe")
+	var Util = UREQ.acc(&"Uzil:Util")
 	
 	# Layer 與 Handler 建立 ==========
 	
@@ -201,12 +201,12 @@ func test_enter () :
 		self.to_print("Layer4 key[1111] val:%s isAlive:%s (can stop before this)" % [input_msg.val, input_msg.is_alive()])
 	)
 	
-#	UREQ.acc("Uzil", "invoker").once(func():
+#	UREQ.acc(&"Uzil:invoker").once(func():
 #		input_layer1.aaaaa(false)
 #	, 2000)
 
 func test_exit () :
-	var input_pipe = UREQ.acc("Uzil", "input_pipe")
+	var input_pipe = UREQ.acc(&"Uzil:input_pipe")
 	
 	#input_pipe.clear()
 	

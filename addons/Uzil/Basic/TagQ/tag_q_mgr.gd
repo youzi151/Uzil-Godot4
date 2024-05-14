@@ -16,7 +16,7 @@ var default_config = null
 # GDScript ===================
 
 func _init (_dont_set_in_scene) :
-	var TagQ = UREQ.acc("Uzil", "TagQ")
+	var TagQ = UREQ.acc(&"Uzil:Basic.TagQ")
 
 # Public =====================
 
@@ -24,7 +24,7 @@ func inst (key := "_") :
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:
-		var TagQ = UREQ.acc("Uzil", "Basic.TagQ")
+		var TagQ = UREQ.acc(&"Uzil:Basic.TagQ")
 		var _inst = TagQ.Inst.new(self.default_config)
 		
 		self._key_to_inst[key] = _inst

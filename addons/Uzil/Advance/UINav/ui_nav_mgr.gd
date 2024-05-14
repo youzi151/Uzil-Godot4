@@ -25,7 +25,7 @@ func inst (key := "_") :
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:
-		var UINav = UREQ.acc("Uzil", "Advance.UINav")
+		var UINav = UREQ.acc(&"Uzil:Advance.UINav")
 		var _inst = UINav.Inst.new(key)
 		
 		self._key_to_inst[key] = _inst

@@ -47,9 +47,9 @@ func request_inst () :
 	if self.inst != null : return self.inst
 	
 	if self.is_reg_to_mgr :
-		self.inst = UREQ.acc("Uzil", "states_mgr").inst(self.inst_key)
+		self.inst = UREQ.acc(&"Uzil:states_mgr").inst(self.inst_key)
 	else :
-		var Inst = UREQ.acc("Uzil", "Advance.States").Inst
+		var Inst = UREQ.acc(&"Uzil:Advance.States").Inst
 		self.inst = Inst.new()
 	
 	self.inst.default_state_id = self.default_state_id

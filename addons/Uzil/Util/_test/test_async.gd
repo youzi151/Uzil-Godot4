@@ -16,8 +16,8 @@ func _ready () :
 		self.debug_log.add_text(msg + "\n")
 	, "test_async")
 	
-	self.invoker = UREQ.acc("Uzil", "invoker_mgr")
-	self.Util = UREQ.acc("Uzil", "Util")
+	self.invoker = UREQ.acc(&"Uzil:invoker_mgr")
+	self.Util = UREQ.acc(&"Uzil:Util")
 
 func _exit_tree () :
 	G.off_print("test_async")

@@ -61,12 +61,12 @@ func request_evt_bus () :
 	match self.mode :
 		EvtBusInstMode.LOCAL :
 			if self._evt_bus == null : 
-				var Bus = UREQ.acc("Uzil", "Core.Evt").Bus
+				var Bus = UREQ.acc(&"Uzil:Core.Evt").Bus
 				self._evt_bus = Bus.new()
 			return self._evt_bus
 			
 		EvtBusInstMode.INST_KEY :
-			var evt_bus_mgr = UREQ.acc("Uzil", "evt_bus_mgr")
+			var evt_bus_mgr = UREQ.acc(&"Uzil:evt_bus_mgr")
 			return evt_bus_mgr.inst(self.evt_bus)
 
 func _refresh_mode () : 

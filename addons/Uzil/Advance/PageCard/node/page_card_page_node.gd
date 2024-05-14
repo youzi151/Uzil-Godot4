@@ -40,7 +40,7 @@ func request_page (page_card_inst = null) :
 	
 	if self.page != null : return self.page
 	
-	self.page = UREQ.acc("Uzil", "Advance.PageCard").Page.new()
+	self.page = UREQ.acc(&"Uzil:Advance.PageCard").Page.new()
 	
 	if self.id.is_empty() :
 		self.page.id = self.name

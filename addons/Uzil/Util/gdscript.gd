@@ -57,7 +57,7 @@ func get_script_from_dict (dict, name_or_path) :
 	if self.is_gdscript(name_or_path):
 		return name_or_path 
 	
-	var Uzil = UREQ.acc("Uzil", "Uzil")
+	var Uzil = UREQ.acc(&"Uzil:Uzil")
 	
 	var script
 	

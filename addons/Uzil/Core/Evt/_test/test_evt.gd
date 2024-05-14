@@ -20,7 +20,7 @@ func _ready () :
 	, "test_evt")
 	
 	# 事先引用 Evt
-	self.Evt = UREQ.acc("Uzil", "Core.Evt")
+	self.Evt = UREQ.acc(&"Uzil:Core.Evt")
 	
 	# 向 取得事件串節點 的 事件串 註冊事件
 	var evt_bus = self.evt_bus_node.request_evt_bus()
@@ -33,7 +33,7 @@ func _ready () :
 	).srt(2)
 	evt_bus.on("on_test", func(_ctrlr):
 		G.print("evtbus evt[on_test] wait sec")
-		await UREQ.acc("Uzil", "invoker").wait(2000)
+		await UREQ.acc(&"Uzil:invoker").wait(2000)
 	).srt(1)
 	var lis = evt_bus.on("on_test", func(_ctrlr):
 		G.print("evtbus evt[on_test] data : %s " % [str(_ctrlr.data)])
@@ -133,7 +133,7 @@ func test_evtbus () :
 	G.print("== EvtBus Test")
 	
 	# 存取 EventBus 實體 "test"
-	var evtbus = UREQ.acc("Uzil", "evt_bus_mgr").inst("test")
+	var evtbus = UREQ.acc(&"Uzil:evt_bus_mgr").inst("test")
 	evtbus.clear()
 	
 	# 註冊 幀聽 1號

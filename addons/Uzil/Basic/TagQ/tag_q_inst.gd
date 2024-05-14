@@ -27,7 +27,7 @@ var _cache_target_to_tags_values := []
 # GDScript ===================
 
 func _init (cfg = null) :
-	var TagQ = UREQ.acc("Uzil", "TagQ")
+	var TagQ = UREQ.acc(&"Uzil:Basic.TagQ")
 	
 	if cfg == null : cfg = TagQ.default_config
 	

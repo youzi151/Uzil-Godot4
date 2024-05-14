@@ -29,7 +29,7 @@ func _ready () :
 		self.debug_log.add_text(msg + "\n")
 	, "test_sum_vals")
 	
-	self.SumVals = UREQ.acc("Uzil", "Core.SumVals")
+	self.SumVals = UREQ.acc(&"Uzil:Core.SumVals")
 	
 	self.sum_vals = self.SumVals.Inst.new()
 	self.sum_vals.set_default(0)

@@ -7,7 +7,7 @@ var util
 # GDScript ===================
 
 func _ready () :
-	self.util = UREQ.acc("Uzil", "Util")
+	self.util = UREQ.acc(&"Uzil:Util")
 	#G.print(cubic_interpolate(0.0, 1.0, 0.0, 1.0, 0.1))
 	#G.print(self.util.math.bezier_find_weight(0.0, 0.0, 1.0, 1.0, 0.25, 0.001))
 	self.test_cubic_bezier_1()

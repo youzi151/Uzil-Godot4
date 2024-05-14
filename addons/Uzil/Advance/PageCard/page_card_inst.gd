@@ -43,9 +43,9 @@ var default_transition_fn = null
 # GDScript ===================
 
 func _init () :
-	var PageCard = UREQ.acc("Uzil", "Advance.PageCard")
+	var PageCard = UREQ.acc(&"Uzil:Advance.PageCard")
 	
-	var Graph = UREQ.acc("Uzil", "Util").Graph
+	var Graph = UREQ.acc(&"Uzil:Util").Graph
 	self._page_graph = Graph.new()
 	
 	# 根頁面
@@ -81,7 +81,7 @@ func reg_card (card) :
 		self._id_to_card[card.id] = card
 	
 	# 添加 啟用狀態(多重數值)
-	var is_active_vals = UREQ.acc("Uzil", "Vals").new().set_default(false)
+	var is_active_vals = UREQ.acc(&"Uzil:Core.Vals").new().set_default(false)
 	self._card_to_active_vals[card] = is_active_vals
 	
 	self._root_page.add_card(card)
@@ -446,7 +446,7 @@ func refresh (transition_fn = null, transition_data := {}) :
 	#G.print("to_active : %s" % [to_active.map(func(a):return a.id)])
 	#G.print("to_deactive : %s" % [to_deactive.map(func(a):return a.id)])
 	
-	var Util = UREQ.acc("Uzil", "Util")
+	var Util = UREQ.acc(&"Uzil:Util")
 	await Util.async.waterfall([
 		func(ctrlr) :
 			# 若 有 轉場行為 則 轉呼叫

@@ -17,8 +17,8 @@ func _ready () :
 		self.debug_log.add_text(msg + "\n")
 	, "test_flow")
 	
-	var Uzil = UREQ.acc("Uzil", "Uzil")
-	var Flow = UREQ.acc("Uzil", "Flow")
+	var Uzil = UREQ.acc(&"Uzil:Uzil")
+	var Flow = UREQ.acc(&"Uzil:Basic.Flow")
 	
 	# 匯入 自訂事件腳本
 	Flow.import_event_script("test_event", Uzil.load_script(Flow.PATH.path_join("/_test/test_flow_event.gd")))
@@ -33,7 +33,7 @@ func _exit_tree () :
 
 func test_normal () :
 	
-	var flow_mgr = UREQ.acc("Uzil", "flow_mgr")
+	var flow_mgr = UREQ.acc(&"Uzil:flow_mgr")
 	
 	# 取得 實例
 	var flow = flow_mgr.inst()

@@ -38,7 +38,7 @@ func _ready () :
 	, "test_vals")
 	
 	# 引用 類腳本
-	var Vals = UREQ.acc("Uzil", "Core.Vals")
+	var Vals = UREQ.acc(&"Uzil:Core.Vals")
 	
 	# 建立 多重數值
 	self.vals = Vals.new()
@@ -144,7 +144,7 @@ func _exit_tree () :
 func test_simple () :
 	G.print("== test_simple ===========")
 	
-	var Vals = UREQ.acc("Uzil", "Core.Vals")
+	var Vals = UREQ.acc(&"Uzil:Core.Vals")
 	
 	var vals = Vals.new()
 	

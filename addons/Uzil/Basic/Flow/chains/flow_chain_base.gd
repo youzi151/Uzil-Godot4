@@ -26,7 +26,7 @@ var _state_before_pause : int = 0
 # GDScript ===================
 
 func _init () :
-	self.Flow = UREQ.acc("Uzil", "Basic.Flow")
+	self.Flow = UREQ.acc(&"Uzil:Basic.Flow")
 
 # Interface ==================
 
@@ -186,7 +186,7 @@ func on_gate_complete () :
 		
 		# 防止循環
 #		if chain == self : 
-#			UREQ.acc("Uzil", "invoker_mgr").inst("_uzil").once(func() :
+#			UREQ.acc(&"Uzil:invoker_mgr").inst("_uzil").once(func() :
 #				chain.enter()
 #			)
 #			continue

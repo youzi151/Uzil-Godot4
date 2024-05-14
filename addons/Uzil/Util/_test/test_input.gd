@@ -17,7 +17,7 @@ func _ready () :
 		self.debug_log.add_text(msg + "\n")
 	, "test_input")
 	
-	self.util = UREQ.acc("Uzil", "Util")
+	self.util = UREQ.acc(&"Uzil:Util")
 	
 #	G.print(self.util.input.keycode.name_to_gdkeys("key.a"))
 #	G.print(self.util.input.keycode.name_to_keycode("joy.0.a"))

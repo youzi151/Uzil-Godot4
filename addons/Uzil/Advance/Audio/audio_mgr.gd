@@ -200,7 +200,7 @@ func set_layer (layer_id: String, data = null) :
 	var audio_layer = self.get_layer(layer_id)
 	
 	if audio_layer == null :
-		audio_layer = UREQ.acc("Uzil", "Advance.Audio").Layer.new(self)
+		audio_layer = UREQ.acc(&"Uzil:Advance.Audio").Layer.new(self)
 		self._id_to_layer[layer_id] = audio_layer
 	
 	if data != null :
@@ -260,15 +260,15 @@ func get_bus_idx (bus_id: String) -> int :
 
 func set_bus_volume (bus_id: String, volume_linear: float) :
 	var bus_idx = self.request_bus(bus_id)
-	var volume_db = UREQ.acc("Uzil", "Util").math.percent_to_db(volume_linear)
+	var volume_db = UREQ.acc(&"Uzil:Util").math.percent_to_db(volume_linear)
 	AudioServer.set_bus_volume_db(bus_idx, volume_db)
 
 # Private ====================
 
 ## 建立物件
 func _create_obj (id: String, path_or_key: String, data := {}) :
-	var Audio = UREQ.acc("Uzil", "Audio")
-	var res_mgr = UREQ.acc("Uzil", "res_mgr")
+	var Audio = UREQ.acc(&"Uzil:Advance.Audio")
+	var res_mgr = UREQ.acc(&"Uzil:res_mgr")
 	
 	if not data.is_empty() :
 		data = data.duplicate()
@@ -322,7 +322,7 @@ func _handle_id_in_request (id: String) -> String :
 	# 若為空 則 取匿名ID
 	if id.is_empty() :
 		id = "_anonymous_"
-		id = UREQ.acc("Uzil", "Util").uniq_id.fix(id, func(newID) :
+		id = UREQ.acc(&"Uzil:Util").uniq_id.fix(id, func(newID) :
 			return self._id_to_obj.has(newID) == false
 		)
 		

@@ -22,10 +22,10 @@ func _exit_tree () :
 
 func test_simple () :
 	
-	var Audio = UREQ.acc("Uzil", "Audio")
-	var audio_mgr = UREQ.acc("Uzil", "audio_mgr")
+	var Audio = UREQ.acc(&"Uzil:Advance.Audio")
+	var audio_mgr = UREQ.acc(&"Uzil:audio_mgr")
 	
-	var invoker = UREQ.acc("Uzil", "invoker")
+	var invoker = UREQ.acc(&"Uzil:invoker")
 	
 	# 清除前次
 	audio_mgr.set_preset("test_key", null)

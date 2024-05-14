@@ -69,7 +69,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("Util")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Util",
+	UREQ.bind(&"Uzil", &"Util",
 		func():
 			
 			# inner class

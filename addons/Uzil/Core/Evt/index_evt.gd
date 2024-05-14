@@ -39,12 +39,12 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("Evt")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Core.Evt", self._target_index, {
+	UREQ.bind(&"Uzil", &"Core.Evt", self._target_index, {
 		"alias" : ["Evt"]
 	})
 	
 	# 綁定 事件串管理
-	UREQ.bind("Uzil", "evt_bus_mgr", self._target_mgr, {
+	UREQ.bind(&"Uzil", &"evt_bus_mgr", self._target_mgr, {
 		"alias" : ["evtbus", "evt_bus"],
 		"requires" : ["Core.Evt"],
 	})

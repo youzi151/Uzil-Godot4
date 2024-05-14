@@ -12,7 +12,7 @@
 ## 上傳檔案
 func upload_file_buffer (url: String, file_name: String, content_type: String, content: PackedByteArray) :
 	
-	var http_node : Node = UREQ.acc("Uzil", "Uzil").request_node("Http")
+	var http_node : Node = UREQ.acc(&"Uzil:Uzil").request_node("Http")
 	
 	var request := HTTPRequest.new()
 	request.request_completed.connect(func(_result, _response_code, _headers, _body):

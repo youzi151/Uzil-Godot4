@@ -28,9 +28,9 @@ var _id_to_gate := {}
 # GDScript ===================
 
 func _init (_dont_set_in_scene) :
-	self.Flow = UREQ.acc("Uzil", "Flow")
+	self.Flow = UREQ.acc(&"Uzil:Basic.Flow")
 	
-	var times = UREQ.acc("Uzil", "times_mgr")
+	var times = UREQ.acc(&"Uzil:times_mgr")
 	self._times_inst = times.inst(self._key)
 
 func _process (_dt) :

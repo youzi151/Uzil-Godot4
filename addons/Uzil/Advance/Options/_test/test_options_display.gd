@@ -24,7 +24,7 @@ func _ready () :
 		self.debug_log.add_text(msg + "\n")
 	, "test_options_display")
 	
-	var options = UREQ.acc("Uzil", "options")
+	var options = UREQ.acc(&"Uzil:options")
 	options.display.load_config()
 	
 	# 綁定 視圖
@@ -85,7 +85,7 @@ func test_sub_window_toggle () :
 
 ## 切換 主視窗 尺寸
 func test_window_size_toggle () :
-	var options = UREQ.acc("Uzil", "options")
+	var options = UREQ.acc(&"Uzil:options")
 	var size : Vector2i = options.display.get_window_size()
 	var display_size : Vector2i = DisplayServer.screen_get_size()
 	var new_size : Vector2i = display_size * 0.5
@@ -96,7 +96,7 @@ func test_window_size_toggle () :
 
 ## 切換 主視窗/子視窗 3D渲染比例
 func test_3d_scaling_toggle () :
-	var options = UREQ.acc("Uzil", "options")
+	var options = UREQ.acc(&"Uzil:options")
 	
 	var scale : float = options.display.get_viewport_scaling_3d_scale()
 	var last_scale : float = scale
@@ -116,7 +116,7 @@ func test_3d_scaling_toggle () :
 	
 ## 切換 主視窗/子視窗 無邊框
 func test_borderless_toggle () :
-	var options = UREQ.acc("Uzil", "options")
+	var options = UREQ.acc(&"Uzil:options")
 	
 	var is_borderless : bool = options.display.get_window_borderless()
 	options.display.set_window_borderless(not is_borderless, "", true)
@@ -125,7 +125,7 @@ func test_borderless_toggle () :
 
 ## 切換 主視窗/子視窗 全螢幕
 func test_fullscreen_toggle () :
-	var options = UREQ.acc("Uzil", "options")
+	var options = UREQ.acc(&"Uzil:options")
 	
 	var fullscreen_mode : int = options.display.get_window_fullscreen_mode("")
 	var fullscreen_mode_next : int = Window.MODE_WINDOWED

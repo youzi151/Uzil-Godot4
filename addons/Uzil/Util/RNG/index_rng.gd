@@ -29,7 +29,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("RNG")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Util.RNG",
+	UREQ.bind(&"Uzil", &"Util.RNG",
 		func():
 			self.Pool = Uzil.load_script(self.PATH.path_join("rng_pool.gd"))
 			self.Rate = Uzil.load_script(self.PATH.path_join("rng_rate.gd"))
@@ -40,10 +40,10 @@ func index (Uzil, _parent_index) :
 	)
 	
 	# 綁定 池隨機 管理
-	UREQ.bind("Uzil", "rng_pool_mgr",
+	UREQ.bind(&"Uzil", &"rng_pool_mgr",
 		func():
-			var mgr = UREQ.acc("Uzil", "Util").InstMgr.new(func():
-				return UREQ.acc("Uzil", "Util.RNG").Pool.new()
+			var mgr = UREQ.acc(&"Uzil:Util").InstMgr.new(func():
+				return UREQ.acc(&"Uzil:Util.RNG").Pool.new()
 			)
 			return mgr,
 		{

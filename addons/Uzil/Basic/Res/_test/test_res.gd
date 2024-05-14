@@ -23,8 +23,8 @@ func _exit_tree () :
 # Public =====================
 
 func test_simple () :
-	var Res = UREQ.acc("Uzil", "Res")
-	var res_mgr = UREQ.acc("Uzil", "res_mgr")
+	var Res = UREQ.acc(&"Uzil:Basic.Res")
+	var res_mgr = UREQ.acc(&"Uzil:res_mgr")
 	var Res_FIEL_PATH = Res.PATH.replace("res://", "file://")
 	
 	res_mgr.is_debug = true

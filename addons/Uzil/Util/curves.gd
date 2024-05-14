@@ -107,7 +107,7 @@ func get_val (time: float, math: Object = null) :
 	
 	
 	if math == null :
-		math = UREQ.acc("Uzil", "Util").math
+		math = UREQ.acc(&"Uzil:Util").math
 	#G.print("%s %s %s %s" % [p0, p1, p2, p3])
 	var weight : float = math.bezier_find_weight(p0.x, p1.x, p2.x, p3.x, time, 0.0001, 200)
 	var res : float = p0.bezier_interpolate(p1, p2, p3, weight).y

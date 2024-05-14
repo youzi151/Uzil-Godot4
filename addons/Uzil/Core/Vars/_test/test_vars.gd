@@ -22,7 +22,7 @@ func _exit_tree () :
 
 func test_normal () :
 	
-	var Vars = UREQ.acc("Uzil", "vars_mgr")
+	var Vars = UREQ.acc(&"Uzil:vars_mgr")
 	
 	# 建立 變數集
 	var vars = Vars.inst()

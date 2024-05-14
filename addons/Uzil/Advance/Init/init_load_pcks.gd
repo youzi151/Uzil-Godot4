@@ -13,7 +13,7 @@ var cfg_path_in_config_folder : String = "pcks.cfg"
 # Public =====================
 
 func load () :
-	var config = UREQ.acc("Uzil", "user_save").config
+	var config = UREQ.acc(&"Uzil:user_save").config
 	var arr = config.read(self.cfg_path_in_config_folder, "pcks")
 	if arr != null :
 		for each : String in arr :

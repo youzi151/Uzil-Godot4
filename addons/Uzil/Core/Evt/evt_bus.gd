@@ -75,7 +75,7 @@ func get_evt (evt_key) :
 	if self.key_to_evt.has(evt_key) :
 		evt = self.key_to_evt[evt_key]
 	else : 
-		var Evt = UREQ.acc("Uzil", "Core.Evt")
+		var Evt = UREQ.acc(&"Uzil:Core.Evt")
 		evt = Evt.Inst.new()
 		self.key_to_evt[evt_key] = evt
 	

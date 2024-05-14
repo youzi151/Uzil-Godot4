@@ -69,7 +69,7 @@ func test_normal () :
 	
 	
 	# 時間實體管理
-	var times_mgr = UREQ.acc("Uzil", "times_mgr")
+	var times_mgr = UREQ.acc(&"Uzil:times_mgr")
 	
 	
 	# 時間實體 A ====

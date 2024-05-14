@@ -30,9 +30,9 @@ var on_update_listener = null
 # GDScript ===================
 
 func _ready () :
-	var Uzil = UREQ.acc("Uzil", "Uzil")
+	var Uzil = UREQ.acc(&"Uzil:Uzil")
 	Uzil.once_ready(func():
-		self.i18n = UREQ.acc("Uzil", "i18n")
+		self.i18n = UREQ.acc(&"Uzil:i18n")
 	
 		# 註冊 當 多語系更新時 更新
 		self.register_on_update()

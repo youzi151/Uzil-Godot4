@@ -6,7 +6,7 @@ var Uzil_RNG
 # Extends ====================
 
 func test_ready () :
-	self.Uzil_RNG = UREQ.acc("Uzil", "RNG")
+	self.Uzil_RNG = UREQ.acc(&"Uzil:Util.RNG")
 	
 	var start_time
 	var end_time

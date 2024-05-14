@@ -59,7 +59,7 @@ func get_near_val (chain, key: String, req_data := {}) :
 func get_nearest_neighbor (chain, req_data := {}) :
 	
 #	print("get_nearest_neighbor")
-#	print(UREQ.acc("Uzil", "Util").array.map(chain.get_neighbor_chains(), func(idx, val) :
+#	print(UREQ.acc(&"Uzil:Util").array.map(chain.get_neighbor_chains(), func(idx, val) :
 #		return val.id
 #	))
 	

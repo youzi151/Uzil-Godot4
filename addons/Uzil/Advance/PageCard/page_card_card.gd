@@ -45,7 +45,7 @@ func deactive (_options := {}, is_force := false) :
 
 ## 啟用目標
 func active_targets (_options := {}) :
-	var async = UREQ.acc("Uzil", "Util").async
+	var async = UREQ.acc(&"Uzil:Util").async
 	await async.each(self.targets, func(idx, each, ctrlr) :
 		if is_instance_valid(each) : 
 			if each.has_method("card_active") :
@@ -59,7 +59,7 @@ func active_targets (_options := {}) :
 
 ## 關閉目標
 func deactive_targets (_options := {}) :
-	var async = UREQ.acc("Uzil", "Util").async
+	var async = UREQ.acc(&"Uzil:Util").async
 	await async.each(self.targets, func(idx, each, ctrlr) :
 		if is_instance_valid(each) : 
 			if each.has_method("card_deactive") :

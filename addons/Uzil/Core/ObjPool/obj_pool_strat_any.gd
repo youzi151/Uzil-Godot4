@@ -9,7 +9,7 @@
 
 ## 以 此策略 建立 核心
 static func new_core () :
-	var ObjPool = UREQ.acc("Uzil", "Core.ObjPool")
+	var ObjPool = UREQ.acc(&"Uzil:Core.ObjPool")
 	var __core = ObjPool.Core.new()
 	var _strat = new().set_core(__core)
 	return __core

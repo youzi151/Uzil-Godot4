@@ -18,7 +18,7 @@ func inst (key := "_") :
 	if self.key_to_inst.has(key) :
 		return self.key_to_inst[key]
 	else:
-		var Vars = UREQ.acc("Uzil", "Core.Vars")
+		var Vars = UREQ.acc(&"Uzil:Core.Vars")
 		var _inst = Vars.Inst.new()
 		self.key_to_inst[key] = _inst
 		return _inst

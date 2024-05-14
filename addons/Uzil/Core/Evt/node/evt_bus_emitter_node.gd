@@ -98,7 +98,7 @@ func _get_evt_bus () :
 		
 		FindBusMode.INST_KEY :
 			if self.evt_bus.is_empty() : return null
-			var evt_bus_mgr = UREQ.acc("Uzil", "evt_bus_mgr")
+			var evt_bus_mgr = UREQ.acc(&"Uzil:evt_bus_mgr")
 			return evt_bus_mgr.inst(self.evt_bus)
 
 ## 尋找 事件串節點

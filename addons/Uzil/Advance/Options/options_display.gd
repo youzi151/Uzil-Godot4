@@ -89,7 +89,7 @@ func apply () :
 ## 讀取 設定檔案
 func load_config (file_path := "", target_display_keys: Array = [], save_key_tag = null) :
 	if file_path == "" :
-		file_path = UREQ.acc("Uzil", "Advance.Options").CONFIG_FILE_PATH
+		file_path = UREQ.acc(&"Uzil:Advance.Options").CONFIG_FILE_PATH
 	
 	var windows := []
 	var viewports := []
@@ -127,7 +127,7 @@ func load_config (file_path := "", target_display_keys: Array = [], save_key_tag
 			to_load_keys.push_back(self._get_key_viewport_scaling_3d_scale(each))
 	
 	# 取得 存檔配置 設定檔 (以要讀取的所有key)
-	var user_save = UREQ.acc("Uzil", "user_save")
+	var user_save = UREQ.acc(&"Uzil:user_save")
 	var configs = user_save.config.reads(file_path, to_load_keys, {"section":"display"})
 	
 	# 把 設定 讀取到各個display
@@ -409,8 +409,8 @@ func _get_key_with_suffix (window_key: String, key: String) -> String :
 
 ## 寫入 至 設定檔案
 func _write_to_config (key, val) :
-	var Options = UREQ.acc("Uzil", "Advance.Options")
-	var user_save = UREQ.acc("Uzil", "user_save")
+	var Options = UREQ.acc(&"Uzil:Advance.Options")
+	var user_save = UREQ.acc(&"Uzil:user_save")
 	user_save.config.write(Options.CONFIG_FILE_PATH, key, val, {"section":self.CFG_SECTION_NAME})
 #	print(Options.CONFIG_FILE_PATH)
 

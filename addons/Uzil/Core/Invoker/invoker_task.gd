@@ -37,7 +37,7 @@ var auto_sort : int = 0
 # GDScript ===================
 
 func _init () :
-	var Invoker = UREQ.acc("Uzil", "Invoker")
+	var Invoker = UREQ.acc(&"Uzil:Core.Invoker")
 	self.call_type = Invoker.CallType.ONCE
 
 # Public =====================

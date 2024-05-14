@@ -25,7 +25,7 @@ func inst (key := "_") :
 	if self._key_to_inst.has(key):
 		return self._key_to_inst[key]
 	else:
-		var States = UREQ.acc("Uzil", "Advance.States")
+		var States = UREQ.acc(&"Uzil:Advance.States")
 		var _inst = States.Inst.new()
 		
 		self._key_to_inst[key] = _inst

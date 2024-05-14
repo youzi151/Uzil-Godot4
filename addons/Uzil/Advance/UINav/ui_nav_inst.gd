@@ -30,7 +30,7 @@ func _init (__inst_key: String) :
 	self._inst_key = __inst_key
 	
 	# 當 當前鏈節點改變
-	var Evt = UREQ.acc("Uzil", "Core.Evt")
+	var Evt = UREQ.acc(&"Uzil:Core.Evt")
 	self.on_chain_change = Evt.Inst.new()
 	
 
@@ -67,8 +67,8 @@ func add_chain (chain) :
 ## 建立 新 鏈節點
 func new_chain (prefer_chain_id: String, script_name: String, data := {}) :
 	
-	var UINav = UREQ.acc("Uzil", "Advance.UINav")
-	var Util = UREQ.acc("Uzil", "Util")
+	var UINav = UREQ.acc(&"Uzil:Advance.UINav")
+	var Util = UREQ.acc(&"Uzil:Util")
 	
 	var chain = UINav.Chain.new(script_name)
 	

@@ -27,7 +27,7 @@ func _exit_tree () :
 
 func test_normal () :
 	
-	var ObjPool = UREQ.acc("Uzil", "ObjPool")
+	var ObjPool = UREQ.acc(&"Uzil:ObjPool")
 	
 	# 建立物件池
 	var pool = ObjPool.Strat_Any.new_core()

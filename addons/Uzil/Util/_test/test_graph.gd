@@ -28,7 +28,7 @@ func test_simple () :
 	
 	G.print("to find 4 -> 8")
 	
-	var Graph = UREQ.acc("Uzil", "Util").Graph
+	var Graph = UREQ.acc(&"Uzil:Util").Graph
 	
 	var graph = Graph.new({
 		"points" : {

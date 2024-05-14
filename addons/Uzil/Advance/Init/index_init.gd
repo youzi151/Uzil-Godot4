@@ -29,7 +29,7 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("Init")
 	
 	# 綁定 索引
-	UREQ.bind("Uzil", "Advance.Init",
+	UREQ.bind(&"Uzil", &"Advance.Init",
 		func():
 			self.LoadPCKs = Uzil.load_script(self.PATH.path_join("init_load_pcks.gd"))
 			self.LoadOpts = Uzil.load_script(self.PATH.path_join("init_load_opts.gd"))
@@ -41,7 +41,7 @@ func index (Uzil, _parent_index) :
 
 ## 完整初始化
 func init_full () :
-	UREQ.acc("Uzil", "Advance.Init")
+	UREQ.acc(&"Uzil:Advance.Init")
 	
 	var load_pcks = self.LoadPCKs.new()
 	load_pcks.load()

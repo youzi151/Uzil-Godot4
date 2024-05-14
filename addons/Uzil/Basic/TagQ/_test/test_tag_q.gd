@@ -31,10 +31,10 @@ func _ready () :
 		self.debug_log.add_text(msg + "\n")
 	, "test_tag_q")
 	
-	self.TagQ = UREQ.acc("Uzil", "Basic.TagQ")
+	self.TagQ = UREQ.acc(&"Uzil:Basic.TagQ")
 	
 	# 實例
-	self.tag_q = UREQ.acc("Uzil", "tag_q").inst("test")
+	self.tag_q = UREQ.acc(&"Uzil:tag_q").inst("test")
 	
 	# 註冊 當 搜尋列 送出
 	self.search_edit.text_submitted.connect(func(txt):
@@ -122,7 +122,7 @@ func test_search () :
 func test_simple () :
 	
 	G.print("== test_simple ========")
-	var tag_q = UREQ.acc("Uzil", "tag_q")
+	var tag_q = UREQ.acc(&"Uzil:tag_q")
 	
 	# 實例
 	var inst = tag_q.inst("test_simple")

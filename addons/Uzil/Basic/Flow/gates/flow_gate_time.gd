@@ -25,7 +25,7 @@ var _left_time := 0
 # GDScript ===================
 
 func _init () :
-	self.times_mgr = UREQ.acc("Uzil", "times_mgr")
+	self.times_mgr = UREQ.acc(&"Uzil:times_mgr")
 
 # Interface ====================
 

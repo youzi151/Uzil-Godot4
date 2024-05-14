@@ -55,11 +55,11 @@ var on_deactive = null
 # GDScript ===================
 
 func _init () :
-	self.PageCard = UREQ.acc("Uzil", "PageCard")
+	self.PageCard = UREQ.acc(&"Uzil:Advance.PageCard")
 	
-	self._tag_q = UREQ.acc("Uzil", "TagQ").Inst.new()
+	self._tag_q = UREQ.acc(&"Uzil:Basic.TagQ").Inst.new()
 	
-	var Evt_Inst = UREQ.acc("Uzil", "Evt").Inst
+	var Evt_Inst = UREQ.acc(&"Uzil:Core.Evt").Inst
 	self.on_active = Evt_Inst.new()
 	self.on_enter = Evt_Inst.new()
 	self.on_focus = Evt_Inst.new()
