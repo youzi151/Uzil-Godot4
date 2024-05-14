@@ -11,9 +11,10 @@ signal on_target_got
 ## 主元件 暫存
 var _UREQ = null
 
-## 所屬域 暫存
-var _scope = null
+## 所屬域
+var scope = null
 
+## 存取
 var access = null
 
 ## 是否為異步
@@ -34,7 +35,7 @@ var _current_requiring = null
 
 func _init (_ureq, _scope) :
 	self._UREQ = _ureq
-	self._scope = _scope
+	self.scope = _scope
 
 # Extends ====================
 
@@ -73,17 +74,17 @@ func run (access, on_done: Callable = Callable()) :
 	if not access.is_requires_checked :
 		
 		# 建立 所屬域:依賴 表
-		var scope_to_requires = self._UREQ.requires_to_dict(self._scope.key(), access.requires)
+		var scope_to_requires = self._UREQ.requires_to_dict(self.scope.key(), access.requires)
 		# 蒐集 依賴的依賴
-		var total_scope_to_requires = self._UREQ.collect_requires(scope_to_requires, {})
+		var total_route_to_requires = self._UREQ.collect_requires(scope_to_requires, {})
 		
 		# 若 依賴中 有 當前正要存取的模塊 則 視為 循環依賴
-		if total_scope_to_requires.has(access.path) :
+		if total_route_to_requires.has(access.route) :
 			push_error("loop requires")
 			return
 		
 		# 排序所有依賴
-		var sorted_require_list = self._UREQ.get_sort_require_list(total_scope_to_requires.values())
+		var sorted_require_list = self._UREQ.get_sort_require_list(total_route_to_requires.values())
 		
 #		var debug_sorted_require_list = []
 #		for each in sorted_require_list :
@@ -138,14 +139,14 @@ func _require_target (access) :
 
 	# 若 當前請求中 不存在 則 直接 當前請求中 為 此模塊
 	if self._current_requiring == null :
-		self._current_requiring = access.path
+		self._current_requiring = access.route
 		
 	# 若 當前請求中 存在
 	else :
 #		print("self._current_requiring [%s] and now [%s]" % [self._current_requiring, access.id])
 		# 若 當前檢查中 與 目前即將檢查者 相同 則 視為循環 請求建立目標 並 報錯
-		if self._current_requiring == access.path :
-			push_error("Cycle require : %s" % access.path)
+		if self._current_requiring == access.route :
+			push_error("Cycle require : %s" % access.route)
 			return
 	
 	# 目標

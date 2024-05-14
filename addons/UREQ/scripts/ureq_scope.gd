@@ -10,7 +10,7 @@
 var _UREQ = null
 
 ## 辨識
-var _key := ""
+var _key : StringName = &""
 
 ## 模塊
 var _accesses := []
@@ -24,7 +24,7 @@ var _access_to_task := {}
 
 # GDScript ===================
 
-func _init (key: String, _ureq) :
+func _init (key: StringName, _ureq) :
 	self._UREQ = _ureq
 	self._key = key
 
@@ -47,13 +47,13 @@ func key () :
 	return self._key
 
 ## 綁定
-func bind (id: String, target, options := {}) :
-	self.unbind(id)
+func bind (access_id: StringName, target, options := {}) :
+	self.unbind(access_id)
 	
 	var access = self._UREQ.Access.new()
-	access.id = id
+	access.id = access_id
 	access.scope = self._key
-	access.path = self._UREQ.get_access_path(self._key, id)
+	access.route = self._UREQ.build_route(self._key, access_id)
 	
 	# 依照 傳入目標 類型
 	var typ = typeof(target)
@@ -75,33 +75,42 @@ func bind (id: String, target, options := {}) :
 	if options.has("is_ignore_cached_script") :
 		access.is_ignore_cached_script = options.is_ignore_cached_script
 	if options.has("requires") :
-		access.requires = options.requires.duplicate()
-		
+		if options.requires.size() > 0 :
+			access.requires = options.requires.duplicate()
+	
 	# 別名
 	if options.has("alias") :
 		access.alias = options.alias
 	# 註冊所有別名 指向 本ID
 	for each in access.alias :
-		self._alias_to_id[each] = id
+		self._alias_to_id[StringName(each)] = access_id
 	
 	# 紀錄 選項
 	access.options = options
 	
 	# 加入
 	self._accesses.push_back(access)
-	self._id_to_access[id] = access
+	self._id_to_access[access_id] = access
+	
+	return access
 
 
 ## 解除綁定
-func unbind (id: String) :
-	if not self._id_to_access.has(id) : return
-	var exist = self._id_to_access[id]
-	self._id_to_access.erase(id)
+func unbind (access_id: StringName) :
+	if not self._id_to_access.has(access_id) : return
+	var exist = self._id_to_access[access_id]
+	self._id_to_access.erase(access_id)
 	self._accesses.erase(exist)
+	self._UREQ.uncache(self._key, access_id)
 
 ## 非同步 存取 並 確保依賴建立
-func accync (id_or_alias: String, on_done: Callable = Callable()) :
+func accync (id_or_alias: StringName, on_done: Callable = Callable()) :
 	var access = self.get_access(id_or_alias)
+	if access == null : return null
+	return await self.req_accync(access, on_done)
+
+## 非同步 存取 並 確保依賴建立
+func req_accync (access: RefCounted, on_done: Callable = Callable()) :
 	if access == null : return null
 	
 	# 是否 指定完成回呼
@@ -111,7 +120,7 @@ func accync (id_or_alias: String, on_done: Callable = Callable()) :
 	var is_task_exist : bool = self._access_to_task.has(access)
 	
 	# 任務
-	var task
+	var task : RefCounted
 	
 	# 若 載入中
 	if is_task_exist :
@@ -131,7 +140,7 @@ func accync (id_or_alias: String, on_done: Callable = Callable()) :
 			
 			var result = null
 			if not self._check_error(task) :
-				result = task.result
+				result = task
 				
 			if not is_task_exist :
 				self._access_to_task.erase(access)
@@ -159,33 +168,31 @@ func accync (id_or_alias: String, on_done: Callable = Callable()) :
 		
 		var result = null
 		if not self._check_error(task) :
-			result = task.result
+			result = task
 			
 		return result
 
 ## 存取 並 確保依賴建立
-func access (id_or_alias: String) :
+func access (id_or_alias: StringName) :
 	var access = self.get_access(id_or_alias)
 	if access == null : return null
-	
+	return self.req_access(access)
+
+## 存取 並 確保依賴建立
+func req_access(access: RefCounted) :
 	var task = self._UREQ.Task.new(self._UREQ, self)
 	task.run(access)
-	
-	var err = task.check_error()
-	if err != null :
-		print_debug(err)
-		return null
-		
-	return task.result
+	if self._check_error(task) : return null
+	return task
 
 ## 取得 模塊
-func get_access (id_or_alias: String) :
+func get_access (id_or_alias: StringName) :
 	# 若 存在 則 返回
 	if self._id_to_access.has(id_or_alias) :
 		return self._id_to_access[id_or_alias]
 	if self._alias_to_id.has(id_or_alias) :
-		var id : String = self._alias_to_id[id_or_alias]
-		return self._id_to_access[id]
+		var access_id : StringName = self._alias_to_id[id_or_alias]
+		return self._id_to_access[access_id]
 	return null
 
 # Private =====================

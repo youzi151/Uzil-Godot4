@@ -22,6 +22,9 @@ var Task = null
 ## 鍵:所屬域 表
 var key_to_scope := {}
 
+## 路徑與存取快取
+var route_to_cache := {}
+
 # GDScript ===================
 
 func _init () :
@@ -45,39 +48,89 @@ func _init () :
 
 # Public =====================
 
-## 存取 (全域) access
-func gacc (id: String) :
-	return self.scope().access(id)
+## 存取
+func acc (route: StringName) :
+	if route in self.route_to_cache :
+		var cache : Array = route_to_cache[route]
+		return cache[0].req_access(cache[1]).result
+	
+	var parsed : PackedStringArray = self.parse_route(route)
+	if parsed.size() == 0 : return null
+	
+	var scope = self.scope(parsed[0], false)
+	if scope == null : return null
+	
+	var task = scope.access(parsed[1])
+	if task == null : return null
+	
+	self.route_to_cache[route] = [scope, task.access]
+	
+	return task.result
 
-## 存取 (全域) access
-func gaccync (id: String) :
-	return await self.scope().accync(id)
-
-## 存取 (指定 所屬域) access
-func acc (key: String, id: String) :
-	return self.scope(key).access(id)
-
-## 存取 (指定 所屬域) access
-func accync (key: String, id: String) :
-	return await self.scope(key).accync(id)
+## 存取 非同步
+func accync (route: StringName) :
+	if route in self.route_to_cache :
+		var cache : Array = route_to_cache[route]
+		return await cache[0].req_accync(cache[1]).result
+	
+	var parsed : PackedStringArray = self.parse_route(route)
+	if parsed.size() == 0 : return null
+	
+	var scope = self.scope(parsed[0], false)
+	if scope == null : return null
+	
+	var task = await scope.accync(parsed[1])
+	if task == null : return null
+	
+	self.route_to_cache[route] = [scope, task.access]
+	
+	return task.result
 
 ## 綁定 (全域)
-func gbind (id: String, inst, options := {}) :
-	return self.scope().bind(id, inst, options)
+func gbind (access_id: StringName, inst, options := {}) -> int :
+	return self.bind(&"", access_id, inst, options)
 
-## 綁定 (指定 所屬域)
-func bind (key: String, id: String, inst, options := {}) :
-	self.scope(key).bind(id, inst, options)
+## 綁定
+func bind (scope_key: StringName, access_id: StringName, inst, options := {}) -> int :
+	var scope = self.scope(scope_key)
+	var access = scope.bind(access_id, inst, options)
+	if access == null : return FAILED
+	var route : StringName = self.build_route(scope_key, access_id)
+	self.route_to_cache[route] = [scope, access]
+	return OK
+
+## 解除綁定
+func unbind (route: StringName) :
+	if route in self.route_to_cache :
+		var cache : Array = route_to_cache[route]
+		cache[0].unbind(cache[1].id)
+		self.uncache_route(route)
+	else :
+		var parsed : PackedStringArray = self.parse_route(route)
+		if parsed.size() == 0 : return
+		self.scope(parsed[0]).access(parsed[1])
+		var scope = self.scope(parsed[0], false)
+		if scope == null : return
+		scope.unbind(parsed[1])
 
 ## 取得 所屬域
-func scope (key: String = "") :
-	if self.key_to_scope.has(key) :
-		return self.key_to_scope[key]
+func scope (scope_key: StringName = &"", is_create_if_not_exist := true) :
+	if self.key_to_scope.has(scope_key) :
+		return self.key_to_scope[scope_key]
 	
-	var scope = self.Scope.new(key, self)
-	self.key_to_scope[key] = scope
+	if not is_create_if_not_exist : return null
+	
+	var scope = self.Scope.new(scope_key, self)
+	self.key_to_scope[scope_key] = scope
 	return scope
 
+## 清除 路徑:存取 快取
+func uncache (scope_key: StringName, access_id: StringName) :
+	self.uncache_route(self.build_route(scope_key, access_id))
+## 清除 路徑:存取 快取
+func uncache_route (route: StringName) :
+	if route in self.route_to_cache :
+		self.route_to_cache.erase(route)
 
 ## 排序模塊 以依賴關係
 func get_sort_require_list (_accesses: Array) -> Array :
@@ -90,7 +143,7 @@ func get_sort_require_list (_accesses: Array) -> Array :
 	# 模塊:依賴列表 表
 	var access_to_dependencies := {}
 	# 路徑:模塊 表
-	var path_to_access := {}
+	var route_to_access := {}
 	
 	# 每個 模塊
 	for access in _accesses :
@@ -100,8 +153,8 @@ func get_sort_require_list (_accesses: Array) -> Array :
 		var scope_to_requires = self.requires_to_dict(access.scope, access.requires)
 		
 		# 若 不在 路徑:模塊表 則 加入
-		if not path_to_access.has(access.path) :
-			path_to_access[access.path] = access
+		if not route_to_access.has(access.route) :
+			route_to_access[access.route] = access
 		
 		# 每個 所需依賴
 		# 所屬域
@@ -113,16 +166,16 @@ func get_sort_require_list (_accesses: Array) -> Array :
 				var req_access = scope.get_access(req_id_or_alias)
 				
 				# 若 不在 所需依賴表 則 加入
-				if not dependency.has(req_access.path) :
-					dependency[req_access.path] = true
+				if not dependency.has(req_access.route) :
+					dependency[req_access.route] = true
 				
 				# 若 不在 路徑:模塊表 則 加入
-				if not path_to_access.has(req_access.path) :
-					path_to_access[req_access.path] = req_access
+				if not route_to_access.has(req_access.route) :
+					route_to_access[req_access.route] = req_access
 		
 		# 加入 該模塊:所需依賴 表
 		var dependencies = dependency.keys()
-		access_to_dependencies[access.path] = dependencies
+		access_to_dependencies[access.route] = dependencies
 		
 		# 若 沒有所需依賴 則 加入 該模塊 至 佇列
 		if access.requires.size() == 0 :
@@ -135,9 +188,9 @@ func get_sort_require_list (_accesses: Array) -> Array :
 		sorted_access_list.push_back(access)
 		
 		# 若 依賴表中 有該模塊路徑與該模塊的依賴 則
-		if access_to_dependencies.has(access.path) :
+		if access_to_dependencies.has(access.route) :
 			# 移除
-			access_to_dependencies.erase(access.path)
+			access_to_dependencies.erase(access.route)
 			
 		# 檢查 剩下的所有 其他模塊與依賴
 		for each_path in access_to_dependencies :
@@ -145,11 +198,11 @@ func get_sort_require_list (_accesses: Array) -> Array :
 			var each_access_requires = access_to_dependencies[each_path]
 			
 			# 移除 其他模塊 對 此模塊的依賴
-			if each_access_requires.has(access.path) :
-				each_access_requires.erase(access.path)
+			if each_access_requires.has(access.route) :
+				each_access_requires.erase(access.route)
 			
 			# 其他模塊
-			var each_access = path_to_access[each_path]
+			var each_access = route_to_access[each_path]
 			
 			# 若 已經沒有依賴尚未被排序 且 不在佇列中
 			if each_access_requires.size() == 0 and not queue.has(each_access) :
@@ -188,12 +241,12 @@ func collect_requires (requires: Dictionary, collected := {}) -> Dictionary :
 			if each_access == null : continue
 			
 			# 若 已被加入 則 忽略
-			if collected.has(each_access.path) : continue
+			if collected.has(each_access.route) : continue
 			
 			# 若 該存取 尚未被檢查過依賴
 			if not each_access.is_requires_checked :
 				# 加入
-				collected[each_access.path] = each_access	
+				collected[each_access.route] = each_access
 				# 把 依賴列表 轉換為 所屬域:依賴列表 表
 				var each_requires = self.requires_to_dict(scope.key(), each_access.requires)
 				# 遞迴蒐集
@@ -204,24 +257,63 @@ func collect_requires (requires: Dictionary, collected := {}) -> Dictionary :
 	return collected
 
 ## 把 依賴列表 轉換為 所屬域:依賴列表 表
-func requires_to_dict (default_scope: String, requires) -> Dictionary :
+func requires_to_dict (default_scope: StringName, requires) -> Dictionary :
 	
-	var scope_to_requires : Dictionary
-	
-	var type_requires = typeof(requires)
-	if type_requires == TYPE_ARRAY :
-		scope_to_requires = { default_scope : requires }
-	elif type_requires == TYPE_DICTIONARY :
-		scope_to_requires = requires
+	match typeof(requires) :
+		# 若 為 字典 則 直接使用
+		TYPE_DICTIONARY :
+			return requires
 		
-	return scope_to_requires
+		# 若 為 陣列 則
+		TYPE_ARRAY :
+			# 域:依賴
+			var scope_to_requires : Dictionary = {}
+			# 預設 域
+			var scope : StringName = default_scope
+			# 依賴
+			var require : StringName = &""
+			# 每個依賴成員
+			for each in requires :
+				# 試解析 為 路徑
+				var parsed : PackedStringArray = self.parse_route(each)
+				# 若 解析失敗 則 使用 預設域 與 依賴成員
+				if parsed.size() == 0 :
+					scope = default_scope
+					require = each
+				# 若 解析成功 則 使用
+				else :
+					scope = parsed[0]
+					require = parsed[1]
+				
+				# 若 已存在 則 加入
+				if scope_to_requires.has(scope) :
+					scope_to_requires[scope].push_back(require)
+				# 否則 建立並加入
+				else :
+					scope_to_requires[scope] = [require]
+			
+			return scope_to_requires
+		
+		_ :
+			return {}
 
-## 取得 模塊路徑 (辨識用, 所屬域/id)
-func get_access_path (scope: String, id: String) -> String :
-	return "%s/%s" % [scope, id]
+## 組建 路徑
+func build_route (scope_key: StringName, access_id: StringName) -> StringName :
+	if scope_key.is_empty() : return access_id
+	return StringName(scope_key + ":" + access_id)
+
+## 解析 路徑
+func parse_route (route: StringName) -> PackedStringArray :
+	if not route.contains(":") : return PackedStringArray()
+	var res := route.rsplit(":", true, 1)
+	match res.size() :
+		0 : return PackedStringArray()
+		1 : res = PackedStringArray(["", res[0]])
+	return res
 
 ## 讀取腳本
 func load_script (path: String, is_reload: bool = false) :
 	return G.load_script(path, is_reload)
 
 # Private ====================
+

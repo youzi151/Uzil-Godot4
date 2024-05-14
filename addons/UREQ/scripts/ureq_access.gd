@@ -6,11 +6,11 @@
 # Variable ===================
 
 ## 辨識
-var id := ""
+var id := &""
 ## 所屬域 (檢查判斷用)
 var scope := ""
-## 路徑 (檢查判斷用, 格式為 "scope/id")
-var path := ""
+## 路徑 (格式為 scope:id)
+var route := ""
 ## 別名
 var alias := []
 
