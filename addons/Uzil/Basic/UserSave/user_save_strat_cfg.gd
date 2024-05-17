@@ -222,8 +222,8 @@ func parse_route (route: String) -> Dictionary :
 	# "/" 分割值路徑
 	if route.contains("/") :
 		var splited : Array = route.split("/", true)
-		key = splited[0]
-		route = splited[1]
+		key = splited.pop_front()
+		routes = splited
 	else :
 		key = route
 	
@@ -262,7 +262,7 @@ func _get_content_from_cfg (cfg_file: ConfigFile, section: String, key: String =
 		if cfg_file.has_section_key(section, key) :
 			file_content = cfg_file.get_value(section, key)
 	
-	# 若 無指定key 則 取得所有section中的key
+	# 若 無指定key 則 取得section中的所有key
 	else :
 		if cfg_file.has_section(section) :
 			var keys : Array = cfg_file.get_section_keys(section)

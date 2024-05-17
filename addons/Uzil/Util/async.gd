@@ -25,12 +25,12 @@ class Ctrlr :
 ## 訊號等候
 class SignalWaiter :
 	var is_emited : bool = false
-	signal sign
+	signal on_emit
 	func until_emit () :
-		if not self.is_emited : await self.sign
+		if not self.is_emited : await self.on_emit
 	func emit () :
 		self.is_emited = true
-		self.sign.emit()
+		self.on_emit.emit()
 
 ## 每個成員
 func each (list_or_dict, fn_each: Callable, options := {}) :
@@ -537,5 +537,41 @@ func waterfall (fn_list, options := {}) :
 	
 	# 呼叫 首個任務
 	ref1.nextFunc.call(0)
+	
+	await wait_until_done.until_emit()
+
+## 單次
+func single (fn: Callable, options := {}) :
+	# 當 完成
+	var fn_done := Callable()
+	if "on_done" in options :
+		fn_done = options["on_done"]
+	
+	var wait_until_done : SignalWaiter = SignalWaiter.new()
+	
+	# 控制器
+	var ctrlr : Ctrlr = Ctrlr.new()
+	
+	# 傳入參考
+	var ref1 := {}
+	# 狀態
+	ref1.state = 0
+	
+	var next_fn : Callable = func():
+		# 關閉 控制器
+		ctrlr.deactive()
+		# 呼叫 當完成
+		if not fn_done.is_null() : fn_done.call()
+		# 發送 完成信號
+		wait_until_done.emit()
+		
+	# 跳過
+	ctrlr.skip_fn = next_fn
+	# 停止
+	ctrlr.stop_fn = next_fn
+	# 下一個任務
+	ctrlr.next_fn = next_fn
+	
+	fn.call(ctrlr)
 	
 	await wait_until_done.until_emit()
