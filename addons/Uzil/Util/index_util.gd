@@ -50,6 +50,8 @@ var dict
 var array
 ## 字串
 var string
+## AES
+var aes
 ## 獨特ID
 var uniq_id
 ## HTTP
@@ -82,6 +84,7 @@ func index (Uzil, _parent_index) :
 			self._class._ViewportMouse = Uzil.load_script(self.PATH.path_join("Input/ViewportMouse/viewport_mouse.gd"))
 			self._class._Dictionary = Uzil.load_script(self.PATH.path_join("dictionary.gd"))
 			self._class._Array = Uzil.load_script(self.PATH.path_join("array.gd"))
+			self._class._AES = Uzil.load_script(self.PATH.path_join("aes.gd"))
 			self._class._String = Uzil.load_script(self.PATH.path_join("string.gd"))
 			self._class._UniqID = Uzil.load_script(self.PATH.path_join("uniq_id.gd"))
 			self._class._Http = Uzil.load_script(self.PATH.path_join("http.gd"))
@@ -113,6 +116,7 @@ func init (__parent_index) :
 	self.async = self._class._Async.new()
 	self.gdscript = self._class._GDScript.new()
 	self.signals = self._class._Signals.new()
+	self.aes = self._class._AES.new()
 	self.string = self._class._String.new()
 	self.dict = self._class._Dictionary.new()
 	self.array = self._class._Array.new()
