@@ -21,4 +21,3 @@ func get_position () :
 	return self.pos
 
 # Private ====================
-

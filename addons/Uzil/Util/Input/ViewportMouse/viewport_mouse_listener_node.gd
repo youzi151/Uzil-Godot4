@@ -30,4 +30,3 @@ func get_position () :
 	return self._mouse_pos
 
 # Private ====================
-

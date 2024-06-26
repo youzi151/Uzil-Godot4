@@ -148,4 +148,3 @@ func test_simple () :
 	var end_time = Time.get_ticks_usec()
 	
 	G.print("cost time : %s" % ((end_time - start_time) / 1000000.0))
-

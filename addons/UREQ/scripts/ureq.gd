@@ -316,4 +316,3 @@ func load_script (path: String, is_reload: bool = false) :
 	return G.load_script(path, is_reload)
 
 # Private ====================
-

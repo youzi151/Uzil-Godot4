@@ -83,4 +83,3 @@ func _write_to_config (key, val) :
 	var Options = UREQ.acc(&"Uzil:Advance.Options")
 	var user_save = UREQ.acc(&"Uzil:user_save")
 	user_save.config.write(Options.CONFIG_FILE_PATH, key, val, {"section":self.CFG_SECTION_NAME})
-

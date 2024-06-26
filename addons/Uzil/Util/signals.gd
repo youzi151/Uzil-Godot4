@@ -67,5 +67,3 @@ class WaitCtrlr :
 ## 建立 等候控制器
 func wait_ctrlr (_signal: Signal) :
 	return WaitCtrlr.new(_signal)
-
-

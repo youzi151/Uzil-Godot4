@@ -49,4 +49,3 @@ func in_viewport (viewport: Viewport) :
 	return self._inst_mgr.inst(str(viewport.get_instance_id()))
 
 # Private ====================
-
