@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=3 uid="uid://c00044uhftq6x"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Util/_test/test_async.gd" id="1_vddq2"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_pctfg"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vddq2")
+debug_log = NodePath("VBoxContainer2/debug_text_edit")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 187.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="debug_text_edit" type="TextEdit" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_pctfg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_right = 180.0
+offset_bottom = 648.0
+
+[node name="test_waterfall" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_waterfall()"
+
+[node name="test_parallel" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_parallel()"
+
+[node name="test_each_series_list" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_each_series_list()"
+
+[node name="test_each_series_dict" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_each_series_dict()"
+
+[node name="test_each_list" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_each_list()"
+
+[node name="test_each_dict" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_each_dict()"
+
+[node name="test_times_series" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_times_series()"
+
+[node name="test_times" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_times()"
+
+[connection signal="button_down" from="VBoxContainer/test_waterfall" to="." method="test_waterfall"]
+[connection signal="button_down" from="VBoxContainer/test_parallel" to="." method="test_parallel"]
+[connection signal="button_down" from="VBoxContainer/test_each_series_list" to="." method="test_each_series_list"]
+[connection signal="button_down" from="VBoxContainer/test_each_series_dict" to="." method="test_each_series_dict"]
+[connection signal="button_down" from="VBoxContainer/test_each_list" to="." method="test_each_list"]
+[connection signal="button_down" from="VBoxContainer/test_each_dict" to="." method="test_each_dict"]
+[connection signal="button_down" from="VBoxContainer/test_times_series" to="." method="test_times_series"]
+[connection signal="button_down" from="VBoxContainer/test_times" to="." method="test_times"]

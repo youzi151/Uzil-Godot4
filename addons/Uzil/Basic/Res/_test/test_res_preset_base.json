@@ -1,0 +1,6 @@
+{
+	"requires" : [],
+	"resources" : [
+		{"path":"file://addons/Uzil/Basic/Res/_test/res/res_base.txt", "type_hint":"TextFile"},
+	]
+}

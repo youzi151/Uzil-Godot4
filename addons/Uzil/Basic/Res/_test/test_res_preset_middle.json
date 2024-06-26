@@ -1,0 +1,31 @@
+
+{
+	"requires" : [
+		"file://addons/Uzil/Basic/Res/_test/test_res_preset_base.json",
+	],
+	"resources" : [
+		"file://addons/Uzil/Basic/Res/_test/res/res_23.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_22.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_21.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_20.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_19.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_18.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_17.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_16.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_15.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_14.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_13.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_12.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_11.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_10.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_9.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_8.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_7.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_6.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_5.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_4.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_3.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_2.txt",
+		"file://addons/Uzil/Basic/Res/_test/res/res_1.txt",
+	]
+}

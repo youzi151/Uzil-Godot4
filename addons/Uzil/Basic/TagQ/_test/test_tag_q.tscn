@@ -1,0 +1,145 @@
+[gd_scene load_steps=3 format=3 uid="uid://cl1apas1smffm"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.gd" id="1_pcrid"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_d18wy"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "search_edit", "member_container", "member_prefab")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pcrid")
+debug_log = NodePath("VBoxContainer2/Control/debug_text_edit")
+search_edit = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal/HBoxContainer/BoxContainer/LineEdit")
+member_container = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer")
+member_prefab = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer/OptionPrefab")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="debug_text_edit" type="TextEdit" parent="VBoxContainer2/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_d18wy")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="CurrentVal" type="Panel" parent="VBoxContainer2/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.002
+anchor_bottom = 1.0
+offset_right = -0.0900269
+
+[node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal/HBoxContainer/CenterContainer2"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_vertical = 4
+bbcode_enabled = true
+text = "[b]Search Tags[/b]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="BoxContainer" type="BoxContainer" parent="VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal/HBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "tag1 tag2 -negative_tag1 scope:scope_tag_a,scope_tag_b"
+
+[node name="OptionPrefab" type="Panel" parent="VBoxContainer2/HBoxContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/HBoxContainer/VBoxContainer/OptionPrefab"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.002
+anchor_bottom = 1.0
+offset_right = -0.0900269
+
+[node name="TargetTitle" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer/VBoxContainer/OptionPrefab/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.2
+bbcode_enabled = true
+text = "[b]Target Content[/b]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="TargetEdit" type="LineEdit" parent="VBoxContainer2/HBoxContainer/VBoxContainer/OptionPrefab/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+placeholder_text = "any"
+
+[node name="TagTitle" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer/VBoxContainer/OptionPrefab/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.2
+bbcode_enabled = true
+text = "[b]Tag[/b]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="TagEdit" type="LineEdit" parent="VBoxContainer2/HBoxContainer/VBoxContainer/OptionPrefab/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+placeholder_text = "tag1, tag2, scope:tag_a"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.2
+
+[node name="simple" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "Search"
+
+[node name="simple2" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_simple()"
+
+[connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/simple" to="." method="test_search"]
+[connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/simple2" to="." method="test_simple"]

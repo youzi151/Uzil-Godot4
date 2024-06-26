@@ -12,21 +12,17 @@ config_version=5
 
 config/name="uzil-godot4"
 run/main_scene="res://addons/Uzil/Test/test_uzil.tscn"
-config/features=PackedStringArray("4.1", "GL Compatibility")
+config/features=PackedStringArray("4.2", "GL Compatibility")
 
 [autoload]
 
-G="*res://addons/GlobalDictionary/Scripts/G.gd"
-UREQ="*res://addons/UREQ/Scripts/ureq.gd"
-Uzil_Init="*res://addons/Uzil/Scripts/uzil_init.gd"
-
-[display]
-
-window/size/borderless=true
+G="*res://addons/GlobalUtil/scripts/global_util.gd"
+UREQ="*res://addons/UREQ/scripts/ureq.gd"
+UzilInit="*res://addons/Uzil/uzil_init.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Uzil/plugin.cfg", "res://addons/GlobalDictionary/plugin.cfg", "res://addons/UREQ/plugin.cfg")
+enabled=PackedStringArray("res://addons/GlobalUtil/plugin.cfg", "res://addons/UREQ/plugin.cfg", "res://addons/Uzil/plugin.cfg")
 
 [input]
 
@@ -35,8 +31,10 @@ touch={
 "events": []
 }
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true

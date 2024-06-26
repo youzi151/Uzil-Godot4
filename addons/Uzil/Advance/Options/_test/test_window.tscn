@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dmygwnq3d1o7n"]
+
+[node name="TestWindow" type="Node"]
+
+[node name="Control" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 2
+text = "Window 2"
+horizontal_alignment = 1
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.810706, 0.585453, 0, -0.585453, 0.810706, 0, 2.28418, 3.16825)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.846295, -0.023664, 0.532188, -0.532714, -0.0375937, 0.84546, 0, -0.999013, -0.0444215, 1.76232, 1.03713, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(0.708857, 0, -0.705352, 0, 1, 0, 0.705352, 0, 0.708857, 0, 0, 0)

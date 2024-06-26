@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1r5ax803kve2"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Util/_test/test_graph.gd" id="1_5cll8"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_ljfsp"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5cll8")
+debug_log = NodePath("HBoxContainer/VBoxContainer2/debug_text_edit")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="test_simple" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_once()"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="debug_text_edit" type="TextEdit" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2_ljfsp")
+
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_simple" to="." method="test_simple"]

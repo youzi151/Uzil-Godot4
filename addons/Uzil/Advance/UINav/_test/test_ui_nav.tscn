@@ -1,0 +1,180 @@
+[gd_scene load_steps=4 format=3 uid="uid://1shkvi5t2xx0"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Advance/UINav/_test/test_ui_nav.gd" id="1_2cce4"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_66a16"]
+[ext_resource type="Script" path="res://addons/Uzil/Advance/UINav/_test/test_ui_nav_ui.gd" id="2_cytug"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "test_ui_list")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2cce4")
+debug_log = NodePath("VBoxContainer2/debug_text_edit")
+test_ui_list = [NodePath("VBoxContainer2/HBoxContainer/Control/Control2/Btn"), NodePath("VBoxContainer2/HBoxContainer/Control/Control2/Btn2"), NodePath("VBoxContainer2/HBoxContainer/Control/Control2/Btn3")]
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="debug_text_edit" type="TextEdit" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_66a16")
+
+[node name="Control" type="Control" parent="VBoxContainer2"]
+custom_minimum_size = Vector2(0, 20.445)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+
+[node name="test_log" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_log()"
+
+[node name="Control" type="Control" parent="VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control2" type="Control" parent="VBoxContainer2/HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Btn" type="Control" parent="VBoxContainer2/HBoxContainer/Control/Control2" node_paths=PackedStringArray("control")]
+layout_mode = 1
+anchors_preset = 0
+offset_left = -96.5
+offset_top = 3.0
+offset_right = 3.5
+offset_bottom = 103.0
+script = ExtResource("2_cytug")
+control = NodePath("Button")
+
+[node name="Button" type="Button" parent="VBoxContainer2/HBoxContainer/Control/Control2/Btn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer/Control/Control2/Btn/Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 36
+text = "A"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Btn2" type="Control" parent="VBoxContainer2/HBoxContainer/Control/Control2" node_paths=PackedStringArray("control")]
+layout_mode = 1
+anchors_preset = 0
+offset_left = -123.5
+offset_top = 143.0
+offset_right = -23.5
+offset_bottom = 243.0
+script = ExtResource("2_cytug")
+control = NodePath("Button")
+
+[node name="Button" type="Button" parent="VBoxContainer2/HBoxContainer/Control/Control2/Btn2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer/Control/Control2/Btn2/Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -26.0
+offset_right = 12.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 36
+text = "B"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Btn3" type="Control" parent="VBoxContainer2/HBoxContainer/Control/Control2" node_paths=PackedStringArray("control")]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 15.5
+offset_top = 144.0
+offset_right = 115.5
+offset_bottom = 244.0
+script = ExtResource("2_cytug")
+control = NodePath("Button")
+
+[node name="Button" type="Button" parent="VBoxContainer2/HBoxContainer/Control/Control2/Btn3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer/Control/Control2/Btn3/Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -26.0
+offset_right = 12.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 36
+text = "C"
+fit_content = true
+autowrap_mode = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.51
+text = "press Q W E  to move ui nav
+           A      D
+           Z  X  C"
+fit_content = true
+autowrap_mode = 0
+
+[connection signal="button_down" from="VBoxContainer2/HBoxContainer/VBoxContainer/test_log" to="." method="test_log"]

@@ -1,0 +1,67 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt5bordmhgvn2"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Basic/InputPipe/_test/test_input_pipe.gd" id="1_wrox1"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_jihlv"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "is_updating_checkbox")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wrox1")
+debug_log = NodePath("HBoxContainer/VBoxContainer/debug_text_edit")
+is_updating_checkbox = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/CheckBox")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="test_normal" type="Button" parent="HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_normal()"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Press A or S or Both "
+fit_content = true
+autowrap_mode = 0
+
+[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(49.605, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "is updating :"
+fit_content = true
+autowrap_mode = 0
+
+[node name="CheckBox" type="CheckBox" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
+
+[node name="debug_text_edit" type="TextEdit" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_jihlv")
+
+[connection signal="button_down" from="HBoxContainer/VBoxContainer2/test_normal" to="." method="test_normal"]
