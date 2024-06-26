@@ -3,8 +3,11 @@ extends Node
 ## Uzil.Basic.Res.Inst 資源管理 實體
 ##
 ## 提供 預載資源配置擋, 預載資源, 持有(讀取)資源 功能.
-## 若有需要特殊的讀取資源方式, 也可添加 對應資源讀取器.
-##
+## 若有需要特殊的讀取資源方式, 也可添加 對應資源讀取器. [br]
+## WARN : 若其中的讀取器 採快取非CACHE_MODE_REUSE 且 讀取的資源 含有自動讀取其他資源的情形, 可能導致舊資源被覆蓋後引發錯誤.
+## 如 讀取某PackedScene, 但該PackedScene中的Node已經設置其他GDScript.
+## 再次以Res.Inst重新讀取後, 舊的GDScript會被修改導致錯誤.
+## 
 
 # Variable ===================
 

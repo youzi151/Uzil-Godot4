@@ -54,6 +54,7 @@ func index (Uzil, _parent_index) :
 	
 	self.PATH = _parent_index.PATH.path_join("UserSave")
 	
+	# 內建路徑 (需要在匯出設定中添加 "*.txt, *.cfg" 資源)
 	self.TEMPLATE_PATHS.push_back(self.PATH.path_join("_template"))
 	self.TEMPLATE_PATHS.push_back("res://userdata")
 	

@@ -15,7 +15,6 @@ class OptsKit :
 	func load_config () :
 		self.game.load_config(self._path)
 		self.display.load_config(self._path)
-		self.display.apply()
 		self.display.apply.call_deferred()
 		self.audio.load_config(self._path)
 

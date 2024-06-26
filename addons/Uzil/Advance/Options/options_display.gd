@@ -348,12 +348,12 @@ func _apply_to_window (window: Window, state: Dictionary) :
 		var cur = window.size
 		var nxt = state["size"]
 		if cur != nxt :
-			#var screen_size : Vector2i = DisplayServer.screen_get_size(DisplayServer.window_get_current_screen(0))
-			#var pos : Vector2 = Vector2(
-				#(screen_size.x - nxt.x) * 0.5,
-				#(screen_size.y - nxt.y) * 0.5,
-			#)
-			#window.position = pos
+			var screen_size : Vector2i = DisplayServer.screen_get_size(DisplayServer.window_get_current_screen(0))
+			var pos : Vector2 = Vector2(
+				(screen_size.x - nxt.x) * 0.5,
+				(screen_size.y - nxt.y) * 0.5,
+			)
+			window.position = pos
 			window.size = nxt
 		
 

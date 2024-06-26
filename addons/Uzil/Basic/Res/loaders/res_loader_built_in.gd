@@ -43,6 +43,9 @@ var res_inst = null
 ## 完整路徑 對 資源資訊
 var full_path_to_res_info := {}
 
+## 完整路徑 對 讀取任務
+var full_path_to_task := {}
+
 ## 待讀取的任務
 var to_load_tasks := []
 
@@ -82,23 +85,8 @@ func res_load (full_path: String, options = null) :
 	
 	var res_info = null
 	
-	# 資源類型
-	var type_hint := ""
-	
-	# 特殊副檔名
-	var file_ext := full_path.get_extension()
-	# 文字檔
-	match file_ext :
-		"txt", "" :
-			type_hint = "TextFile"
-	
-	# 選項
-	if options != null :
-		if options.has("type_hint") :
-			type_hint = options["type_hint"]
-	
 	# 讀取
-	var res = await self.load_by_path(full_path, type_hint)
+	var res = await self.load_by_path(full_path, options)
 	
 	# 若 資源 存在
 	if res != null :
@@ -171,15 +159,7 @@ func process (_dt) :
 			# 加入 已結束任務
 			done_tasks.push_back(task)
 		else :
-			var cache_mode := -1
-			if ResourceLoader.has_cached(task.path) :
-				cache_mode = ResourceLoader.CACHE_MODE_IGNORE_DEEP
-			
-			# 請求讀取
-			if cache_mode == -1 :
-				ResourceLoader.load_threaded_request(task.path, task.type_hint, true, cache_mode)
-			else :
-				ResourceLoader.load_threaded_request(task.path, task.type_hint, true)
+			ResourceLoader.load_threaded_request(task.path, task.type_hint, true, ResourceLoader.CACHE_MODE_REUSE)
 			
 			# 加入 讀取中任務列表
 			self.loading_tasks.push_back(task)
@@ -219,7 +199,24 @@ func process (_dt) :
 		each.done()
 
 ## 讀取 資源 透過路徑
-func load_by_path (full_path: String, type_hint: String = "") :
+func load_by_path (full_path: String, options = null) :
+	
+	# 資源類型
+	var type_hint := ""
+	
+	# 特殊副檔名
+	var file_ext := full_path.get_extension()
+	# 文字檔
+	match file_ext :
+		"txt", "" :
+			type_hint = "TextFile"
+	
+	# 選項
+	if options != null :
+		
+		if options.has("type_hint") :
+			type_hint = options["type_hint"]
+	
 	# 試取得 檔案路徑
 	var file_path = self.res_inst.get_file_path_if_is(full_path)
 	# 資源
@@ -241,10 +238,20 @@ func load_by_path (full_path: String, type_hint: String = "") :
 				res = {"text":file.get_as_text()}
 		# 其他常規
 		_ :
-			var task = self.Task.new(full_path, type_hint)
-			self.to_load_tasks.push_back(task)
-			self.process(0)
-			await task.until_done()
+			var task : Task = null
+			# 若 已經有任務 則 等候
+			if self.full_path_to_task.has(full_path) :
+				task = self.full_path_to_task[full_path]
+				await task.until_done()
+			# 否則 建立任務
+			else :
+				task = self.Task.new(full_path, type_hint)
+				self.to_load_tasks.push_back(task)
+				self.full_path_to_task[full_path] = task
+				self.process(0)
+				await task.until_done()
+				self.full_path_to_task.erase(full_path)
+			
 			res = task.res
 	
 	if self.is_debug : 
