@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkt84lc5iutf8"]
+
+[ext_resource type="Script" path="res://addons/UzExt/scripts/ui/control_aspect_ratio_scaler.gd" id="2_n341v"]
+[ext_resource type="Script" path="res://addons/UzExt/scripts/ui/control_pivot_percenter.gd" id="3_kftwy"]
+
+[node name="example_sclaer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="scaler" type="Control" parent="." node_paths=PackedStringArray("src_target", "dst_scaler", "dst_content")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(8, 8)
+script = ExtResource("2_n341v")
+stretch_mode = 1
+src_target = NodePath("..")
+dst_scaler = NodePath(".")
+dst_content = NodePath("content")
+
+[node name="content" type="Control" parent="scaler"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -90.0
+offset_right = 110.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(110, 90)
+
+[node name="pivot" type="Node" parent="scaler/content" node_paths=PackedStringArray("target")]
+script = ExtResource("3_kftwy")
+target = NodePath("..")
+
+[node name="ColorRect" type="ColorRect" parent="scaler/content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.270588, 1, 1, 1)

@@ -28,16 +28,27 @@ var src_target : Control = null :
 
 ## 是否同步 尺寸
 @export
-var is_sync_size : bool = false :
+var is_sync_size_x : bool = false :
 	set (value) :
-		is_sync_size = value
+		is_sync_size_x = value
+		self._sync_size()
+
+@export
+var is_sync_size_y : bool = false :
+	set (value) :
+		is_sync_size_y = value
 		self._sync_size()
 
 ## 是否同步 縮放
 @export
-var is_sync_scale : bool = false :
+var is_sync_scale_x : bool = false :
 	set (value) :
-		is_sync_scale = value
+		is_sync_scale_x = value
+		self._sync_size()
+@export
+var is_sync_scale_y : bool = false :
+	set (value) :
+		is_sync_scale_y = value
 		self._sync_size()
 
 ## 同步目標
@@ -62,6 +73,9 @@ func _process (_dt: float) :
 		if self._last_scale != self.src_target.scale :
 			self._sync_size()
 			
+
+func _exit_tree () :
+	self._disconnect(self.src_target)
 
 # Extends ====================
 
@@ -91,17 +105,35 @@ func _sync_size_to (target : Control) :
 	if target == null : return
 	if target == self.src_target : return
 	
-	if self.is_sync_size :
+	var size : Vector2 = target.custom_minimum_size
+	
+	var is_any_size_change : bool = false
+	
+	if self.is_sync_size_x :
 		var width_scale = self.src_target.size.x / target.size.x
-		var height_scale = self.src_target.size.y / target.size.y
-		target.custom_minimum_size = self.src_target.size
+		size.x = self.src_target.size.x
 		target.offset_left *= width_scale
 		target.offset_right *= width_scale
+		is_any_size_change = true
+	if self.is_sync_size_y :
+		var height_scale = self.src_target.size.y / target.size.y
+		size.y = self.src_target.size.y
 		target.offset_top *= height_scale
 		target.offset_bottom *= height_scale
+		is_any_size_change = true
 	
-	if self.is_sync_scale and self._is_track_scale :
-		target.scale = self.src_target.scale
+	if is_any_size_change :
+		target.custom_minimum_size = size
+	
+	if self._is_track_scale :
+		var scale : Vector2 = target.scale
+		
+		if self.is_sync_scale_x :
+			scale.x = self.src_target.scale.x
+		if self.is_sync_scale_y :
+			scale.y = self.src_target.scale.y
+			
+		target.scale = scale
 	
 
 ## 對目標做...事
@@ -135,4 +167,3 @@ func _disconnect (target: Control) :
 	if target.resized.is_connected(self._sync_size) :
 		target.resized.disconnect(self._sync_size)
 		
-

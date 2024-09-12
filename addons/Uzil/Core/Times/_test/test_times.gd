@@ -88,4 +88,3 @@ func test_normal () :
 	self.times.push_back(times_inst_B)
 	
 	
-

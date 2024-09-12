@@ -5,9 +5,8 @@
 ## 
 
 ## 修補
-func fix (id: String, is_pass_fn: Callable) :
+func fix (id: String, is_pass_fn: Callable, concat := "_") :
 	var suffix := ""
-	var concat := "_"
 	var i := 0
 	while not is_pass_fn.call(id + suffix) :
 		i += 1

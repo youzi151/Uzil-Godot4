@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://4suu3h8brcv4"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Util/RNG/_test/test_rng.gd" id="1_dk721"]
+[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_r3jnr"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dk721")
+debug_log = NodePath("HBoxContainer/VBoxContainer2/debug_text_edit")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="test_all" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_all()"
+
+[node name="test_normal" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_normal()"
+
+[node name="test_rate" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_rate()"
+
+[node name="test_pool" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_pool()"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="debug_text_edit" type="TextEdit" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2_r3jnr")
+
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_all" to="." method="test_all"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_normal" to="." method="test_normal"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_rate" to="." method="test_rate"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_pool" to="." method="test_pool"]

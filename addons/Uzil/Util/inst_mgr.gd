@@ -27,7 +27,7 @@ func _init (create_fn: Callable) :
 func inst (key) :
 	var inst : Object = null
 	if not self.key_to_inst.has(key) :
-		inst = self.create_inst_fn.call()
+		inst = self.create_inst_fn.call(key)
 		self.key_to_inst[key] = inst
 	else :
 		inst = self.key_to_inst[key]

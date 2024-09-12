@@ -176,12 +176,16 @@ func req_accync (access: RefCounted, on_done: Callable = Callable()) :
 func access (id_or_alias: StringName) :
 	var access = self.get_access(id_or_alias)
 	if access == null : return null
+	if access.is_async : 
+		push_warning("[%s] is bind with async, should use \"accync\" instead." % [id_or_alias])
 	return self.req_access(access)
 
 ## 存取 並 確保依賴建立
 func req_access(access: RefCounted) :
 	var task = self._UREQ.Task.new(self._UREQ, self)
 	task.run(access)
+	if task.is_async : 
+		push_warning("[%s] or requires is bind with async, should use \"accync\" instead." % [access.route])
 	if self._check_error(task) : return null
 	return task
 
@@ -201,5 +205,5 @@ func _check_error (task) :
 	var err = task.check_error()
 	var is_err := err != null
 	if is_err :
-		print_debug(err)
+		push_error("task of [%s] got err:%s" % [task.access.route, err])
 	return is_err

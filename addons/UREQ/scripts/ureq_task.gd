@@ -70,6 +70,8 @@ func run (access, on_done: Callable = Callable()) :
 			
 		return self.result
 	
+	self.is_async = self.access.is_async
+	
 	# 若 尚未檢查過
 	if not access.is_requires_checked :
 		

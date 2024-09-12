@@ -18,3 +18,13 @@ func filter (dict: Dictionary, fn: Callable) -> Dictionary :
 		if fn.call(key, val) == true :
 			result[key] = val
 	return result
+
+func get_from_dicts (key: String, dicts: Array, default_res = null) :
+	for each in dicts :
+		if each.has(key) :
+			return each[key]
+	return default_res
+
+func get_from_dict (key: String, dict: Dictionary, default_res = null) :
+	if dict.has(key) : return dict[key]
+	return default_res

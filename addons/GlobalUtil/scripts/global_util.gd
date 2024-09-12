@@ -1,11 +1,10 @@
 extends Node
 
 ## GlobalUtil
-# 將此Node節點設為AutoLoad, 並命名為"G".
-# 就可以用G.v.key或G.v["key"]的方式存取一個全域Dictionary中的值.
-
-# add this node in to singleton/autoload, and name "G".
-# then there is a global dictionary can access value with G.v.key or G.v["key"].
+## 將此Node節點設為AutoLoad, 並命名為"G".
+## 就可以用G.v.key或G.v["key"]的方式存取一個全域Dictionary中的值.
+## add this node in to singleton/autoload, and name "G".
+## then there is a global dictionary can access value with G.v.key or G.v["key"].
 
 # Variable ===================
 
@@ -39,10 +38,13 @@ func set_global (_name: String, val) :
 	if _name in self :
 		self[_name] = val
 
+## 系統時間差
+func dt () :
+	return self.get_process_delta_time()
+
 ## 印出
 func print (msg) :
 	self.Log.do_print(msg)
-
 
 ## 報錯
 func error (msg) :
@@ -99,4 +101,3 @@ func get_current_file_path () :
 	return ""
 
 # Private ====================
-

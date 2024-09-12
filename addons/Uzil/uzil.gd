@@ -35,15 +35,14 @@ var Const = null
 
 ## 公用
 var Util
-
 ## 核心
 var Core
-
 ## 基本
 var Basic
-
 ## 進階
 var Advance
+## 遊戲
+var Game
 
 ## 子索引
 var sub_indexes := []
@@ -145,6 +144,10 @@ func index () :
 	# Advance ####
 	self.Advance = self.load_script(self.PATH.path_join("Advance/index_advance.gd")).new()
 	self.sub_indexes.push_back(self.Advance)
+	
+	# Game ####
+	self.Game = self.load_script(self.PATH.path_join("Game/index_game.gd")).new()
+	self.sub_indexes.push_back(self.Game)
 	
 	# DI綁定
 	UREQ.gbind(&"Uzil", self)

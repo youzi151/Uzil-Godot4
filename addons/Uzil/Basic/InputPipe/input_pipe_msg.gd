@@ -124,10 +124,9 @@ func should_handle (tags: Array, is_src_streamed := true) -> bool :
 		if self_ignores.has(each) : return false
 	
 	var self_attends = self.get_attends(is_src_streamed)
-	if self_attends.size() > 0 :
-		for each in self._attend_tags :
-			if not tags.has(each) :
-				return false
+	for each in self_attends :
+		if not tags.has(each) :
+			return false
 		
 	return true
 

@@ -17,6 +17,8 @@ var sub_indexes := []
 
 ## 音效
 var Audio
+## 特效
+var FX
 ## 設定
 var Options
 ## 頁面卡系統
@@ -42,6 +44,9 @@ func index (Uzil, _parent_index) :
 	self.Audio = Uzil.load_script(self.PATH.path_join("Audio/index_audio.gd")).new()
 	self.sub_indexes.push_back(self.Audio)
 	
+	self.FX = Uzil.load_script(self.PATH.path_join("FX/index_fx.gd")).new()
+	self.sub_indexes.push_back(self.FX)
+	
 	self.Options = Uzil.load_script(self.PATH.path_join("Options/index_options.gd")).new()
 	self.sub_indexes.push_back(self.Options)
 	
@@ -62,4 +67,3 @@ func index (Uzil, _parent_index) :
 		each.index(Uzil, self)
 	
 	return self
-
