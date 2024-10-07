@@ -1,6 +1,8 @@
 
 # Variable ===================
 
+var setting_key_is_advance_print : String = "global_util/logger/is_advance_print"
+
 ## 偵聽者
 var _on_print_listeners := []
 var _on_error_listeners := []
@@ -18,7 +20,20 @@ var _on_error_added_fn := []
 
 ## 印出print
 func do_print (msg) :
-	print(msg)
+	# 是否 進階印出
+	var is_advance_print := false
+	# 若 有在專案設定中 設定
+	if ProjectSettings.has_setting(self.setting_key_is_advance_print) :
+		is_advance_print = ProjectSettings.get_setting(self.setting_key_is_advance_print)
+	
+	# 若 進階印出
+	if is_advance_print :
+		var from : Dictionary = get_stack()[2]
+		print("--------------\n  %s\n  at: %s:%s - %s()" % [msg, from.source, from.line, from.function])
+	# 一般印出
+	else :
+		print(msg)
+	
 	if typeof(msg) != TYPE_STRING :
 		msg = str(msg)
 	for each in self._on_print_listeners :
