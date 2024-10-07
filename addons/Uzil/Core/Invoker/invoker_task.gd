@@ -46,9 +46,9 @@ func _init () :
 func run () :
 	self.fn.call()
 
-## 呼叫 (帶參數)
-func runArg (args) :
-	self.fn.call(args)
+## 呼叫 (帶單個參數)
+func run_arg (arg) :
+	self.fn.call(arg)
 
 ## 完成
 func done () :

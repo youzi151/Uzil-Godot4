@@ -3,7 +3,7 @@
 
 var Hurt
 
-var _nxt_id : int = 0
+var _nxt_id : int = 1
 
 var _id_to_bill : Dictionary = {}
 
@@ -27,8 +27,12 @@ func get_bill (id: int) :
 	if not self._id_to_bill.has(id) : return null
 	return self._id_to_bill[id]
 
+func new_bill_data (data := {}) :
+	return self.new_bill(data).build_data()
+
 func new_bill (data := {}) :
 	var id : int = self._nxt_id
+	
 	self._nxt_id += 1
 	
 	var bill = Hurt.Bill.new(self)

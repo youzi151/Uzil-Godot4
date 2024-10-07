@@ -36,6 +36,9 @@ func _init () :
 	var Evt = UREQ.acc(&"Uzil:Core.Evt")
 	self.on_update = Evt.Inst.new()
 
+func _to_string () -> String :
+	return str(self._user_to_data)
+
 # Public =====================
 
 ## 取得 數量

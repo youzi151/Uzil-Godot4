@@ -64,12 +64,21 @@ func del_buff (id: String) :
 ## editable_data 若有需要duplicate請自行處理, 此處保留彈性不干涉.
 func do_buff (tags: Array, buff_id: String, editable_data: Dictionary, opts := {}) :
 	var buff = self.get_buff(buff_id)
-	if buff != null : 
-		editable_data["buff"] = buff
-		# 若 回傳字典 則 視為取代 editable_data
-		var new_data = buff.do_buff(tags, editable_data, opts)
-		if new_data != null and typeof(new_data) == TYPE_DICTIONARY :
-			editable_data = new_data
+	if buff == null : 
+		G.error("[Buffs.Inst] do_buff() buff[%s] not found" % [buff_id])
+		return
+	
+	# 若 無指定 則 設置選項 不在處理後停止
+	if not opts.has("is_stop_on_handled") : 
+		opts["is_stop_on_handled"] = false
+	
+	# 夾帶 Buff自己
+	editable_data["_buff"] = buff
+	
+	# 若 回傳字典 則 視為取代 editable_data
+	var new_data = buff.do_buff(tags, editable_data, opts)
+	if new_data != null and typeof(new_data) == TYPE_DICTIONARY :
+		editable_data = new_data
 	
 	return editable_data
 
@@ -79,12 +88,21 @@ func do_buffs (tags: Array, buff_ids: Array, editable_data: Dictionary, opts := 
 	var is_auto_sort : bool = true
 	if opts.has("is_auto_sort") : 
 		is_auto_sort = opts["is_auto_sort"]
+	var on_each_done : Callable
+	if opts.has("on_each_done") :
+		on_each_done = opts["on_each_done"]
+		
+	# 快照副本
+	var _buff_ids = buff_ids.duplicate()
 	
 	var buffs : Array = []
-	for idx in buff_ids.size() :
-		var each_id : String = buff_ids[idx]
+	for idx in _buff_ids.size() :
+		var each_id : String = _buff_ids[idx]
+		
 		var buff = self.get_buff(each_id)
-		if buff == null : continue
+		if buff == null : 
+			G.error("[Buffs.Inst] do_buffs() buff[%s] not found" % [buff])
+			continue
 		
 		var sort : int = -1
 		if buff.has_method(&"get_sort") :
@@ -104,11 +122,18 @@ func do_buffs (tags: Array, buff_ids: Array, editable_data: Dictionary, opts := 
 	
 	# 依序 執行buff
 	for each in buffs :
-		editable_data["buff"] = each.buff
+		# 若 已經不在實際列表中 則 忽略
+		if not buff_ids.has(each.buff.id) : continue
+		
+		editable_data["_buff"] = each.buff
+		
 		# 若 回傳字典 則 視為取代 editable_data
 		var new_data = each.buff.do_buff(tags, editable_data, opts)
 		if new_data != null and typeof(new_data) == TYPE_DICTIONARY :
 			editable_data = new_data
+		
+		if not on_each_done.is_null() :
+			on_each_done.call(editable_data)
 	
 	return editable_data
 

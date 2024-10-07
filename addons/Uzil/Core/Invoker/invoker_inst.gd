@@ -72,7 +72,7 @@ func process (_dt: float) :
 					
 		# 每幀
 		elif each.call_type == self.Invoker.CallType.UPDATE:
-			each.runArg(self._times_inst.dt_sec())
+			each.run_arg(self._times_inst.dt_sec())
 		
 		# 單格
 		elif each.call_type == self.Invoker.CallType.FRAME:

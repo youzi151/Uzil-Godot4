@@ -74,7 +74,9 @@ func clear_vars () :
 func req_vars (_keys := []) :
 	var result : Dictionary = self._key_to_val.duplicate(true)
 	if not self.req_vars_fn.is_null() : 
-		var new_one = self.req_vars_fn.call(result, _keys)
+		var args : Array = [result, _keys]
+		args.resize(self.req_vars_fn.get_argument_count())
+		var new_one = self.req_vars_fn.callv(args)
 		if new_one != null :
 			result = new_one
 	return result

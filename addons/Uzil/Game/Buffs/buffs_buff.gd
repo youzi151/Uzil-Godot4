@@ -20,6 +20,9 @@ var handlers : Array = []
 
 # GDScript ===================
 
+func _to_string() -> String :
+	return self.id
+
 func _init (inst, _data: Dictionary = {}):
 	self._inst = inst
 	
@@ -52,7 +55,6 @@ func do_buff (tags: Array, data: Dictionary, opts: Dictionary) :
 	if self.handlers.size() == 0 : return data
 	
 	var handlers_buff = self._inst.get_handlers_inst()
-	opts["buff"] = self
 	
 	var ctrlr = handlers_buff.handle(self.handlers, tags, data, opts)
 	if ctrlr.result != null :
