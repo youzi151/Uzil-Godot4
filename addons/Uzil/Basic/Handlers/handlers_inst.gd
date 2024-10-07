@@ -69,14 +69,22 @@ func load_handlers (path: String) :
 func call_method (handler_ids: Array, method: StringName, args := [], opts := {}) :
 	var handlers := []
 	for each in handler_ids :
-		handlers.push_back(self.get_handler(each))
+		var handler = self.get_handler(each)
+		if handler == null :
+			G.error("handler[%s] not found." % [each])
+			continue
+		handlers.push_back(handler)
 	return self.Handlers.util.call_method(handlers, method, args, opts)
 
 ## 執行 處理器
 func handle (handler_ids: Array, tags: Array, data := {}, opts := {}) :
 	var handlers := []
 	for each in handler_ids :
-		handlers.push_back(self.get_handler(each))
+		var handler = self.get_handler(each)
+		if handler == null :
+			G.error("handler[%s] not found." % [each])
+			continue
+		handlers.push_back(handler)
 	return self.Handlers.util.handle(handlers, tags, data, opts)
 
 

@@ -1,6 +1,8 @@
 
 class CallCtrlr :
 	
+	var handlers : Array = []
+	
 	var tags : Array = []
 	var data : Dictionary = {}
 	var opts : Dictionary = {}
@@ -32,14 +34,17 @@ class CallCtrlr :
 
 ## 呼叫 函式
 func call_method (handlers: Array, method: StringName, args := [], opts := {}) :
+	handlers = handlers.duplicate()
+	
 	opts = self._get_options(opts)
 	var is_reverse : bool = opts["is_reverse"]
 	var is_stop_on_handled : bool = opts["is_stop_on_handled"]
-	
-	var size : int = handlers.size()
-	var last_idx : int = size - 1
+	var on_each_done : Callable = opts["on_each_done"]
+	var is_debug := false
+	if opts.has("debug") : is_debug = true
 	
 	var ctrlr : CallCtrlr = CallCtrlr.new()
+	ctrlr.handlers = handlers
 	ctrlr.opts = opts
 	
 	var args_copy := args.duplicate()
@@ -49,13 +54,13 @@ func call_method (handlers: Array, method: StringName, args := [], opts := {}) :
 	args_with_ctrlr.push_back(ctrlr)
 	var args_with_ctrlr_count := args_count + 1
 	
-	# 每個 策略 (從末端)
-	for idx in size :
+	# 每個 策略
+	while handlers.size() > 0 :
 		var each : Object = null
 		if is_reverse :
-			each = handlers[last_idx - idx]
+			each = handlers.pop_back()
 		else :
-			each = handlers[idx]
+			each = handlers.pop_front()
 		
 		# 若 無實作 方法 則 繼續下個策略
 		#G.print("%s has %s ? %s" % [each, method, each.has_method(method)])
@@ -75,24 +80,30 @@ func call_method (handlers: Array, method: StringName, args := [], opts := {}) :
 		if each_res != null and (not ctrlr.is_result_manual_set) :
 			ctrlr.result = each_res
 		
+		# 呼叫 當每個完成
+		if not on_each_done.is_null() :
+			on_each_done.call(ctrlr)
+		
 		# 若 在被處理後停止 則 跳出
 		if ctrlr.is_handled and is_stop_on_handled : break
 		# 若 已終止 則 跳出
 		if ctrlr.is_stop : break
+	
+	if is_debug : 
+		G.print("handlers.size() == %s" % [handlers.size()])
 	
 	return ctrlr
 
 ## 處理
 ## data: 要被處理的資料, 可被修改. opts: 選項, 基本上不可修改.
 func handle (handlers: Array, tags: Array, data := {}, opts := {}) :
+	handlers = handlers.duplicate()
+	
 	opts = self._get_options(opts)
 	var is_reverse : bool = opts["is_reverse"]
 	var is_stop_on_handled : bool = opts["is_stop_on_handled"]
 	
 	var handle_method : StringName = &"_handlers_handle"
-	
-	var size : int = handlers.size()
-	var last_idx : int = size - 1
 	
 	var array_util = UREQ.acc(&"Uzil:Util").array
 	
@@ -103,12 +114,12 @@ func handle (handlers: Array, tags: Array, data := {}, opts := {}) :
 	opts.make_read_only()
 	
 	# 每個 策略 (從末端)
-	for idx in size :
+	while handlers.size() > 0 :
 		var each : Object = null
 		if is_reverse :
-			each = handlers[last_idx - idx]
+			each = handlers.pop_back()
 		else :
-			each = handlers[idx]
+			each = handlers.pop_front()
 		
 		if not each.has_method(handle_method) : continue
 		
@@ -146,9 +157,11 @@ func _get_options (opts := {}) :
 	var new_opts := opts.duplicate()
 	
 	if not new_opts.has("is_stop_on_handled") :
-		new_opts["is_stop_on_handled"] = true
+		new_opts["is_stop_on_handled"] = false
 	if not new_opts.has("is_reverse") :
 		new_opts["is_reverse"] = false
+	if not new_opts.has("on_each_done") :
+		new_opts["on_each_done"] = Callable()
 	
 	return new_opts
 	
