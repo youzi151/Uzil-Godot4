@@ -34,7 +34,8 @@ func index (Uzil, _parent_index) :
 	# 綁定 工具組
 	UREQ.bind(&"Uzil", &"fx",
 		func():
-			return self.Mgr.new(),
+			var fx_node : Node = UREQ.acc(&"Uzil:Uzil").request_node("FX", self.Mgr)
+			return fx_node,
 		{
 			"requires" : ["Advance.FX"],
 		}

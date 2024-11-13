@@ -1,8 +1,9 @@
-
 ## FX.Mgr 特效 管理
 ##
 ## 提供簡易對特效物件的物件池相關使用.
 ##
+
+extends Node
 
 ## 特效資訊
 class FXInfo :
@@ -23,7 +24,15 @@ var _inst_to_info : Dictionary = {}
 ## 來源:池 表
 var _src_to_pool : Dictionary = {}
 
+var _to_recovery : Array = []
+
 # GDScript ===================
+
+func _process (_dt: float) :
+	for each in self._to_recovery :
+		if is_instance_valid(each) :
+			self.recovery(each)
+	self._to_recovery.clear()
 
 # Extends ====================
 
@@ -110,12 +119,26 @@ func _req_pool (src: String) :
 		pool.strat.set_init(func(one, data):
 			if one.has_method("_fx_init") :
 				one._fx_init(self, data)
+			# 註冊 在離開節點樹時 回收
+			one.tree_exited.connect(func():
+				self._to_recovery.push_back(one)
+			)
 		)
 		
 		# 設置 反初始化 方法
 		pool.strat.set_uninit(func(one):
 			if one.has_method("_fx_uninit") :
 				one._fx_uninit(self)
+			
+			# 若有 上層節點 且 非FXMgr
+			var parent : Node = one.get_parent()
+			if parent != null and parent != self:
+				# 重設 上層節點 為 FXMgr
+				if one.is_inside_tree() :
+					one.reparent(self)
+				else :
+					parent.remove_child(one)
+					self.add_child(one)
 		)
 		
 	return pool
