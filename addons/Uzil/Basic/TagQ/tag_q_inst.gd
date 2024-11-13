@@ -46,7 +46,7 @@ func clear () :
 func set_tags (target, tags: Array) :
 	var total_tag_datas := []
 	for tag in tags :
-		var tag_datas = self.parse_tags(tag)
+		var tag_datas = self.parse_tags_str(tag)
 		total_tag_datas.append_array(tag_datas)
 	
 	self.set_datas(target, total_tag_datas)
@@ -88,30 +88,10 @@ func search_tags (to_search_tags: Array) -> Dictionary :
 	var target_and_data_size = range(self._cache_target_to_tags_keys.size())
 	
 	# 要查找的標籤資料
-	var to_search_negative := []
-	var to_search_optional := []
-	var to_search_positive := []
-	
-	var tag_datas := []
-	
-	# 每筆 要查找的標籤 建立 成 標籤資料
-	for to_search_tag in to_search_tags :
-		if to_search_tag is String :
-			tag_datas.append_array(self.parse_tag(to_search_tag))
-		else : 
-			tag_datas.push_back(to_search_tag)
-			
-	for tag_data in tag_datas :
-		if tag_data.scope.is_empty() :
-			tag_data.scope = self.config.SIGN_ANY
-		
-		match tag_data.search_type :
-			-1 : 
-				to_search_negative.push_back(tag_data)
-			0 :
-				to_search_optional.push_back(tag_data)
-			_ :
-				to_search_positive.push_back(tag_data)
+	var typed_tags := self.typed_tags(to_search_tags)
+	var to_search_negative : Array = typed_tags[-1]
+	var to_search_optional : Array = typed_tags[0]
+	var to_search_positive : Array = typed_tags[1]
 	
 	# 每個 快取中的輪詢資料
 	for idx in target_and_data_size :
@@ -120,64 +100,7 @@ func search_tags (to_search_tags: Array) -> Dictionary :
 		var each_target = self._cache_target_to_tags_keys[idx]
 		var each_tags = self._cache_target_to_tags_values[idx]
 		
-		var is_target_pass := 0
-		
-		# 每筆 要查找的 負面標籤
-		for each_to_search in to_search_negative :
-			# 每個 輪詢資料 標籤
-			for each_tag in each_tags :
-				# 若 ID 不同 則 忽略
-				if not self.id_equal(each_tag.id, each_to_search.id) : continue
-				# 若 所屬 不同 則 忽略
-				if not self.scope_equal(each_tag.scope, each_to_search.scope) : continue
-				# 若 都相同 則 標記 不通過
-				is_target_pass = -1
-				break
-			
-			# 若 已有結果 則 跳出
-			if is_target_pass != 0 : break
-		
-		# 若 未有結果 則 
-		if is_target_pass == 0 :
-			# 每筆 要查找的 可選標籤
-			for each_to_search in to_search_optional :
-				# 每個 輪詢資料 標籤
-				for each_tag in each_tags :
-					# 若 ID 不同 則 忽略
-					if not self.id_equal(each_tag.id, each_to_search.id) : continue
-					# 若 所屬 不同 則 忽略
-					if not self.scope_equal(each_tag.scope, each_to_search.scope) : continue
-					
-					# 若 都相同 則 標記 通過
-					is_target_pass = 1
-					break
-				
-				# 若 已有結果 則 跳出
-				if is_target_pass != 0 : break
-			
-		
-		# 若 未有結果 則 
-		if is_target_pass == 0 :
-			# 每筆 要查找的 必要標籤
-			for each_to_search in to_search_positive :
-				
-				is_target_pass = -1
-				
-				# 每個 輪詢資料 標籤
-				for each_tag in each_tags :
-					# 若 ID 不同
-					if not self.id_equal(each_tag.id, each_to_search.id) : continue
-					# 若 所屬 不同
-					if not self.scope_equal(each_to_search.scope, each_tag.scope) : continue
-				
-					# 判定 為 通過
-					is_target_pass = 1
-					break
-				
-				# 若 任一個 必要標籤 不通過 則 跳出
-				if is_target_pass == -1 : break
-			
-		if is_target_pass == 1 :
+		if self.is_match(each_tags, to_search_negative, to_search_optional, to_search_positive, false) :
 			# 加入 結果列表
 			result_target_to_tag_datas[each_target] = each_tags
 		
@@ -189,18 +112,18 @@ func gen_cache () :
 	self._cache_target_to_tags_values = self.target_to_tags.values()
 	self._is_cached = true
 
-## 解析 搜尋字串
+## 解析 搜尋字串 (保留之後可能有其他資訊的用途)
 func parse_search_str (search_str: String) -> Dictionary :
 	
 	# 結果 解析後的標籤資料列表
-	var result_tags := self.parse_tags(search_str)
+	var result_tags := self.parse_tags_str(search_str)
 	
 	return {
 		"tags": result_tags
 	}
 
 ## 解析 標籤 (可複數)
-func parse_tags (to_parse_str: String) -> Array :
+func parse_tags_str (to_parse_str: String) -> Array :
 	
 	# 正則相符結果 (重複使用)
 	var matches : Array[RegExMatch]
@@ -267,12 +190,12 @@ func parse_tags (to_parse_str: String) -> Array :
 	
 	# 解析 每個標籤分群
 	for tags_str in splited_list :
-		tag_data_list.append_array(self.parse_tag(tags_str))
+		tag_data_list.append_array(self.parse_tag_str(tags_str))
 	return tag_data_list
 
 
-## 解析 標籤
-func parse_tag (tags_str: String) -> Array :
+## 解析 標籤 (僅可判定 同個所屬/屬性/搜尋類型下 的 多個ID)
+func parse_tag_str (tags_str: String) -> Array :
 	var tag_data_list := []
 	
 	var matches : Array[RegExMatch]
@@ -341,10 +264,151 @@ func parse_tag (tags_str: String) -> Array :
 	
 	return tag_data_list
 
+## 轉換 標籤
+func parse_tags (unparsed_tags: Array) :
+	var parsed_tags : Array = []
+	for idx in unparsed_tags.size() :
+		var each = unparsed_tags[idx]
+		match typeof(each) :
+			TYPE_STRING :
+				parsed_tags.append_array(self.parse_tag_str(each))
+			TYPE_OBJECT :
+				parsed_tags.push_back(each)
+	return parsed_tags
+
+## 歸類 標籤 
+func typed_tags (to_search_tags: Array) -> Dictionary :
+	# 要查找的標籤資料
+	var to_search_negative := []
+	var to_search_optional := []
+	var to_search_positive := []
+	
+	var tag_datas := []
+	
+	# 每筆 要查找的標籤 建立 成 標籤資料
+	for to_search_tag in to_search_tags :
+		if to_search_tag is String :
+			tag_datas.append_array(self.parse_tag_str(to_search_tag))
+		else : 
+			tag_datas.push_back(to_search_tag)
+	
+	# 每個 標籤資料
+	for tag_data in tag_datas :
+		# 若 沒設置 所屬 則 填入 任意
+		if tag_data.scope.is_empty() :
+			tag_data.scope = self.config.SIGN_ANY
+		# 依照 該標籤的檢索類型 放入指定列表
+		match tag_data.search_type :
+			-1 : 
+				to_search_negative.push_back(tag_data)
+			0 :
+				to_search_optional.push_back(tag_data)
+			_ :
+				to_search_positive.push_back(tag_data)
+	
+	return {
+		-1: to_search_negative,
+		0: to_search_optional,
+		1: to_search_positive,
+	}
+
+
+## 是否相符 字串
+func is_match_str (tags, search_str: String, _is_auto_convert_tag := true) :
+	var to_search_tags : Array = self.parse_tags_str(search_str)
+	var typed_tags : Dictionary = self.typed_tags(to_search_tags)
+	return self.is_match(tags, typed_tags[-1], typed_tags[0], typed_tags[1], _is_auto_convert_tag)
+
+## 是否相符
+func is_match (tags: Array, to_search_negative: Array, to_search_optional: Array, to_search_positive: Array, _is_auto_parse_tag := true) :
+	# 若 自動轉換
+	if _is_auto_parse_tag :
+		tags = self.parse_tags(tags)
+		to_search_negative = self.parse_tags(to_search_negative)
+		to_search_optional = self.parse_tags(to_search_optional)
+		to_search_positive = self.parse_tags(to_search_positive)
+	
+	# 是否通過
+	var is_target_pass := 0
+	
+	#== 排除標籤 ==
+	# 每筆 要查找的 排除標籤
+	for each_to_search in to_search_negative :
+		# 每個 輪詢資料 標籤
+		for each_tag in tags :
+			# 若 ID 不同 則 忽略
+			if not self.id_equal(each_tag.id, each_to_search.id) : continue
+			# 若 所屬 不同 則 忽略
+			if not self.scope_equal(each_tag.scope, each_to_search.scope) : continue
+			# 若 都相同 則 標記 不通過
+			is_target_pass = -1
+			break
+		
+		# 若 已有結果 則 跳出
+		if is_target_pass != 0 : break
+	
+	#== 必要標籤 ==
+	# 若 未有結果 則 
+	if is_target_pass == 0 :
+		
+		# 若 沒有 必要標籤 則 判定 通過
+		if to_search_positive.size() == 0 :
+			is_target_pass = 1
+		
+		# 若 有 必要標籤 則
+		else :
+			# 每筆 要查找的  必要標籤
+			for each_to_search in to_search_positive :
+				
+				# 預設 不通過
+				is_target_pass = -1
+				
+				# 每個 輪詢資料 標籤
+				for each_tag in tags :
+					# 若 ID 不同
+					if not self.id_equal(each_tag.id, each_to_search.id) : continue
+					# 若 所屬 不同
+					if not self.scope_equal(each_to_search.scope, each_tag.scope) : continue
+				
+					# 判定 為 通過
+					is_target_pass = 1
+					break
+				
+				# 若 任一個 必要標籤 不通過 則 跳出
+				if is_target_pass == -1 : break
+			
+	
+	
+	#== 可選標籤 ==
+	# 若 非不通過 (未有結果 或 通過) 則 
+	if is_target_pass != -1 :
+		
+		# 若 有指定任意可選 則 先設為不通過
+		if to_search_optional.size() > 0 :
+			is_target_pass = -1
+		
+		# 每筆 要查找的 可選標籤
+		for each_to_search in to_search_optional :
+			# 每個 輪詢資料 標籤
+			for each_tag in tags :
+				# 若 ID 不同 則 忽略
+				if not self.id_equal(each_tag.id, each_to_search.id) : continue
+				# 若 所屬 不同 則 忽略
+				if not self.scope_equal(each_tag.scope, each_to_search.scope) : continue
+				
+				# 若 都相同 則 標記 通過
+				is_target_pass = 1
+				break
+			
+			# 若 已通過 則 跳出
+			if is_target_pass == 1 : break
+		
+	
+	return is_target_pass == 1
 
 ## 是否具有屬性
 func is_attr (tag, attr) -> bool :
-	var tag_data = self.parse_tag(tag)
+	var tag_data = self.parse_tag_str(tag)
 	return tag_data.attr.find(attr) != -1
 
 ## 辨識ID是否相等
