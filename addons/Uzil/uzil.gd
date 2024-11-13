@@ -264,7 +264,9 @@ func load_node_script (path: String) :
 		return self.load_script(path)
 
 ## 請求 節點
-func request_node (path: String) :
+func request_node (path: String, _script = null, _init_args: Array = []) :
+	if _script == null :
+		_script = Node
 	
 	var node : Node
 	if self.has_node(path) :
@@ -277,7 +279,7 @@ func request_node (path: String) :
 			if node.has_node(each) :
 				child = node.get_node(each)
 			else :
-				child = Node.new()
+				child = _script.new.callv(_init_args)
 				child.name = each
 				node.add_child(child)
 			

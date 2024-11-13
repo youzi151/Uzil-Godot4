@@ -26,6 +26,17 @@ var _max := 0
 func _init () :
 	self.rng = RandomNumberGenerator.new()
 
+## 從 字典列表
+func from_dicts (dict_array: Array, default_rate: int = 1) :
+	var rates : Array = []
+	for each in dict_array :
+		var rate : int = default_rate
+		if each.has("_rate") :
+			rate = each["_rate"]
+		rates.push_back(rate)
+	self.rates(rates, false)
+	return self
+
 ## 設置 機率表
 func rates (rate_arr: Array, _is_duplicate := true) :
 	if _is_duplicate :

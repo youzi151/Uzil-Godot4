@@ -6,7 +6,10 @@
 
 func load_cfg_dict (path: String, opts := {}) :
 	var file : ConfigFile = ConfigFile.new()
-	if file.load(path) != OK : return null
+	var response = file.load(path)
+	if response != OK : 
+		G.error(error_string(response)+(" path(%s)" % [path]))
+		return null
 	
 	var is_ignore_section : bool = true
 	if opts.has("is_ignore_section") :
