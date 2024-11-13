@@ -23,8 +23,8 @@ var id : String
 ## id:附加狀態物件
 var _id_to_buff : Dictionary = {}
 
-## 預先配置
-var _id_to_preset : Dictionary = {}
+## 請求方法
+var req_buff_data_fn : Callable
 
 # GDScript ===================
 
@@ -39,13 +39,21 @@ func _init (index_Buff) :
 
 ## 取得 附加狀態
 func get_buff (id: String) :
-	if not self._id_to_buff.has(id) : return null
-	return self._id_to_buff[id]
+	if self._id_to_buff.has(id) : 
+		return self._id_to_buff[id]
+	
+	if not self.req_buff_data_fn.is_null() :
+		var got_data = self.req_buff_data_fn.call(id)
+		if got_data != null :
+			return self.new_buff(id, got_data)
+	
+	return null
 
 ## 新增 附加狀態
 func new_buff (id: String, data: Dictionary) :
 	var buff = self.Buffs.Buff.new(self, data)
 	self.set_buff(id, buff)
+	return buff
 
 ## 設置 附加狀態
 func set_buff (id: String, buff) :
@@ -137,23 +145,6 @@ func do_buffs (tags: Array, buff_ids: Array, editable_data: Dictionary, opts := 
 	
 	return editable_data
 
-
-## 設置 預先配置
-func set_preset (id: String, preset: Dictionary) :
-	self._id_to_preset[id] = preset
-
-## 取得 預先配置
-func get_preset (id: String) :
-	if not self._id_to_preset.has(id) : return null
-	return self._id_to_preset[id]
-
-## 讀取 預先配置 設定檔
-func load_presets (path: String, is_create_buff := true) :
-	var id_to_preset : Dictionary = UREQ.acc(&"Uzil:Util").config.load_cfg_dict(path)
-	for id in id_to_preset :
-		var preset : Dictionary = id_to_preset[id]
-		self.set_preset(id, preset)
-		self.new_buff(id, preset)
 
 ## 取得 處理器串 實例
 func get_handlers_inst () :
