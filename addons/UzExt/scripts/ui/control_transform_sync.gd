@@ -74,6 +74,9 @@ func _process (_dt: float) :
 			self._sync_size()
 			
 
+func _enter_tree() :
+	self._connect(self.src_target)
+
 func _exit_tree () :
 	self._disconnect(self.src_target)
 
@@ -90,6 +93,7 @@ func sync () :
 
 ## 同步尺寸
 func _sync_size () :
+	if not self.is_enabled : return
 	if self._is_syncing : return
 	if self.src_target == null : return
 	
@@ -105,18 +109,19 @@ func _sync_size_to (target : Control) :
 	if target == null : return
 	if target == self.src_target : return
 	
-	var size : Vector2 = target.custom_minimum_size
+	var size : Vector2 = target.size
 	
 	var is_any_size_change : bool = false
 	
 	if self.is_sync_size_x :
-		var width_scale = self.src_target.size.x / target.size.x
+		var width_scale = self.src_target.size.x / target.size.x if target.size.x > 0.0 else 0.0
+		
 		size.x = self.src_target.size.x
 		target.offset_left *= width_scale
 		target.offset_right *= width_scale
 		is_any_size_change = true
 	if self.is_sync_size_y :
-		var height_scale = self.src_target.size.y / target.size.y
+		var height_scale = self.src_target.size.y / target.size.y if target.size.y > 0.0 else 0.0
 		size.y = self.src_target.size.y
 		target.offset_top *= height_scale
 		target.offset_bottom *= height_scale
@@ -124,6 +129,7 @@ func _sync_size_to (target : Control) :
 	
 	if is_any_size_change :
 		target.custom_minimum_size = size
+		target.size = size
 	
 	if self._is_track_scale :
 		var scale : Vector2 = target.scale
@@ -159,11 +165,14 @@ func _reg_to_src (last_src, new_src) :
 
 func _connect (target: Control) :
 	if target == null : return
-	if not target.resized.is_connected(self._sync_size) :
-		target.resized.connect(self._sync_size)
+	if not target.resized.is_connected(self._on_resized) :
+		target.resized.connect(self._on_resized)
 
 func _disconnect (target: Control) :
 	if target == null : return
-	if target.resized.is_connected(self._sync_size) :
-		target.resized.disconnect(self._sync_size)
+	if target.resized.is_connected(self._on_resized) :
+		target.resized.disconnect(self._on_resized)
 		
+
+func _on_resized () :
+	self._sync_size()
