@@ -41,7 +41,7 @@ func load_langs (dir_path) :
 	return code_to_lang
 
 ## 讀取 語言 目錄
-func load_lang (dir_path) :
+func load_lang (dir_path: String) :
 	
 	# 語言目錄
 	var dir := DirAccess.open(dir_path)
@@ -56,7 +56,7 @@ func load_lang (dir_path) :
 	# 描述檔
 	var meta_file := ConfigFile.new()
 	var err := meta_file.load(meta_file_path)
-#	print("load[%s][%s]" % [(err == OK), meta_file_path])
+	#G.print("load[%s][%s]" % [(err == OK), meta_file_path])
 	if err != OK : return null
 	
 	# 建立 語言資料
@@ -85,11 +85,14 @@ func load_lang (dir_path) :
 func unload_dicts (lang) :
 	lang.key_to_word.clear()
 
-## 讀取 所有字典 至 語言
-func load_dicts (lang) :
-	
-	# 語言 目錄
-	var dir := DirAccess.open(lang.dir_path)
+## 讀取 字典 至 語言 從 語言預設路徑
+func load_dicts_default (lang) :
+	self.load_dicts_dir(lang, lang.dir_path)
+
+## 讀取 字典 至 語言 從 目錄
+func load_dicts_dir (lang, path) :
+	# 目錄
+	var dir := DirAccess.open(path)
 	if dir == null : return null
 	
 	var I18N = UREQ.acc(&"Uzil:Basic.I18N")
@@ -103,9 +106,8 @@ func load_dicts (lang) :
 		# 匯入 字典
 		var each_path = lang.dir_path.path_join(each_name)
 		self.load_dict(lang, each_path)
-	
 
-## 讀取 字典 至 語言
+## 讀取 字典 至 語言 從 檔案
 func load_dict (lang, path) :
 	# 若 該檔案不存在 則 返回
 	if FileAccess.file_exists(path) == false : return null
