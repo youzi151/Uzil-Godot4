@@ -151,6 +151,36 @@ func handle (handlers: Array, tags: Array, data := {}, opts := {}) :
 	
 	return ctrlr
 
+## 排序
+func sort (handlers: Array, opts := {}) :
+	
+	var idx_to_sort : Dictionary = {}
+	
+	var handler_to_info : Dictionary = {}
+	
+	for idx in handlers.size() :
+		var each = handlers[idx]
+		var sort : float = 0.0
+		if each.has_method(&"_handlers_get_sort") :
+			sort = each._handlers_get_sort(opts)
+		elif &"_handlers_sort" in each :
+			sort = each._handlers_sort
+		elif each.has_meta(&"_handlers_sort") :
+			sort = each.get_meta(&"_handlers_sort")
+		
+		handler_to_info[each] = {
+			"sort":sort, 
+			"idx":idx,
+		}
+		
+	handlers.sort_custom(func(a, b):
+		var info_a : Dictionary = handler_to_info[a]
+		var info_b : Dictionary = handler_to_info[b]
+		if info_a.sort == info_b.sort : return info_a.idx < info_b.idx
+		else : return info_a.sort < info_b.sort
+	)
+
+
 # Private ====================
 
 func _get_options (opts := {}) :
