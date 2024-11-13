@@ -17,6 +17,8 @@ var sub_indexes := []
 
 ## 音效
 var Audio
+## 特效
+var FX
 ## 設定
 var Options
 ## 頁面卡系統
@@ -25,6 +27,8 @@ var PageCard
 var States
 ## UI導航
 var UINav
+## 字典資料庫
+var DictDB
 ## 初始化
 var Init
 
@@ -42,6 +46,9 @@ func index (Uzil, _parent_index) :
 	self.Audio = Uzil.load_script(self.PATH.path_join("Audio/index_audio.gd")).new()
 	self.sub_indexes.push_back(self.Audio)
 	
+	self.FX = Uzil.load_script(self.PATH.path_join("FX/index_fx.gd")).new()
+	self.sub_indexes.push_back(self.FX)
+	
 	self.Options = Uzil.load_script(self.PATH.path_join("Options/index_options.gd")).new()
 	self.sub_indexes.push_back(self.Options)
 	
@@ -54,6 +61,9 @@ func index (Uzil, _parent_index) :
 	self.UINav = Uzil.load_script(self.PATH.path_join("UINav/index_ui_nav.gd")).new()
 	self.sub_indexes.push_back(self.UINav)
 	
+	self.DictDB = Uzil.load_script(self.PATH.path_join("DictDB/index_dict_db.gd")).new()
+	self.sub_indexes.push_back(self.DictDB)
+	
 	self.Init = Uzil.load_script(self.PATH.path_join("Init/index_init.gd")).new()
 	self.sub_indexes.push_back(self.Init)
 	
@@ -62,4 +72,3 @@ func index (Uzil, _parent_index) :
 		each.index(Uzil, self)
 	
 	return self
-

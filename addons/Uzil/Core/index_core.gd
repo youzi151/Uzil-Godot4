@@ -51,25 +51,25 @@ func index (Uzil, _parent_index) :
 	
 	# sub index
 	self.Times = Uzil.load_script(self.PATH.path_join("Times/index_times.gd")).new()
-	self.sub_indexes.push_back("Times")
+	self.sub_indexes.push_back(self.Times)
 	
 	self.Invoker = Uzil.load_script(self.PATH.path_join("Invoker/index_invoker.gd")).new()
-	self.sub_indexes.push_back("Invoker")
+	self.sub_indexes.push_back(self.Invoker)
 	
 	self.Evt = Uzil.load_script(self.PATH.path_join("Evt/index_evt.gd")).new()
-	self.sub_indexes.push_back("Evt")
+	self.sub_indexes.push_back(self.Evt)
 	
 	self.ObjPool = Uzil.load_script(self.PATH.path_join("ObjPool/index_obj_pool.gd")).new()
-	self.sub_indexes.push_back("ObjPool")
+	self.sub_indexes.push_back(self.ObjPool)
 	
 	self.Vars = Uzil.load_script(self.PATH.path_join("Vars/index_vars.gd")).new()
-	self.sub_indexes.push_back("Vars")
+	self.sub_indexes.push_back(self.Vars)
 	
 	self.SumVals = Uzil.load_script(self.PATH.path_join("SumVals/index_sum_vals.gd")).new()
-	self.sub_indexes.push_back("SumVals")
+	self.sub_indexes.push_back(self.SumVals)
 	
-	## 建立索引
+	# 建立索引
 	for each in self.sub_indexes :
-		self[each].index(Uzil, self)
+		each.index(Uzil, self)
 	
 	return self

@@ -139,4 +139,3 @@ func test_simple () :
 	G.print("======== trans to ============")
 	G.print(self.i18n_inst.trans(to_trans))
 	self.i18n_inst.update()
-

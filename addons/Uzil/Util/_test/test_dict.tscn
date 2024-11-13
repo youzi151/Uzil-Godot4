@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ber37o1juvcth"]
+
+[ext_resource type="Script" path="res://addons/Uzil/Util/_test/test_dict.gd" id="1_lx64m"]
+
+[node name="TestDict" type="Node"]
+script = ExtResource("1_lx64m")

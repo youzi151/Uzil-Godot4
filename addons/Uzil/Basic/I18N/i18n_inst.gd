@@ -12,7 +12,7 @@ var I18N
 # Variable ===================
 
 ## 當前語言
-var _current_lang = null
+var _current_lang : String = ""
 
 ## 當前備選語言
 var _current_fallback_langs := []
@@ -73,27 +73,37 @@ func get_language (code_or_alias) :
 	return null
 
 ## 取得 當前 語言資料
-func get_current_language () :
+func get_current_language_code () :
 	return self._current_lang
+func get_current_language () :
+	return self.get_language(self._current_lang)
 
 ## 取得 當前 所有 備選 語言資料
-func get_current_fallback_languages () :
+func get_current_fallback_language_codes () :
 	return self._current_fallback_langs
+func get_current_fallback_languages () :
+	var res : Array = []
+	for each in self._current_fallback_langs :
+		var each_lang = self.get_language(each)
+		if each_lang != null :
+			res.push_back(each_lang)
+	return res
 
 ## 變更語言
-func change_language (i18n_lang) :
+## 會卸載所有當前語言的字典, 且只有下個語言的預設目錄中的字典檔案會被讀取.
+## 若有手動讀取其他字典則需要注意.
+func change_language (_lang_code = null) :
+	if _lang_code == null : _lang_code = self.get_current_language_code()
 	
-	# 若 為 字串(語言名稱) 則 取得 該語言
-	var typ = typeof(i18n_lang)
-	if typ == TYPE_STRING :
-		i18n_lang = self.get_language(i18n_lang)
+	# 取得 該語言
+	var i18n_lang = self.get_language(_lang_code)
 	
 	# 紀錄 前次 語言 與 備選語言
-	var last_lang = self._current_lang
+	var last_lang = self.get_language(self._current_lang)
 	var last_fallback_langs = self._current_fallback_langs
 	
 	# 設置 當前 語言 與 備選語言
-	self._current_lang = i18n_lang
+	self._current_lang = _lang_code
 	self._current_fallback_langs.clear()
 	
 	# 要 讀取字典 的 語言(代號)
@@ -108,13 +118,10 @@ func change_language (i18n_lang) :
 		to_load_code.push_back(i18n_lang.code)
 		
 		# 當前語言 的 所有 備選語言(代號)
-		for fallback_code in i18n_lang.fallback_langs :	
-			# 取得 備選語言
-			var fallback_lang = self.get_language(fallback_code)
-			if fallback_lang == null : continue
+		for fallback_code in i18n_lang.fallback_langs :
 			
 			# 加入 備選語言
-			self._current_fallback_langs.push_back(fallback_lang)
+			self._current_fallback_langs.push_back(fallback_code)
 			
 			# 加入 備選語言 至 讀取列表	
 			to_load_code.push_back(fallback_code)
@@ -129,17 +136,15 @@ func change_language (i18n_lang) :
 		if last_fallback_langs != null :
 			# 加入 前個備選語言 至 卸載列表
 			for each in last_fallback_langs :
-				to_unload_code.push_back(each.code)
+				to_unload_code.push_back(each)
 	
 	# 卸載 字典
 	for each in to_unload_code :
-		if to_load_code.has(each) : continue
 		self.I18N.loader.unload_dicts(self.get_language(each))
 		
 	# 載入 字典
 	for each in to_load_code :
-		if to_unload_code.has(each) : continue
-		self.I18N.loader.load_dicts(self.get_language(each))
+		self.I18N.loader.load_dicts_default(self.get_language(each))
 	
 	# 發送 當 語言改變 事件
 	self._on_language_changed.emit()
@@ -234,18 +239,20 @@ func off_update (listener_or_tag) :
 
 # 設置 鍵:詞
 func set_word (key: String, word) :
-	if self._current_lang == null : return null
+	var cur_lang = self.get_current_language()
+	if cur_lang == null : return null
 	if word != null :
-		self._current_lang.key_to_word[key] = word
+		cur_lang.key_to_word[key] = word
 	else :
-		if self._current_lang.key_to_word.has(key) :
-			self._current_lang.key_to_word.erase(key)
+		if cur_lang.key_to_word.has(key) :
+			cur_lang.key_to_word.erase(key)
 
 # 取得 詞
 func get_word (key: String) :
-	if self._current_lang == null : return null
-	if self._current_lang.key_to_word.has(key) == false : return null
-	return self._current_lang.key_to_word[key]
+	var cur_lang = self.get_current_language()
+	if cur_lang == null : return null
+	if cur_lang.key_to_word.has(key) == false : return null
+	return cur_lang.key_to_word[key]
 
 ## 設置 鍵:函式
 func set_func (key: String, fn) :

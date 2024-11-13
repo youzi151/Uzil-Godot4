@@ -22,7 +22,7 @@ var Task = null
 ## 鍵:所屬域 表
 var key_to_scope := {}
 
-## 路徑與存取快取
+## 路徑與存取快取 {route:[scope, task.access]}
 var route_to_cache := {}
 
 # GDScript ===================
@@ -52,7 +52,8 @@ func _init () :
 func acc (route: StringName) :
 	if route in self.route_to_cache :
 		var cache : Array = route_to_cache[route]
-		return cache[0].req_access(cache[1]).result
+		var access = cache[0].req_access(cache[1])
+		if access != null : return access.result
 	
 	var parsed : PackedStringArray = self.parse_route(route)
 	if parsed.size() == 0 : return null
@@ -63,7 +64,8 @@ func acc (route: StringName) :
 	var task = scope.access(parsed[1])
 	if task == null : return null
 	
-	self.route_to_cache[route] = [scope, task.access]
+	if task.state == 1 :
+		self.route_to_cache[route] = [scope, task.access]
 	
 	return task.result
 
@@ -71,7 +73,8 @@ func acc (route: StringName) :
 func accync (route: StringName) :
 	if route in self.route_to_cache :
 		var cache : Array = route_to_cache[route]
-		return await cache[0].req_accync(cache[1]).result
+		var access : RefCounted = await cache[0].req_accync(cache[1])
+		return access.result
 	
 	var parsed : PackedStringArray = self.parse_route(route)
 	if parsed.size() == 0 : return null
@@ -165,6 +168,8 @@ func get_sort_require_list (_accesses: Array) -> Array :
 			for req_id_or_alias in scope_requires :
 				var req_access = scope.get_access(req_id_or_alias)
 				
+				if req_access.is_requires_checked : continue
+				
 				# 若 不在 所需依賴表 則 加入
 				if not dependency.has(req_access.route) :
 					dependency[req_access.route] = true
@@ -178,9 +183,9 @@ func get_sort_require_list (_accesses: Array) -> Array :
 		access_to_dependencies[access.route] = dependencies
 		
 		# 若 沒有所需依賴 則 加入 該模塊 至 佇列
-		if access.requires.size() == 0 :
+		if dependency.size() == 0 :
 			queue.push_back(access)
-		
+	
 	# 若 佇列中 還有
 	while queue.size() > 0 :
 		# 取出並加入 排序結果
@@ -218,6 +223,7 @@ func get_sort_require_list (_accesses: Array) -> Array :
 	if access_to_dependencies.size() > 0 :
 		# 則 只有可能是有 循環依賴 存在
 		push_error("Cyclic dependencies exist, unable to perform linear sorting")
+		push_error(sorted_access_list)
 		push_error(access_to_dependencies)
 	
 	# 回傳 排序結果
@@ -237,6 +243,7 @@ func collect_requires (requires: Dictionary, collected := {}) -> Dictionary :
 		for each_id_or_alias in list :
 			# 取得 模塊
 			var each_access = scope.get_access(each_id_or_alias)
+			
 			# 若 無 則 忽略
 			if each_access == null : continue
 			
@@ -307,7 +314,7 @@ func parse_route (route: StringName) -> PackedStringArray :
 	if not route.contains(":") : return PackedStringArray()
 	var res := route.rsplit(":", true, 1)
 	match res.size() :
-		0 : return PackedStringArray()
+		0 : res = PackedStringArray()
 		1 : res = PackedStringArray(["", res[0]])
 	return res
 

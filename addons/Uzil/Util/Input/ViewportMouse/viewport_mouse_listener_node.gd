@@ -9,15 +9,13 @@ var _mouse_pos : Vector2 = Vector2.ZERO
 
 ## 輸入 (蒐集資訊)
 func _input (event: InputEvent) :
-	if (event is InputEventMouseButton) :
-		self._mouse_pos = event.position
-	elif (event is InputEventMouseMotion) :
-		self._mouse_pos = event.position
-	else :
+	if not (event is InputEventMouse) :
 		return
 	
+	self._mouse_pos = event.position
+	
 	# 設置 到 此節點所在視圖 的 對應實例
-	UREQ.acc(&"Uzil:Util").input.viewport_mouse.in_viewport(self.get_tree().root).set_position(self._mouse_pos)
+	UREQ.acc(&"Uzil:Util").input.viewport_mouse.in_viewport(self.get_viewport()).set_position(self._mouse_pos)
 
 # Extends ====================
 

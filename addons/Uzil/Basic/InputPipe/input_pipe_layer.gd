@@ -134,6 +134,13 @@ func get_input (vkey: int) :
 	else : 
 		return null
 
+## 取得 輸入訊號 值
+func get_input_val (vkey: int, default_val = null) :
+	if self._vkey_to_msg.has(vkey) : 
+		return self._vkey_to_msg[vkey].val
+	else : 
+		return default_val
+
 ## 新增 當 輸入 偵聽
 func on_input (vkey: int, evtlistener_or_fn) :
 	var Evt = null
@@ -158,6 +165,12 @@ func on_input (vkey: int, evtlistener_or_fn) :
 func off_input (vkey: int, evtlistener_or_tag) :
 	if not self._vkey_to_event.has(vkey) : return
 	self._vkey_to_event[vkey].off(evtlistener_or_tag)
+
+## 移除 當 輸入 偵聽
+func off_inputs (tag) :
+	for vkey in self._vkey_to_event :
+		var evt : RefCounted = self._vkey_to_event[vkey]
+		evt.off_by_tag(tag)
 
 ## 註冊事件 來源處理器 以及 當輸入偵聽
 # 僅方便設置 src_key直接轉為vkey 以及 註冊事件. [br]
@@ -211,4 +224,3 @@ func call_all_input () :
 		self.call_input(each)
 
 # Private ====================
-

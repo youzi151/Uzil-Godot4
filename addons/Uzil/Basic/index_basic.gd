@@ -29,7 +29,10 @@ var UserSave
 var I18N
 ## 標籤檢索
 var TagQ
-
+## 處理串
+var Handlers
+## 統計
+var Stats
 
 # other =========
 
@@ -57,6 +60,12 @@ func index (Uzil, _parent_index) :
 	
 	self.TagQ = Uzil.load_script(self.PATH.path_join("TagQ/index_tag_q.gd")).new()
 	self.sub_indexes.push_back(self.TagQ)
+	
+	self.Handlers = Uzil.load_script(self.PATH.path_join("Handlers/index_handlers.gd")).new()
+	self.sub_indexes.push_back(self.Handlers)
+	
+	self.Stats = Uzil.load_script(self.PATH.path_join("Stats/index_stats.gd")).new()
+	self.sub_indexes.push_back(self.Stats)
 	
 	# 建立索引
 	for each in self.sub_indexes :

@@ -61,15 +61,14 @@ func _init (_dont_set_in_scene) :
 	)
 
 func _notification (msg) :
-	# 若在 背景中計時 則 忽略
-	if self._is_timing_in_background_vals.current() : return
-	
 	match msg :
 		# 進入焦點
 		MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN : 
 			self._resume(true)
 		# 離開焦點
 		MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT : 
+			# 若在 背景中計時 則 忽略
+			if self._is_timing_in_background_vals.current() : return
 			self._pause(true)
 		
 # Public =====================

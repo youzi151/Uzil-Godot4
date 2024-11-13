@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://chy0dbw7xo7yc"]
+[gd_scene load_steps=26 format=3 uid="uid://chy0dbw7xo7yc"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_uzil.gd" id="1_5gjy7"]
 [ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_to_scene.gd" id="2_35jgj"]
@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://c00044uhftq6x" path="res://addons/Uzil/Util/_test/test_async.tscn" id="19_63et0"]
 [ext_resource type="PackedScene" uid="uid://q0p3dnsjppo8" path="res://addons/Uzil/Util/_test/test_input.tscn" id="20_42p7f"]
 [ext_resource type="PackedScene" uid="uid://88r2sd3vaknj" path="res://addons/Uzil/Util/_test/test_signals.tscn" id="23_ksu2l"]
+[ext_resource type="PackedScene" uid="uid://4suu3h8brcv4" path="res://addons/Uzil/Util/RNG/_test/test_rng.tscn" id="24_q6pxo"]
 
 [sub_resource type="Theme" id="Theme_kt5kl"]
 
@@ -219,6 +220,10 @@ scene = ExtResource("20_42p7f")
 [node name="signals" type="Node" parent="scene/scenes/Util"]
 script = ExtResource("2_35jgj")
 scene = ExtResource("23_ksu2l")
+
+[node name="rng" type="Node" parent="scene/scenes/Util"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("24_q6pxo")
 
 [node name="test_scene" type="Control" parent="."]
 visible = false

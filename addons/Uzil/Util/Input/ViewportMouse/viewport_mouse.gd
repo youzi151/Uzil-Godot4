@@ -39,13 +39,15 @@ func init (Util) :
 	self.ViewportMouseListener = Uzil.load_script(self.PATH.path_join("viewport_mouse_listener_node.gd"))
 	
 	## 建立 實例管理
-	self._inst_mgr = Util.InstMgr.new(func():
+	self._inst_mgr = Util.InstMgr.new(func(key):
 		return self.ViewportMouseInst.new()
 	)
 	return self
 
 ## 取得 對應視圖 的 實例
 func in_viewport (viewport: Viewport) :
-	return self._inst_mgr.inst(str(viewport.get_instance_id()))
+	var inst : RefCounted = self._inst_mgr.inst(str(viewport.get_instance_id()))
+	inst.set_viewport(viewport)
+	return inst
 
 # Private ====================

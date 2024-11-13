@@ -24,3 +24,12 @@ func is_intersects (arr1: Array, arr2: Array) -> bool :
 		if arr2.has(v) :
 			return true
 	return false
+
+func is_contains (arr1: Array, arr2: Array) -> bool :
+	var is_match_any : bool = false
+	for v in arr2 :
+		if not arr1.has(v) :
+			return false
+		else :
+			is_match_any = true
+	return is_match_any

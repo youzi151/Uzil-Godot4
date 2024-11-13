@@ -5,7 +5,7 @@ var scope : String
 
 var attr : String
 
-# -1:負面, 0:可選, 1:必要
+# -1:排除, 0:可選, 1:必要
 var search_type : int = 1
 
 func _to_string () :

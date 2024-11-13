@@ -47,4 +47,3 @@ func clear () :
 	self.on_update.clear()
 
 # Private ====================
-

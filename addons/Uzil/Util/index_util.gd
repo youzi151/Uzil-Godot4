@@ -44,6 +44,8 @@ var gdscript
 var signals
 ## 輸入
 var input
+## 節點
+var node
 ## 字典
 var dict
 ## 陣列
@@ -56,6 +58,8 @@ var aes
 var uniq_id
 ## HTTP
 var http
+## 設定檔
+var config
 ## 截圖
 var screenshot
 
@@ -82,12 +86,14 @@ func index (Uzil, _parent_index) :
 			self._class._Input = Uzil.load_script(self.PATH.path_join("Input/input.gd"))
 			self._class._Keycode = Uzil.load_script(self.PATH.path_join("Input/keycode.gd"))
 			self._class._ViewportMouse = Uzil.load_script(self.PATH.path_join("Input/ViewportMouse/viewport_mouse.gd"))
+			self._class._Node = Uzil.load_script(self.PATH.path_join("node.gd"))
 			self._class._Dictionary = Uzil.load_script(self.PATH.path_join("dictionary.gd"))
 			self._class._Array = Uzil.load_script(self.PATH.path_join("array.gd"))
 			self._class._AES = Uzil.load_script(self.PATH.path_join("aes.gd"))
 			self._class._String = Uzil.load_script(self.PATH.path_join("string.gd"))
 			self._class._UniqID = Uzil.load_script(self.PATH.path_join("uniq_id.gd"))
 			self._class._Http = Uzil.load_script(self.PATH.path_join("http.gd"))
+			self._class._Config = Uzil.load_script(self.PATH.path_join("config.gd"))
 			self._class._Screenshot = Uzil.load_script(self.PATH.path_join("screenshot.gd"))
 			
 			# class
@@ -118,10 +124,12 @@ func init (__parent_index) :
 	self.signals = self._class._Signals.new()
 	self.aes = self._class._AES.new()
 	self.string = self._class._String.new()
+	self.node = self._class._Node.new()
 	self.dict = self._class._Dictionary.new()
 	self.array = self._class._Array.new()
 	self.uniq_id = self._class._UniqID.new()
 	self.http = self._class._Http.new()
+	self.config = self._class._Config.new()
 	self.screenshot = self._class._Screenshot.new()
 	
 	self.input = self._class._Input.new().init(self, {

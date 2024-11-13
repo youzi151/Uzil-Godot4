@@ -73,7 +73,9 @@ func recovery (old_one) :
 		self.strat.destroy(old_one)
 
 ## 重置容量
-func resize () :
+func resize (_size: int = -1) :
+	if _size >= 0 : self.set_size(_size)
+	
 	# 當前容量
 	var size := self._pool.size()
 	# 目標容量

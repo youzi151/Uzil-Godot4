@@ -34,7 +34,7 @@ var target : Control = null :
 
 ## 中心點百分比
 @export
-var pivot_percent : Vector2 = Vector2(0.0, 0.0) :
+var pivot_percent : Vector2 = Vector2(0.5, 0.5) :
 	set (value) :
 		pivot_percent = value
 		self.refresh()

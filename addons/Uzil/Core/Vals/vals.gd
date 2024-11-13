@@ -36,6 +36,9 @@ func _init () :
 	var Evt = UREQ.acc(&"Uzil:Core.Evt")
 	self.on_update = Evt.Inst.new()
 
+func _to_string () -> String :
+	return str(self._user_to_data)
+
 # Public =====================
 
 ## 取得 數量
@@ -47,8 +50,9 @@ func size () :
 func current () :
 	# 依照類型 取得 當前值
 	var curr = null
-	if self._current_val != null and is_instance_valid(self._current_val) and typeof(self._current_val) == TYPE_CALLABLE  :
-		curr = self._current_val.call()
+	if self._current_val != null and typeof(self._current_val) == TYPE_CALLABLE  :
+		if self._current_val.is_valid() :
+			curr = self._current_val.call()
 	else :
 		curr = self._current_val
 		
@@ -88,16 +92,19 @@ func set_data (user, val, _priority = 0) :
 	
 	var data = self.get_data(user)
 	
-	# 是否有更動 優先度
-	var is_priority_changed := false
+	# 是否有更動
+	var is_changed := false
 	
 	# 若 已存在
 	if data != null :
 		
-		data.val = val
-		
-		is_priority_changed = data.pri != _priority
+		if data.pri != _priority :
+			is_changed = true
 		data.pri = _priority
+		
+		if data.val != val :
+			is_changed = true
+		data.val = val
 		
 	# 否則 新建立
 	else :
@@ -108,10 +115,10 @@ func set_data (user, val, _priority = 0) :
 		}
 		self._user_to_data[user] = data
 		
-		is_priority_changed = true
+		is_changed = true
 	
-	# 若 有更新優先度 則 刷新 (以此資料單獨比對)
-	if is_priority_changed :
+	# 若 有更新 則 刷新 (以此資料單獨比對)
+	if is_changed :
 		self._update_users()
 
 ## 設置預設
@@ -181,7 +188,7 @@ func clear_current (_is_need_update = true) :
 	self._current_val = null
 	
 	if _is_need_update :
-		self.on_update.emit()
+		self._update_current(null)
 
 ## 刷新
 func update () :
