@@ -150,9 +150,9 @@ func change_language (_lang_code = null) :
 	self._on_language_changed.emit()
 
 ## 翻譯
-func trans (text: String, on_step = null) :
+func trans (text: String, format = null, on_step = null) :
 	# 本次 翻譯 任務
-	var trans_task = self.I18N.Task.new(self, text)
+	var trans_task = self.I18N.Task.new(self, text, format)
 	
 	# 是否完成
 	var is_done = false
@@ -175,7 +175,7 @@ func trans (text: String, on_step = null) :
 		var translator = self._translators[trans_idx]
 		
 		# 代換
-#		var untrans = trans_task.text
+		#var untrans : String = trans_task.text
 		var is_trans = await translator.handle(trans_task)
 		
 		if is_trans :
@@ -184,9 +184,8 @@ func trans (text: String, on_step = null) :
 			while double_check and double_check_quota > 0 : 
 				double_check_quota -= 1
 				double_check = await translator.handle(trans_task)
-			
-			
-#		print("====\n%s\n===trans to===\n%s\n====" % [untrans, trans_task.text])
+		
+		#G.print("====\n%s\n===trans with [%s] to===\n%s\n    ====" % [untrans, str(translator.get_name()), trans_task.text])
 		
 		# 若有成功翻譯 則 設為最後一個有翻譯的翻譯器
 		if is_trans :

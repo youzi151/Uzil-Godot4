@@ -1,7 +1,7 @@
 
 ## i18n handler file 在地化 處理器 檔案
 ##
-## 讀取 檔案類榮 來 代換 關鍵字.[br]
+## 讀取 檔案內容 來 代換 關鍵字.[br]
 ## 可指定 檔案路徑 與 ini格式的區塊與鍵值 來取得 值.[br]
 ## 可插入 %LANG% 來在 取得 當前或備選語言 中 可用的 值.
 ##
@@ -24,6 +24,10 @@ func _init () :
 	self.regex.compile(self.regex_pattern)
 
 # Interface ==================
+
+## 取得 名稱
+func get_name () :
+	return "FILE"
 
 ## 處理 翻譯
 func handle (trans_task) :

@@ -17,11 +17,8 @@ enum UpdateMode { MANUAL, PROCESS, ON_UPDATE}
 ## 原始文字
 @export_multiline var raw_text : String = ""
 
-## 格式參數 字典
-@export var format_dict : Dictionary = {}
-
-## 格式參數 陣列
-@export var format_array : Array = []
+## 格式參數
+@export var format_var = null
 
 ## 更新事件標籤
 @export var on_update_tags : Array[String] = []
@@ -35,7 +32,7 @@ var on_update_listener = null
 
 # GDScript ===================
 
-func _init () :
+func _ready () :
 	var Uzil = UREQ.acc(&"Uzil:Uzil")
 	
 	Uzil.once_ready(func():
@@ -76,23 +73,17 @@ func set_raw (_raw_text: String, _is_update: bool = true) :
 ## 設置 格式化
 func set_format (format, _is_update: bool = true) :
 	match typeof(format) :
-		TYPE_DICTIONARY :
-			self.format_dict = format
-		TYPE_ARRAY :
-			self.format_array = format
+		TYPE_DICTIONARY, TYPE_ARRAY :
+			self.format_var = format
 		TYPE_NIL :
 			pass
 		_ :
-			self.format_array = [str(format)]
+			self.format_var = [str(format)]
 	if _is_update : self.update()
 
 ## 更新
 func update () :
-	var translated : String = self._get_i18n().trans(self.raw_text)
-	if self.format_dict.size() > 0 :
-		translated = translated.format(self.format_dict)
-	if self.format_array.size() > 0 :
-		translated = translated % self.format_array
+	var translated : String = self._get_i18n().trans(self.raw_text, self.format_var)
 	
 	var slf = self
 	if slf is RichTextLabel or slf is Label :

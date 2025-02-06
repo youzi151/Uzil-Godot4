@@ -12,11 +12,15 @@ var inst = null
 ## 內文
 var text : String = ""
 
+## 格式化資料
+var format : Variant = null
+
 # GDScript ===================
 
-func _init (_inst, _text) :
+func _init (_inst, _text, _format) :
 	self.inst = _inst
 	self.text = _text
+	self.format = _format
 
 # Extends ====================
 

@@ -18,6 +18,13 @@ func _init (handler) :
 
 # Public =====================
 
+## 取得 名稱
+func get_name () :
+	if self._handler.has_method(&"get_name") :
+		return self._handler.get_name()
+	else :
+		return "unknown"
+
 ## 翻譯
 func handle (trans_task) :
 	var is_trans = await self._handler.handle(trans_task)

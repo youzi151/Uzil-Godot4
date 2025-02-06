@@ -28,6 +28,10 @@ func _init () :
 
 # Interface ==================
 
+## 取得 名稱
+func get_name () :
+	return "FUNC"
+
 ## 處理 翻譯
 func handle (trans_task) :
 	# 搜尋
@@ -96,4 +100,3 @@ func handle (trans_task) :
 # Public =====================
 
 # Private ====================
-

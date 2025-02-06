@@ -73,6 +73,10 @@ func create_inst (Uzil) :
 	
 	var inst = self.Inst.new()
 	
+	# 格式化 翻譯器
+	var trans_format = self.Trans.new(Uzil.load_script(self.PATH.path_join("handlers/i18n_handler_format.gd")).new())
+	inst.add_translator(trans_format)
+	
 	# 詞 翻譯器
 	var trans_word = self.Trans.new(Uzil.load_script(self.PATH.path_join("handlers/i18n_handler_word.gd")).new())
 	inst.add_translator(trans_word)
