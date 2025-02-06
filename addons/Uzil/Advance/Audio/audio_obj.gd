@@ -69,15 +69,15 @@ func _init (_mgr, _id, _audio_player) :
 
 func _process (_dt) :
 	
-	var is_timing = UREQ.acc(&"Uzil:times_mgr").inst().is_timing()
+	var is_paused = UREQ.acc(&"Uzil:times_mgr").inst().is_paused()
 	var _is_playing = self.is_playing()
 	
-	if not is_timing and _is_playing :
+	if is_paused and _is_playing :
 		self._is_pause_by_timing_pause = true
 		self.pause()
 		return
 		
-	elif is_timing and not _is_playing and self._is_pause_by_timing_pause :
+	elif not is_paused and not _is_playing and self._is_pause_by_timing_pause :
 		self._is_pause_by_timing_pause = false
 		self.resume()
 		

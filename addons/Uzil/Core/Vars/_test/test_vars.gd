@@ -28,14 +28,17 @@ func test_normal () :
 	var vars = Vars.inst()
 	
 	# 偵聽 當 變數改變
-	var listener1 = vars.on_var_changed(func(ctrlr):
+	var listener1 = vars.on_vars_changed(func(ctrlr):
 		var data = ctrlr.data
-		var msg : String = "on_var_changed : var[\"%s\"] set " % data.key
-		
-		if data.has("last") :
-			msg += "from %s " % data["last"]
-		
-		msg += " to %s" % data["val"]
+		var msg : String = "on_vars_changed : \n"
+		for key in data.keys() :
+			msg += "vars[\"%s\"] set " % data.keys()
+			
+			var last = data["last"]
+			if last != null :
+				msg += "from %s " % last
+			
+			msg += " to %s\n" % data["val"]
 		
 		G.print(msg)
 	)

@@ -55,7 +55,7 @@ func set_run_in_background (is_run_in_background: bool, is_save_to_config := tru
 	
 	# 設置 背景計時
 	var Times = UREQ.acc(&"Uzil:Core.Times")
-	Times.is_timing_in_background_config = is_run_in_background
+	Times.is_pause_in_background_config = not is_run_in_background
 	
 	if is_save_to_config :
 		self._write_to_config(self.KEY_IS_RUN_IN_BACKGROUND, is_run_in_background)

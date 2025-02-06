@@ -209,12 +209,14 @@ func _merge_ex_val_to_dict (dict: Dictionary, method: MergeMethod, key: String, 
 			# 若 舊值 存在
 			if val_old_exist :
 				# 若為 減去null 則視為 移除該key
-				if method == MergeMethod.SUB and val_new_typ == TYPE_NIL :
+				if val_new_typ == TYPE_NIL :
 					dict.erase(key)
 					return
 				# 若 類型不一致 則 無效並忽略
 				elif val_new_typ != typeof(val_old) :
 					return
+			else :
+				return
 			
 			# 依照 新值類型
 			match val_new_typ :

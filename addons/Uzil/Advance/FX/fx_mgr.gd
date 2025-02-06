@@ -29,10 +29,10 @@ var _to_recovery : Array = []
 # GDScript ===================
 
 func _process (_dt: float) :
-	for each in self._to_recovery :
-		if is_instance_valid(each) :
+	if self._to_recovery.size() > 0 :
+		for each in self._to_recovery :
 			self.recovery(each)
-	self._to_recovery.clear()
+		self._to_recovery.clear()
 
 # Extends ====================
 
@@ -72,14 +72,15 @@ func reuse (prefer_id: String, src: String, init_data: Dictionary = {}) :
 	return fx_node
 
 ## 回收 特效
-func recovery (fx_node: Node) :
+func recovery (fx_node) :
 	if not self._inst_to_info.has(fx_node) : return
 	var info : FXInfo = self._inst_to_info[fx_node]
 	# 註銷
 	self._inst_to_info.erase(fx_node)
 	self._id_to_inst.erase(info.id)
-	# 回收
-	info.pool.recovery(fx_node)
+	# 若 還存在 則 回收
+	if fx_node.is_inside_tree() : 
+		info.pool.recovery(fx_node)
 
 ## 清除 特效
 func clear (is_clear_src_to_pool := false) :
@@ -114,6 +115,9 @@ func _req_pool (src: String) :
 		
 		var prefab : PackedScene = res_info.res
 		pool.strat.set_prefab(prefab)
+		pool.strat.set_stay_parent(self)
+		
+		var node_util = UREQ.acc(&"Uzil:Util").node
 		
 		# 設置 初始化 方法
 		pool.strat.set_init(func(one, data):
@@ -121,6 +125,9 @@ func _req_pool (src: String) :
 				one._fx_init(self, data)
 			# 註冊 在離開節點樹時 回收
 			one.tree_exited.connect(func():
+				# 排除 重新設置上層節點的情況
+				if node_util.is_reparenting(one) : return
+				# 預計 回收
 				self._to_recovery.push_back(one)
 			)
 		)
@@ -129,16 +136,6 @@ func _req_pool (src: String) :
 		pool.strat.set_uninit(func(one):
 			if one.has_method("_fx_uninit") :
 				one._fx_uninit(self)
-			
-			# 若有 上層節點 且 非FXMgr
-			var parent : Node = one.get_parent()
-			if parent != null and parent != self:
-				# 重設 上層節點 為 FXMgr
-				if one.is_inside_tree() :
-					one.reparent(self)
-				else :
-					parent.remove_child(one)
-					self.add_child(one)
 		)
 		
 	return pool

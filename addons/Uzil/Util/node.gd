@@ -18,21 +18,35 @@ func get_children_recursive (node: Node, is_internal: bool = false) :
 ## WIP 重新設置上層節點
 ## 因為 reparent 可能在某些情況下導致node與其下層node 的 connection 斷開,
 ## 可能要考慮用公用工具來在斷開前紀錄, 並在重新設置上層節點後重新連接.
-func reparent (node: Node, new_parent: Node) :
-	
-	var signal_to_connections : Dictionary = {}
-	
-	var signals : Array = node.get_signal_list()
-	for each in signals :
-		signal_to_connections[each.name] = node.get_signal_connection_list(each.name)
-	
+func reparent (node: Node, new_parent: Node, is_keep_global_pos := true) :
 	var parent : Node = node.get_parent()
-	if parent != null :
-		parent.remove_child(node)
-	new_parent.add_child(node)
+	if parent == new_parent : return
 	
-	for sig in signal_to_connections :
-		var connections : Array = signal_to_connections[sig]
-		for each in connections :
-			if not node.is_connected(sig, each.callable) :
-				node.connect(sig, each.callable, each.flags)
+	if parent == null :
+		
+		new_parent.add_child(node)
+		
+	else :
+		
+		# 紀錄 原本的連接
+		var signal_to_connections : Dictionary = {}
+		var signals : Array = node.get_signal_list()
+		for each in signals :
+			signal_to_connections[each.name] = node.get_signal_connection_list(each.name)
+		
+		# 更換 上層節點
+		node.set_meta("_is_reparenting", true)
+		node.reparent(new_parent, is_keep_global_pos)
+		node.remove_meta("_is_reparenting")
+		
+		# 恢復 原本的連接
+		for sig in signal_to_connections :
+			var connections : Array = signal_to_connections[sig]
+			for each in connections :
+				if not node.is_connected(sig, each.callable) :
+					node.connect(sig, each.callable, each.flags)
+				
+
+func is_reparenting (node: Node) :
+	return node.has_meta("_is_reparenting")
+	

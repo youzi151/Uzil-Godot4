@@ -22,6 +22,9 @@ var _core
 ## 預製物件
 var _prefab : PackedScene
 
+## 等候容器
+var _stay_parent : Node
+
 ## 建立 方法
 var _created_fn : Callable
 
@@ -67,13 +70,32 @@ func destroy (target) :
 
 ## 初始化
 func initial (new_one, _data) :
-	if self._init_fn.is_null() : return new_one
-	return self._init_fn.call(new_one, _data)
+	if self._stay_parent != null and new_one.get_parent() == null :
+		self._stay_parent.add_child(new_one)
+	
+	var res = new_one
+	if not self._init_fn.is_null() : 
+		res = self._init_fn.call(new_one, _data)
+	return res
 
 ## 反初始化
 func uninitial (old_one) :
-	if self._uninit_fn.is_null() : return old_one
-	return self._uninit_fn.call(old_one)
+	var res = old_one
+	
+	if not self._uninit_fn.is_null() : 
+		res = self._uninit_fn.call(old_one)
+	
+	# 若有 上層節點 與 收管節點 且 上層節點 不是 收管節點
+	var parent : Node = old_one.get_parent()
+	if parent != null and self._stay_parent != null and parent != self._stay_parent :
+		# 重設 上層節點 為 收管節點
+		if old_one.is_inside_tree() :
+			old_one.reparent(self._stay_parent)
+		else :
+			parent.remove_child(old_one)
+			self._stay_parent.add_child(old_one)
+	
+	return res
 
 # Public =====================
 
@@ -81,6 +103,10 @@ func uninitial (old_one) :
 func set_prefab (prefab: PackedScene) :
 	self._prefab = prefab
 	return self
+
+## 設置 等候容器
+func set_stay_parent (node: Node) :
+	self._stay_parent = node
 
 ## 設置 建立
 func set_created (created_fn: Callable) :
