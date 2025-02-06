@@ -23,8 +23,6 @@ const CallType = {
 
 # sub_index =====
 
-## 管理
-var Mgr
 ## 實體
 var Inst
 ## 任務
@@ -43,15 +41,33 @@ func index (Uzil, _parent_index) :
 	self.PATH = _parent_index.PATH.path_join("Invoker")
 	
 	# 綁定 索引
-	UREQ.bind(&"Uzil", &"Core.Invoker", self._target_index, {
-		"alias" : ["Invoker"],
-	})
+	UREQ.bind(&"Uzil", &"Core.Invoker", 
+		func():
+			self.Task = self.Uzil.load_script(self.PATH.path_join("invoker_task.gd"))
+			self.Inst = self.Uzil.load_script(self.PATH.path_join("invoker_inst.gd"))
+			return self,
+		{
+			"alias" : ["Invoker"],
+		}
+	)
 	
 	# 綁定 呼叫器管理
-	UREQ.bind(&"Uzil", &"invoker_mgr", self._target_mgr, {
-		"alias" : [],
-		"requires" : ["Core.Invoker"],
-	})
+	UREQ.bind(&"Uzil", &"invoker_mgr", 
+		func():
+			var Util = UREQ.acc(&"Uzil:Util")
+			var mgr = Util.InstMgr.new(
+				func(key):
+					return self.Inst.new(key),
+				func(inst):
+					inst.clear(),
+			)
+			self.Uzil.request_node("Core/Invoker", Util.InstMgrNode, [mgr])
+			return mgr,
+		{
+			"alias" : [],
+			"requires" : ["Core.Invoker"],
+		}
+	)
 	
 	# 綁定 實體
 	UREQ.bind(&"Uzil", &"invoker", 
@@ -65,15 +81,3 @@ func index (Uzil, _parent_index) :
 	)
 	
 	return self
-
-func _target_index () :
-	self.Task = self.Uzil.load_script(self.PATH.path_join("invoker_task.gd"))
-	self.Inst = self.Uzil.load_script(self.PATH.path_join("invoker_inst.gd"))
-	self.Mgr = self.Uzil.load_script(self.PATH.path_join("invoker_mgr.gd"))
-	return self
-
-func _target_mgr () :
-	var target = self.Mgr.new(null)
-	target.name = "invoker_mgr"
-	self.Uzil.request_node("Core/Invoker").add_child(target)
-	return target

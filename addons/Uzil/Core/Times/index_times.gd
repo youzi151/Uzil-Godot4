@@ -24,8 +24,6 @@ var Priority := {
 
 ## 實體
 var Inst
-## 管理
-var Mgr
 
 # inst ==========
 
@@ -37,8 +35,8 @@ var is_effect_to_godot_process := true
 ## 是否已經影響Godot本身的Process
 var _is_godot_process_effected := false
 
-## 是否 背景計時 (設定)
-var is_timing_in_background_config := false
+## 是否 背景暫停 (設定)
+var is_pause_in_background_config := false
 
 # func ==========
 
@@ -54,22 +52,29 @@ func index (Uzil, _parent_index) :
 	})
 	
 	# 綁定 實體管理
-	UREQ.bind(&"Uzil", &"times_mgr", self._target_mgr, {
-		"alias" : ["times"],
-		"requires" : ["Core.Times"],
-	})
+	UREQ.bind(&"Uzil", &"times_mgr",
+		func():
+			var Util = UREQ.acc(&"Uzil:Util")
+			var mgr = Util.InstMgr.new(
+				func(key):
+					var inst : Node = self.Inst.new(key)
+					var name : String = str(key)
+					inst.name = name if not name.is_empty() else "_"
+					self.Uzil.request_node("Core/Times").add_child(inst)
+					return inst,
+			)
+			self.Uzil.request_node("Core/Times", Util.InstMgrNode, [mgr])
+			return mgr,
+		{
+			"alias" : ["times"],
+			"requires" : ["Core.Times"],
+		}
+	)
 	
 	return self
 
-func _target_mgr () :
-	var target = self.Mgr.new(null)
-	target.name = "times_mgr"
-	self.Uzil.add_child(target)
-	return target
-
 func _target_index () :
 	self.Inst = self.Uzil.load_script(self.PATH.path_join("times_inst.gd"))
-	self.Mgr = self.Uzil.load_script(self.PATH.path_join("times_mgr.gd"))
 	
 	self.Uzil.on_notification.on(func(_ctrlr):
 		if not self.is_effect_to_godot_process : return

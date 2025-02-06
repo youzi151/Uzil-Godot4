@@ -43,7 +43,7 @@ func process (_dt: float) :
 	for idx in _tasks.size():
 		var each = _tasks[idx]
 		
-		# 若 被從 原任務列表 移除	
+		# 若 被從 原任務列表 移除
 		if self.tasks.has(each) == false:
 			continue
 		
@@ -192,6 +192,10 @@ func cancel_task (task, is_safe_mode := true) :
 	if not self.tasks.has(task) and is_safe_mode: 
 		push_warning("InvokerInst.cancel_task : task not in tasks")
 	self.tasks.erase(task)
+
+## 清除
+func clear () :
+	self.tasks.clear()
 
 ## 排序
 func sort () :

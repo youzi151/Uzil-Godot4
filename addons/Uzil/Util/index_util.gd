@@ -31,6 +31,8 @@ var Curves
 
 ## 實例管理
 var InstMgr
+## 實例管理節點
+var InstMgrNode
 
 # inst ==========
 
@@ -100,6 +102,7 @@ func index (Uzil, _parent_index) :
 			self.Graph = Uzil.load_script(self.PATH.path_join("Graph/graph.gd"))
 			self.Curves = Uzil.load_script(self.PATH.path_join("curves.gd"))
 			self.InstMgr = Uzil.load_script(self.PATH.path_join("inst_mgr.gd"))
+			self.InstMgrNode = Uzil.load_script(self.PATH.path_join("inst_mgr_node.gd"))
 
 			self.init(_parent_index)
 			return self

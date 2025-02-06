@@ -78,9 +78,9 @@ func test_normal () :
 	# 時間實體 B ====
 	var times_inst_B = times_mgr.inst("B")
 	
-	# 設置 是否在背景計時 true:計時, "test":使用者, 0:設置優先度
+	# 設置 是否在背景暫停 false:不暫停(繼續計時), "test":使用者, 0:設置優先度
 	# (以Vals機制設置, 詳見Vals)
-	times_inst_B.set_timing_in_background(true, "test", 0)
+	times_inst_B.set_pause_in_background(false, "test", 0)
 	
 	# 設置時間比例
 	times_inst_B.set_scale(2)

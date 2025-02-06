@@ -48,7 +48,8 @@ func run () :
 
 ## 呼叫 (帶單個參數)
 func run_arg (arg) :
-	self.fn.call(arg)
+	if is_instance_valid(self.fn.get_object()) : 
+		self.fn.call(arg)
 
 ## 完成
 func done () :
