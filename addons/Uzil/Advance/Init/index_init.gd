@@ -44,9 +44,9 @@ func init_full () :
 	UREQ.acc(&"Uzil:Advance.Init")
 	
 	var load_pcks = self.LoadPCKs.new()
-	load_pcks.load()
+	await load_pcks.load()
 	
 	var load_opts = self.LoadOpts.new()
-	load_opts.load()
+	await load_opts.load()
 	
 	

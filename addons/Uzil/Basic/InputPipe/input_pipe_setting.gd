@@ -14,7 +14,7 @@ static func load_from_file (path) :
 	
 	var user_save = UREQ.acc(&"Uzil:user_save")
 	
-	var setting_data = user_save.user.read(path)
+	var setting_data = await user_save.user.read(path)
 	if setting_data != null :
 		for handler_id in setting_data :
 			var data = setting_data[handler_id]
@@ -67,4 +67,3 @@ func override_setting (handler_id: String, data: Dictionary) :
 		exist = data
 		
 	self.set_setting(handler_id, exist)
-

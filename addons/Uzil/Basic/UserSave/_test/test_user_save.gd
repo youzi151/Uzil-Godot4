@@ -104,9 +104,9 @@ func test_save () :
 	
 	# 若 沒有值路徑 則 視為 整個檔案
 	if route == "" :
-		inst.write(self.current_file_name, "", val)
+		await inst.write(self.current_file_name, "", val)
 	else :
-		inst.write(self.current_file_name, route, val)
+		await inst.write(self.current_file_name, route, val)
 	
 	G.print("saved")
 
@@ -124,9 +124,9 @@ func test_load () :
 	
 	# 若 沒有值路徑 則 視為 整個檔案
 	if route == "" :
-		val = inst.read(self.current_file_name)
+		val = await inst.read(self.current_file_name)
 	else :
-		val = inst.read(self.current_file_name, route)
+		val = await inst.read(self.current_file_name, route)
 	
 	# 若 值存在 則 設置到 值輸入
 	if val != null :
@@ -150,11 +150,11 @@ func test_simple () :
 	G.print("uzil usersave path : %s" % UserSave.get_save_folder_root())
 	
 	G.print("== write/read full string")
-	user_save.user.write("user_fullstr.sav", "", "fff")
-	G.print(user_save.user.read("user_fullstr.sav"))
+	await user_save.user.write("user_fullstr.sav", "", "fff")
+	G.print(await user_save.user.read("user_fullstr.sav"))
 	
 	G.print("== write/read full dict")
-	user_save.user.writes("user_fulldict.sav", {
+	await user_save.user.writes("user_fulldict.sav", {
 		"test1":{
 			"test2":456
 		},
@@ -163,38 +163,38 @@ func test_simple () :
 			"test_rm": 123,
 		}
 	})
-	G.print(user_save.user.read("user_fulldict.sav"))
+	G.print(await user_save.user.read("user_fulldict.sav"))
 	
 	G.print("== write/read dict val")
-	user_save.user.write("user_fulldict.sav", "test1/test2", 789)
-	G.print(user_save.user.read("user_fulldict.sav", "test1/test2"))
+	await user_save.user.write("user_fulldict.sav", "test1/test2", 789)
+	G.print(await user_save.user.read("user_fulldict.sav", "test1/test2"))
 	
 	
 	G.print("== read full dict")
-	G.print(user_save.user.read("user_fulldict.sav"))
+	G.print(await user_save.user.read("user_fulldict.sav"))
 	
 	G.print("== write/read dict val overwrite val by route")
-	user_save.user.write("user_fulldict.sav", "test1/test2/test3", 789)
-	G.print(user_save.user.read("user_fulldict.sav", "test1/test2/test3"))
+	await user_save.user.write("user_fulldict.sav", "test1/test2/test3", 789)
+	G.print(await user_save.user.read("user_fulldict.sav", "test1/test2/test3"))
 	
 	G.print("== erase/read dict val")
-	user_save.user.write("user_fulldict.sav", "test/test_rm", null)
-	G.print(user_save.user.read("user_fulldict.sav", "test"))
+	await user_save.user.write("user_fulldict.sav", "test/test_rm", null)
+	G.print(await user_save.user.read("user_fulldict.sav", "test"))
 	
 	G.print("== read full dict")
-	G.print(user_save.user.read("user_fulldict.sav"))
+	G.print(await user_save.user.read("user_fulldict.sav"))
 	
 	
 	user_save.user.setting.set_user("steam_9527")
 	
 	G.print("== write/read user")
-	user_save.user.write("user_steam_fullstr.sav", "", "strrrrr")
-	G.print(user_save.user.read("user_steam_fullstr.sav"))
+	await user_save.user.write("user_steam_fullstr.sav", "", "strrrrr")
+	G.print(await user_save.user.read("user_steam_fullstr.sav"))
 	
 	G.print("== write/read profile")
 	user_save.profile.setting.set_profile("John")
-	user_save.profile.write("profile_fullstr.sav", "", "pppppppp")
-	G.print(user_save.profile.read("profile_fullstr.sav"))
+	await user_save.profile.write("profile_fullstr.sav", "", "pppppppp")
+	G.print(await user_save.profile.read("profile_fullstr.sav"))
 	
 
 func _update_file_path_label () :

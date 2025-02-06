@@ -55,7 +55,7 @@ func _exit_tree () :
 
 func test_enter () :
 	var InputPipe = UREQ.acc(&"Uzil:Basic.InputPipe")
-	var input_pipe = UREQ.acc(&"Uzil:input_pipe")
+	var input_pipe = await UREQ.accync(&"Uzil:input_pipe")
 	var Util = UREQ.acc(&"Uzil:Util")
 	
 	# Layer 與 Handler 建立 ==========
@@ -206,7 +206,7 @@ func test_enter () :
 #	, 2000)
 
 func test_exit () :
-	var input_pipe = UREQ.acc(&"Uzil:input_pipe")
+	var input_pipe = await UREQ.accync(&"Uzil:input_pipe")
 	
 	#input_pipe.clear()
 	

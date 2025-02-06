@@ -61,6 +61,9 @@ func read (inst, file_path: String, routes: Array, options: Dictionary) :
 		# 否則 讀取
 		else :
 			cfg_file = self._read_file(regular_path)
+			if cfg_file == null and OS.has_feature("web") :
+				cfg_file = await self._read_file_webjs(regular_path)
+			
 			inst._path_to_cache[regular_path] = cfg_file
 			_read_path_to_cache[regular_path] = cfg_file
 		
@@ -135,7 +138,8 @@ func read (inst, file_path: String, routes: Array, options: Dictionary) :
 					if result != null : break
 		
 		# 加入 至 總結果
-		results[route] = result
+		if result != null :
+			results[route] = result
 		
 	return results
 
@@ -238,6 +242,7 @@ func parse_route (route: String) -> Dictionary :
 
 ## 讀取 檔案
 func _read_file (full_path: String) :
+	#G.print("usersave_strat_cfg.read_file : file[%s] exist ? : %s" % [full_path, FileAccess.file_exists(full_path)])
 	if not FileAccess.file_exists(full_path) : return null
 	
 	var file := ConfigFile.new()
@@ -248,7 +253,25 @@ func _read_file (full_path: String) :
 	if err == OK :
 		return file
 	
-	#G.print("file[%s] exist ? : %s" % [full_path, FileAccess.file_exists(full_path)])
+	return null
+
+## 讀取 檔案
+func _read_file_webjs (full_path: String) :
+	var js = await UREQ.accync(&"Uzil:webjs")
+	var is_exist : bool = await js.fs.exists(full_path)
+	#G.print("usersave_strat_cfg.read_file_webjs : file[%s] exist ? : %s" % [full_path, is_exist])
+	if not is_exist : return null
+	
+	var buffer : PackedByteArray = await js.fs.read(full_path)
+	
+	var file := ConfigFile.new()
+	
+	# 讀取
+	var err = file.parse(buffer.get_string_from_utf8())
+	# 若 成功 則 返回
+	if err == OK :
+		return file
+	
 	
 	return null
 

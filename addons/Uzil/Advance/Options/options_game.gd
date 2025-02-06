@@ -34,7 +34,7 @@ func load_config (file_path := "") :
 	]
 	
 	var user_save = UREQ.acc(&"Uzil:user_save")
-	var configs = user_save.config.reads(file_path, to_load_keys, {"section":self.CFG_SECTION_NAME})
+	var configs = await user_save.config.reads(file_path, to_load_keys, {"section":self.CFG_SECTION_NAME})
 	
 	if configs.has(self.KEY_LANGUAGE) :
 		self.set_language(configs[self.KEY_LANGUAGE], false)
@@ -58,7 +58,7 @@ func set_run_in_background (is_run_in_background: bool, is_save_to_config := tru
 	Times.is_pause_in_background_config = not is_run_in_background
 	
 	if is_save_to_config :
-		self._write_to_config(self.KEY_IS_RUN_IN_BACKGROUND, is_run_in_background)
+		await self._write_to_config(self.KEY_IS_RUN_IN_BACKGROUND, is_run_in_background)
 
 ## 取得 語言
 func get_language () -> String :
@@ -73,7 +73,7 @@ func set_language (lang_code_or_name: String, is_save_to_config := true) :
 	i18n.change_language(lang_code_or_name)
 	
 	if is_save_to_config :
-		self._write_to_config(self.KEY_LANGUAGE, lang_code_or_name)
+		await self._write_to_config(self.KEY_LANGUAGE, lang_code_or_name)
 
 
 # Private ====================
@@ -82,4 +82,4 @@ func set_language (lang_code_or_name: String, is_save_to_config := true) :
 func _write_to_config (key, val) :
 	var Options = UREQ.acc(&"Uzil:Advance.Options")
 	var user_save = UREQ.acc(&"Uzil:user_save")
-	user_save.config.write(Options.CONFIG_FILE_PATH, key, val, {"section":self.CFG_SECTION_NAME})
+	await user_save.config.write(Options.CONFIG_FILE_PATH, key, val, {"section":self.CFG_SECTION_NAME})

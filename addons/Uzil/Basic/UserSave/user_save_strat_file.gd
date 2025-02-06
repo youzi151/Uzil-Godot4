@@ -6,12 +6,10 @@
 
 # Variable ===================
 
-var version : String = ""
+## 表頭 (特別辨識用途)
+var header : Dictionary = {}
 
 # GDScript ===================
-
-func _init (format_version_str) :
-	self.version = format_version_str
 
 # Extends ====================
 
@@ -51,6 +49,8 @@ func read (inst, file_path: String, routes: Array, options: Dictionary) :
 		# 否則 讀取
 		else :
 			file_content = self._read_file(regular_path)
+			if file_content == null and OS.has_feature("web"):
+				file_content = await self._read_file_webjs(regular_path)
 			inst._path_to_cache[regular_path] = file_content
 			_read_path_to_cache[regular_path] = file_content
 		
@@ -113,7 +113,8 @@ func read (inst, file_path: String, routes: Array, options: Dictionary) :
 					if result != null : break
 		
 		# 加入 至 總結果
-		results[route] = result
+		if result != null :
+			results[route] = result
 	
 	return results
 
@@ -165,13 +166,11 @@ func write (inst, file_path: String, route_to_val: Dictionary, options := {}) :
 	if not DirAccess.dir_exists_absolute(dir_path) :
 		DirAccess.make_dir_recursive_absolute(dir_path)
 	
-	# 開啟 檔案
+	# 保存 檔案
 	var file : FileAccess = FileAccess.open(regular_path, FileAccess.WRITE)
+	file.store_var(self.header)
+	file.store_var(to_write)
 	
-	# 保存 格式版本
-	file.store_var(self.version)
-	# 保存 內容
-	file.store_var(to_write, false)
 	# 關閉並寫入 檔案
 	file.close()
 	
@@ -188,6 +187,7 @@ func parse_route (route: String) -> Dictionary :
 
 # Private ====================
 
+
 func _make_standalone (file_content) :
 	match typeof(file_content) :
 		TYPE_ARRAY, TYPE_DICTIONARY :
@@ -196,7 +196,6 @@ func _make_standalone (file_content) :
 			return file_content
 
 func _read_file (path: String) :
-	
 	if not FileAccess.file_exists(path) : return null
 	
 	# 開啟檔案
@@ -206,15 +205,29 @@ func _read_file (path: String) :
 	if file == null :
 		return null
 	
-	# 格式版本
-	var format_version = file.get_var(false)
+	# 表頭
+	var header : Dictionary = file.get_var(false)
 	
-	# 檢查版本 並 警告 與 處理
-	# TODO
-	#G.print(format_version)
-	
-	# 內容
-	var content = file.get_var(false)
+	# 資料
+	var data : Dictionary = file.get_var(false)
 	
 	# 返回
+	return data
+
+
+## 讀取 檔案
+func _read_file_webjs (full_path: String) :
+	var js = await UREQ.accync(&"Uzil:webjs")
+	if not await js.fs.exists(full_path) : return null
+	
+	var buffer : PackedByteArray = await js.fs.read(full_path)
+	
+	var pos := 0
+	
+	var header_size := buffer.slice(pos, pos+4).decode_u32(0) # buffer.decode_var_size 似乎還有點問題
+	pos += 4 + header_size
+	
+	# 內容
+	var content = buffer.decode_var(pos, false)
+	
 	return content

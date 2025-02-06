@@ -25,11 +25,11 @@ func _ready () :
 	, "test_options_display")
 	
 	var options = UREQ.acc(&"Uzil:options")
-	options.display.load_config()
+	await options.display.load_config()
 	
 	# 綁定 視圖
 	options.display.bind_viewport("subviewport", self.subviewport)
-	options.display.load_config("", ["subviewport"], "")
+	await options.display.load_config("", ["subviewport"], "")
 	
 	# 關閉 內嵌子視窗
 	self.get_viewport().gui_embed_subwindows = false

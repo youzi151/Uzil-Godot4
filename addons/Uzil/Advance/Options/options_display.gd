@@ -128,7 +128,7 @@ func load_config (file_path := "", target_display_keys: Array = [], save_key_tag
 	
 	# 取得 存檔配置 設定檔 (以要讀取的所有key)
 	var user_save = UREQ.acc(&"Uzil:user_save")
-	var configs = user_save.config.reads(file_path, to_load_keys, {"section":"display"})
+	var configs = await user_save.config.reads(file_path, to_load_keys, {"section":"display"})
 	
 	# 把 設定 讀取到各個display
 	for each in windows :
@@ -149,7 +149,7 @@ func get_window_size (window_key := "", _is_from_state := true) -> Vector2i :
 func set_window_size (size: Vector2i, window_key: String = "", is_save_to_config := true) :
 	self._set_state_window(window_key, "size", size)
 	if is_save_to_config :
-		self._write_to_config(self._get_key_window_size(window_key), size)
+		await self._write_to_config(self._get_key_window_size(window_key), size)
 
 ## 取得 邊框
 func get_window_borderless (window_key := "", _is_from_state := true) -> bool :
@@ -165,7 +165,7 @@ func get_window_borderless (window_key := "", _is_from_state := true) -> bool :
 func set_window_borderless (is_borderless: bool, window_key := "", is_save_to_config := true) :
 	self._set_state_window(window_key, "borderless", is_borderless)
 	if is_save_to_config :
-		self._write_to_config(self._get_key_window_borderless(window_key), is_borderless)
+		await self._write_to_config(self._get_key_window_borderless(window_key), is_borderless)
 
 ## 取得 視窗模式
 func get_window_fullscreen_mode (window_key := "", _is_from_state := true) -> int :
@@ -180,7 +180,7 @@ func get_window_fullscreen_mode (window_key := "", _is_from_state := true) -> in
 func set_window_fullscreen_mode (fullscreen_mode: int, window_key := "", is_save_to_config := true) :
 	self._set_state_window(window_key, "fullscreen", fullscreen_mode)
 	if is_save_to_config :
-		self._write_to_config(self._get_key_window_fullscreen_mode(window_key), fullscreen_mode)
+		await self._write_to_config(self._get_key_window_fullscreen_mode(window_key), fullscreen_mode)
 
    
 ## 取得 3D渲染比例
@@ -196,7 +196,7 @@ func get_viewport_scaling_3d_scale (viewport_key := "", _is_from_state := true) 
 func set_viewport_scaling_3d_scale (scale: float, viewport_key := "", is_save_to_config := true) :
 	self._set_state_viewport(viewport_key, "scaling_3d_scale", scale)
 	if is_save_to_config :
-		self._write_to_config(self._get_key_viewport_scaling_3d_scale(viewport_key), scale)
+		await self._write_to_config(self._get_key_viewport_scaling_3d_scale(viewport_key), scale)
 
 # Private ====================
 
@@ -411,7 +411,7 @@ func _get_key_with_suffix (window_key: String, key: String) -> String :
 func _write_to_config (key, val) :
 	var Options = UREQ.acc(&"Uzil:Advance.Options")
 	var user_save = UREQ.acc(&"Uzil:user_save")
-	user_save.config.write(Options.CONFIG_FILE_PATH, key, val, {"section":self.CFG_SECTION_NAME})
+	await user_save.config.write(Options.CONFIG_FILE_PATH, key, val, {"section":self.CFG_SECTION_NAME})
 #	print(Options.CONFIG_FILE_PATH)
 
 func _init_main_window () :

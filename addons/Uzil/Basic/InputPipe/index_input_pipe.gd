@@ -68,13 +68,14 @@ func index (Uzil, _parent_index) :
 	# 綁定 實體
 	UREQ.bind(&"Uzil", &"input_pipe", 
 		func():
-			var target = self.get_inst()
+			var target = await self.get_inst()
 			target.name = "input_pipe"
 			Uzil.add_child(target)
 			return target,
 		{
 			"alias" : ["inputpipe"],
 			"requires" : ["Basic.InputPipe"],
+			"is_async" : true,
 		}
 	)
 	
@@ -84,7 +85,7 @@ func index (Uzil, _parent_index) :
 func get_inst () :
 	if self._inst : return self._inst
 	
-	var setting = self.Setting.load_from_file("keybinding.cfg")
+	var setting = await self.Setting.load_from_file("keybinding.cfg")
 	
 	self._inst = self.Inst.new(setting)
 	

@@ -13,10 +13,10 @@ class OptsKit :
 	func _init (path: String) :
 		self._path = path
 	func load_config () :
-		self.game.load_config(self._path)
-		self.display.load_config(self._path)
+		await self.game.load_config(self._path)
+		await self.display.load_config(self._path)
 		self.display.apply.call_deferred()
-		self.audio.load_config(self._path)
+		await self.audio.load_config(self._path)
 
 # const =========
 

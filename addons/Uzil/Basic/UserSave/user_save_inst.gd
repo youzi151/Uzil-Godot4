@@ -52,27 +52,27 @@ func set_setting (_setting) :
 ## 讀取 字典 值 (若可以則優先讀取快取)
 # 考慮到穩定性, 不考慮 非字典中值路徑 的狀況
 func read (path: String, route: String = "", options := {}) :
-	var content = self.reads(path, [route], options)
+	var content = await self.reads(path, [route], options)
 	if content == null : return null
 	if not content.has(route) : return null
 	return content[route]
 
 ## 讀取 字典 值 以 多個路徑
 func reads (file_path: String, routes: Array, options := {}) :
-	var readed = self.strat.read(self, file_path, routes, options)
+	var readed = await self.strat.read(self, file_path, routes, options)
 	return readed
 
 ## 寫入 字典 值
 # 考慮到穩定性, 不考慮 非字典中值路徑 的狀況
 func write (file_path: String, route: String, val, options := {}) :
-	self.writes(file_path, {route:val}, options)
+	await self.writes(file_path, {route:val}, options)
 
 ## 寫入 字典 值 以 多個路徑:值
 func writes (file_path: String, route_to_val: Dictionary, options := {}) :
 	# 若 只有一個 且為 空鍵 則 標記為 整個寫入
 	if route_to_val.size() == 1 and route_to_val.has("") :
 		options["full_content"] = true
-	self.strat.write(self, file_path, route_to_val, options)
+	await self.strat.write(self, file_path, route_to_val, options)
 
 # Private ====================
 

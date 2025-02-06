@@ -108,7 +108,7 @@ func start () :
 	self.set_user(self._user)
 	
 	for each in self._states :
-		each.setup()
+		await each.setup()
 	
 	await self.go_state(self.default_state_id)
 
@@ -190,4 +190,4 @@ func unlock () :
 ## 是否可以推進
 func _is_process () :
 	if self.times_inst_key == null : return true
-	return self.times_mgr.inst(self.times_inst_key).is_timing()
+	return not self.times_mgr.inst(self.times_inst_key).is_paused()

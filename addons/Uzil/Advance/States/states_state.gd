@@ -50,7 +50,7 @@ func setup () :
 	
 	# 初始化設置 策略
 	if self._strat.has_method("setup") : 
-		self._strat.setup()
+		await self._strat.setup()
 
 ## 更新
 func process (_dt) :
@@ -102,4 +102,3 @@ func on_exit () :
 		await self._strat.on_exit()
 
 # Private ====================
-
