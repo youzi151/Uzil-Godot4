@@ -8,6 +8,13 @@ var attr : String
 # -1:排除, 0:可選, 1:必要
 var search_type : int = 1
 
+var _str : String = ""
+
+func to_str () :
+	if _str.is_empty() :
+		self._str = str(self)
+	return self._str
+
 func _to_string () :
 	var str := "<"
 	

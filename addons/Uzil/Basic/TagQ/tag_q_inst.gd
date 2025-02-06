@@ -288,7 +288,7 @@ func typed_tags (to_search_tags: Array) -> Dictionary :
 	# 每筆 要查找的標籤 建立 成 標籤資料
 	for to_search_tag in to_search_tags :
 		if to_search_tag is String :
-			tag_datas.append_array(self.parse_tag_str(to_search_tag))
+			tag_datas.append_array(self.parse_tags_str(to_search_tag))
 		else : 
 			tag_datas.push_back(to_search_tag)
 	
@@ -321,6 +321,7 @@ func is_match_str (tags, search_str: String, _is_auto_convert_tag := true) :
 
 ## 是否相符
 func is_match (tags: Array, to_search_negative: Array, to_search_optional: Array, to_search_positive: Array, _is_auto_parse_tag := true) :
+	#G.print("tags[%s] neg[%s] opt[%s] pos[%s]" % [tags, to_search_negative, to_search_optional, to_search_positive])
 	# 若 自動轉換
 	if _is_auto_parse_tag :
 		tags = self.parse_tags(tags)
@@ -351,37 +352,30 @@ func is_match (tags: Array, to_search_negative: Array, to_search_optional: Array
 	# 若 未有結果 則 
 	if is_target_pass == 0 :
 		
-		# 若 沒有 必要標籤 則 判定 通過
-		if to_search_positive.size() == 0 :
-			is_target_pass = 1
-		
-		# 若 有 必要標籤 則
-		else :
-			# 每筆 要查找的  必要標籤
-			for each_to_search in to_search_positive :
-				
-				# 預設 不通過
-				is_target_pass = -1
-				
-				# 每個 輪詢資料 標籤
-				for each_tag in tags :
-					# 若 ID 不同
-					if not self.id_equal(each_tag.id, each_to_search.id) : continue
-					# 若 所屬 不同
-					if not self.scope_equal(each_to_search.scope, each_tag.scope) : continue
-				
-					# 判定 為 通過
-					is_target_pass = 1
-					break
-				
-				# 若 任一個 必要標籤 不通過 則 跳出
-				if is_target_pass == -1 : break
+		# 每筆 要查找的  必要標籤
+		for each_to_search in to_search_positive :
 			
+			# 預設 不通過
+			is_target_pass = -1
+			
+			# 每個 輪詢資料 標籤
+			for each_tag in tags :
+				# 若 ID 不同
+				if not self.id_equal(each_tag.id, each_to_search.id) : continue
+				# 若 所屬 不同
+				if not self.scope_equal(each_to_search.scope, each_tag.scope) : continue
+			
+				# 判定 為 通過
+				is_target_pass = 1
+				break
+			
+			# 若 任一個 必要標籤 不通過 則 跳出
+			if is_target_pass == -1 : break
 	
 	
 	#== 可選標籤 ==
-	# 若 非不通過 (未有結果 或 通過) 則 
-	if is_target_pass != -1 :
+	# 若 未有結果 則 
+	if is_target_pass == 0 :
 		
 		# 若 有指定任意可選 則 先設為不通過
 		if to_search_optional.size() > 0 :
@@ -404,7 +398,7 @@ func is_match (tags: Array, to_search_negative: Array, to_search_optional: Array
 			if is_target_pass == 1 : break
 		
 	
-	return is_target_pass == 1
+	return is_target_pass >= 0
 
 ## 是否具有屬性
 func is_attr (tag, attr) -> bool :
