@@ -67,6 +67,8 @@ var http
 var config
 ## 截圖
 var screenshot
+## 點陣圖
+var bmp
 
 # other =========
 
@@ -100,6 +102,7 @@ func index (Uzil, _parent_index) :
 			self._class._Http = Uzil.load_script(self.PATH.path_join("http.gd"))
 			self._class._Config = Uzil.load_script(self.PATH.path_join("config.gd"))
 			self._class._Screenshot = Uzil.load_script(self.PATH.path_join("screenshot.gd"))
+			self._class._BMP = Uzil.load_script(self.PATH.path_join("bmp.gd"))
 			
 			# class
 			self.Graph = Uzil.load_script(self.PATH.path_join("Graph/graph.gd"))
@@ -140,6 +143,7 @@ func init (__parent_index) :
 	self.http = self._class._Http.new()
 	self.config = self._class._Config.new()
 	self.screenshot = self._class._Screenshot.new()
+	self.bmp = self._class._BMP.new()
 	
 	self.input = self._class._Input.new().init(self, {
 		"keycode" : self._class._Keycode.new(),
