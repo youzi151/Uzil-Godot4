@@ -48,21 +48,22 @@ func req_dict (id: String, is_use_cache := true) :
 	# 繼承 其他資料
 	self._overwrite_dict(data, to_extends_overrides[0])
 	
-	#if self.is_debug :
-		#G.print("extendeds %s :\n%s" % [to_extends, data])
+	if self.is_debug :
+		G.print("extendeds %s :\n%s" % [to_extends_overrides[0], data])
 	
 	# 依序讀入 所有原始資料 成為 完整資料 (用merge方式去除融合格式)
 	for each in info.raw_dicts :
+		
 		dict_util.merge_ex(data, each, self._merge_dicts_opts)
 		
-		#if self.is_debug :
-			#G.print("merge raw :\n%s" % [each])
+		if self.is_debug :
+			G.print("merge raw :\n%s" % [each])
 	
 	# 覆寫 其他資料
 	self._overwrite_dict(data, to_extends_overrides[1])
 	
-	#if self.is_debug :
-		#G.print("final: %s" % [data])
+	if self.is_debug :
+		G.print("final: %s" % [data])
 	
 	# 若 使用快取 則 紀錄
 	if is_use_cache :

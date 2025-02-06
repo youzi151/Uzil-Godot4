@@ -63,7 +63,7 @@ func load_script (path: String, is_reload := false) :
 	var stack = get_stack()
 	for each in stack :
 		if each.source == path :
-			push_error("can't load script already in run stack")
+			push_error("can't load script [%s] already in run stack" % [path])
 			return null
 	
 	var ext : String = path.get_extension()

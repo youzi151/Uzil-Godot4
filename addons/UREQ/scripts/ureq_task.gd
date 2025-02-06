@@ -158,6 +158,8 @@ func _require_target (access) :
 	if target == null :
 		if not access.create_target_fn.is_null() :
 			target = await access.create_target_fn.call()
+			if target == null :
+				push_error("access[%s] create_target_fn return null." % [access.id])
 	
 	# 若 目標還未取得成功 則 以 腳本 建立
 	if target == null :

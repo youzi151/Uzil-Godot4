@@ -33,7 +33,8 @@ func emit (ctrlr) :
 	# 雖有 Callable.get_argument_count() 可用.
 	# 但應用在有capture區域變數的lambda時, 會因為capture的變數也會被包含其數量中, 導致非預期的結果.
 	# 故固定傳入單一變數ctrlr較佳.
-	await self.fnc.call(ctrlr)
+	if self.fnc != null :
+		await self.fnc.call(ctrlr)
 	
 	if is_ctrlr_exist :
 		await ctrlr.until_done()

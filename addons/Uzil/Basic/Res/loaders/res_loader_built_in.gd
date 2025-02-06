@@ -236,6 +236,8 @@ func load_by_path (full_path: String, options = null) :
 			if FileAccess.file_exists(full_path) :
 				var file := FileAccess.open(full_path, FileAccess.READ)
 				res = {"text":file.get_as_text()}
+			else :
+				G.print("ResLoader built-in : TextFile[%s] not exist, try add to list in export setting." % [full_path])
 		# 其他常規
 		_ :
 			var task : Task = null

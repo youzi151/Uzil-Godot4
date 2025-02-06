@@ -274,12 +274,18 @@ func request_node (path: String, _script = null, _init_args: Array = []) :
 	else :
 		node = self
 		var pathes : Array = path.split("/", false)
-		for each in pathes :
+		var pathes_size : int = pathes.size()
+		var last_idx : int = pathes_size - 1
+		for idx in pathes_size :
+			var each = pathes[idx]
 			var child : Node = null
 			if node.has_node(each) :
 				child = node.get_node(each)
 			else :
-				child = _script.new.callv(_init_args)
+				if idx == last_idx :
+					child = _script.new.callv(_init_args)
+				else :
+					child = Node.new()
 				child.name = each
 				node.add_child(child)
 			

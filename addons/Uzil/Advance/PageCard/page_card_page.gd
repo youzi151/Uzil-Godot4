@@ -39,6 +39,9 @@ var _card_to_state : Dictionary = {}
 ## 標籤檢索器
 var _tag_q = null
 
+## 是否準備好查詢 (防呆)
+var _is_query_prepared := false
+
 ## 當 啟用
 var on_active = null
 ## 當 進入
@@ -153,6 +156,9 @@ func combo (combo_id: String, query_mode: int = -1) :
 ## 查詢
 func query (query_str: String, query_mode: int = -1) :
 	
+	if self._is_query_prepared == false :
+		self.prepare_query()
+	
 	if not self.base_query.is_empty() :
 		query_str = "%s %s" % [self.base_query, query_str]
 	
@@ -222,7 +228,6 @@ func query (query_str: String, query_mode: int = -1) :
 
 ## 準備 查詢相關
 func prepare_query () :
-	
 	# 清空
 	self._tag_q.clear()
 	
@@ -233,6 +238,8 @@ func prepare_query () :
 		tags.push_back("id:%s" % card.id)
 		# 設置 到 標籤檢索器
 		self._tag_q.set_tags(card, tags)
+	
+	self._is_query_prepared = true
 
 ## 設置 預設行為
 func set_default_behaviour (is_active := true) :
