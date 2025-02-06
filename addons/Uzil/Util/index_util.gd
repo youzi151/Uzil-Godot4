@@ -20,6 +20,9 @@ var sub_indexes := []
 ## 隨機
 var RNG
 
+## JavaScript
+var WebJS
+
 
 # class =========
 
@@ -111,6 +114,9 @@ func index (Uzil, _parent_index) :
 	# sub index
 	self.RNG = Uzil.load_script(self.PATH.path_join("RNG/index_rng.gd")).new()
 	self.sub_indexes.push_back("RNG")
+	
+	self.WebJS = Uzil.load_script(self.PATH.path_join("WebJS/index_webjs.gd")).new()
+	self.sub_indexes.push_back("WebJS")
 	
 	# 建立索引
 	for each in self.sub_indexes :

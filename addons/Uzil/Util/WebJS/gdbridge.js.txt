@@ -1,0 +1,68 @@
+
+if (window.gdbridge_preset == undefined) {
+	window.gdbridge_preset = {}
+}
+if (window.gdbridge_preset.invoke == undefined) {
+	window.gdbridge_preset.invoke = function (msg, args, ret_cb) {
+		console.log(`invoke msg[${msg}]`)
+		ret_cb(null)
+	}
+}
+if (window.gdbridge_preset.on == undefined) {
+	window.gdbridge_preset.on = function (msg, id, on_cb, ret_cb) {
+		console.log(`on msg[${msg}] id[${id}]`)
+		ret_cb(null)
+	}
+}
+if (window.gdbridge_preset.off == undefined) {
+	window.gdbridge_preset.off = function (msg, id, ret_cb) {
+		console.log(`off msg[${msg}] id[${id}]`)
+		ret_cb(null)
+	}
+}
+
+window.gdbridge = (function(){
+	let self = {}
+	
+	self.log = function (msg) {
+		console.log(msg)
+	}
+	
+	self._id2cb = {}
+	self.setCB = function (id, cb) {
+		self._id2cb[id] = cb
+	}
+	self.getCB = function (id) {
+		let cb = self._id2cb[id]
+		if (!cb) return null
+		return cb
+	}
+	self.callCB = function (id, ...args) {
+		let cb = self.getCB(id)
+		if (cb != null) {
+			cb(...args)
+		}
+	}
+	
+	self.invoke = function (msg, args, ret_cb) {
+		if (window.gdbridge_preset.invoke != null) {
+			window.gdbridge_preset.invoke(msg, args, ret_cb)
+		}
+	}
+	
+	self.on = function (msg, id, on_cb, ret_cb) {
+		if (window.gdbridge_preset.on != null) {
+			window.gdbridge_preset.on(msg, id, on_cb, ret_cb)
+		}
+	}
+	
+	self.off = function (msg, id, ret_cb) {
+		if (window.gdbridge_preset.off != null) {
+			window.gdbridge_preset.off(msg, id, ret_cb)
+		}
+	}
+	
+	return self
+})();
+
+console.log("gdbridge inited")
