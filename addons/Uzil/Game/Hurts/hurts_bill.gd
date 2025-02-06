@@ -84,6 +84,11 @@ func retain (_remain: float = -1.0) :
 	self.remain = _remain
 	return self
 
+
+## 取得參數
+func set_arg (key: String, val) :
+	self.args[key] = val
+
 ## 取得參數
 func get_arg (key: String, default_val = null) :
 	if self.args.has(key) == false : return default_val

@@ -80,4 +80,8 @@ func get_cfg (key: String, _default_val = null) :
 	if not self.configs.has(key) : return _default_val
 	return self.configs[key]
 
+## 是否可疊層
+func is_stackable () :
+	return self.handlers.has("stackable")
+
 # Private ====================

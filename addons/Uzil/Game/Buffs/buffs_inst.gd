@@ -10,7 +10,6 @@ class DoBuffInfo :
 		self.sort = sort
 		self.id = id
 		self.buff = buff
-		
 
 # Variable ===================
 
@@ -69,28 +68,7 @@ func del_buff (id: String) :
 	self._id_to_buff.erase(id)
 
 ## 執行 附加狀態
-## editable_data 若有需要duplicate請自行處理, 此處保留彈性不干涉.
-func do_buff (tags: Array, buff_id: String, editable_data: Dictionary, opts := {}) :
-	var buff = self.get_buff(buff_id)
-	if buff == null : 
-		G.error("[Buffs.Inst] do_buff() buff[%s] not found" % [buff_id])
-		return
-	
-	# 若 無指定 則 設置選項 不在處理後停止
-	if not opts.has("is_stop_on_handled") : 
-		opts["is_stop_on_handled"] = false
-	
-	# 夾帶 Buff自己
-	editable_data["_buff"] = buff
-	
-	# 若 回傳字典 則 視為取代 editable_data
-	var new_data = buff.do_buff(tags, editable_data, opts)
-	if new_data != null and typeof(new_data) == TYPE_DICTIONARY :
-		editable_data = new_data
-	
-	return editable_data
-
-## 執行 附加狀態
+## buff_ids 可傳入 Array
 ## editable_data 若有需要duplicate請自行處理, 此處保留彈性不干涉.
 func do_buffs (tags: Array, buff_ids: Array, editable_data: Dictionary, opts := {}) :
 	var is_auto_sort : bool = true
@@ -99,9 +77,9 @@ func do_buffs (tags: Array, buff_ids: Array, editable_data: Dictionary, opts := 
 	var on_each_done : Callable
 	if opts.has("on_each_done") :
 		on_each_done = opts["on_each_done"]
-		
+	
 	# 快照副本
-	var _buff_ids = buff_ids.duplicate()
+	var _buff_ids : Array = buff_ids.duplicate()
 	
 	var buffs : Array = []
 	for idx in _buff_ids.size() :
@@ -113,15 +91,16 @@ func do_buffs (tags: Array, buff_ids: Array, editable_data: Dictionary, opts := 
 			continue
 		
 		var sort : int = -1
-		if buff.has_method(&"get_sort") :
-			sort = buff.get_sort(tags, opts)
-		elif "sort" in buff :
-			sort = buff.sort
+		if is_auto_sort :
+			if buff.has_method(&"get_sort") :
+				sort = buff.get_sort(tags, opts)
+			elif "sort" in buff :
+				sort = buff.sort
 		
 		buffs.push_back(DoBuffInfo.new(idx, sort, each_id, buff))
 	
 	# 若需 自動排序
-	if is_auto_sort :
+	if is_auto_sort and buffs.size() > 1:
 		buffs.sort_custom(self._compare_do_buff_info)
 	
 	# 若 無指定 則 設置選項 不在處理後停止

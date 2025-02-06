@@ -49,7 +49,8 @@ func done_bill (id_or_bill) :
 		if not self._id_to_bill.has(id_or_bill) : return
 		bill = self._id_to_bill[id_or_bill]
 	
-	self._id_to_bill.erase(bill.id)
+	if self._id_to_bill.has(bill.id) :
+		self._id_to_bill.erase(bill.id)
 	
 	bill.is_done = true
 
