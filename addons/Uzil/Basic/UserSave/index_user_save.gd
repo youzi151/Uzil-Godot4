@@ -25,6 +25,10 @@ const FORMAT_VERSION := "1.0.0t"
 const SAVE_FOLDER_ROOT_PC := "./userdata"
 const SAVE_FOLDER_ROOT_MOBILE := "user://userdata"
 const SAVE_FOLDER_ROOT_WEB := "user://userdata"
+var SAVE_FOLDER_ROOT_CUSTOM := ""
+
+## 當存檔路徑設置
+signal on_save_folder_changed
 
 # sub_index =====
 
@@ -57,6 +61,11 @@ func index (Uzil, _parent_index) :
 	# 內建路徑 (需要在匯出設定中添加 "*.txt, *.cfg" 資源)
 	self.TEMPLATE_PATHS.push_back(self.PATH.path_join("_template"))
 	self.TEMPLATE_PATHS.push_back("res://userdata")
+	
+	# 從 設定檔中 設置 存檔路徑
+	var setting_save_folder = ProjectSettings.get_setting_with_override("uzil/user_save/save_folder_path")
+	if setting_save_folder != null :
+		self.set_save_folder_root(setting_save_folder)
 	
 	# 綁定 索引
 	UREQ.bind(&"Uzil", &"Basic.UserSave", 
@@ -110,6 +119,12 @@ func create_kit () -> UserSaveKit :
 	setting_user.set_user("unknown").set_folder(save_folder_root)
 	setting_profile.set_profile("default").set_folder(save_folder_root)
 	
+	self.on_save_folder_changed.connect(func(new_path: String):
+		setting_config.set_folder(new_path)
+		setting_user.set_folder(new_path)
+		setting_profile.set_folder(new_path)
+	)
+	
 	# 策略
 	var strat_file = self.Strat_File.new(self.FORMAT_VERSION)
 	var strat_cfg = self.Strat_Cfg.new()
@@ -125,9 +140,18 @@ func create_kit () -> UserSaveKit :
 	kit.profile = profile
 	return kit
 
+
+## 設置 存檔 根目錄
+func set_save_folder_root (path: String) :
+	if not DirAccess.dir_exists_absolute(path) : return
+	self.SAVE_FOLDER_ROOT_CUSTOM = path
+	self.on_save_folder_changed.emit(path)
+
 ## 取得 存檔 根目錄
 func get_save_folder_root () -> String :
-	if OS.has_feature("web") :
+	if not self.SAVE_FOLDER_ROOT_CUSTOM.is_empty() :
+		return self.SAVE_FOLDER_ROOT_CUSTOM
+	elif OS.has_feature("web") :
 		return self.SAVE_FOLDER_ROOT_WEB
 	elif OS.has_feature("mobile") :
 		return self.SAVE_FOLDER_ROOT_MOBILE

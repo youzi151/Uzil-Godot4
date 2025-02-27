@@ -47,7 +47,7 @@ func decrypt_simple (encrypted_str: String, key: String, iv := "X1iEs92kcDvJ3Jac
 	
 	# 取出 描述補空容量的int
 	var txt_padding_size_bytes : PackedByteArray = decrypted.slice(0, INT_BYTES_SIZE)
-	var txt_padding_size = self._bytes_to_var(txt_padding_size_bytes)
+	var txt_padding_size = bytes_to_var(txt_padding_size_bytes)
 	if txt_padding_size == null : return ""
 	
 	# 內容 為 描述補空容量的int + 補空容量 以後的位元組
@@ -84,6 +84,3 @@ func _str_to_size_fit_bytes (txt: String, bytes_count: int) -> PackedByteArray :
 		return bytes.slice(0, bytes_count)
 	
 	return result
-
-func _bytes_to_var (bytes: PackedByteArray) :
-	return bytes_to_var(bytes)

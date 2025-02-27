@@ -21,6 +21,10 @@ func _init () :
 
 # Public =====================
 
+## 取得偵聽者
+func get_listeners () :
+	return self._listener_list
+
 ## 呼叫事件
 func emit (data = null, options = null) :
 	

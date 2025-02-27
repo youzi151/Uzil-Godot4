@@ -11,8 +11,9 @@
 var strat
 
 ## 容量 [br]
-## 可取用超過容量數量的物件, 回收時若已達池物件最大容量則該回收物件會銷毀而非回收至池中
-var _size : int = 0
+## 可取用超過容量數量的物件, 回收時若已達池物件最大容量則該回收物件會銷毀而非回收至池中 [br]
+## 若為 負數 則 超用時建立, 不回收
+var _size : int = -1
 
 ## 物件池
 var _pool : Array = []
@@ -64,7 +65,7 @@ func recovery (old_one) :
 	self.strat.uninitial(old_one)
 	
 	# 若 物件池 容量 未達 上限
-	if self._pool.size() < self._size :
+	if self._size < 0 or self._pool.size() < self._size :
 		# 加入 物件池
 		self._pool.push_back(old_one)
 	# 若已達上限 則
@@ -76,10 +77,12 @@ func recovery (old_one) :
 func resize (_size: int = -1) :
 	if _size >= 0 : self.set_size(_size)
 	
-	# 當前容量
-	var size := self._pool.size()
 	# 目標容量
 	var to_size := self._size
+	if to_size == -1 : return
+	
+	# 當前容量
+	var size := self._pool.size()
 	# 差距
 	var delta := to_size - size
 	

@@ -23,6 +23,8 @@ var _core
 var _prefab : PackedScene
 
 ## 等候容器
+## 會使物件被建立後先設置為此容器之子節點, 以利初始化. 並且於反初始化後回歸容器. [br]
+## 但在高密集呼叫時, 反覆進行子節點關係設置容易造成效能問題.
 var _stay_parent : Node
 
 ## 建立 方法
@@ -48,6 +50,8 @@ func set_core (__core) :
 func set_data (data: Dictionary) :
 	if data.has("prefab") :
 		self.set_prefab(data["prefab"])
+	if data.has("stay_parent") :
+		self.set_stay_parent(data["stay_parent"])
 	if data.has("created") :
 		self.set_created(data["created"])
 	if data.has("init") :
@@ -90,7 +94,7 @@ func uninitial (old_one) :
 	if parent != null and self._stay_parent != null and parent != self._stay_parent :
 		# 重設 上層節點 為 收管節點
 		if old_one.is_inside_tree() :
-			old_one.reparent(self._stay_parent)
+			old_one.reparent(self._stay_parent, false)
 		else :
 			parent.remove_child(old_one)
 			self._stay_parent.add_child(old_one)

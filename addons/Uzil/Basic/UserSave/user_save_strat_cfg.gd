@@ -151,6 +151,8 @@ func write (inst, file_path: String, route_to_val: Dictionary, options := {}) :
 	
 	# 現有檔案
 	var exist_cfg : ConfigFile = self._read_file(regular_path)
+	if exist_cfg == null :
+		exist_cfg = ConfigFile.new()
 	
 	# 喻社區快
 	var default_section : String = ""
