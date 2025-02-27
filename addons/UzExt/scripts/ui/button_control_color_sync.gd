@@ -77,4 +77,3 @@ func update_color () :
 		each.modulate = to_color
 
 # Private ====================
-

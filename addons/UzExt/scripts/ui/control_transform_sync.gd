@@ -26,30 +26,63 @@ var src_target : Control = null :
 		self._reg_to_src(last, src_target)
 		self.sync()
 
-## 是否同步 尺寸
+## 是否同步錨點
 @export
-var is_sync_size_x : bool = false :
+var is_sync_anchor_x : bool = false :
 	set (value) :
-		is_sync_size_x = value
-		self._sync_size()
+		is_sync_anchor_x = value
+		self._sync_anchor()
 
 @export
-var is_sync_size_y : bool = false :
+var is_sync_anchor_y : bool = false :
 	set (value) :
-		is_sync_size_y = value
-		self._sync_size()
+		is_sync_anchor_y = value
+		self._sync_anchor()
+
+## 是否同步偏移
+@export
+var is_sync_offset_x : bool = false :
+	set (value) :
+		is_sync_offset_x = value
+		self._sync_offset()
+
+@export
+var is_sync_offset_y : bool = false :
+	set (value) :
+		is_sync_offset_y = value
+		self._sync_offset()
+
+@export
+var is_scale_effected : bool = true :
+	set (value) :
+		is_scale_effected = value
+		self._sync_anchor()
+		self._sync_offset()
+
+## 是否同步 尺寸
+@export
+var is_sync_min_size_x : bool = false :
+	set (value) :
+		is_sync_min_size_x = value
+		self._sync_min_size()
+
+@export
+var is_sync_min_size_y : bool = false :
+	set (value) :
+		is_sync_min_size_y = value
+		self._sync_min_size()
 
 ## 是否同步 縮放
 @export
 var is_sync_scale_x : bool = false :
 	set (value) :
 		is_sync_scale_x = value
-		self._sync_size()
+		self._sync_scale()
 @export
 var is_sync_scale_y : bool = false :
 	set (value) :
 		is_sync_scale_y = value
-		self._sync_size()
+		self._sync_scale()
 
 ## 同步目標
 @export
@@ -70,9 +103,10 @@ var _is_track_scale : bool = false
 
 func _process (_dt: float) :
 	if self._is_track_scale :
-		if self._last_scale != self.src_target.scale :
-			self._sync_size()
-			
+		var scale := self.src_target.get_global_transform().get_scale()
+		if self._last_scale != scale :
+			self.sync()
+			self._last_scale = scale
 
 func _enter_tree() :
 	self._connect(self.src_target)
@@ -87,60 +121,130 @@ func _exit_tree () :
 # Public =====================
 
 func sync () :
-	self._sync_size()
+	self._sync_min_size()
+	self._sync_anchor()
+	self._sync_offset()
 
 # Private ====================
 
-## 同步尺寸
-func _sync_size () :
+## 同步錨點
+func _sync_anchor () :
 	if not self.is_enabled : return
 	if self._is_syncing : return
+	if not self.is_sync_anchor_x and not self.is_sync_anchor_y : return
 	if self.src_target == null : return
 	
 	self._is_syncing = true
 	
-	self._do_to_targets(self._sync_size_to)
-	self._last_scale = self.src_target.scale
+	self._do_to_targets(self._sync_anchor_to)
 	
 	self._is_syncing = false
 
-## 同步尺寸至目標
-func _sync_size_to (target : Control) :
+## 同步偏移
+func _sync_offset () :
+	if not self.is_enabled : return
+	if self._is_syncing : return
+	if not self.is_sync_offset_x and not self.is_sync_offset_y : return
+	if self.src_target == null : return
+	
+	self._is_syncing = true
+	
+	self._do_to_targets(self._sync_offset_to)
+	
+	self._is_syncing = false
+
+## 同步尺寸
+func _sync_min_size () :
+	if not self.is_enabled : return
+	if self._is_syncing : return
+	if not self.is_sync_min_size_x and not self.is_sync_min_size_y : return
+	if self.src_target == null : return
+	
+	self._is_syncing = true
+	
+	var src_min_size := self.src_target.get_combined_minimum_size()
+	self._do_to_targets(self._sync_min_size_to.bind(src_min_size))
+	
+	self._is_syncing = false
+
+## 同步縮放
+func _sync_scale () :
+	if not self.is_enabled : return
+	if self._is_syncing : return
+	if not self.is_sync_scale_x and not self.is_sync_scale_y : return
+	if self.src_target == null : return
+	
+	self._is_syncing = true
+	
+	self._do_to_targets(self._sync_scale_to)
+	
+	self._is_syncing = false
+
+## 同步偏移至目標
+func _sync_anchor_to (target : Control) :
 	if target == null : return
 	if target == self.src_target : return
 	
-	var size : Vector2 = target.size
+	var scaled := Vector2.ONE
+	if self.is_scale_effected :
+		scaled = self.src_target.get_global_transform().get_scale()
+	
+	if self.is_sync_anchor_x :
+		target.anchor_left = self.src_target.anchor_left * scaled.x
+		target.anchor_right = self.src_target.anchor_right * scaled.x
+	
+	if self.is_sync_anchor_y :
+		target.anchor_top = self.src_target.anchor_top * scaled.y
+		target.anchor_bottom = self.src_target.anchor_bottom * scaled.y
+	
+
+## 同步偏移至目標
+func _sync_offset_to (target : Control) :
+	if target == null : return
+	if target == self.src_target : return
+	
+	var scaled := Vector2.ONE
+	if self.is_scale_effected :
+		scaled = self.src_target.get_global_transform().get_scale()
+	
+	if self.is_sync_offset_x :
+		target.offset_left = self.src_target.offset_left * scaled.x
+		target.offset_right = self.src_target.offset_right * scaled.x
+	
+	if self.is_sync_offset_y :
+		target.offset_top = self.src_target.offset_top * scaled.y
+		target.offset_bottom = self.src_target.offset_bottom * scaled.y
+
+## 同步尺寸至目標
+func _sync_min_size_to (target : Control, src_min_size: Vector2) :
+	if target == null : return
+	if target == self.src_target : return
+	
+	var size : Vector2 = target.custom_minimum_size
 	
 	var is_any_size_change : bool = false
 	
-	if self.is_sync_size_x :
-		var width_scale = self.src_target.size.x / target.size.x if target.size.x > 0.0 else 0.0
-		
-		size.x = self.src_target.size.x
-		target.offset_left *= width_scale
-		target.offset_right *= width_scale
+	if self.is_sync_min_size_x :
+		size.x = src_min_size.x
 		is_any_size_change = true
-	if self.is_sync_size_y :
-		var height_scale = self.src_target.size.y / target.size.y if target.size.y > 0.0 else 0.0
-		size.y = self.src_target.size.y
-		target.offset_top *= height_scale
-		target.offset_bottom *= height_scale
+	if self.is_sync_min_size_y :
+		size.y = src_min_size.y
 		is_any_size_change = true
 	
 	if is_any_size_change :
 		target.custom_minimum_size = size
-		target.size = size
 	
-	if self._is_track_scale :
-		var scale : Vector2 = target.scale
+
+## 同步縮放至目標
+func _sync_scale_to (target: Control) :
+	var scale : Vector2 = target.scale
+	
+	if self.is_sync_scale_x :
+		scale.x = self.src_target.scale.x
+	if self.is_sync_scale_y :
+		scale.y = self.src_target.scale.y
 		
-		if self.is_sync_scale_x :
-			scale.x = self.src_target.scale.x
-		if self.is_sync_scale_y :
-			scale.y = self.src_target.scale.y
-			
-		target.scale = scale
-	
+	target.scale = scale
 
 ## 對目標做...事
 func _do_to_targets (fn: Callable) :
@@ -175,4 +279,6 @@ func _disconnect (target: Control) :
 		
 
 func _on_resized () :
-	self._sync_size()
+	self._sync_offset()
+	self._sync_anchor()
+	self._sync_min_size()

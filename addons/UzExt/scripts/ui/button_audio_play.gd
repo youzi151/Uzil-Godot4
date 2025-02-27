@@ -121,4 +121,3 @@ func _on_pressed () :
 ## 取得 配置用 對應自身的音效物件ID
 func _get_preset_audio_id () :
 	return str("_btn_audio_play.%s" % self.get_instance_id())
-
