@@ -7,9 +7,6 @@
 
 # const =========
 
-## Uzil
-var Uzil
-
 ## 路徑
 var PATH : String
 
@@ -43,13 +40,35 @@ var is_pause_in_background_config := false
 ## 建立索引
 func index (Uzil, _parent_index) :
 	
-	self.Uzil = Uzil
 	self.PATH = _parent_index.PATH.path_join("Times")
 	
 	# 綁定 索引
-	UREQ.bind(&"Uzil", &"Core.Times", self._target_index, {
-		"alias" : ["Times"],
-	})
+	UREQ.bind(&"Uzil", &"Core.Times", 
+		func():
+			self.Inst = Uzil.load_script(self.PATH.path_join("times_inst.gd"))
+			
+			Uzil.on_notification.on(func(_ctrlr):
+				if not self.is_effect_to_godot_process : return
+				
+				var what = _ctrlr.data["what"]
+				match what :
+					MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN :
+						if self._is_godot_process_effected :
+							self._is_godot_process_effected = false
+							self.Uzil.get_tree().paused = false
+							
+					MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT :
+						if not self._is_godot_process_effected :
+							self._is_godot_process_effected = true
+							self.Uzil.get_tree().paused = true
+			)
+			
+			return self
+			,
+		{
+			"alias" : ["Times"],
+		}
+	)
 	
 	# 綁定 實體管理
 	UREQ.bind(&"Uzil", &"times_mgr",
@@ -60,36 +79,16 @@ func index (Uzil, _parent_index) :
 					var inst : Node = self.Inst.new(key)
 					var name : String = str(key)
 					inst.name = name if not name.is_empty() else "_"
-					self.Uzil.request_node("Core/Times").add_child(inst)
+					Uzil.request_node("Core/Times").add_child(inst)
 					return inst,
 			)
-			self.Uzil.request_node("Core/Times", Util.InstMgrNode, [mgr])
+			mgr.is_call_process = true
+			Uzil.request_node("Core/Times", Util.InstMgrNode, [mgr])
 			return mgr,
 		{
 			"alias" : ["times"],
-			"requires" : ["Core.Times"],
+			"requires" : ["Util", "Core.Times"],
 		}
-	)
-	
-	return self
-
-func _target_index () :
-	self.Inst = self.Uzil.load_script(self.PATH.path_join("times_inst.gd"))
-	
-	self.Uzil.on_notification.on(func(_ctrlr):
-		if not self.is_effect_to_godot_process : return
-		
-		var what = _ctrlr.data["what"]
-		match what :
-			MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN :
-				if self._is_godot_process_effected :
-					self._is_godot_process_effected = false
-					self.Uzil.get_tree().paused = false
-					
-			MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT :
-				if not self._is_godot_process_effected :
-					self._is_godot_process_effected = true
-					self.Uzil.get_tree().paused = true
 	)
 	
 	return self

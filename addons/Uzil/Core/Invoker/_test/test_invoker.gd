@@ -141,4 +141,3 @@ func test_frame () :
 	self.is_test_frame = not self.is_test_frame	
 	# 其餘 在 _process 裡
 	
-

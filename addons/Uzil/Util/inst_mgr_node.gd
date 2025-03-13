@@ -15,8 +15,9 @@ func _init (mgr) :
 	self.mgr = mgr
 
 func _process (_dt: float) :
-	for each in self.mgr.key_to_inst.values() :
-		each.process(_dt)
+	if self.mgr.is_call_process :
+		for each in self.mgr.key_to_inst.values() :
+			each.process(_dt)
 
 # Extends ====================
 

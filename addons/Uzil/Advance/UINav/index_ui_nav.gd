@@ -13,8 +13,6 @@ var PATH : String
 # sub_index =====
 
 ## 實體
-var Mgr
-## 實體
 var Inst
 ## 鏈節點
 var Chain
@@ -43,7 +41,6 @@ func index (Uzil, _parent_index) :
 	# 綁定 索引
 	UREQ.bind(&"Uzil", &"Advance.UINav",
 		func():
-			self.Mgr = Uzil.load_script(self.PATH.path_join("ui_nav_mgr.gd"))
 			self.Inst = Uzil.load_script(self.PATH.path_join("ui_nav_inst.gd"))
 			self.Chain = Uzil.load_script(self.PATH.path_join("ui_nav_chain.gd"))
 			
@@ -57,18 +54,23 @@ func index (Uzil, _parent_index) :
 		}
 	)
 	
-	# 綁定 實體管理
-	UREQ.bind(&"Uzil", &"ui_nav_mgr",
+	# 綁定 管理
+	UREQ.bind(&"Uzil", &"ui_nav_mgr", 
 		func():
-			var target = self.Mgr.new(null)
-			target.name = "ui_nav"
-			Uzil.add_child(target)
-			return target,
+			var Util = UREQ.acc(&"Uzil:Util")
+			var mgr = Util.InstMgr.new(
+				func(key):
+					return self.Inst.new(key),
+			)
+			mgr.is_call_process = true
+			Uzil.request_node("Advance/UINav", Util.InstMgrNode, [mgr])
+			return mgr,
 		{
 			"alias" : ["ui_nav"],
-			"requires" : ["Advance.UINav"],
+			"requires" : ["Util", "Advance.UINav"],
 		}
 	)
+	
 	return self
 
 

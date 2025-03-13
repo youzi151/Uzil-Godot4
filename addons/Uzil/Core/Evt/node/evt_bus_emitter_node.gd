@@ -128,4 +128,3 @@ func _refresh_mode () :
 			var evt_bus_node : Node = self._find_evt_bus_node()
 			if evt_bus_node == null : return null
 			self._static_evt_bus = evt_bus_node.request_evt_bus()
-

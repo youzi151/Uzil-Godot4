@@ -50,3 +50,35 @@ func reparent (node: Node, new_parent: Node, is_keep_global_pos := true) :
 func is_reparenting (node: Node) :
 	return node.has_meta("_is_reparenting")
 	
+
+## 轉換 字典中的 節點路徑 為 節點
+func convert_node_path_to_node_in_dict (base_node: Node, data: Dictionary) :
+	var new_data : Dictionary = {}
+	for key in data :
+		var each = data[key]
+		match typeof(each) :
+			TYPE_NODE_PATH :
+				new_data[key] = base_node.get_node(each)
+			TYPE_ARRAY :
+				new_data[key] = self.convert_node_path_to_node_in_array(base_node, each)
+			TYPE_DICTIONARY :
+				new_data[key] = self.convert_node_path_to_node_in_dict(base_node, each)
+			_ :
+				new_data[key] = each
+	return new_data
+
+## 轉換 陣列中的 節點路徑 為 節點
+func convert_node_path_to_node_in_array (base_node: Node, arr: Array) :
+	var new_arr : Array = []
+	for idx in arr.size() :
+		var each = arr[idx]
+		match typeof(each) :
+			TYPE_NODE_PATH :
+				new_arr.push_back(base_node.get_node(each))
+			TYPE_ARRAY :
+				new_arr.push_back(self.convert_node_path_to_node_in_array(base_node, each))
+			TYPE_DICTIONARY :
+				new_arr.push_back(self.convert_node_path_to_node_in_dict(base_node, each))
+			_ :
+				new_arr.push_back(each)
+	return new_arr

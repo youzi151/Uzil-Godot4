@@ -11,9 +11,6 @@
 ## 路徑
 var PATH : String
 
-## Uzil
-var Uzil
-
 ## 查詢模式
 enum QueryMode {
 	# 資訊
@@ -32,8 +29,6 @@ enum QueryMode {
 
 # sub_index =====
 
-## 管理器
-var Mgr
 ## 實體
 var Inst
 ## 頁面
@@ -50,31 +45,34 @@ var Card
 ## 建立索引
 func index (Uzil, _parent_index) :
 	
-	self.Uzil = Uzil
 	self.PATH = _parent_index.PATH.path_join("PageCard")
 	
 	# 綁定 索引
-	UREQ.bind(&"Uzil", &"Advance.PageCard", self._target_index, {
-		"alias" : ["PageCard"]
-	})
+	UREQ.bind(&"Uzil", &"Advance.PageCard",
+		func():
+			self.Inst = Uzil.load_script(self.PATH.path_join("page_card_inst.gd"))
+			self.Page = Uzil.load_script(self.PATH.path_join("page_card_page.gd"))
+			self.Card = Uzil.load_script(self.PATH.path_join("page_card_card.gd"))
+			, 
+		{
+			"alias" : ["PageCard"]
+		}
+	)
 	
-	# 綁定 實體管理
-	UREQ.bind(&"Uzil", &"page_card_mgr", self._target_pagecard, {
-		"alias" : ["page_card", "pagecard"],
-		"requires" : ["Advance.PageCard"],
-	})
+	# 綁定 管理
+	UREQ.bind(&"Uzil", &"page_card_mgr", 
+		func():
+			var Util = UREQ.acc(&"Uzil:Util")
+			var mgr = Util.InstMgr.new(
+				func(key):
+					return self.Inst.new(),
+			)
+			Uzil.request_node("Advance/PageCard", Util.InstMgrNode, [mgr])
+			return mgr,
+		{
+			"alias" : ["page_card", "pagecard"],
+			"requires" : ["Util", "Advance.PageCard"],
+		}
+	)
 	
 	return self
-
-## 產生 綁定對象 索引
-func _target_index () :
-	self.Mgr = self.Uzil.load_script(self.PATH.path_join("page_card_mgr.gd"))
-	self.Inst = self.Uzil.load_script(self.PATH.path_join("page_card_inst.gd"))
-	self.Page = self.Uzil.load_script(self.PATH.path_join("page_card_page.gd"))
-	self.Card = self.Uzil.load_script(self.PATH.path_join("page_card_card.gd"))
-	
-	return self
-
-## 產生 綁定對象 實體管理
-func _target_pagecard () :
-	return self.Mgr.new(null)

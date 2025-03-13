@@ -7,9 +7,6 @@
 
 # const =========
 
-## Uzil
-var Uzil
-
 ## 路徑
 var PATH : String
 
@@ -36,15 +33,13 @@ var Task
 
 ## 建立索引
 func index (Uzil, _parent_index) :
-	
-	self.Uzil = Uzil
 	self.PATH = _parent_index.PATH.path_join("Invoker")
 	
 	# 綁定 索引
 	UREQ.bind(&"Uzil", &"Core.Invoker", 
 		func():
-			self.Task = self.Uzil.load_script(self.PATH.path_join("invoker_task.gd"))
-			self.Inst = self.Uzil.load_script(self.PATH.path_join("invoker_inst.gd"))
+			self.Task = Uzil.load_script(self.PATH.path_join("invoker_task.gd"))
+			self.Inst = Uzil.load_script(self.PATH.path_join("invoker_inst.gd"))
 			return self,
 		{
 			"alias" : ["Invoker"],
@@ -61,11 +56,12 @@ func index (Uzil, _parent_index) :
 				func(inst):
 					inst.clear(),
 			)
-			self.Uzil.request_node("Core/Invoker", Util.InstMgrNode, [mgr])
+			mgr.is_call_process = true
+			Uzil.request_node("Core/Invoker", Util.InstMgrNode, [mgr])
 			return mgr,
 		{
 			"alias" : [],
-			"requires" : ["Core.Invoker"],
+			"requires" : ["Util", "Core.Invoker"],
 		}
 	)
 	

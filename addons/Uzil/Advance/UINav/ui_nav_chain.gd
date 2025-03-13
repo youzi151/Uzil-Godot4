@@ -191,4 +191,3 @@ func _get_inst () :
 		var ui_nav_mgr = UREQ.acc(&"Uzil:ui_nav_mgr")
 		self._inst_cache = ui_nav_mgr.inst(self._inst_id)
 	return self._inst_cache
-

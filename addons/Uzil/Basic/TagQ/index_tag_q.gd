@@ -16,8 +16,6 @@ var PATH : String
 var Config
 ## 實體
 var Inst
-## 管理
-var Mgr
 ## 標籤資料
 var TagData
 
@@ -41,7 +39,6 @@ func index (Uzil, _parent_index) :
 		func():
 			self.Config = Uzil.load_script(self.PATH.path_join("tag_q_config.gd"))
 			self.Inst = Uzil.load_script(self.PATH.path_join("tag_q_inst.gd"))
-			self.Mgr = Uzil.load_script(self.PATH.path_join("tag_q_mgr.gd"))
 			self.TagData = Uzil.load_script(self.PATH.path_join("tag_q_tag_data.gd"))
 			self.default_config = self.Config.new()
 			return self,
@@ -50,13 +47,19 @@ func index (Uzil, _parent_index) :
 		}
 	)
 	
-	# 綁定 實體
+	# 綁定 管理
 	UREQ.bind(&"Uzil", &"tag_q_mgr", 
 		func():
-			return self.Mgr.new(null), 
+			var Util = UREQ.acc(&"Uzil:Util")
+			var mgr = Util.InstMgr.new(
+				func(key):
+					return self.Inst.new(self.default_config),
+			)
+			Uzil.request_node("Basic/TagQ", Util.InstMgrNode, [mgr])
+			return mgr,
 		{
 			"alias" : ["tag_q", "tagq"],
-			"requires" : ["Basic.TagQ"],
+			"requires" : ["Util", "Basic.TagQ"],
 		}
 	)
 	

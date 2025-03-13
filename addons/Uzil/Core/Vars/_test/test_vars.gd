@@ -32,13 +32,13 @@ func test_normal () :
 		var data = ctrlr.data
 		var msg : String = "on_vars_changed : \n"
 		for key in data.keys() :
-			msg += "vars[\"%s\"] set " % data.keys()
-			
-			var last = data["last"]
+			msg += "vars[\"%s\"] set " % [key]
+			var info : Dictionary = data[key]
+			var last = info["last"]
 			if last != null :
 				msg += "from %s " % last
 			
-			msg += " to %s\n" % data["val"]
+			msg += " to %s\n" % info["val"]
 		
 		G.print(msg)
 	)
@@ -58,8 +58,8 @@ func test_normal () :
 	G.print("get var1 : %s" % vars.get_var("var1"))
 	
 	# 註銷 偵聽
-	vars.off_var_changed(listener1)
-	G.print("off_var_changed")
+	vars.off_vars_changed(listener1)
+	G.print("off_vars_changed")
 	
 	# 設置 變數
 	G.print("set var1 : final")

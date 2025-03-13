@@ -6,6 +6,9 @@
 
 # Variable ===================
 
+## 是否呼叫推進
+var is_call_process := false
+
 ## 鍵:實例
 var key_to_inst : Dictionary = {}
 

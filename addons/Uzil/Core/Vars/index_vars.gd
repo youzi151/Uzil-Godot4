@@ -15,8 +15,6 @@ var PATH : String
 
 ## 實體
 var Inst
-## 管理
-var Mgr
 
 # inst ==========
 
@@ -33,20 +31,25 @@ func index (Uzil, _parent_index) :
 	UREQ.bind(&"Uzil", &"Core.Vars", 
 		func():
 			self.Inst = Uzil.load_script(self.PATH.path_join("vars_inst.gd"))
-			self.Mgr = Uzil.load_script(self.PATH.path_join("vars_mgr.gd"))
 			return self,
 		{
 			"alias" : ["Vars"]
 		}
 	)
 	
-	# 綁定 實體管理
-	UREQ.bind(&"Uzil", &"vars_mgr",
+	# 綁定 管理
+	UREQ.bind(&"Uzil", &"vars_mgr", 
 		func():
-			return self.Mgr.new(),
+			var Util = UREQ.acc(&"Uzil:Util")
+			var mgr = Util.InstMgr.new(
+				func(key):
+					return self.Inst.new(),
+			)
+			Uzil.request_node("Core/Vars", Util.InstMgrNode, [mgr])
+			return mgr,
 		{
 			"alias" : ["vars"],
-			"requires" : ["Core.Vars"],
+			"requires" : ["Util", "Core.Vars"],
 		}
 	)
 	
