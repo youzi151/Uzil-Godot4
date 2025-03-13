@@ -19,8 +19,6 @@ var sub_indexes := []
 
 ## 資源
 var Res
-## 流程
-var Flow
 ## 輸入操作
 var InputPipe
 ## 用戶存檔
@@ -51,9 +49,6 @@ func index (Uzil, _parent_index) :
 	
 	self.InputPipe = Uzil.load_script(self.PATH.path_join("InputPipe/index_input_pipe.gd")).new()
 	self.sub_indexes.push_back(self.InputPipe)
-	
-	self.Flow = Uzil.load_script(self.PATH.path_join("Flow/index_flow.gd")).new()
-	self.sub_indexes.push_back(self.Flow)
 	
 	self.I18N = Uzil.load_script(self.PATH.path_join("I18N/index_i18n.gd")).new()
 	self.sub_indexes.push_back(self.I18N)

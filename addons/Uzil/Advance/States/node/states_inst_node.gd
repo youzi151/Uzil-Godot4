@@ -3,22 +3,27 @@ extends Node
 
 # Variable ===================
 
-## 是否註冊
+## 是否註冊至管理
 @export var is_reg_to_mgr := true :
 	set (value) :
 		is_reg_to_mgr = value
 		if Engine.is_editor_hint() :
 			self.notify_property_list_changed()
 
+## 實例Key
 @export var inst_key := ""
-
-@export var user : Node = null
 
 ## 預設狀態
 @export var default_state_id := ""
 
 ## 面板設置 狀態列表
-@export var states_nodes : Array[Node] = []
+@export var state_nodes : Array[Node] = []
+
+## 面板設置 轉場列表
+@export var transition_nodes : Array[Node] = []
+
+## 面板設置 條件列表
+@export var condition_nodes : Array[Node] = []
 
 ## 實體
 var inst = null
@@ -43,6 +48,7 @@ func _validate_property (property: Dictionary) :
 # Extends ====================
 
 # Public =====================
+
 func request_inst () :
 	if self.inst != null : return self.inst
 	
@@ -54,13 +60,20 @@ func request_inst () :
 	
 	self.inst.default_state_id = self.default_state_id
 	
-	if self.user != null :
-		self.inst.set_user(self.user)
-	
-	# 每個指定Node 取得為 State
-	for each in self.states_nodes :
+	# 每個指定Node 取得為 狀態
+	for each in self.state_nodes :
 		if each != null and each.has_method("request_state") :
 			self.inst.add_state(each.request_state())
+	
+	# 每個指定Node 取得為 轉場
+	for each in self.transition_nodes :
+		if each != null and each.has_method("request_transition") :
+			self.inst.add_transition(each.request_transition())
+	
+	# 每個指定Node 取得為 條件
+	for each in self.condition_nodes :
+		if each != null and each.has_method("request_condition") :
+			self.inst.add_condition(each.request_condition())
 	
 	return self.inst
 

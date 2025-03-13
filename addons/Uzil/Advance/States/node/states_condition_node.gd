@@ -15,10 +15,6 @@ enum HandlerSetType {
 @export
 var id : String = ""
 
-## 轉場
-@export
-var transition_ids : Array[String] = []
-
 ## 腳本設置類型
 @export
 var handler_set_type : HandlerSetType = HandlerSetType.SCRIPT_ID :
@@ -43,13 +39,13 @@ var is_auto_convert_node_path : bool = true
 var data : Dictionary = {}
 
 ## 實體
-var state = null
+var condition = null
 
 # GDScript ===================
 
 func _ready () :
 	if Engine.is_editor_hint() : return
-	self.request_state()
+	self.request_condition()
 
 func _validate_property (property: Dictionary) :
 	match property.name : 
@@ -71,13 +67,13 @@ func _validate_property (property: Dictionary) :
 
 # Public =====================
 
-func request_state () :
+func request_condition () :
 	
-	if self.state != null : 
-		return self.state
+	if self.condition != null : 
+		return self.condition
 	
-	var State = UREQ.acc(&"Uzil:Advance.States").State
-	self.state = State.new()
+	var Condition = UREQ.acc(&"Uzil:Advance.States").Condition
+	self.condition = Condition.new()
 	
 	var handlers = null
 	match self.handler_set_type :
@@ -90,9 +86,9 @@ func request_state () :
 			handlers = paths
 		
 	if self.id == "" :
-		self.state.id = self.name
+		self.condition.id = self.name
 	else :
-		self.state.id = self.id
+		self.condition.id = self.id
 	
 	# 建立一份新的, 避免在特定情況出現問題 :
 	# 若此腳本的節點在PackedScene中, 可能會在instantiate後, 
@@ -106,12 +102,11 @@ func request_state () :
 	else :
 		new_data = self.data.duplicate()
 	
-	self.state.set_dict({
+	self.condition.set_dict({
 		"handlers": handlers,
-		"transitions": self.transition_ids,
 		"data": new_data,
 	})
 	
-	return self.state
+	return self.condition
 
 # Private ====================

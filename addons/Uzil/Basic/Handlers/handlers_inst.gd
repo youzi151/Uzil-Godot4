@@ -13,8 +13,11 @@ var _id_to_handler_path : Dictionary = {}
 ## id:處理器 表
 var _id_to_handler : Dictionary = {}
 
-## 取得 路徑格式 方法
-var get_path_format_fn : Callable
+## 格式化路徑 方法
+var format_path_fn : Callable
+
+## 取得 處理器 方法
+var get_handler_script_fn : Callable
 
 # GDScript ===================
 
@@ -36,24 +39,24 @@ func set_handler_path (id: String, handler_path: String) :
 
 ## 取得 處理器
 func get_handler (name_or_path: String) :
-	var handler_path : String = self._get_handler_script_path(name_or_path)
+	name_or_path = self._prepare_handler_path(name_or_path)
 	
-	if self._id_to_handler.has(handler_path) :
-		return self._id_to_handler[handler_path]
+	if self._id_to_handler.has(name_or_path) :
+		return self._id_to_handler[name_or_path]
 	
-	var script = self._get_handler_script(handler_path)
+	var script = self._get_handler_script(name_or_path)
 	if script == null : return null
 	
 	var handler = script.new()
-	self._id_to_handler[handler_path] = handler
+	self._id_to_handler[name_or_path] = handler
 	
 	return handler
 
 ## 新建 處理器
 func new_handler (name_or_path: String) :
-	var handler_path : String = self._get_handler_script_path(name_or_path)
+	name_or_path = self._prepare_handler_path(name_or_path)
 	
-	var script = self._get_handler_script(handler_path)
+	var script = self._get_handler_script(name_or_path)
 	if script == null : return null
 	
 	var handler = script.new()
@@ -74,7 +77,7 @@ func call_method (handler_ids: Array, method: StringName, args := [], opts := {}
 			G.error("handler[%s] not found." % [each])
 			continue
 		handlers.push_back(handler)
-	return self.Handlers.util.call_method(handlers, method, args, opts)
+	return await self.Handlers.util.call_method(handlers, method, args, opts)
 
 ## 執行 處理器
 func handle (handler_ids: Array, tags: Array, data := {}, opts := {}) :
@@ -85,26 +88,30 @@ func handle (handler_ids: Array, tags: Array, data := {}, opts := {}) :
 			G.error("handler[%s] not found." % [each])
 			continue
 		handlers.push_back(handler)
-	return self.Handlers.util.handle(handlers, tags, data, opts)
+	return await self.Handlers.util.handle(handlers, tags, data, opts)
 
 
 # Private ====================
 
-func _get_handler_script_path (name_or_path: String) :
+func _prepare_handler_path (name_or_path: String) :
 	
-	var handler_path : String = name_or_path
 	if self._id_to_handler_path.has(name_or_path) :
-		handler_path = self._id_to_handler_path[name_or_path]
+		name_or_path = self._id_to_handler_path[name_or_path]
 	
-	if not self.get_path_format_fn.is_null() :
-		var format = self.get_path_format_fn.call()
-		if format != null :
-			handler_path = handler_path.format(format)
+	if not self.format_path_fn.is_null() :
+		var formated = self.format_path_fn.call(name_or_path)
+		if formated != null :
+			name_or_path = formated
 	
-	return handler_path
+	return name_or_path
 
-func _get_handler_script (handler_path: String) :
+func _get_handler_script (name_or_path: String) :
 	var Uzil = UREQ.acc(&"Uzil:Uzil")
-	var handler = null
-	var script = Uzil.load_script(handler_path)
+	var script = null
+	
+	if not self.get_handler_script_fn.is_null() :
+		script = self.get_handler_script_fn.call(name_or_path)
+	else :
+		script = Uzil.load_script(name_or_path)
+	
 	return script

@@ -1,193 +1,190 @@
 
 # Variable ===================
 
-var times_mgr = null
+var States
+var Handlers
 
-## 使用主體
-var _user = null
+## 狀態列表
+var id_to_state := {}
+var id_to_transition := {}
+var id_to_condition := {}
 
-## 是否鎖住
-var _is_locked := false
+## 狀態,轉場,條件 處理器
+var handlers_state = null
+var handlers_transition = null
+var handlers_condition = null
 
 ## 預設狀態ID
 var default_state_id := ""
 
-## 當前狀態
-var _current_state = null
+var default_call_opts := {
+	"is_stop_on_handled": false,
+}
 
-## 下一個狀態
-var _next_state = null
-
-## 狀態列表 (不用Dictionary, 因為方便可以更改狀態的ID, 而且狀態通常不會太多個)
-var _states := []
-
-## 當 狀態改變 事件
-var on_state_changed = null
-
-## 對應 時間實體
-var times_inst_key = "_"
+var runtimes := []
 
 # GDScript ===================
 
-func _init (__user = null) :
-	self._user = __user
+func _init () :
+	self.States = UREQ.acc(&"Uzil:Advance.States")
+	self.Handlers = UREQ.acc(&"Uzil:Basic.Handlers")
 	
-	# 當 狀態改變
-	var Evt = UREQ.acc(&"Uzil:Core.Evt")
-	self.on_state_changed = Evt.Inst.new()
-	
-	self.times_mgr = UREQ.acc(&"Uzil:times_mgr")
-	
-
+	self.handlers_state = self.Handlers.Inst.new(self.Handlers)
+	self.handlers_state.get_handler_script_fn = self.States.get_handler_state
+	self.handlers_transition = self.Handlers.Inst.new(self.Handlers)
+	self.handlers_transition.get_handler_script_fn = self.States.get_handler_transition
+	self.handlers_condition = self.Handlers.Inst.new(self.Handlers)
+	self.handlers_condition.get_handler_script_fn = self.States.get_handler_condition
 
 # Extends ====================
 
 # Public =====================
 
-## 設置 使用主體
-func set_user (__user) :
+## 推進更新
+func process (_dt: float) :
+	for each in self.runtimes :
+		if each.is_process_with_inst :
+			each.process(_dt)
+
+## 開始 狀態機
+func new_runtime () :
+	var runtime = self.States.Runtime.new(self)
+	self.runtimes.push_back(runtime)
+	return runtime
+
+## 取得 狀態
+func get_state (id: String) :
+	if not self.id_to_state.has(id) : return null
+	return self.id_to_state[id]
+
+## 建立 狀態
+func new_state (prefer_id: String, dict := {}) :
+	var States = UREQ.acc(&"Uzil:Advance.States")
+	var Util = UREQ.acc(&"Uzil:Util")
 	
-	self._user = __user
+	var state = States.State.new()
 	
-	# 設置 所有狀態 使用主體
-	for each in self._states :
-		each.set_user(self._user)
-		
-	return self
+	# 避免重複ID
+	var new_id = Util.uniq_id.fix(prefer_id, func(next_id):
+		return not self.id_to_state.has(next_id)
+	)
+	state.id = new_id
+	
+	# 設置資料
+	state.set_dict(dict)
+	
+	# 新增至列表
+	self.add_state(state)
+	
+	return state
 
 ## 新增 狀態
 func add_state (state) :
 	# 移除相同ID者
 	self.del_state(state.id)
-	# 設置 使用主體
-	state.set_user(self._user)
 	# 加入
-	self._states.push_back(state)
+	self.id_to_state[state.id] = state
 	return self
 
-## 建立 新 狀態
-func new_state (prefer_state_id: String, script_name: String, data := {}) :
-	
+## 移除 狀態
+func del_state (id: String) :
+	if not self.id_to_state.has(id) : return
+	self.id_to_state.erase(id)
+
+
+## 取得 狀態
+func get_transition (id: String) :
+	if not self.id_to_transition.has(id) : return null
+	return self.id_to_transition[id]
+
+## 建立 轉場
+func new_transition (prefer_id: String, dict := {}) :
 	var States = UREQ.acc(&"Uzil:Advance.States")
 	var Util = UREQ.acc(&"Uzil:Util")
 	
-	var state = States.State.new(script_name)
+	var transition = States.Transition.new()
 	
-	var new_id = Util.uniq_id.fix(prefer_state_id, func(next_id):
-		for each in self._states :
-			if each.id == next_id : return false
-		return true
+	# 避免重複ID
+	var new_id = Util.uniq_id.fix(prefer_id, func(next_id):
+		return not self.id_to_transition.has(next_id)
 	)
+	transition.id = new_id
 	
-	state.set_id(new_id).set_data(data)
+	# 設置資料
+	transition.set_dict(dict)
 	
-	self.add_state(state)
+	# 新增至列表
+	self.add_transition(transition)
 	
-	return state
+	return transition
 
-## 移除 狀態
-func del_state (state_id) :
-	for idx in range(self._states.size()-1, -1, -1) :
-		var each = self._states[idx]
-		if each.id == state_id :
-			self._states.erase(each)
+## 新增 轉場
+func add_transition (transition) :
+	# 移除相同ID者
+	self.del_transition(transition.id)
+	# 加入
+	self.id_to_transition[transition.id] = transition
+	return self
 
-## 取得 狀態
-func get_state (state_id = null) :
-	if state_id == null :
-		return self._current_state
-	
-	for each in self._states :
-		if each.id == state_id :
-			return each
-	return null
+## 移除 轉場
+func del_transition (id: String) :
+	if not self.id_to_transition.has(id) : return
+	self.id_to_transition.erase(id)
 
-## 開始 狀態機
-func start () :
-	
-	self.set_user(self._user)
-	
-	for each in self._states :
-		await each.setup()
-	
-	await self.go_state(self.default_state_id)
 
-func clear () :
-	self._states.clear()
+## 取得 條件
+func get_condition (id: String) :
+	if not self.id_to_condition.has(id) : return null
+	return self.id_to_condition[id]
 
-## 更新
-func process (_dt) :
-	if not self._is_process() : return
-	for each in self._states :
-		each.process(_dt)
+## 建立 條件
+func new_condition (prefer_id: String, dict := {}) :
+	var States = UREQ.acc(&"Uzil:Advance.States")
+	var Util = UREQ.acc(&"Uzil:Util")
+	
+	var condition = States.Condition.new()
+	
+	# 避免重複ID
+	var new_id = Util.uniq_id.fix(prefer_id, func(next_id):
+		return not self.id_to_condition.has(next_id)
+	)
+	condition.id = new_id
+	
+	# 設置資料
+	condition.set_dict(dict)
+	
+	# 新增至列表
+	self.add_condition(condition)
+	
+	return condition
 
-## 前往 狀態
-func go_state (state_or_id, is_force := false) :
-	
-	var next_state = null
-	
-	# 類型
-	var typ = typeof(state_or_id)
-	match typ :
-		# 字串
-		TYPE_STRING : 
-			for each in self._states :
-				if each.id == state_or_id : 
-					next_state = each
-					break
-		# 物件(狀態)
-		TYPE_OBJECT :
-			next_state = state_or_id
-	
-	# 若 缺少 指定狀態 則 返回
-	if next_state == null and state_or_id != null : 
-		G.print("[states_inst.gd] go_state state[%s] not found." % [state_or_id])
-		return
-	
-	# 若 當前狀態 已是 指定狀態 則 返回
-	if self._current_state == next_state : return
-	
-	# 若 已鎖住狀態 且 非強制 則 設置 為 下一個狀態
-	if self._is_locked and not is_force :
-		self._next_state = next_state
-		return
-	
-	# 前次狀態
-	var last_state = self._current_state
-	
-	# 呼叫 前次狀態 當 離開狀態
-	if last_state != null :
-		await last_state.on_exit()
-	
-	# 設為 當前狀態
-	self._current_state = next_state
-	
-	if self._current_state != null :
-		await self._current_state.on_enter()
-	
-	self.on_state_changed.emit({
-		"last" : last_state,
-		"next" : next_state,
-	})
+## 新增 條件
+func add_condition (condition) :
+	# 移除相同ID者
+	self.del_condition(condition.id)
+	# 加入
+	self.id_to_condition[condition.id] = condition
+	return self
 
-## 鎖住
-func lock () :
-	self._is_locked = true
+## 移除 條件
+func del_condition (id: String) :
+	if not self.id_to_condition.has(id) : return
+	self.id_to_condition.erase(id)
 
-## 解鎖
-func unlock () :
-	self._is_locked = false
-	# 若 下個狀態 存在
-	if self._next_state :
-		# 清除 下個狀態
-		var state = self._next_state
-		self._next_state = null
-		# 前往狀態 強制
-		self.go_state(state, true)
+
+## 處理 狀態
+func handle_state (handler_ids: Array, method_name: StringName, args: Array) :
+	await self.handlers_state.call_method(handler_ids, method_name, args, self.default_call_opts)
+
+## 處理 轉場
+func handle_transition (handler_ids: Array, method_name: StringName, args: Array, opts := {}) :
+	if not opts.is_empty() : opts = self.default_call_opts.merged(opts, true)
+	else : opts = self.default_call_opts
+	await self.handlers_transition.call_method(handler_ids, method_name, args, opts)
+
+## 處理 條件
+func handle_condition (handler_ids: Array, method_name: StringName, args: Array) :
+	var ctrlr = await self.handlers_condition.call_method(handler_ids, method_name, args, self.default_call_opts)
+	return ctrlr.result
 
 # Private ====================
-
-## 是否可以推進
-func _is_process () :
-	if self.times_inst_key == null : return true
-	return not self.times_mgr.inst(self.times_inst_key).is_paused()

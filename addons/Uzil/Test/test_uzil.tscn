@@ -1,9 +1,8 @@
-[gd_scene load_steps=26 format=3 uid="uid://chy0dbw7xo7yc"]
+[gd_scene load_steps=25 format=3 uid="uid://chy0dbw7xo7yc"]
 
 [ext_resource type="Script" path="res://addons/Uzil/Test/test_uzil.gd" id="1_5gjy7"]
 [ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_to_scene.gd" id="2_35jgj"]
 [ext_resource type="PackedScene" uid="uid://cvsib0srhyd8g" path="res://addons/Uzil/Advance/States/_test/test_states.tscn" id="3_4lek2"]
-[ext_resource type="PackedScene" uid="uid://dw0odabslvb8f" path="res://addons/Uzil/Basic/Flow/_test/test_flow.tscn" id="3_cltrm"]
 [ext_resource type="PackedScene" uid="uid://1shkvi5t2xx0" path="res://addons/Uzil/Advance/UINav/_test/test_ui_nav.tscn" id="3_mr1vc"]
 [ext_resource type="PackedScene" uid="uid://cl1apas1smffm" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.tscn" id="3_q32di"]
 [ext_resource type="PackedScene" uid="uid://cpssqgiyffh7w" path="res://addons/Uzil/Advance/Audio/_test/test_audio.tscn" id="3_rpken"]
@@ -152,10 +151,6 @@ script = ExtResource("2_35jgj")
 scene = ExtResource("7_s7o2e")
 
 [node name="Basic" type="Node" parent="scene/scenes"]
-
-[node name="Flow" type="Node" parent="scene/scenes/Basic"]
-script = ExtResource("2_35jgj")
-scene = ExtResource("3_cltrm")
 
 [node name="I18N" type="Node" parent="scene/scenes/Basic"]
 script = ExtResource("2_35jgj")

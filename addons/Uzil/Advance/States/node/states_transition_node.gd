@@ -15,9 +15,17 @@ enum HandlerSetType {
 @export
 var id : String = ""
 
-## 轉場
+## 下個狀態
 @export
-var transition_ids : Array[String] = []
+var to_state : String = ""
+
+## 條件
+@export
+var condition_ids : Array[String] = []
+## 條件
+@export_multiline
+var condition_exp : String = ""
+
 
 ## 腳本設置類型
 @export
@@ -43,13 +51,13 @@ var is_auto_convert_node_path : bool = true
 var data : Dictionary = {}
 
 ## 實體
-var state = null
+var transition = null
 
 # GDScript ===================
 
 func _ready () :
 	if Engine.is_editor_hint() : return
-	self.request_state()
+	self.request_transition()
 
 func _validate_property (property: Dictionary) :
 	match property.name : 
@@ -71,13 +79,13 @@ func _validate_property (property: Dictionary) :
 
 # Public =====================
 
-func request_state () :
+func request_transition () :
 	
-	if self.state != null : 
-		return self.state
+	if self.transition != null : 
+		return self.transition
 	
-	var State = UREQ.acc(&"Uzil:Advance.States").State
-	self.state = State.new()
+	var Transition = UREQ.acc(&"Uzil:Advance.States").Transition
+	self.transition = Transition.new()
 	
 	var handlers = null
 	match self.handler_set_type :
@@ -90,9 +98,9 @@ func request_state () :
 			handlers = paths
 		
 	if self.id == "" :
-		self.state.id = self.name
+		self.transition.id = self.name
 	else :
-		self.state.id = self.id
+		self.transition.id = self.id
 	
 	# 建立一份新的, 避免在特定情況出現問題 :
 	# 若此腳本的節點在PackedScene中, 可能會在instantiate後, 
@@ -106,12 +114,14 @@ func request_state () :
 	else :
 		new_data = self.data.duplicate()
 	
-	self.state.set_dict({
+	self.transition.set_dict({
+		"to_state": self.to_state,
+		"condition_exp": self.condition_exp,
+		"conditions": self.condition_ids,
 		"handlers": handlers,
-		"transitions": self.transition_ids,
 		"data": new_data,
 	})
 	
-	return self.state
+	return self.transition
 
 # Private ====================
