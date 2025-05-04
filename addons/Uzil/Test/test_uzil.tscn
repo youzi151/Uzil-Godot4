@@ -1,7 +1,7 @@
 [gd_scene load_steps=25 format=3 uid="uid://chy0dbw7xo7yc"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Test/test_uzil.gd" id="1_5gjy7"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_to_scene.gd" id="2_35jgj"]
+[ext_resource type="Script" uid="uid://xy7c55jy53k6" path="res://addons/Uzil/Test/test_uzil.gd" id="1_5gjy7"]
+[ext_resource type="Script" uid="uid://bwaw5h4tlrfke" path="res://addons/Uzil/Test/misc/test_to_scene.gd" id="2_35jgj"]
 [ext_resource type="PackedScene" uid="uid://cvsib0srhyd8g" path="res://addons/Uzil/Advance/States/_test/test_states.tscn" id="3_4lek2"]
 [ext_resource type="PackedScene" uid="uid://1shkvi5t2xx0" path="res://addons/Uzil/Advance/UINav/_test/test_ui_nav.tscn" id="3_mr1vc"]
 [ext_resource type="PackedScene" uid="uid://cl1apas1smffm" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.tscn" id="3_q32di"]

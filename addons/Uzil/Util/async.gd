@@ -486,12 +486,14 @@ func waterfall (fn_list, options := {}) :
 	ref.state = 0
 	
 	var idx : int = 0
+	var max : int = 100
 	while idx < fn_list.size() :
 		
 		wait_until_each.reset()
 		
 		# 任務
 		var fn = fn_list[idx]
+		idx += 1
 		
 		# 控制器
 		var ctrlr : Ctrlr = Ctrlr.new()

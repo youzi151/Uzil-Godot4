@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://cvsib0srhyd8g"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Advance/States/_test/test_states.gd" id="1_vwkrq"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_mx3lc"]
-[ext_resource type="Script" path="res://addons/Uzil/Advance/States/node/states_inst_node.gd" id="3_gksvi"]
-[ext_resource type="Script" path="res://addons/Uzil/Advance/States/node/states_state_node.gd" id="4_7b8d7"]
-[ext_resource type="Script" path="res://addons/Uzil/Advance/States/handlers_state/handler_state_print.gd" id="5_3fvkp"]
-[ext_resource type="Script" path="res://addons/Uzil/Advance/States/node/states_transition_node.gd" id="6_n2meb"]
-[ext_resource type="Script" path="res://addons/Uzil/Advance/States/node/states_condition_node.gd" id="7_twv74"]
-[ext_resource type="Script" path="res://addons/Uzil/Advance/States/handlers_condition/handler_condition_vars_equals.gd" id="8_nrdoo"]
+[ext_resource type="Script" uid="uid://dhbpn4445y5dt" path="res://addons/Uzil/Advance/States/_test/test_states.gd" id="1_vwkrq"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_mx3lc"]
+[ext_resource type="Script" uid="uid://bjwrtoxfqs705" path="res://addons/Uzil/Advance/States/node/states_inst_node.gd" id="3_gksvi"]
+[ext_resource type="Script" uid="uid://cf87mj0dsm75a" path="res://addons/Uzil/Advance/States/node/states_state_node.gd" id="4_7b8d7"]
+[ext_resource type="Script" uid="uid://cx5bsanwyq2qx" path="res://addons/Uzil/Advance/States/handlers_state/handler_state_print.gd" id="5_3fvkp"]
+[ext_resource type="Script" uid="uid://cwt6c20myeaxn" path="res://addons/Uzil/Advance/States/node/states_transition_node.gd" id="6_n2meb"]
+[ext_resource type="Script" uid="uid://7udvcen2armu" path="res://addons/Uzil/Advance/States/node/states_condition_node.gd" id="7_twv74"]
+[ext_resource type="Script" uid="uid://bu1syjbirv37e" path="res://addons/Uzil/Advance/States/handlers_condition/handler_condition_vars_equals.gd" id="8_nrdoo"]
 
 [node name="root" type="Control" node_paths=PackedStringArray("debug_log", "states_inst_node")]
 layout_mode = 3

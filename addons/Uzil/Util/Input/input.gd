@@ -291,6 +291,7 @@ func detect_input (device_type: int, device_idx: int, val_type: int, gdkeys) :
 func detect_input_keyboard_button (gdkeys: Array) :
 	# 若 任一個 gdkey 按壓中 則 視為 按壓
 	for gdkey in gdkeys:
+		if gdkey == KEY_NONE : continue
 		if Input.is_key_pressed(gdkey) :
 			return ButtonState.PRESSED
 	# 返回 釋放
@@ -300,6 +301,7 @@ func detect_input_keyboard_button (gdkeys: Array) :
 func detect_input_mouse_button (gdkeys: Array) :
 	# 若 任一個 gdkey 按壓中 則 視為 按壓
 	for gdkey in gdkeys:
+		if gdkey == KEY_NONE : continue
 		if Input.is_mouse_button_pressed(gdkey) :
 			return ButtonState.PRESSED
 	# 返回 釋放
@@ -309,6 +311,7 @@ func detect_input_mouse_button (gdkeys: Array) :
 func detect_input_joy_button (device_idx: int, gdkeys: Array) :
 	# 若 任一個 gdkey 按壓中 則 視為 按壓
 	for gdkey in gdkeys:
+		if gdkey == KEY_NONE : continue
 		if Input.is_joy_button_pressed(device_idx, gdkey) :
 			return ButtonState.PRESSED
 	# 返回 釋放
@@ -324,6 +327,7 @@ func detect_input_joy_axis (device_idx: int, gdkeys: Array) :
 	
 	# 每個 gdkey
 	for gdkey in gdkeys :
+		if gdkey == KEY_NONE : continue
 		# 取得
 		var val = Input.get_joy_axis(device_idx, gdkey)
 		# 若 存在 值

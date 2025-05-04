@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dxffevoyf0xv"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Core/Vars/_test/test_vars.gd" id="1_kl2ri"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_elec8"]
+[ext_resource type="Script" uid="uid://dg77csr0uu0v6" path="res://addons/Uzil/Core/Vars/_test/test_vars.gd" id="1_kl2ri"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_elec8"]
 
 [node name="root" type="Control" node_paths=PackedStringArray("debug_log")]
 layout_mode = 3

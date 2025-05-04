@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://djoxwlrttiqk4"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Core/Vals/_test/test_vals.gd" id="1_dp4qx"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_mvt15"]
+[ext_resource type="Script" uid="uid://dl01c76g7r6w" path="res://addons/Uzil/Core/Vals/_test/test_vals.gd" id="1_dp4qx"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_mvt15"]
 
 [node name="root" type="Control" node_paths=PackedStringArray("debug_log", "user_item_prefab", "user_item_container", "modifier_message_edit", "filter_tags_edit", "current_val_label")]
 layout_mode = 3

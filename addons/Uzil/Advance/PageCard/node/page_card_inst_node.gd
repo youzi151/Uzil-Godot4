@@ -97,7 +97,7 @@ func request_inst () :
 		self.inst.reg_card(card)
 	for page in pages.keys() :
 		self.inst.reg_page(page)
-		
+	
 	return self.inst
 
 # Private ====================

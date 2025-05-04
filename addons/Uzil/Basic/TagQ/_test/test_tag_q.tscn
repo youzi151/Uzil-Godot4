@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cl1apas1smffm"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.gd" id="1_pcrid"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_d18wy"]
+[ext_resource type="Script" uid="uid://rw4b5rus0xbg" path="res://addons/Uzil/Basic/TagQ/_test/test_tag_q.gd" id="1_pcrid"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_d18wy"]
 
 [node name="root" type="Control" node_paths=PackedStringArray("debug_log", "search_edit", "member_container", "member_prefab")]
 layout_mode = 3

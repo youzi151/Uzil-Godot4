@@ -61,9 +61,9 @@ func _ready () :
 	self.pagecard_inst.restart()
 	
 	# 在 根頁面上 查詢並啟用 card_0
-	self.pagecard_inst.get_root_page().query("card:0 type:main")
+	#self.pagecard_inst.get_root_page().query("card:0 type:main")
 	# 刷新
-	self.pagecard_inst.refresh()
+	#self.pagecard_inst.refresh()
 	
 
 func _exit_tree () :

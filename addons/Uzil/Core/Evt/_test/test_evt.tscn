@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cd713gsxua2ru"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Core/Evt/_test/test_evt.gd" id="1_p1may"]
-[ext_resource type="Script" path="res://addons/Uzil/Core/Evt/node/evt_bus_node.gd" id="2_kjafj"]
-[ext_resource type="Script" path="res://addons/Uzil/Core/Evt/node/evt_bus_emitter_node.gd" id="2_lx1ne"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_ymgrw"]
+[ext_resource type="Script" uid="uid://ddsglg8rsmucs" path="res://addons/Uzil/Core/Evt/_test/test_evt.gd" id="1_p1may"]
+[ext_resource type="Script" uid="uid://khj0q0yronh8" path="res://addons/Uzil/Core/Evt/node/evt_bus_node.gd" id="2_kjafj"]
+[ext_resource type="Script" uid="uid://dwhcss6shd77j" path="res://addons/Uzil/Core/Evt/node/evt_bus_emitter_node.gd" id="2_lx1ne"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_ymgrw"]
 
 [node name="root" type="Control" node_paths=PackedStringArray("debug_log", "evt_bus_node")]
 layout_mode = 3

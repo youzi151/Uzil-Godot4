@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bouka2j7rfq1n"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Basic/UserSave/_test/test_user_save.gd" id="1_vy46x"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_omi2t"]
+[ext_resource type="Script" uid="uid://bfave40rqjs88" path="res://addons/Uzil/Basic/UserSave/_test/test_user_save.gd" id="1_vy46x"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_omi2t"]
 
 [node name="root" type="Control" node_paths=PackedStringArray("debug_log", "user_edit", "profile_edit", "save_to_profile_checkbox", "file_name_edit", "file_full_path_label", "save_route_edit", "save_val_edit")]
 layout_mode = 3

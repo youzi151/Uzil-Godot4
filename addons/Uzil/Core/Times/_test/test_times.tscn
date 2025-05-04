@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://8ht5kb7sav4q"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Core/Times/_test/test_times.gd" id="1_1ipqo"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_kosip"]
+[ext_resource type="Script" uid="uid://bo0dhm0ddd7mo" path="res://addons/Uzil/Core/Times/_test/test_times.gd" id="1_1ipqo"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_kosip"]
 
 [node name="root" type="Control" node_paths=PackedStringArray("debug_log", "spin_panels")]
 layout_mode = 3

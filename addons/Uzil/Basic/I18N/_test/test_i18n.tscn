@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://q0oqeycbaq42"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Basic/I18N/_test/test_i18n.gd" id="1_ni0eg"]
-[ext_resource type="Script" path="res://addons/Uzil/Basic/I18N/i18n_label_trans.gd" id="2_5sq2v"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_264un"]
+[ext_resource type="Script" uid="uid://e53aresj4no8" path="res://addons/Uzil/Basic/I18N/_test/test_i18n.gd" id="1_ni0eg"]
+[ext_resource type="Script" uid="uid://b3vnkn4n2a12q" path="res://addons/Uzil/Basic/I18N/i18n_label_trans.gd" id="2_5sq2v"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_264un"]
 
 [node name="root" type="Control" node_paths=PackedStringArray("input_edit", "test_word_edit", "test_vars_edit", "debug_log")]
 layout_mode = 3

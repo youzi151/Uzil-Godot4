@@ -53,6 +53,7 @@ func index (Uzil, _parent_index) :
 			self.Inst = Uzil.load_script(self.PATH.path_join("page_card_inst.gd"))
 			self.Page = Uzil.load_script(self.PATH.path_join("page_card_page.gd"))
 			self.Card = Uzil.load_script(self.PATH.path_join("page_card_card.gd"))
+			return self
 			, 
 		{
 			"alias" : ["PageCard"]

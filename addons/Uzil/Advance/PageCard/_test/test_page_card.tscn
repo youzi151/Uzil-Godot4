@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://cdnfj3kh5hfe6"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Advance/PageCard/_test/test_page_card.gd" id="1_hokrg"]
-[ext_resource type="Script" path="res://addons/Uzil/Advance/PageCard/node/page_card_inst_node.gd" id="2_a3ix0"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_nn3wm"]
-[ext_resource type="Script" path="res://addons/Uzil/Advance/PageCard/node/page_card_page_node.gd" id="3_0vist"]
-[ext_resource type="Script" path="res://addons/Uzil/Advance/PageCard/node/page_card_card_node.gd" id="4_0sfdd"]
-[ext_resource type="Script" path="res://addons/Uzil/Advance/PageCard/node/page_card_combo_node.gd" id="5_72t2v"]
+[ext_resource type="Script" uid="uid://bdmjl4gpwblyg" path="res://addons/Uzil/Advance/PageCard/_test/test_page_card.gd" id="1_hokrg"]
+[ext_resource type="Script" uid="uid://wj1763heu244" path="res://addons/Uzil/Advance/PageCard/node/page_card_inst_node.gd" id="2_a3ix0"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_nn3wm"]
+[ext_resource type="Script" uid="uid://b174tw66fvlsa" path="res://addons/Uzil/Advance/PageCard/node/page_card_page_node.gd" id="3_0vist"]
+[ext_resource type="Script" uid="uid://d4f714a86fds" path="res://addons/Uzil/Advance/PageCard/node/page_card_card_node.gd" id="4_0sfdd"]
+[ext_resource type="Script" uid="uid://ekh5s67pmdi4" path="res://addons/Uzil/Advance/PageCard/node/page_card_combo_node.gd" id="5_72t2v"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mmrma"]
 albedo_color = Color(0.489622, 0.489622, 0.489622, 1)
@@ -313,6 +313,7 @@ text = "Query"
 
 [node name="page_card_inst" type="Node" parent="." node_paths=PackedStringArray("page_nodes", "card_nodes")]
 script = ExtResource("2_a3ix0")
+is_reg_to_mgr = false
 page_nodes = [NodePath("pages/page_1"), NodePath("pages/page_2"), NodePath("pages/page_3"), NodePath("pages/page_4")]
 card_nodes = [NodePath("cards/card_0"), NodePath("cards/card_0/card_0_h"), NodePath("cards/card_1"), NodePath("cards/card_1/card_1_h"), NodePath("cards/card_2"), NodePath("cards/card_2/card_2_h"), NodePath("cards/card_3"), NodePath("cards/card_3/card_3_h"), NodePath("cards/card_4"), NodePath("cards/card_4/card_4_h")]
 

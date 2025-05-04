@@ -55,12 +55,14 @@ func index (Uzil, _parent_index) :
 					MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN :
 						if self._is_godot_process_effected :
 							self._is_godot_process_effected = false
-							self.Uzil.get_tree().paused = false
+							var window : Window = Uzil.get_tree().root
+							window.process_mode = Node.PROCESS_MODE_PAUSABLE
 							
 					MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT :
 						if not self._is_godot_process_effected :
 							self._is_godot_process_effected = true
-							self.Uzil.get_tree().paused = true
+							var window : Window = Uzil.get_tree().root
+							window.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 			)
 			
 			return self

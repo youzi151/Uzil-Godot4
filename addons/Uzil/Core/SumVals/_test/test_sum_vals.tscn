@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c7ee7kw0ftt0p"]
 
-[ext_resource type="Script" path="res://addons/Uzil/Core/SumVals/_test/test_sum_vals.gd" id="1_31kfj"]
-[ext_resource type="Script" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_pde5q"]
+[ext_resource type="Script" uid="uid://dfwgb1rg0vn6c" path="res://addons/Uzil/Core/SumVals/_test/test_sum_vals.gd" id="1_31kfj"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/Uzil/Test/misc/test_debug_log.gd" id="2_pde5q"]
 
 [node name="root" type="Control" node_paths=PackedStringArray("debug_log", "opt_root", "opt_1", "opt_1_1", "opt_1_2", "opt_2", "opt_2_1", "opt_2_2")]
 layout_mode = 3
