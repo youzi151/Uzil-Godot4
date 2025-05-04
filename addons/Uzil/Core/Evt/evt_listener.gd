@@ -37,7 +37,7 @@ func emit (ctrlr) :
 		await self.fnc.call(ctrlr)
 	
 	if is_ctrlr_exist :
-		await ctrlr.until_done()
+		await ctrlr.until_resume()
 	
 	if is_ctrlr_exist : 
 		ctrlr.set_current_listener(null)

@@ -7,7 +7,7 @@
 
 # Variable ===================
 
-signal on_done
+signal on_resume
 
 ## 事件
 var _evt = null
@@ -18,8 +18,8 @@ var _current_listener = null
 ## 是否已停止呼叫
 var _is_call_stop := false
 
-## 是否等候中
-var _is_wait := false
+## 是否暫停中
+var _is_pause := false
 
 ## 特定標籤
 var _attend_tags := []
@@ -58,20 +58,18 @@ func stop () :
 func is_call_stop () -> bool :
 	return self._is_call_stop
 
-
 ## 暫停
-func wait () :
-	self._is_wait = true
+func pause () :
+	self._is_pause = true
 
-## 等候至完成
-func until_done () :
-	if self._is_wait : await self.on_done
+## 暫停至恢復
+func until_resume () :
+	if self._is_pause : await self.on_resume
 
-## 完成
-func done () :
-	self._is_wait = false
-	self.on_done.emit()
-	
+## 恢復
+func resume () :
+	self._is_pause = false
+	self.on_resume.emit()
 
 ## 指定
 func attend (tag: String) :
