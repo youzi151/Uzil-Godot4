@@ -258,7 +258,9 @@ func collect_preset_info (preset_path: String, path_to_info: Dictionary = {}, pr
 	if path_to_info.has(preset_path) : return path_to_info
 	
 	# 讀取 配置檔
-	var preset_json : JSON = await self.built_in_loader.load_by_path(preset_path, "JSON")
+	var preset_json : JSON = await self.built_in_loader.load_by_path(preset_path, {
+		"type_hint": "JSON"
+	})
 	if preset_json == null : return null
 	
 	var preset : Dictionary = preset_json.data

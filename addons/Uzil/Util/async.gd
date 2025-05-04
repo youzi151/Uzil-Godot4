@@ -194,6 +194,7 @@ func each_series (list_or_dict, fn_each: Callable, options := {}) :
 		
 		# 索引
 		var cur_idx = indexes[num]
+		num += 1
 		
 		# 控制器
 		var ctrlr : Ctrlr = Ctrlr.new()
@@ -341,6 +342,7 @@ func times_series (run_times: int, fn_each: Callable, options := {}) :
 	while idx < run_times or run_times < 0 :
 		
 		wait_until_each.reset()
+		idx += 1
 		
 		var ref := {"state":0}
 		

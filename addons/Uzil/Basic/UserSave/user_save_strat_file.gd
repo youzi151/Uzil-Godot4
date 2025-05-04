@@ -209,7 +209,7 @@ func _read_file (path: String) :
 	var header : Dictionary = file.get_var(false)
 	
 	# 資料
-	var data : Dictionary = file.get_var(false)
+	var data = file.get_var(false)
 	
 	# 返回
 	return data

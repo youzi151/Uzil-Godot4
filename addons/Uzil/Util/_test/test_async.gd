@@ -114,7 +114,7 @@ func test_each_series_dict () :
 #					ctrlr.stop()
 #					ctrlr.next()
 				else : 
-						ctrlr.next()
+					ctrlr.next()
 			, 1000)
 			,
 		{
