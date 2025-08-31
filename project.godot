@@ -16,13 +16,13 @@ config/features=PackedStringArray("4.4")
 
 [autoload]
 
-G="*res://addons/GlobalUtil/scripts/global_util.gd"
-UREQ="*res://addons/UREQ/scripts/ureq.gd"
-UzilInit="*res://addons/Uzil/uzil_init.gd"
+G="*res://addons/global_util/scripts/global_util.gd"
+UREQ="*res://addons/ureq/scripts/ureq.gd"
+UzilInit="*res://addons/uzil/uzil_init.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GlobalUtil/plugin.cfg", "res://addons/UREQ/plugin.cfg", "res://addons/Uzil/plugin.cfg")
+enabled=PackedStringArray("res://addons/global_util/plugin.cfg", "res://addons/ureq/plugin.cfg", "res://addons/uzil/plugin.cfg")
 
 [input]
 

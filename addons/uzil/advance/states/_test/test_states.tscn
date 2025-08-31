@@ -1,0 +1,102 @@
+[gd_scene load_steps=9 format=3 uid="uid://cvsib0srhyd8g"]
+
+[ext_resource type="Script" uid="uid://dhbpn4445y5dt" path="res://addons/uzil/advance/states/_test/test_states.gd" id="1_vwkrq"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/uzil/test/misc/test_debug_log.gd" id="2_mx3lc"]
+[ext_resource type="Script" uid="uid://bjwrtoxfqs705" path="res://addons/uzil/advance/states/node/states_inst_node.gd" id="3_gksvi"]
+[ext_resource type="Script" uid="uid://cf87mj0dsm75a" path="res://addons/uzil/advance/states/node/states_state_node.gd" id="4_7b8d7"]
+[ext_resource type="Script" uid="uid://cx5bsanwyq2qx" path="res://addons/uzil/advance/states/handlers_state/handler_state_print.gd" id="5_3fvkp"]
+[ext_resource type="Script" uid="uid://cwt6c20myeaxn" path="res://addons/uzil/advance/states/node/states_transition_node.gd" id="6_n2meb"]
+[ext_resource type="Script" uid="uid://7udvcen2armu" path="res://addons/uzil/advance/states/node/states_condition_node.gd" id="7_twv74"]
+[ext_resource type="Script" uid="uid://bu1syjbirv37e" path="res://addons/uzil/advance/states/handlers_condition/handler_condition_vars_equals.gd" id="8_nrdoo"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log", "states_inst_node")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vwkrq")
+debug_log = NodePath("HBoxContainer/VBoxContainer2/debug_text_edit")
+states_inst_node = NodePath("States")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="test_log" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_log()"
+
+[node name="test_node" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_node()"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="debug_text_edit" type="TextEdit" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_mx3lc")
+
+[node name="States" type="Node" parent="." node_paths=PackedStringArray("state_nodes", "transition_nodes", "condition_nodes")]
+script = ExtResource("3_gksvi")
+is_reg_to_mgr = false
+default_state_id = "a"
+state_nodes = [NodePath("states/a"), NodePath("states/b")]
+transition_nodes = [NodePath("transitions/a-b")]
+condition_nodes = [NodePath("conditions/toggle_on")]
+
+[node name="states" type="Node" parent="States"]
+
+[node name="a" type="Node" parent="States/states"]
+script = ExtResource("4_7b8d7")
+transition_ids = Array[String](["a-b"])
+handler_set_type = 1
+handler_scripts = Array[GDScript]([ExtResource("5_3fvkp")])
+data = {
+"msg_enter": "a"
+}
+
+[node name="b" type="Node" parent="States/states"]
+script = ExtResource("4_7b8d7")
+handler_set_type = 1
+handler_scripts = Array[GDScript]([ExtResource("5_3fvkp")])
+data = {
+"msg_enter": "b"
+}
+
+[node name="transitions" type="Node" parent="States"]
+
+[node name="a-b" type="Node" parent="States/transitions"]
+script = ExtResource("6_n2meb")
+to_state = "b"
+condition_ids = Array[String](["toggle_on"])
+condition_exp = "vars.get_var(\"toggle_expression\", false) == true"
+
+[node name="conditions" type="Node" parent="States"]
+
+[node name="toggle_on" type="Node" parent="States/conditions"]
+script = ExtResource("7_twv74")
+handler_set_type = 1
+handler_scripts = Array[GDScript]([ExtResource("8_nrdoo")])
+data = {
+"vars_equals": {
+"toggle_var": true
+}
+}
+
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_log" to="." method="test_log"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/test_node" to="." method="test_node"]
