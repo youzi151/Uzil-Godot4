@@ -74,7 +74,7 @@ func init (util, modules: Dictionary) :
 			self.update()
 		)
 		Uzil.on_input.on(func(ctrlr):
-			self.on_input(ctrlr.data.event)
+			self.receive_input(ctrlr.data.event)
 		)
 	)
 	
@@ -83,7 +83,7 @@ func init (util, modules: Dictionary) :
 # Public =====================
 
 ## 當輸入
-func on_input (event) :
+func receive_input (event) :
 	if event is InputEventMouseButton :
 		match event.button_index :
 			MOUSE_BUTTON_WHEEL_UP :

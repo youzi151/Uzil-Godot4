@@ -14,6 +14,9 @@ extends Node
 		target = value
 		self._target_setup(last, target)
 
+## 其他目標
+@export var extra_targets : Array = []
+
 ## 普通顏色
 @export var normal_color : Color = Color.WHITE
 ## 停駐顏色
@@ -23,8 +26,14 @@ extends Node
 ## 關閉顏色
 @export var disabled_color : Color = Color.DARK_GRAY
 
+## 是否只有自身變色
+@export var is_self_modulate : bool = false
+
+## 是否自動設置原色
+@export var is_auto_setup_original_color : bool = true
+
 ## 原始顏色
-var original_color : Color = Color.TRANSPARENT
+@export var original_color : Color = Color.WHITE
 
 ## 是否停駐
 var _is_hover := false
@@ -65,7 +74,16 @@ func update_color () :
 	elif self._is_hover :
 		to_color = self.hover_color
 		
-	self.target.self_modulate = self.original_color * to_color
+	if self.is_self_modulate :
+		self.target.self_modulate = self.original_color * to_color
+	else :
+		self.target.modulate = self.original_color * to_color
+	
+	for each in self.extra_targets :
+		if self.is_self_modulate :
+			each.self_modulate = to_color
+		else :
+			each.modulate = to_color
 
 # Private ====================
 
@@ -83,7 +101,8 @@ func _target_setup (last_target, new_target) :
 	
 	if new_target != null :
 		# 抓取 原始顏色
-		self.original_color = new_target.modulate
+		if self.is_auto_setup_original_color :
+			self.original_color = new_target.modulate
 		
 		# 向 目標 註冊 事件
 		if not new_target.mouse_entered.is_connected(self.on_hover) :

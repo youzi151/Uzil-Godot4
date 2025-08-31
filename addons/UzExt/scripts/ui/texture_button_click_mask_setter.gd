@@ -53,6 +53,10 @@ var from_node : Node = null :
 		if Engine.is_editor_hint() : return
 		self.refresh()
 
+## 閥值
+@export
+var threshold : float = 0.1
+
 # GDScript ===================
 
 # Called when the node enters the scene tree for the first time.
@@ -108,7 +112,7 @@ func refresh () :
 					
 	if tex != null :
 		bitmap = BitMap.new()
-		bitmap.create_from_image_alpha(tex.get_image())
+		bitmap.create_from_image_alpha(tex.get_image(), self.threshold)
 	
 	self._last_texture = tex
 	self.texture_button.texture_click_mask = bitmap
@@ -123,4 +127,3 @@ func _get_tex_from_node () :
 	if self.from_node is AnimatedSprite2D :
 		tex = self.from_node.sprite_frames.get_frame_texture(self.from_node.animation, self.from_node.frame)
 	return tex
-

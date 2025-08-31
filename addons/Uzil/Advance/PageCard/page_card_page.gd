@@ -155,7 +155,6 @@ func combo (combo_id: String, query_mode: int = -1) :
 
 ## 查詢
 func query (query_str: String, query_mode: int = -1) :
-	
 	if self._is_query_prepared == false :
 		self.prepare_query()
 	

@@ -29,6 +29,9 @@ func _ready () :
 func _process (_dt) :
 	if self.node_inst != null :
 		self.node_inst.process(_dt)
+	
+	if self.runtime != null :
+		self.runtime.process(_dt)
 
 func _exit_tree () :
 	G.off_print("test_states")
@@ -108,9 +111,7 @@ func test_log () :
 		})
 		
 		self.runtime = inst.new_runtime()
-		UREQ.acc(&"Uzil:invoker").update(func(dt):
-			self.runtime.process(dt)
-		)
+		
 		await self.runtime.setup()
 		
 	

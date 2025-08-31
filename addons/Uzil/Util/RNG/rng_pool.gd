@@ -65,8 +65,13 @@ func rngseed (_seed = null) :
 	self._rng_seed = _seed
 	return self
 
+
+# 取得 範圍
+func size () :
+	return self._rates.size()
+
 # 設置 範圍
-func size (_size: int) :
+func resize (_size: int) :
 	# 防呆
 	if _size < 0 :
 		_size = 0
@@ -83,9 +88,8 @@ func size (_size: int) :
 func minmax (min: int, max: int) :
 	# 防呆
 	if min > max :
-		var tmp : int = max
-		max = min
-		min = tmp
+		min = 0
+		max = -1
 	
 	# 設置 最小最大值
 	self._min = min
@@ -117,6 +121,8 @@ func reset () :
 
 # 取出下一個
 func next () :
+	if self._rates.size() == 0 : return null
+	
 	var res = self.peek()
 	
 	if self._peeked_idx == null : return res

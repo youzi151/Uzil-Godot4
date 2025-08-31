@@ -25,6 +25,9 @@ extends Node
 ## 面板設置 條件列表
 @export var condition_nodes : Array[Node] = []
 
+## 自啟動
+@export var is_start_self := false
+
 ## 實體
 var inst = null
 

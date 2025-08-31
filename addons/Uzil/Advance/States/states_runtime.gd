@@ -40,6 +40,8 @@ var _is_state_in_trans := false
 ## 是否 轉場忙碌中
 var _is_transition_busy := false
 
+## 是否除錯
+var is_debug := false
 
 ## 是否已開始
 var _is_start := false
@@ -85,11 +87,9 @@ func setup () :
 ## 推進
 func process (_dt: float) :
 	if not self._is_process() : return
-	# 每個狀態 呼叫 推進
-	var args := [self, null, _dt]
-	for each in self.states_inst.id_to_state.values() :
-		args[1] = each
-		await self.states_inst.handle_state(each.handlers, &"process", args)
+	# 當前狀態 呼叫 推進
+	var args := [self, self.current_state, _dt]
+	await self.states_inst.handle_state(self.current_state.handlers, &"process", args)
 	# 檢查 並 轉場
 	self.check_transitions()
 
@@ -116,20 +116,20 @@ func go_state (id_or_state, is_force := false) :
 	
 	# 若 缺少 指定狀態 則 返回
 	if next_state == null and not next_state_id.is_empty() : 
-		G.print("[states_runtime] go_state state[%s] not found." % [next_state_id])
+		G.print("[states_runtime] inst[%s] go_state state[%s] not found." % [next_state_id])
 		return false
 	
 	# 若 已鎖住狀態 且 非強制 則 設置 為 下一個狀態
 	if self._is_locked and not is_force :
-		G.print("set next_state : %s" % [next_state.id])
+		G.print("[states_runtime] inst[%s] set next_state : %s" % [next_state.id])
 		self._next_state = next_state
 		return false
 	else :
 		self._next_state = null
 	
 	# 若 當前狀態 已是 指定狀態 則 返回
-	if self.current_state == next_state : 
-		return true
+	#if self.current_state == next_state : 
+		#return true
 	
 	# 前次狀態
 	var last_state = self.current_state
@@ -143,6 +143,9 @@ func go_state (id_or_state, is_force := false) :
 	
 	# 設為 當前狀態
 	self.current_state = next_state
+	
+	if self.is_debug :
+		G.print("[states_runtime] inst[%s] go state : %s" % [self.states_inst, self.current_state.id])
 	
 	if self.current_state != null :
 		await self.states_inst.handle_state(self.current_state.handlers, &"on_enter", [self, self.current_state])

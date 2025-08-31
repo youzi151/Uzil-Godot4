@@ -27,7 +27,7 @@ var _key_to_func := {}
 var _translators := []
 
 ## 當 語言切換
-var _on_language_changed : Object = null
+var _on_language_changed : RefCounted = null
 
 ## 當 更新
 var _on_update = null

@@ -18,6 +18,9 @@ var targets : Array[Node] = []
 ## 是否啟用
 var _is_active := true
 
+## 是否已初始化
+var _is_inited := false
+
 ## 其他資料
 var data := {}
 
@@ -27,7 +30,7 @@ var data := {}
 
 ## 啟用
 func active (_options := {}, is_force := false) :
-	if not is_force and self._is_active : return
+	if not is_force and self._is_active and self._is_inited : return
 	
 	self._is_active = true
 	#G.print("%s : %s" % [self.id, self._is_active])
@@ -36,7 +39,7 @@ func active (_options := {}, is_force := false) :
 
 ## 關閉
 func deactive (_options := {}, is_force := false) :
-	if not is_force and not self._is_active : return
+	if not is_force and not self._is_active and self._is_inited : return
 	
 	self._is_active = false
 	#G.print("%s : %s" % [self.id, self._is_active])
@@ -48,8 +51,8 @@ func active_targets (_options := {}) :
 	var async = UREQ.acc(&"Uzil:Util").async
 	await async.each(self.targets, func(idx, each, ctrlr) :
 		if is_instance_valid(each) : 
-			if each.has_method("card_active") :
-				await each.card_active(_options)
+			if each.has_method("_card_active") :
+				await each._card_active(_options)
 			else :
 				each.visible = true
 				each.process_mode = Node.PROCESS_MODE_INHERIT
@@ -62,8 +65,8 @@ func deactive_targets (_options := {}) :
 	var async = UREQ.acc(&"Uzil:Util").async
 	await async.each(self.targets, func(idx, each, ctrlr) :
 		if is_instance_valid(each) : 
-			if each.has_method("card_deactive") :
-				await each.card_deactive(_options)
+			if each.has_method("_card_deactive") :
+				await each._card_deactive(_options)
 			else :
 				each.visible = false
 				each.process_mode = Node.PROCESS_MODE_DISABLED

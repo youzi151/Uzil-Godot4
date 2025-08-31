@@ -1,4 +1,4 @@
-extends Node
+extends RefCounted
 
 ## UINav.Inst 用戶介面導航 實體
 ##

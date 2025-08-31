@@ -1,4 +1,4 @@
-extends Node
+extends RefCounted
 
 ## UINav.Chain 用戶介面導航 鏈節點 管理
 ##

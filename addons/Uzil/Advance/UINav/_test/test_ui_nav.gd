@@ -276,4 +276,3 @@ func test_log () :
 	last_chain = current_chain
 	current_chain = inst.get_current()
 	G.print("current chain : %s" % [current_chain.id])
-

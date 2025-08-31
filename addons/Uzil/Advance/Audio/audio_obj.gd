@@ -147,7 +147,10 @@ func pause () :
 
 ## 恢復
 func resume () :
-	self.audio_player.stream_paused = false
+	if not self.audio_player.playing :
+		self.play()
+	else :
+		self.audio_player.stream_paused = false
 
 ## 取得 時間
 func get_time () -> float :

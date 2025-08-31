@@ -81,4 +81,3 @@ func test_process (_delta) :
 	pass
 
 # Public =====================
-

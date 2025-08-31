@@ -67,3 +67,8 @@ class WaitCtrlr :
 ## 建立 等候控制器
 func wait_ctrlr (_signal: Signal) :
 	return WaitCtrlr.new(_signal)
+
+## 清空 連接
+func clear_connections (_signal: Signal) :
+	for each in _signal.get_connections() :
+		_signal.disconnect(each["callable"])

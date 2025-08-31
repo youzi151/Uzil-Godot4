@@ -12,6 +12,7 @@ var invoker
 # GDScript ===================
 
 func _ready () :
+	
 	G.on_print(func(msg):
 		self.debug_log.add_text(msg + "\n")
 	, "test_async")
@@ -30,7 +31,6 @@ func _exit_tree () :
 func test_waterfall () :
 	
 	G.print("test : Uzil.Util.async.waterfall")
-	
 	await self.Util.async.waterfall(
 		[
 			func(ctrlr):
@@ -84,17 +84,11 @@ func test_each_series_list () :
 	await self.Util.async.each_series(
 		["hello", "world", "godot"],
 		func(idx, each, ctrlr):
-			self.invoker.inst().once(func():
-				G.print("%s : %s" % [idx, each])
-				
-				if idx == 1 : 
-					ctrlr.skip()
-#					ctrlr.stop()
-#					ctrlr.next()
-				else : 
-					ctrlr.next()
-				
-			, 3000-(500*idx))
+			G.print(each)
+			if idx == 1 :
+				ctrlr.skip()
+			else :
+				ctrlr.next()
 			,
 	)
 	G.print("after await, should skip from 1.")

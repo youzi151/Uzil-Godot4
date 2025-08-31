@@ -5,7 +5,8 @@ func _init (_js) :
 	self.js = _js
 
 func exists (path: String) :
-	return await self.js.invoke("fsExist", [path])
+	var res = await self.js.invoke("fsExist", [path])
+	return res if res != null else false
 
 func read (path: String) :
 	var base64str = await self.js.invoke("fsRead", [path])

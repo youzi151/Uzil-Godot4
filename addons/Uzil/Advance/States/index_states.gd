@@ -89,7 +89,6 @@ func index (Uzil, _parent_index) :
 				func(key):
 					return self.Inst.new(),
 			)
-			mgr.is_call_process = true
 			Uzil.request_node("Advance/States", Util.InstMgrNode, [mgr])
 			return mgr,
 		{

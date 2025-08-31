@@ -129,7 +129,7 @@ func _req_pool (src: String) :
 				if node_util.is_reparenting(one) : return
 				# 預計 回收
 				self._to_recovery.push_back(one)
-			)
+			, CONNECT_ONE_SHOT)
 		)
 		
 		# 設置 反初始化 方法

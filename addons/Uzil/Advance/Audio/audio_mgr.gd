@@ -60,14 +60,17 @@ func get_preset (key: String) :
 # 物件 =============
 
 ## 準備
-func prepare (audio_id: String, path_or_key: String, data = null) :
+func prepare (audio_id: String, path_or_key: String, data := {}) :
 	
 	var audio_obj = self.get_audio(audio_id)
 	
 	var src_path : String = path_or_key
 	var preset = self.get_preset(path_or_key)
-	if preset != null and preset.has("file") :
-		src_path = preset["file"]
+	if preset != null :
+		data = data.merged(preset)
+		if data.has("file") :
+			src_path = preset["file"]
+	
 	
 	if audio_obj != null and audio_obj.src == src_path:
 		audio_obj.set_data(data)
@@ -88,7 +91,8 @@ func request (audio_id: String, path_or_key: String, data := {}) :
 	audio_obj.on_destroy.on(func(_ctrlr):
 		var _id = _ctrlr.data.get_id()
 		if self._id_to_obj.has(_id) :
-			self._id_to_obj.erase(_id)
+			if self._id_to_obj[id] == audio_obj :
+				self._id_to_obj.erase(_id)
 	)
 	
 	self._id_to_obj[id] = audio_obj
@@ -100,6 +104,7 @@ func release (audio_id_or_obj) :
 	
 	if typeof(audio_id_or_obj) == TYPE_STRING :
 		var audio_obj = self.get_audio(audio_id_or_obj)
+		audio_obj.stop()
 		if audio_obj != null :
 			audio_obj.queue_free()
 			self._id_to_obj.erase(audio_id_or_obj)
@@ -108,6 +113,7 @@ func release (audio_id_or_obj) :
 		for key in self._id_to_obj.keys() :
 			if self._id_to_obj[key] == audio_id_or_obj :
 				self._id_to_obj.erase(key)
+				audio_id_or_obj.stop()
 				audio_id_or_obj.queue_free()
 				break
 
@@ -160,7 +166,7 @@ func play (audio_id: String, data = null) :
 	audio_obj.play()
 
 ## 停止
-func stop (audio_id: String, is_force := false) :
+func stop (audio_id: String, is_force := true) :
 	if not self.is_exist(audio_id) : 
 		G.print("%s not exist" % audio_id)
 		return

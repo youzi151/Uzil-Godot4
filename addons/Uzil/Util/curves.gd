@@ -65,7 +65,7 @@ func sort_frame () :
 	self._is_sorted = true
 
 ## 取得 時機點上的值
-func get_val (time: float, math: Object = null) :
+func get_val (time: float, math: RefCounted = null) :
 	if not self._is_sorted :
 		self.sort_frame()
 	
@@ -115,4 +115,3 @@ func get_val (time: float, math: Object = null) :
 	return res
 
 # Private ====================
-

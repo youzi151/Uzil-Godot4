@@ -277,6 +277,12 @@ func filter_keys (dict: Dictionary, keys: Array) :
 		result[key] = dict[key]
 	return result
 
+func get_with_fallbacks (dict: Dictionary, key_fallbacks: Array, default_val = null) :
+	for key in key_fallbacks :
+		if dict.has(key) :
+			return dict[key]
+	return default_val
+
 func get_from_dicts (key: String, dicts: Array, default_res = null) :
 	for each in dicts :
 		if each.has(key) :

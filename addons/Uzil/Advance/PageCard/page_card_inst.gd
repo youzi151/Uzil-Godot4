@@ -152,6 +152,10 @@ func get_card (card_id: String) :
 func get_cards () :
 	return self._cards.duplicate()
 
+## 查詢
+func query (query_str: String, query_mode: int = -1) :
+	self.get_page().query(query_str, query_mode)
+	return self
 
 ## 重新開始
 func restart () :

@@ -33,7 +33,7 @@ func _init (create_fn: Callable, destroy_fn: Callable = Callable()) :
 
 ## 取用/建立 實例
 func inst (key = "") :
-	var inst : Object = null
+	var inst = null
 	if not self.key_to_inst.has(key) :
 		inst = self.create_inst_fn.call(key)
 		self.key_to_inst[key] = inst
