@@ -30,12 +30,15 @@ class Ctrlr :
 class SignalWaiter :
 	var name := ""
 	var is_emited : bool = false
+	var ret = null
 	signal on_emit
 	func until_emit () :
 		if not self.is_emited : await self.on_emit
-	func emit () :
+		return self.ret
+	func emit (_ret = null) :
 		self.is_emited = true
-		self.on_emit.emit()
+		self.ret = _ret
+		self.on_emit.emit(_ret)
 	func clear () :
 		for each in self.on_emit.get_connections() :
 			self.on_emit.disconnect(each["callable"])
@@ -364,6 +367,7 @@ func times_series (run_times: int, fn_each: Callable, options := {}) :
 	var ref1 := {}
 	# 狀態
 	ref1.state = 0
+	ref1.time = Time.get_ticks_usec()
 	
 	# 每個呼叫
 	ref1.each_call = func(idx: int):
@@ -391,9 +395,9 @@ func times_series (run_times: int, fn_each: Callable, options := {}) :
 			
 			# 若 狀態 結束 則 返回
 			if ref1.state == 2 : return
-		
+			
 			# 若 狀態 跳過 或 已達執行次數
-			if ref1.state == 1 or nxt_idx >= run_times :
+			if ref1.state == 1 or (nxt_idx >= run_times and run_times > 0) :
 				# 標記 狀態 已結束
 				ref1.state = 2
 				# 呼叫 當完成
