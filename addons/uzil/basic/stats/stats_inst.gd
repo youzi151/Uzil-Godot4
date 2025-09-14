@@ -36,6 +36,10 @@ func set_stat (key: String, val, opts := {}) :
 	
 	return data
 
+## 刪除 數據
+func del_stat (key: String) :
+	self._key_to_data.erase(key)
+
 ## 修改 數據
 func mod_stat (key: String, fn: Callable, opts := {}) :
 	var stat = self.get_stat(key)

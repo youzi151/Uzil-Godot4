@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cl1apas1smffm"]
 
-[ext_resource type="Script" uid="uid://rw4b5rus0xbg" path="res://addons/uzil/basic/tag_q/_test/test_tag_q.gd" id="1_pcrid"]
-[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/uzil/test/misc/test_debug_log.gd" id="2_d18wy"]
+[ext_resource type="Script" uid="uid://rw4b5rus0xbg" path="res://addons/utq/_test/test_utq.gd" id="1_gcvcj"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/uzil/test/misc/test_debug_log.gd" id="2_518o5"]
 
 [node name="root" type="Control" node_paths=PackedStringArray("debug_log", "search_edit", "member_container", "member_prefab")]
 layout_mode = 3
@@ -10,7 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_pcrid")
+script = ExtResource("1_gcvcj")
 debug_log = NodePath("VBoxContainer2/Control/debug_text_edit")
 search_edit = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal/HBoxContainer/BoxContainer/LineEdit")
 member_container = NodePath("VBoxContainer2/HBoxContainer/VBoxContainer")
@@ -36,7 +36,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_d18wy")
+script = ExtResource("2_518o5")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
 layout_mode = 2
@@ -60,14 +60,14 @@ offset_right = -0.0900269
 [node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.16
 
 [node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal/HBoxContainer/CenterContainer2"]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 size_flags_vertical = 4
 bbcode_enabled = true
-text = "[b]Search Tags[/b]"
+text = "[b]Search For[/b]"
 fit_content = true
 autowrap_mode = 0
 
@@ -79,10 +79,9 @@ size_flags_stretch_ratio = 0.6
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer2/HBoxContainer/VBoxContainer/CurrentVal/HBoxContainer/BoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "tag1 tag2 -negative_tag1 scope:scope_tag_a,scope_tag_b"
+placeholder_text = "tag1 tag2 -without_tag1 scope:scope_tag_a,scope_tag_b"
 
 [node name="OptionPrefab" type="Panel" parent="VBoxContainer2/HBoxContainer/VBoxContainer"]
-visible = false
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
@@ -107,7 +106,7 @@ autowrap_mode = 0
 [node name="TargetEdit" type="LineEdit" parent="VBoxContainer2/HBoxContainer/VBoxContainer/OptionPrefab/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.4
+size_flags_stretch_ratio = 0.2
 placeholder_text = "any"
 
 [node name="TagTitle" type="RichTextLabel" parent="VBoxContainer2/HBoxContainer/VBoxContainer/OptionPrefab/HBoxContainer"]
@@ -115,9 +114,9 @@ custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-size_flags_stretch_ratio = 0.2
+size_flags_stretch_ratio = 0.15
 bbcode_enabled = true
-text = "[b]Tag[/b]"
+text = "[b]Tag Str[/b]"
 fit_content = true
 autowrap_mode = 0
 
@@ -131,15 +130,21 @@ placeholder_text = "tag1, tag2, scope:tag_a"
 layout_mode = 2
 size_flags_stretch_ratio = 0.2
 
-[node name="simple" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer2"]
+[node name="search" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(132, 68)
 layout_mode = 2
 text = "Search"
 
-[node name="simple2" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer2"]
+[node name="simple" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(132, 68)
 layout_mode = 2
 text = "test_simple()"
 
-[connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/simple" to="." method="test_search"]
-[connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/simple2" to="." method="test_simple"]
+[node name="scenario" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_scenario()"
+
+[connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/search" to="." method="test_search"]
+[connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/simple" to="." method="test_simple"]
+[connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/scenario" to="." method="test_scenario"]

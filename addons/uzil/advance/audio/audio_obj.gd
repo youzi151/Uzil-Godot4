@@ -293,19 +293,19 @@ func _get_layered_is_pause () -> bool :
 
 func _process_volume (_dt: float = -1.0) :
 	
-	var Util = UREQ.acc(&"Uzil:Util")
+	var math = UREQ.acc(&"Uzil:Math")
 	
 	# 檢查 並 更新 目標音量
 	var target_volume_layered = self._get_layered_volume()
 	if target_volume_layered != self._target_volume :
 		self._target_volume = target_volume_layered
-		self._target_volume_db = Util.math.percent_to_db(self._target_volume)
+		self._target_volume_db = math.percent_to_db(self._target_volume)
 	
 	if self.audio_player == null : return
 	
 	# 漸變目標音量
 	if self.audio_player.volume_db != self._target_volume_db :
-		var current_volume : float = Util.math.db_to_percent(self.audio_player.volume_db)
+		var current_volume : float = math.db_to_percent(self.audio_player.volume_db)
 		if self.fade_speed_volume_sec < 0 :
 			current_volume = self._target_volume
 		else :
@@ -313,4 +313,4 @@ func _process_volume (_dt: float = -1.0) :
 				current_volume = move_toward(current_volume, self._target_volume, self.fade_speed_volume_sec * _dt)
 			else :
 				current_volume = self._target_volume
-		self.audio_player.volume_db = Util.math.percent_to_db(current_volume)
+		self.audio_player.volume_db = math.percent_to_db(current_volume)

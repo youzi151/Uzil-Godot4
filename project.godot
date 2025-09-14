@@ -18,11 +18,11 @@ config/features=PackedStringArray("4.4")
 
 G="*res://addons/global_util/scripts/global_util.gd"
 UREQ="*res://addons/ureq/scripts/ureq.gd"
+UTQ="*res://addons/utq/scripts/utq.gd"
 UzilInit="*res://addons/uzil/uzil_init.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/global_util/plugin.cfg", "res://addons/ureq/plugin.cfg", "res://addons/uzil/plugin.cfg")
 
 [input]
 
@@ -38,3 +38,4 @@ pointing/emulate_touch_from_mouse=true
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true
+enabled=PackedStringArray("res://addons/global_util/plugin.cfg", "res://addons/ureq/plugin.cfg", "res://addons/utq/plugin.cfg", "res://addons/uzil/plugin.cfg")

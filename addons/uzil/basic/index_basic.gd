@@ -25,8 +25,6 @@ var InputPipe
 var UserSave
 ## 在地化
 var I18N
-## 標籤檢索
-var TagQ
 ## 處理串
 var Handlers
 ## 統計
@@ -51,9 +49,6 @@ func index (Uzil, _parent_index) :
 	
 	self.I18N = Uzil.load_script(self.PATH.path_join("i18n/index_i18n.gd")).new()
 	self.sub_indexes.push_back(self.I18N)
-	
-	self.TagQ = Uzil.load_script(self.PATH.path_join("tag_q/index_tag_q.gd")).new()
-	self.sub_indexes.push_back(self.TagQ)
 	
 	self.Handlers = Uzil.load_script(self.PATH.path_join("handlers/index_handlers.gd")).new()
 	self.sub_indexes.push_back(self.Handlers)

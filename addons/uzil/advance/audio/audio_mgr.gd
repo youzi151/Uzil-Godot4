@@ -266,7 +266,7 @@ func get_bus_idx (bus_id: String) -> int :
 
 func set_bus_volume (bus_id: String, volume_linear: float) :
 	var bus_idx = self.request_bus(bus_id)
-	var volume_db = UREQ.acc(&"Uzil:Util").math.percent_to_db(volume_linear)
+	var volume_db = UREQ.acc(&"Uzil:Math").percent_to_db(volume_linear)
 	AudioServer.set_bus_volume_db(bus_idx, volume_db)
 
 # Private ====================

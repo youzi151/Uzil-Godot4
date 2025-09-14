@@ -41,7 +41,7 @@ func request_card () :
 	else :
 		self.card.id = self.id
 	
-	var TagQ = UREQ.acc(&"Uzil:Basic.TagQ")
+	var UTQ = UREQ.acc(&"UTQ")
 	self.card.tags = self.tags.duplicate()
 	
 	for each in self.targets :

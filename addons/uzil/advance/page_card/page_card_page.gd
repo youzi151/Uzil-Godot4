@@ -37,7 +37,7 @@ var _id_to_card : Dictionary = {}
 var _card_to_state : Dictionary = {}
 
 ## 標籤檢索器
-var _tag_q = null
+var _utq_inst = null
 
 ## 是否準備好查詢 (防呆)
 var _is_query_prepared := false
@@ -60,7 +60,7 @@ var on_deactive = null
 func _init () :
 	self.PageCard = UREQ.acc(&"Uzil:Advance.PageCard")
 	
-	self._tag_q = UREQ.acc(&"Uzil:Basic.TagQ").Inst.new()
+	self._utq_inst = UREQ.acc(&"UTQ").once()
 	
 	var Evt_Inst = UREQ.acc(&"Uzil:Core.Evt").Inst
 	self.on_active = Evt_Inst.new()
@@ -166,7 +166,7 @@ func query (query_str: String, query_mode: int = -1) :
 	# 該頁面的卡片ID列表
 	var cards : Array = self.get_cards()
 	# 標籤查詢結果
-	var query_result : Dictionary = self._tag_q.search(query_str)
+	var query_result : Dictionary = self._utq_inst.search(query_str)
 	
 	if query_mode == -1 :
 		if self.is_passtive_mode :
@@ -228,7 +228,7 @@ func query (query_str: String, query_mode: int = -1) :
 ## 準備 查詢相關
 func prepare_query () :
 	# 清空
-	self._tag_q.clear()
+	self._utq_inst.clear_data()
 	
 	# 每張 該頁面中的卡片
 	var card_list : Array = self.get_cards()
@@ -236,7 +236,7 @@ func prepare_query () :
 		var tags = card.tags.duplicate()
 		tags.push_back("id:%s" % card.id)
 		# 設置 到 標籤檢索器
-		self._tag_q.set_tags(card, tags)
+		self._utq_inst.set_data(card, tags)
 	
 	self._is_query_prepared = true
 
