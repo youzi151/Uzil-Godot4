@@ -4,6 +4,32 @@
 ## 補完內建缺少的相關處理
 ## 
 
+## 路徑
+var PATH
+
+## 曲線
+var Curves
+## 彈簧/擺盪
+var Spring
+## PID控制器
+var PIDCtrlr
+
+## 索引
+func index (Uzil, _parent_index) :
+	self.PATH = _parent_index.PATH.path_join("math")
+	
+	UREQ.bind(&"Uzil", &"Math", 
+		func () :
+			self.Curves = Uzil.load_script(self.PATH.path_join("curves.gd"))
+			self.Spring = Uzil.load_script(self.PATH.path_join("spring.gd"))
+			self.PIDCtrlr = Uzil.load_script(self.PATH.path_join("pid_ctrlr.gd"))
+			return self
+			,
+		{
+			"alias": ["math"]
+		}
+	)
+
 ## 轉換 百分比 至 分貝
 func percent_to_db (linear: float) -> float :
 	if linear > 0 :
@@ -47,4 +73,3 @@ func bezier_find_weight (p0: float, p1: float, p2: float, p3: float, val: float,
 		tweak *= 0.5
 	
 	return weight
-

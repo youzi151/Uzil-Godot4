@@ -2,14 +2,14 @@ extends Node
 
 # Variable ===================
 
-var util
+var math
 
 # GDScript ===================
 
 func _ready () :
-	self.util = UREQ.acc(&"Uzil:Util")
+	self.math = UREQ.acc(&"Uzil:Math")
 	#G.print(cubic_interpolate(0.0, 1.0, 0.0, 1.0, 0.1))
-	#G.print(self.util.math.bezier_find_weight(0.0, 0.0, 1.0, 1.0, 0.25, 0.001))
+	#G.print(self.math.bezier_find_weight(0.0, 0.0, 1.0, 1.0, 0.25, 0.001))
 	self.test_cubic_bezier_1()
 
 # Extends ====================
@@ -27,7 +27,7 @@ func test_cubic_bezier_1 () :
 	
 	G.print("%s %s %s %s" % [p0, p1, p2, p3])
 	for each in times :
-		var weight = self.util.math.bezier_find_weight(p0.x, p1.x, p2.x, p3.x, each, deviation)
+		var weight = self.math.bezier_find_weight(p0.x, p1.x, p2.x, p3.x, each, deviation)
 		G.print("y in %s : %s" % [each, p0.bezier_interpolate(p1, p2, p3, weight)])
 
 func test_cubic_bezier_2 () :
@@ -40,5 +40,5 @@ func test_cubic_bezier_2 () :
 	var deviation = 0.001
 	
 	G.print("%s %s %s %s" % [p0, p1, p2, p3])
-	var weight = self.util.math.bezier_find_weight(p0.x, p1.x, p2.x, p3.x, time, deviation)
+	var weight = self.math.bezier_find_weight(p0.x, p1.x, p2.x, p3.x, time, deviation)
 	G.print(p0.bezier_interpolate(p1, p2, p3, weight))

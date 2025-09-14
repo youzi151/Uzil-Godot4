@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0gvkjfklbikg"]
+
+[ext_resource type="Script" uid="uid://5xl2rp6svvh" path="res://addons/uzil/math/_test/test_spring.gd" id="1_tcv3x"]
+
+[node name="test_spring" type="Node" node_paths=PackedStringArray("target")]
+script = ExtResource("1_tcv3x")
+target = NodePath("root/target")
+
+[node name="root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="target" type="Control" parent="root"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="color" type="ColorRect" parent="root/target"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8768451, 0, 0.35812286, 1)

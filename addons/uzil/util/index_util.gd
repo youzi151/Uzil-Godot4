@@ -27,10 +27,6 @@ var WebJS
 
 ## 圖
 var Graph
-
-## 曲線
-var Curves
-
 ## 實例管理
 var InstMgr
 ## 實例管理節點
@@ -84,7 +80,6 @@ func index (Uzil, _parent_index) :
 		func():
 			
 			# inner class
-			self._class._Math = Uzil.load_script(self.PATH.path_join("math.gd"))
 			self._class._Async = Uzil.load_script(self.PATH.path_join("async.gd"))
 			self._class._GDScript = Uzil.load_script(self.PATH.path_join("gdscript.gd"))
 			self._class._Signals = Uzil.load_script(self.PATH.path_join("signals.gd"))
@@ -104,7 +99,6 @@ func index (Uzil, _parent_index) :
 			
 			# class
 			self.Graph = Uzil.load_script(self.PATH.path_join("graph/graph.gd"))
-			self.Curves = Uzil.load_script(self.PATH.path_join("curves.gd"))
 			self.InstMgr = Uzil.load_script(self.PATH.path_join("inst_mgr.gd"))
 			self.InstMgrNode = Uzil.load_script(self.PATH.path_join("inst_mgr_node.gd"))
 
@@ -127,8 +121,6 @@ func index (Uzil, _parent_index) :
 
 ## 初始化
 func init (__parent_index) :
-	
-	self.math = self._class._Math.new()
 	self.async = self._class._Async.new()
 	self.gdscript = self._class._GDScript.new()
 	self.signals = self._class._Signals.new()

@@ -43,6 +43,8 @@ var Basic
 var Advance
 ## 遊戲
 var Game
+## 數學
+var Math
 
 ## 子索引
 var sub_indexes := []
@@ -132,6 +134,10 @@ func index () :
 	# Util ####
 	self.Util = self.load_script(self.PATH.path_join("util/index_util.gd")).new() 
 	self.sub_indexes.push_back(self.Util)
+	
+	# Math ####
+	self.Math = self.load_script(self.PATH.path_join("math/index_math.gd")).new()
+	self.sub_indexes.push_back(self.Math)
 	
 	# Core ####
 	self.Core = self.load_script(self.PATH.path_join("core/index_core.gd")).new()
