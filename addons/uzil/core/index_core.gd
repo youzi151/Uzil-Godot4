@@ -29,6 +29,8 @@ var Vars
 var Vals
 ## 總結數值
 var SumVals
+## 類別比較
+var TypeDiff
 
 # inst ==========
 
@@ -66,6 +68,9 @@ func index (Uzil, _parent_index) :
 	
 	self.SumVals = Uzil.load_script(self.PATH.path_join("sum_vals/index_sum_vals.gd")).new()
 	self.sub_indexes.push_back(self.SumVals)
+	
+	self.TypeDiff = Uzil.load_script(self.PATH.path_join("type_diff/index_type_diff.gd")).new()
+	self.sub_indexes.push_back(self.TypeDiff)
 	
 	# 建立索引
 	for each in self.sub_indexes :

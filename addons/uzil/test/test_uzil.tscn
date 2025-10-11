@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://chy0dbw7xo7yc"]
+[gd_scene load_steps=26 format=3 uid="uid://chy0dbw7xo7yc"]
 
 [ext_resource type="Script" uid="uid://xy7c55jy53k6" path="res://addons/uzil/test/test_uzil.gd" id="1_5gjy7"]
 [ext_resource type="Script" uid="uid://bwaw5h4tlrfke" path="res://addons/uzil/test/misc/test_to_scene.gd" id="2_35jgj"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://b3rxanb1v50yy" path="res://addons/uzil/core/obj_pool/_test/test_obj_pool.tscn" id="9_ihyfe"]
 [ext_resource type="PackedScene" uid="uid://exihucjhjxyp" path="res://addons/uzil/basic/res/_test/test_res.tscn" id="9_u7sp0"]
 [ext_resource type="PackedScene" uid="uid://c00044uhftq6x" path="res://addons/uzil/util/_test/test_async.tscn" id="19_63et0"]
+[ext_resource type="PackedScene" uid="uid://toyi3dvq74p1" path="res://addons/uzil/core/type_diff/_test/test_type_diff.tscn" id="19_vcm24"]
 [ext_resource type="PackedScene" uid="uid://q0p3dnsjppo8" path="res://addons/uzil/util/_test/test_input.tscn" id="20_42p7f"]
 [ext_resource type="PackedScene" uid="uid://88r2sd3vaknj" path="res://addons/uzil/util/_test/test_signals.tscn" id="23_ksu2l"]
 [ext_resource type="PackedScene" uid="uid://4suu3h8brcv4" path="res://addons/uzil/util/rng/_test/test_rng.tscn" id="24_q6pxo"]
@@ -197,6 +198,10 @@ scene = ExtResource("6_netom")
 [node name="Vars" type="Node" parent="scene/scenes/Core"]
 script = ExtResource("2_35jgj")
 scene = ExtResource("7_kq6kg")
+
+[node name="TypeDiff" type="Node" parent="scene/scenes/Core"]
+script = ExtResource("2_35jgj")
+scene = ExtResource("19_vcm24")
 
 [node name="Util" type="Node" parent="scene/scenes"]
 
