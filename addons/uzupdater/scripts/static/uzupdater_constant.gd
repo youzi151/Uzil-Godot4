@@ -67,4 +67,3 @@ func get_updater_uzupdater_file_path () -> String :
 	return self.get_local_store_root().path_join(self._UPDATER_Uzupdater_FILE_PATH)
 
 # Private ====================
-

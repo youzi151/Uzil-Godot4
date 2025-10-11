@@ -102,4 +102,3 @@ func result_string (httprequest_result_enum) :
 			return null
 
 # Private ====================
-

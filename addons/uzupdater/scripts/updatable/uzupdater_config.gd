@@ -42,4 +42,3 @@ func get_updater_pck_list () :
 	return self._UPDATER_PCK_LIST
 
 # Private ====================
-

@@ -38,17 +38,17 @@ func start_update (task, on_done_fn: Callable) :
 			
 		func(ctrlr):
 			task.state = uzupdater.Task.UPDATE_STATE.Uzupdater
-
+			
 			# 更新器 的 更新器
 			var updater_uzupdater = uzupdater.load_updater("uzupdater_updater_uzupdater.gd", false).new()
 			# 更新 更新器
 			updater_uzupdater.start_update(task, func(err):
-
+				
 				# 若 錯誤
 				if err != null :
 					print("update uzupdater error : %s" % err)
 					return
-
+				
 				ctrlr.next()
 			)
 			,

@@ -3,14 +3,14 @@ extends Node
 # Variable ===================
 
 ## 進度條UI
-@export var progress_bar_sub_NP : NodePath = ""
-var progress_bar_sub
+@export
+var progress_bar_sub : Node
 
-@export var progress_bar_total_NP : NodePath = ""
-var progress_bar_total
+@export
+var progress_bar_total : Node
 
-@export var progress_bar_step_NP : NodePath = ""
-var progress_bar_step
+@export
+var progress_bar_step : Node
 
 # 更新任務
 var update_task
@@ -18,13 +18,8 @@ var update_task
 # GDScript ===================
 
 func _ready():
-	
-	self.progress_bar_sub = self.get_node(self.progress_bar_sub_NP)
-	self.progress_bar_total = self.get_node(self.progress_bar_total_NP)
-	self.progress_bar_step = self.get_node(self.progress_bar_step_NP)
-	
 	# 讀取 更新器
-	var uzupdater = ResourceLoader.load("res://addons/Uzupdater/scripts/uzupdater.gd").new()
+	var uzupdater = ResourceLoader.load("res://addons/uzupdater/scripts/uzupdater.gd").new()
 	self.add_child(uzupdater)
 	
 	self.clear_test(uzupdater)
@@ -42,7 +37,7 @@ func _ready():
 		
 		print("uzupdater update done !")
 		
-		var uzil_init = ResourceLoader.load("res://addons/Uzil/Scripts/uzil_init.gd", "", ResourceLoader.CACHE_MODE_IGNORE).new()
+		var uzil_init = ResourceLoader.load("res://addons/uzil/script/uzil_init.gd", "", ResourceLoader.CACHE_MODE_IGNORE).new()
 		uzil_init.free()
 #
 #		G.v.Uzil.invoker.inst().once(func():

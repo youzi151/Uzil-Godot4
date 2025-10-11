@@ -11,10 +11,10 @@ extends Node
 # Variable ===================
 
 ## 根路徑
-const ROOT_PATH := "res://addons/Uzupdater"
+const ROOT_PATH := "res://addons/uzupdater"
 
 ## 腳本路徑
-const PATH := ROOT_PATH + "/Scripts"
+const PATH := ROOT_PATH + "/scripts"
 
 ## 靜態腳本路徑
 const STATIC_PATH := PATH + "/static"
