@@ -178,7 +178,7 @@ func query (query_str: String, query_mode: int = -1) :
 	match query_mode :
 		PageCard.QueryMode.INFO :
 			# 建立 結果 空字典
-			var result = {}
+			var result := {}
 			# 每張卡片 將 狀態 設為 是否在查詢結果中
 			for card in cards :
 				result[card] = query_result.has(card)

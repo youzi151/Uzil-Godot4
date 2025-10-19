@@ -122,7 +122,7 @@ func start_update (task, callback_fn: Callable) :
 #	self.start_update_test(task, callback_fn)
 #	return
 
-	var ref = {}
+	var ref := {}
 	
 	uzupdater.async.waterfall([
 		# 檢查 階段 ====
@@ -142,7 +142,7 @@ func start_update (task, callback_fn: Callable) :
 					var url = PCK_DOWNLOAD_URL.path_join(each+".pck")
 					var store = PCK_STORE_DIR_PATH.path_join(each+".pck")
 					
-					var ref2 = {}
+					var ref2 := {}
 					
 					# 嘗試次數
 					ref2.retry = 2
@@ -235,7 +235,7 @@ func download_pck (task, sub_progress, download_url: String, store_path: String,
 	
 	var uzupdater = task.uzupdater
 	
-	var ref = {}
+	var ref := {}
 	
 	sub_progress.cur = 0
 	

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="uzil-godot4"
 run/main_scene="res://addons/Uzil/Test/test_uzil.tscn"
-config/features=PackedStringArray("4.4")
+config/features=PackedStringArray("4.5")
 
 [autoload]
 
@@ -20,9 +20,6 @@ G="*res://addons/global_util/scripts/global_util.gd"
 UREQ="*res://addons/ureq/scripts/ureq.gd"
 UTQ="*res://addons/utq/scripts/utq.gd"
 UzilInit="*res://addons/uzil/uzil_init.gd"
-
-[editor_plugins]
-
 
 [input]
 
