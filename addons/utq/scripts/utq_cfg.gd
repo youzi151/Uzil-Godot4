@@ -7,11 +7,11 @@
 
 ## 搜尋類型枚舉
 enum SearchType {
-	EXCLUDE = -2,        # 強制排除 (^號)
-	WITHOUT = -1,        # 排除 (-號)
-	TOLERANT = 0,        # 寬容 (*號)
-	ANYONE = 1,          # 任一 (+號，支援範圍搜尋)
-	REQUIRED = 2         # 必須 (無標記號)
+	EXCLUDE,         # 強制排除 (--號)
+	WITHOUT,         # 排除 (-號)
+	TOLERANT,        # 寬容 (*號)
+	ANYONE,          # 任一 (+號，支援範圍搜尋)
+	REQUIRED,        # 必須 (無標記號)
 }
 
 ## 同一個所屬中的標籤分隔符
@@ -59,9 +59,9 @@ var default_group: String = "default"
 var temp_space_char: String = "\ufffe"
 
 ## 正則表達式模式
-var tag_string_group_pattern: String = "[^\\,\\\"]+"
+var tag_string_group_regex_pattern: String = "[^\\,\\\"]+"
 var any_in_quotes_regex_pattern : String = "\\\"([^\\\"]*)\\\""
-var redundant_space_regex_pattern : String = "([\\+\\-\\^\\*\\:\\,])\\ *"
+var redundant_space_regex_pattern : String = "([\\+\\-\\^\\*\\:\\,\\ ])\\ *"
 var bracket_regex_pattern: String = "\\[(.*?)\\]"
 
 ## 編譯後的正則表達式物件
@@ -80,7 +80,7 @@ func _init () :
 func _compile_regex () :
 	
 	self.tag_string_group_regex = RegEx.new()
-	self.tag_string_group_regex.compile(self.tag_string_group_pattern)
+	self.tag_string_group_regex.compile(self.tag_string_group_regex_pattern)
 	
 	self.any_in_quotes_regex = RegEx.new()
 	self.any_in_quotes_regex.compile(self.any_in_quotes_regex_pattern)

@@ -56,8 +56,9 @@ func set_data (target, tags_str_or_tag) :
 			TYPE_STRING :
 				var query_request : Dictionary = self.queryer.parse_query_str(tag)
 				var type_to_group_to_tags : Dictionary = query_request["type_to_group_to_tags"]
-				var unsigned_tags : Array = type_to_group_to_tags[self.cfg.SearchType.REQUIRED][0]
-				target_tags.append_array(unsigned_tags)
+				if type_to_group_to_tags.has(self.cfg.SearchType.REQUIRED) :
+					var unsigned_tags : Array = type_to_group_to_tags[self.cfg.SearchType.REQUIRED][0]
+					target_tags.append_array(unsigned_tags)
 
 ## 取得目標資料
 func get_data (target) :

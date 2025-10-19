@@ -106,15 +106,16 @@ func _tokenize_str (search_str: String) -> Array :
 ## 語法分析器:將token陣列解析為結構化的查詢項目
 ##
 ## 參數:tokens - token陣列, start_idx - 開始解析的位置, is_bracket - 是否在括號內
-## 返回:解析結果（Array 或 Dictionary）
+## 返回:解析結果Array
 ##
 func _parse_tokens (tokens: Array, start_idx: int = 0, is_bracket: bool = false) -> Array :
-	var result = []
-	var idx = start_idx
-	var depth = 1 if is_bracket else 0
+	var result := []
+	var idx : int = start_idx
+	var depth : int = 1 if is_bracket else 0
 	
+	# 當 還未輪完所有token 且 括號內時
 	while idx < tokens.size() and (not is_bracket or depth > 0):
-		var token = tokens[idx]
+		var token : Array = tokens[idx]
 		
 		match token[0]:
 			"o":
@@ -122,29 +123,33 @@ func _parse_tokens (tokens: Array, start_idx: int = 0, is_bracket: bool = false)
 				match content:
 					"(":
 						depth += 1
+						# 從下一個token開始解析為 裡層結果[結果, 結束位置]
 						var nested_result = self._parse_tokens(tokens, idx + 1, true)
+						# 加入子結果(group token)
 						result.push_back(nested_result[0])
+						# 交由子結果判定結束位置, 並預先減去常規推進量
 						idx = nested_result[1] - 1
 					")":
 						depth -= 1
-						if depth == 0:
-							idx += 1  # 跳過此右括號
 					_:
 						if content in self.inst.cfg.operators:
 							result.push_back(token)
 			"s":
 				result.push_back(token)
-		
+			
+		# 常規推進到下一個token
 		idx += 1
 	
-	# 如果在括號內, 返回帶有結束位置的字典
+	# 如果在括號內, 返回 [括號內結果, 結束位置]
 	if is_bracket:
+		# 取消 常規推進
+		idx -= 1
 		return [
-			["g", result],
-			idx-1
+			["g", result], # 括號內結果
+			idx # 結束位置
 		]
 	else:
-		# 否則返回普通陣列
+		# 括號外結果
 		return result
 
 ## 執行查詢項目的核心函數
@@ -154,7 +159,7 @@ func _parse_tokens (tokens: Array, start_idx: int = 0, is_bracket: bool = false)
 ##
 func _execute_tokens (tokens: Array) -> Dictionary :
 	var results := {}
-	var current_operator = null  # 當前運算子
+	var current_operator := ""  # 當前運算子
 	
 	# 逐個處理查詢項目
 	for i in range(tokens.size()):
@@ -173,17 +178,17 @@ func _execute_tokens (tokens: Array) -> Dictionary :
 				if self.inst.is_debug : G.print("括號組執行結果: %s" % [bracket_result])
 			
 				# 立即與前面的結果進行運算（左結合性）
-				if results.size() == 0:
+				if current_operator.is_empty() :
 					results = bracket_result
-				elif current_operator != null:
+				else :
 					results = self._apply_operator(results, bracket_result, "", current_operator)
 			
 			"s":
 				# 執行查詢
 				# 立即與前面的結果進行運算（左結合性）
-				if results.size() == 0:
+				if results.size() == 0 :
 					results = self.inst.queryer.query(token[1])
-				elif current_operator != null:
+				elif not current_operator.is_empty() :
 					if current_operator == self.inst.cfg.operator_fallback :
 						results = self._apply_operator(results, {}, token[1], current_operator)
 					else :
@@ -197,7 +202,6 @@ func _execute_tokens (tokens: Array) -> Dictionary :
 ## 返回:運算後的結果陣列
 ##
 func _apply_operator(left_results: Dictionary, right_results: Dictionary, right_str: String, operator: String) -> Dictionary :
-	
 	if self.inst.is_debug : G.print("執行運算: %s %s %s" % [left_results, operator, right_results if right_results.size() > 0 else right_str])
 	
 	# 後備運算子:如果左邊有結果則使用左邊, 否則使用右邊
@@ -206,7 +210,8 @@ func _apply_operator(left_results: Dictionary, right_results: Dictionary, right_
 			if self.inst.is_debug : G.print("後備結果 (使用左邊): %s" % [left_results])
 			return left_results
 		else:
-			right_results = self.inst.queryer.query(right_str)
+			if not right_str.is_empty() :
+				right_results = self.inst.queryer.query(right_str) 
 			if self.inst.is_debug : G.print("後備結果 (使用右邊): %s" % [right_results])
 			return right_results
 	# 聯集運算子:合併兩個結果集, 去除重複
@@ -255,16 +260,13 @@ func _union (left_results: Dictionary, right_results: Dictionary) -> Dictionary 
 ##
 func _intersection (left_results: Dictionary, right_results: Dictionary) -> Dictionary :
 	var result := {}
-	var right_set := {}
+	var is_left_less := left_results.size() <= right_results.size()
+	var less : Dictionary = left_results if is_left_less else right_results
+	var more : Dictionary = left_results if not is_left_less else right_results
 	
-	# 建立右側集合的查找表
-	for item in right_results :
-		right_set[item] = true
-	
-	# 只添加同時存在於左右兩側的項目
-	for item in left_results :
-		if right_set.has(item) :
-			result[item] = true
+	for each in less :
+		if more.has(each) :
+			result[each] = true
 	
 	return result
 

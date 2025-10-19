@@ -140,6 +140,11 @@ custom_minimum_size = Vector2(132, 68)
 layout_mode = 2
 text = "test_simple()"
 
+[node name="performance" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(132, 68)
+layout_mode = 2
+text = "test_performance()"
+
 [node name="scenario" type="Button" parent="VBoxContainer2/HBoxContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(132, 68)
 layout_mode = 2
@@ -147,4 +152,5 @@ text = "test_scenario()"
 
 [connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/search" to="." method="test_search"]
 [connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/simple" to="." method="test_simple"]
+[connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/performance" to="." method="test_performance"]
 [connection signal="pressed" from="VBoxContainer2/HBoxContainer/VBoxContainer2/scenario" to="." method="test_scenario"]

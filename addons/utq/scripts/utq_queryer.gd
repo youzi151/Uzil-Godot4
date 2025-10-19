@@ -75,16 +75,17 @@ func parse_query_str (query_str: String) -> Dictionary :
 		var prefix : String = info[0]
 		var content : String = info[3]
 		var before_parts = content.split(self.inst.cfg.seperator_tag, false)
+		var tag_datas := []
 		for part in before_parts:
-			var tag_datas := self.parse_tags_str(prefix + part)
-			self.add_tag_datas_to(type_to_group_to_tags, tag_datas, true)
+			tag_datas.append_array(self.parse_tags_str(prefix + part))
+		self.add_tag_datas_to(type_to_group_to_tags, tag_datas, true)
 		
 		# 3. 移動到下一個位置
 		current_pos = info[2]
 	
 	# 4. 處理最後剩餘的非中括號片段
 	if current_pos < query_str.length() :
-		var remaining_text = query_str.substr(current_pos)
+		var remaining_text : String = query_str.substr(current_pos)
 		var remaining_parts = remaining_text.split(self.inst.cfg.seperator_tag, false)
 		for part in remaining_parts:
 			var tag_datas := self.parse_tags_str(part)
@@ -101,14 +102,14 @@ func parse_tags_str (tags_str: String, is_exclude_without := false) -> Array :
 	# 屬性
 	var attr := ""
 	# 搜尋類型
-	var search_type := 2 # 預設為必須
+	var search_type : int = self.inst.cfg.SearchType.REQUIRED # 預設為必須
 	
 	var after_prefix_idx : int = -1
 	
 	# 搜尋類型
 	var prefix : String = tags_str[0]
 	if prefix == self.inst.cfg.prefix_without :
-		if tags_str[1] == self.inst.cfg.prefix_without :
+		if tags_str.length() > 1 and tags_str[1] == self.inst.cfg.prefix_without :
 			search_type = self.inst.cfg.SearchType.EXCLUDE
 			after_prefix_idx -= 1
 		else :
@@ -211,8 +212,9 @@ func is_match_tags (target_tags: Array, type_to_group_to_tags: Dictionary) -> bo
 	
 	# 1. 檢查強制排除標籤
 	if type_to_group_to_tags.has(self.inst.cfg.SearchType.EXCLUDE) :
-		var exclude_tags = type_to_group_to_tags[self.inst.cfg.SearchType.EXCLUDE][0]
-		if exclude_tags.size() > 0 :
+		var group_to_tags : Array = type_to_group_to_tags[self.inst.cfg.SearchType.EXCLUDE]
+		for exclude_tags in group_to_tags :
+			if exclude_tags.size() == 0 : continue
 			for tag in exclude_tags:
 				if self.has_matching_tag(target_tags, tag):
 					if self.inst.is_debug : G.print("%s not exclude %s" % [target_tags, tag])
@@ -220,16 +222,18 @@ func is_match_tags (target_tags: Array, type_to_group_to_tags: Dictionary) -> bo
 	
 	# 2. 檢查寬容標籤
 	if type_to_group_to_tags.has(self.inst.cfg.SearchType.TOLERANT) :
-		var tolerant_tags = type_to_group_to_tags[self.inst.cfg.SearchType.TOLERANT][0]
-		if tolerant_tags.size() > 0:
+		var group_to_tags : Array = type_to_group_to_tags[self.inst.cfg.SearchType.TOLERANT]
+		for tolerant_tags in group_to_tags :
+			if tolerant_tags.size() == 0: continue
 			for tag in tolerant_tags:
 				if self.has_matching_tag(target_tags, tag):
 					return true
 	
 	# 3. 檢查排除標籤
 	if type_to_group_to_tags.has(self.inst.cfg.SearchType.WITHOUT) :
-		var without_tags = type_to_group_to_tags[self.inst.cfg.SearchType.WITHOUT][0]
-		if without_tags.size() > 0 :
+		var group_to_tags : Array = type_to_group_to_tags[self.inst.cfg.SearchType.WITHOUT]
+		for without_tags in group_to_tags :
+			if without_tags.size() == 0 : continue
 			for tag in without_tags:
 				if self.has_matching_tag(target_tags, tag):
 					if self.inst.is_debug : G.print("%s not without %s" % [target_tags, tag])
@@ -237,8 +241,9 @@ func is_match_tags (target_tags: Array, type_to_group_to_tags: Dictionary) -> bo
 	
 	# 4. 檢查必須標籤
 	if type_to_group_to_tags.has(self.inst.cfg.SearchType.REQUIRED) :
-		var required_tags = type_to_group_to_tags[self.inst.cfg.SearchType.REQUIRED][0]
-		if required_tags.size() > 0 :
+		var group_to_tags : Array = type_to_group_to_tags[self.inst.cfg.SearchType.REQUIRED]
+		for required_tags in group_to_tags :
+			if required_tags.size() == 0 : continue
 			is_positive_match = true
 			for tag in required_tags:
 				if not self.has_matching_tag(target_tags, tag):
@@ -247,9 +252,8 @@ func is_match_tags (target_tags: Array, type_to_group_to_tags: Dictionary) -> bo
 	
 	# 5. 檢查任一標籤
 	if type_to_group_to_tags.has(self.inst.cfg.SearchType.ANYONE) :
-		var anyone_tags_groups = type_to_group_to_tags[self.inst.cfg.SearchType.ANYONE]
-		# 每個群組
-		for anyone_tags in anyone_tags_groups :
+		var group_to_tags : Array = type_to_group_to_tags[self.inst.cfg.SearchType.ANYONE]
+		for anyone_tags in group_to_tags :
 			if anyone_tags.size() == 0 : continue
 			else : is_positive_match = true
 			
@@ -281,7 +285,7 @@ func has_matching_tag (tag_datas: Array, tag_data) -> bool :
 		if each.val in tag_data.wild_excepts : continue
 		
 		return true
-
+	
 	return false
 
 ## 將 標籤資料 加入 目標資料表 (是否為群組)

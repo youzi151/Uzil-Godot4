@@ -170,6 +170,29 @@ func test_simple () :
 	
 	G.print("=======================")
 
+
+func test_performance () :
+	var inst = self.UTQ.once()
+	
+	var data_size := 100
+	for idx in data_size :
+		inst.set_data("axe_%02d" % [idx+1], ["type:axe", "class:dps", "attr:phys"])
+	for idx in data_size :
+		inst.set_data("mace_%02d" % [idx+1], ["type:mace", "class:dps", "attr:phys"])
+	for idx in data_size :
+		inst.set_data("staff_%02d" % [idx+1], ["type:staff", "class:sup", "attr:mage"])
+	for idx in data_size :
+		inst.set_data("sheild_%02d" % [idx+1], ["type:sheild", "class:tank", "attr:mage"])
+	
+	var search_str := "attr:phys & (type:noexist > (class:dps | attr:mage) > type:noexist % [type:sheild])"
+	print(inst.search(search_str))
+	#print(self.utq_inst.get_datas())
+	var start : int = Time.get_ticks_usec()
+	for idx in 100 :
+		inst.search(search_str)
+	print(Time.get_ticks_usec() - start)
+	
+
 func test_scenario () :
 	var inst = self.UTQ.once()
 	G.print(inst.parse_tags("@/類型:物理 !/材質:測試 稀有度:無 可附魔:.^火"))
@@ -289,34 +312,34 @@ func test_scenario () :
 	
 	# 使用 標籤 查找劍武器
 	G.print("\n* 劍類武器:")
-	G.print(inst.search("+類型:劍"))
+	G.print(inst.search("+類型:劍").keys())
 	
 	# 使用 群組標籤 查找劍或斧類武器
 	G.print("\n* 劍或斧類武器:")
-	G.print(inst.search("+[類型:劍, 斧]"))
+	G.print(inst.search("+[類型:劍, 斧]").keys())
 	
 	# 使用 標籤 與 群組標籤 查找火系或冰系法術武器
 	G.print("\n* 冰或火魔法武器:")
-	G.print(inst.search("類型:魔法 +[屬性:火, 冰]"))
+	G.print(inst.search("類型:魔法 +[屬性:火, 冰]").keys())
 	
 	# 使用 萬用標籤 與 排除標籤 與 除例外之萬用字元 查找 有屬性 但 沒有除火屬性以外其他屬性的武器
 	G.print("\n* 有屬性 但 沒有除火屬性以外其他屬性的:")
-	G.print(inst.search("屬性:. -屬性:.^火"))
+	G.print(inst.search("屬性:. -屬性:.^火").keys())
 	
 	# 使用 排除標籤 與 寬容標籤 與 絕對標籤 查找 除了聖屬性以外 非物理 或 有任意附魔的武器
 	G.print("\n* 除了聖屬性以外 非物理的稀有武器 或 任意附魔:")
-	G.print(inst.search("稀有度:稀有 -類型:物理 *附魔:. --屬性:聖"))
+	G.print(inst.search("稀有度:稀有 -類型:物理 *附魔:. --屬性:聖").keys())
 	
 	G.print("\n=== 進階查詢測試 ===")
 	
 	# 後備查詢：優先找稀有武器，否則找普通武器
 	G.print("\n* 優先找稀有武器，否則找普通武器:")
-	G.print(inst.search("稀有度:神話 > 稀有度:稀有 > 稀有度:常見"))
+	G.print(inst.search("稀有度:神話 > 稀有度:稀有 > 稀有度:常見").keys())
 	
 	# 對稱差查詢：查找 所有非冰遠程或火近戰的武器
 	G.print("\n* 所有非冰遠程或火近戰的武器:")
-	G.print(inst.search(". % (屬性:冰 範圍:遠 | 屬性:火 範圍:近)"))
+	G.print(inst.search(". % (屬性:冰 範圍:遠 | 屬性:火 範圍:近)").keys())
 	
 	# 複合查詢：查找 所有非冰遠程或火近戰的武器
 	G.print("\n* 對抗不死生物需要(屬性近武 或 聖屬遠/魔武), 查詢無法對抗的:")
-	G.print(inst.search(". % (屬性:. 範圍:近 | (屬性:聖 & *範圍:遠 *類型:魔法)"))
+	G.print(inst.search(". % (屬性:. 範圍:近 | (屬性:聖 & *範圍:遠 *類型:魔法)").keys())
