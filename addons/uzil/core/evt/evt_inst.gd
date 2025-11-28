@@ -36,12 +36,10 @@ func emit (data = null, options = null) :
 	
 	# 選項
 	if options != null :
-		# 若 存在 忽略標籤 則 設置 到 控制
-		if options.has("ignores") :
-			ctrlr.ignores(options.ignores)
-		# 若 存在 指定標籤 則 設置 到 控制
-		if options.has("attends") :
-			ctrlr.attends(options.attends)
+		# 標籤
+		if options.has("tags") :
+			ctrlr.tags = options["tags"]
+		# 是否 不重排序
 		if options.has("no_resort") :
 			is_resort = false
 		
@@ -57,11 +55,11 @@ func emit (data = null, options = null) :
 		# 若 控制終止
 		if ctrlr.is_call_stop() : break
 		
-		# 若 不應被處理 則 繼續 下個
-		if not ctrlr.should_handle(each.tags) : continue
-		
 		# 若 尚未啟用 則 繼續 下個
 		if not each.enabled : continue
+		
+		# 若 不應被處理 則 繼續 下個
+		if not each.should_listen(ctrlr.tags) : continue
 		
 		# 若 呼叫計數 存在 則 扣除
 		if each.call_times > 0 : each.call_times -= 1

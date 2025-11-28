@@ -21,11 +21,8 @@ var _is_call_stop := false
 ## 是否暫停中
 var _is_pause := false
 
-## 特定標籤
-var _attend_tags := []
-
-## 忽略標籤
-var _ignore_tags := []
+## 標籤
+var tags := []
 
 ## 資料
 var data = null
@@ -37,6 +34,12 @@ func _init (__evt) :
 	self._evt = __evt
 
 # Public =====================
+
+## 設置標籤
+func tag (_tag: String) :
+	if not self.tags.has(_tag) :
+		self.tags.push_back(_tag)
+	return self
 
 ## 取得事件
 func evt () :
@@ -70,36 +73,3 @@ func until_resume () :
 func resume () :
 	self._is_pause = false
 	self.on_resume.emit()
-
-## 指定
-func attend (tag: String) :
-	if not self._attend_tags.has(tag) :
-		self._attend_tags.push_back(tag)
-
-## 指定
-func attends (tags: Array) :
-	for each in tags :
-		self.attend(each)
-
-## 忽略
-func ignore (tag: String) :
-	if not self._ignore_tags.has(tag) :
-		self._ignore_tags.push_back(tag)
-
-## 忽略
-func ignores (tags: Array) :
-	for each in tags :
-		self.ignore(each)
-
-## 是否應該被處理
-func should_handle (tags: Array) -> bool :
-	for each in tags :
-		if self._ignore_tags.has(each) : return false
-	
-	if self._attend_tags.size() > 0 :
-		for each in self._attend_tags :
-			if not tags.has(each) :
-				return false
-			
-		
-	return true
