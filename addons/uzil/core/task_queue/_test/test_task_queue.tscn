@@ -1,0 +1,96 @@
+[gd_scene load_steps=3 format=3 uid="uid://bq8x7v2k3nan4"]
+
+[ext_resource type="Script" uid="uid://babhjftrmlcfe" path="res://addons/uzil/core/task_queue/_test/test_task_queue.gd" id="1_test"]
+[ext_resource type="Script" uid="uid://b7fmh2t3s6awb" path="res://addons/uzil/test/misc/test_debug_log.gd" id="2_debug"]
+
+[node name="root" type="Control" node_paths=PackedStringArray("debug_log")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_test")
+debug_log = NodePath("HBoxContainer/VBoxContainer2/debug_text_edit")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="basic" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "test_basic()"
+
+[node name="need_flags" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "test_need_flags()"
+
+[node name="wait_flags" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "test_wait_flags()"
+
+[node name="batch_flags" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "test_batch_flags()"
+
+[node name="reserve_flags" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "test_reserve_flags()"
+
+[node name="drop_flags" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "test_drop_flags()"
+
+[node name="take_flags" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "test_take_flags()"
+
+[node name="processing_changes" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "test_processing_changes()"
+
+[node name="complex" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "test_complex()"
+
+[node name="delete_task" type="Button" parent="HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "test_delete_task()"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="debug_text_edit" type="TextEdit" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2_debug")
+
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/basic" to="." method="test_basic"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/need_flags" to="." method="test_need_flags"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/wait_flags" to="." method="test_wait_flags"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/batch_flags" to="." method="test_batch_flags"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/reserve_flags" to="." method="test_reserve_flags"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/drop_flags" to="." method="test_drop_flags"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/take_flags" to="." method="test_take_flags"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/processing_changes" to="." method="test_processing_changes"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/complex" to="." method="test_complex"]
+[connection signal="button_down" from="HBoxContainer/VBoxContainer/delete_task" to="." method="test_delete_task"]

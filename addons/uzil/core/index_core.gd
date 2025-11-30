@@ -19,6 +19,8 @@ var sub_indexes := []
 var Invoker
 ## 事件
 var Evt
+## 行動佇列
+var TaskQueue
 ## 時間
 var Times
 ## 物件池
@@ -57,6 +59,9 @@ func index (Uzil, _parent_index) :
 	
 	self.Evt = Uzil.load_script(self.PATH.path_join("evt/index_evt.gd")).new()
 	self.sub_indexes.push_back(self.Evt)
+	
+	self.TaskQueue = Uzil.load_script(self.PATH.path_join("task_queue/index_task_queue.gd")).new()
+	self.sub_indexes.push_back(self.TaskQueue)
 	
 	self.ObjPool = Uzil.load_script(self.PATH.path_join("obj_pool/index_obj_pool.gd")).new()
 	self.sub_indexes.push_back(self.ObjPool)
