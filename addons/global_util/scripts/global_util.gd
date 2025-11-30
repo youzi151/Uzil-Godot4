@@ -11,7 +11,10 @@ extends Node
 # 模塊 ======
 
 ## 傾印
-var Log = null
+var log = null
+
+## 類型定義
+var typ = null
 
 # 成員 ======
 
@@ -21,7 +24,8 @@ var v := {}
 # GDScript ===================
 
 func _init () :
-	self.Log = ResourceLoader.load("res://addons/global_util/scripts/logger.gd").new()
+	self.log = ResourceLoader.load("res://addons/global_util/scripts/logger.gd").new()
+	self.typ = ResourceLoader.load("res://addons/global_util/scripts/typdef.gd").new()
 
 func _enter_tree () :
 	self.set_global("main_window", self.get_window())
@@ -44,19 +48,19 @@ func dt () :
 
 ## 印出
 func print (msg) :
-	self.Log.do_print(msg)
+	self.log.do_print(msg)
 
 ## 報錯
 func error (msg) :
-	self.Log.do_error(msg)
+	self.log.do_error(msg)
 
 ## 註冊 當印出
 func on_print (fn: Callable, tag: String = "") :
-	return self.Log.on_print(fn, tag)
+	return self.log.on_print(fn, tag)
 
 ## 註銷 當印出
 func off_print (tag : String = "") :
-	self.Log.off_print(tag)
+	self.log.off_print(tag)
 
 ## 讀取腳本
 func load_script (path: String, is_reload := false) :
