@@ -12,11 +12,8 @@ var id := ""
 ## 是否啟用
 var _is_alive := true
 
-## 特定標籤
-var _attend_tags : Array[String] = []
-
-## 忽略標籤
-var _ignore_tags : Array[String] = []
+## 標籤
+var _tags : Array[String] = []
 
 ## 實際 key
 var real_key := 0
@@ -59,75 +56,46 @@ func is_alive (is_src_streamed := true) -> bool :
 	return true
 
 
-## 指定 (不傳遞給之後缺少對應tag的layer)
-func attend (tag: String, is_src_streamed := true) :
-	if not self._attend_tags.has(tag) :
-		self._attend_tags.push_back(tag)
-	
+## 標籤 (不傳遞給之後缺少對應tag的layer)
+func tag (_tag: String, is_src_streamed := true) :
+	if not self._tags.has(_tag) :
+		self._tags.push_back(_tag)
 	# 若 要 連同 源頭
 	if is_src_streamed :
 		if self.src_msg != null :
-			return self.src_msg.attend(tag, true)
+			return self.src_msg.tag(_tag, true)
 
-## 指定
-func attends (tags: Array, is_src_streamed := true) :
-	for each in tags :
-		self.attend(each, is_src_streamed)
+## 標籤
+func tags (_tags: Array, is_src_streamed := true) :
+	for each in _tags :
+		self.tag(each, is_src_streamed)
 
-## 取得 特定標籤
-func get_attends (is_src_streamed := true) -> Array[String] :
+## 取得 標籤
+func get_tags (is_src_streamed := true) -> Array[String] :
 	# 若 要 連同 源頭
 	if is_src_streamed : 
 		if self.src_msg != null :
-			var attends = self.src_msg.get_attends().duplicate()
-			for each in self._attend_tags :
-				if not attends.has(each) :
-					attends.push_back(each)
-			return attends
+			var tags : Array[String] = self.src_msg.get_tags().duplicate()
+			for each in self._tags :
+				if not tags.has(each) :
+					tags.push_back(each)
+			return tags
 	
-	return self._attend_tags
+	return self._tags
 
-## 忽略 (不傳遞給之後有對應tag的layer)
-func ignore (tag: String, is_src_streamed := true) :
-	if not self._ignore_tags.has(tag) :
-		self._ignore_tags.push_back(tag)
-		
-	# 若 要 連同 源頭
-	if is_src_streamed :
-		if self.src_msg != null :
-			return self.src_msg.ignore(tag, true)
+## 是否包含有任意指定標籤
+func has_any_tag (target_tags: Array, is_src_streamed := true) -> bool :
+	var tags : Array[String] = self.get_tags(is_src_streamed)
+	for each in target_tags :
+		if tags.has(each) : return true
+	return false
 
-## 忽略
-func ignores (tags: Array, is_src_streamed := true) :
-	for each in tags :
-		self.ignore(each, is_src_streamed)
-
-## 取得 忽略標籤
-func get_ignores (is_src_streamed := true) -> Array[String] :
-	# 若 要 連同 源頭
-	if is_src_streamed : 
-		if self.src_msg != null :
-			var ignores = self.src_msg.get_ignores().duplicate()
-			for each in self._ignore_tags :
-				if not ignores.has(each) :
-					ignores.push_back(each)
-			return ignores
-	
-	return self._ignore_tags
-
-
-## 是否應該被處理
-func should_handle (tags: Array, is_src_streamed := true) -> bool :
-	
-	var self_ignores = self.get_ignores(is_src_streamed)
-	for each in tags :
-		if self_ignores.has(each) : return false
-	
-	var self_attends = self.get_attends(is_src_streamed)
-	for each in self_attends :
-		if not tags.has(each) :
-			return false
-		
+## 是否包含所有指定標籤
+func has_all_tag (target_tags: Array, is_src_streamed := true) -> bool :
+	var tags : Array[String] = self.get_tags(is_src_streamed)
+	if target_tags.size() > tags.size() : return false
+	for each in target_tags :
+		if not tags.has(each) : return false
 	return true
 
 

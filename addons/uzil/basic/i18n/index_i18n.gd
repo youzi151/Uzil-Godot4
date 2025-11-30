@@ -53,7 +53,8 @@ func index (Uzil, _parent_index) :
 			
 			return self,
 		{
-			"alias" : ["I18N"]
+			"alias" : ["I18N"],
+			"requires" : ["Core.Evt"],
 		}
 	)
 	

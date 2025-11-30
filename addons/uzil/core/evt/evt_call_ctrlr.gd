@@ -2,7 +2,7 @@
 ## Evt.CallCtrlr 事件呼叫控制
 ## 
 ## 事件呼叫的過程中, 用來控制是否停止.
-## 特定/忽略標籤 會用在 與 listener.tags 來 決定該listener應不應該被處理.
+## tags 會用在 與 listener的require/only/ignore 來 決定該listener應不應該處理.
 ## 
 
 # Variable ===================

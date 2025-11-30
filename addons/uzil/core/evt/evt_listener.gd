@@ -6,6 +6,9 @@
 
 # Variable ===================
 
+## 標籤
+var _tags := []
+
 ## 必需標籤
 var _require_tags := []
 
@@ -70,6 +73,12 @@ func once () :
 ## 設置 排序
 func srt (_srt: int) :
 	self.sort = _srt
+	return self
+
+## 設置 標籤
+func tag (_tag: String) :
+	if self._tags.has(_tag) : return
+	self._tags.push_back(_tag)
 	return self
 
 ## 必需

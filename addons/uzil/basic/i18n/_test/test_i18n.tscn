@@ -111,7 +111,6 @@ fit_content = true
 autowrap_mode = 0
 script = ExtResource("2_5sq2v")
 raw_text = "[i]<#label_word#>[/i]"
-on_update_tags = Array[String](["test_word_edit"])
 label_nodes = Array[NodePath]([NodePath(".")])
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
@@ -150,7 +149,6 @@ fit_content = true
 autowrap_mode = 0
 script = ExtResource("2_5sq2v")
 raw_text = "[i]<$label_vars$>[/i]"
-on_update_tags = Array[String](["test_vars_edit"])
 label_nodes = Array[NodePath]([NodePath(".")])
 
 [node name="Control" type="Control" parent="HBoxContainer/VBoxContainer2"]

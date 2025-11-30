@@ -206,12 +206,10 @@ func call_input (input_msg) :
 	
 	# 把 訊號 的 忽略/特定 標籤 設置到 事件呼叫的options中
 	var options := {}
-	var ignores : Array = input_msg.get_ignores()
-	if ignores.size() > 0 :
-		options.ignores = ignores.duplicate()
-	var attends : Array = input_msg.get_attends()
-	if attends.size() > 0 :
-		options.attends = attends.duplicate()
+	
+	var tags : Array = input_msg.get_tags()
+	if not tags.is_empty() :
+		options.tags = tags.duplicate()
 	
 	evt.emit(input_msg, options)
 	

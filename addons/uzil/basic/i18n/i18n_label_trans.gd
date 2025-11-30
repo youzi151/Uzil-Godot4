@@ -20,8 +20,8 @@ enum UpdateMode { MANUAL, PROCESS, ON_UPDATE}
 ## 格式參數
 @export var format_var = null
 
-## 更新事件標籤
-@export var on_update_tags : Array[String] = []
+## 更新事件所需標籤
+@export var on_update_require_tags : Array[String] = []
 
 ## 要代換的文字UI
 @export var label_nodes : Array[NodePath] = []
@@ -99,8 +99,8 @@ func register_on_update () :
 	if self.on_update_listener != null :
 		self._get_i18n().off_update(self.on_update_listener)
 	self.on_update_listener = self._get_i18n().on_update(self._update_listener)
-	for each in self.on_update_tags :
-		self.on_update_listener.tag(each)
+	for each in self.on_update_require_tags :
+		self.on_update_listener.require(each)
 	
 # Private ====================
 

@@ -37,8 +37,7 @@ func _ready () :
 		
 		G.print(self._to_print)
 		self._to_print = ""
-		
-	, 100)
+	, 100).tag("test_input_pipe")
 
 func _process (_delta) :
 	pass
@@ -46,6 +45,9 @@ func _process (_delta) :
 func _exit_tree () :
 	
 	self.test_exit()
+	
+	var invoker = UREQ.acc(&"Uzil:invoker")
+	invoker.cancel_tag("test_input_pipe")
 	
 	G.off_print("test_input_pipe")
 
@@ -108,15 +110,15 @@ func test_enter () :
 		if input_msg.val == Util.input.ButtonState.PRESSED :
 			# 標記 忽略 偵聽tag
 			# 忽略 對 之後有對應tag的listener
-			ctrlr.ignore("to_ignore_listener_a")
+			ctrlr.tag("to_ignore_listener_a")
 			# 忽略 對 之後有對應tag的layer
-			input_msg.ignore("to_ignore_listener_a")
+			input_msg.tag("to_ignore_listener_a")
 	)
 	# Listener2
 	input_layer1.on_input(1111, func(ctrlr):
 		var input_msg = ctrlr.data
 		self.to_print("Layer1 2 key[1111] val:%s (should be ignore when pressed)" % input_msg.val)
-	).tag("to_ignore_listener_a")
+	).ignore("to_ignore_listener_a")
 	
 	# Listener3
 	input_layer1.on_input(1111, func(ctrlr):
@@ -186,7 +188,7 @@ func test_enter () :
 			# 若 值 為 按下
 			if msg_1111.val == Util.input.ButtonState.PRESSED :
 				# 若 應該要處理
-				if msg_1111.should_handle(["to_ignore_listener_a"]):
+				if msg_1111.has_any_tag(["to_ignore_listener_a"]):
 					# 改 得到的值 為 0
 					val_modified = 0
 		
@@ -216,8 +218,6 @@ func test_exit () :
 	input_pipe.del_layer("L2")
 	input_pipe.del_layer("L3")
 	input_pipe.del_layer("L4")
-	
-	
 
 func to_print (msg) :
 	self._to_print += msg+"\n"
