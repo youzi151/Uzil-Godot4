@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://bq8x7v2k3nan4" path="res://addons/uzil/core/task_queue/_test/test_task_queue.tscn" id="20_m288k"]
 [ext_resource type="PackedScene" uid="uid://88r2sd3vaknj" path="res://addons/uzil/util/_test/test_signals.tscn" id="23_ksu2l"]
 [ext_resource type="PackedScene" uid="uid://4suu3h8brcv4" path="res://addons/uzil/util/rng/_test/test_rng.tscn" id="24_q6pxo"]
-[ext_resource type="Script" uid="uid://ccsdqr7yt6scl" path="res://addons/uzext/scripts/macro/print_orphan_node.gd" id="24_vcm24"]
+[ext_resource type="Script" uid="uid://ccsdqr7yt6scl" path="res://addons/uzil/kit/scripts/macro/print_orphan_node.gd" id="24_vcm24"]
 
 [sub_resource type="Theme" id="Theme_kt5kl"]
 

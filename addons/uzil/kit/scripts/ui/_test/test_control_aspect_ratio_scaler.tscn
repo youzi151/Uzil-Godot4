@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ps6ig1518w20"]
 
-[ext_resource type="Script" uid="uid://dxhj2nu424nkc" path="res://addons/uzext/scripts/ui/control_aspect_ratio_scaler.gd" id="1_negcu"]
+[ext_resource type="Script" uid="uid://dxhj2nu424nkc" path="res://addons/uzil/kit/scripts/ui/control_aspect_ratio_scaler.gd" id="1_negcu"]
 
 [node name="container" type="Control"]
 layout_mode = 3

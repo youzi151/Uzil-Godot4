@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dkt84lc5iutf8"]
 
-[ext_resource type="Script" uid="uid://dxhj2nu424nkc" path="res://addons/uzext/scripts/ui/control_aspect_ratio_scaler.gd" id="2_n341v"]
-[ext_resource type="Script" uid="uid://4c4rcod4l6rf" path="res://addons/uzext/scripts/ui/control_pivot_percenter.gd" id="3_kftwy"]
+[ext_resource type="Script" uid="uid://dxhj2nu424nkc" path="res://addons/uzil/kit/scripts/ui/control_aspect_ratio_scaler.gd" id="2_n341v"]
+[ext_resource type="Script" uid="uid://4c4rcod4l6rf" path="res://addons/uzil/kit/scripts/ui/control_pivot_percenter.gd" id="3_kftwy"]
 
 [node name="example_sclaer" type="Control"]
 layout_mode = 3
