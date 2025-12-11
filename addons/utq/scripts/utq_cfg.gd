@@ -73,11 +73,11 @@ var bracket_regex: RegEx
 # GDScript ===================
 
 func _init () :
-	self._compile_regex()
+	self.compile_regex()
 
 # Public =====================
 
-func _compile_regex () :
+func compile_regex () :
 	
 	self.tag_string_group_regex = RegEx.new()
 	self.tag_string_group_regex.compile(self.tag_string_group_regex_pattern)

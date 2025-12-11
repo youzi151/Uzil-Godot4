@@ -1,4 +1,4 @@
-## UTQ Instance (Refactored)
+## UTQ Inst
 ## 
 ## UTQ 標籤查詢系統主控制器
 ## 負責協調各模組工作，提供對外介面
@@ -28,14 +28,14 @@ func _init (_UTQ) :
 	self.UTQ = _UTQ
 	
 	# 初始化各模組
-	self.cfg = self.UTQ.Cfg.new()
-	self.executor = self.UTQ.Executor.new(self)
-	self.queryer = self.UTQ.Queryer.new(self)
+	self.cfg = self.UTQ.Cfg.new.call()
+	self.executor = self.UTQ.Executor.new.call(self)
+	self.queryer = self.UTQ.Queryer.new.call(self)
 
 # Public =====================
 
 ## 清空資料
-func clear_data () :
+func clear_datas () :
 	self.target_to_data.clear()
 
 ## 設定目標資料
@@ -60,6 +60,10 @@ func set_data (target, tags_str_or_tag) :
 					var unsigned_tags : Array = type_to_group_to_tags[self.cfg.SearchType.REQUIRED][0]
 					target_tags.append_array(unsigned_tags)
 
+## 是否有目標資料
+func has_data (target) :
+	return self.target_to_data.has(target)
+
 ## 取得目標資料
 func get_data (target) :
 	return self.target_to_data.get(target, null)
@@ -71,17 +75,3 @@ func search (search_str: String) -> Dictionary :
 ## 直接查詢 (不經過語法解析)
 func query (query_str: String) -> Dictionary :
 	return self.queryer.query(query_str)
-
-## 簡易解析標籤列表(不帶type, group)
-func parse_tags (search_str: String) -> Array :
-	var total_tags : Array = []
-	var search_request : Array = self.executor.parse_search_str(search_str)
-	for each in search_request :
-		if each[0] != "s" : continue
-		var query_str : String = each[1]
-		var query_request : Dictionary = self.queryer.parse_query_str(query_str)
-		var type_to_group_to_tags : Dictionary = query_request["type_to_group_to_tags"]
-		for groups in type_to_group_to_tags.values() :
-			for tags in groups :
-				total_tags.append_array(tags)
-	return total_tags

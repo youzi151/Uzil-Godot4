@@ -31,18 +31,19 @@ func _ready () :
 		self.debug_log.add_text(msg + "\n")
 	, "test_utq")
 	
-	self.UTQ = G.load_script("res://addons/utq/scripts/utq.gd").new()
-	
 	var root_node : Node = self.get_tree().root
-	root_node.add_child.call_deferred(self.UTQ)
-	
-	await self.UTQ.tree_entered
-	
-	self.UTQ.index()
+	if root_node.has_node("UREQ") :
+		self.UTQ = root_node.get_node("UREQ").acc(&"UTQ")
+	else :
+		self.UTQ = G.load_script("res://addons/utq/scripts/utq.gd").new()
+		root_node.add_child.call_deferred(self.UTQ)
+		
+		await self.UTQ.tree_entered
 	
 	# 實例
 	self.utq_inst = self.UTQ.inst()
 	self.utq_inst.is_debug = false
+	
 	
 	# 註冊 當 搜尋列 送出
 	self.search_edit.text_submitted.connect(func(txt):
@@ -116,7 +117,7 @@ func test_search () :
 	for each in search_request :
 		parsed_search_msg += "\n%s" % [each]
 		if each[0] == "s" :
-			parsed_search_msg += "\n%s" % [self.utq_inst.parse_tags(each[1])]
+			parsed_search_msg += "\n%s" % [self.utq_inst.queryer.parse_tags_str(each[1])]
 	G.print(parsed_search_msg)
 	
 	# 搜尋目標
@@ -144,7 +145,7 @@ func test_simple () :
 	G.print("parse : %s" % search_str)
 	
 	# 試解析搜尋資料
-	var parsed_tags = inst.parse_tags(search_str)
+	var parsed_tags = inst.queryer.parse_tags_str(search_str)
 	G.print(parsed_tags)
 	G.print("=========")
 	
@@ -154,10 +155,10 @@ func test_simple () :
 	
 	# 設置 成員內容 (以資料)
 	var c_man_tag_datas := []
-	var c_man_tag_data_1 = self.UTQ.Tag.new()
+	var c_man_tag_data_1 = self.UTQ.tag()
 	c_man_tag_data_1.scope = "role"
 	c_man_tag_data_1.val = "sup"
-	var c_man_tag_data_2 = self.UTQ.Tag.new()
+	var c_man_tag_data_2 = self.UTQ.tag()
 	c_man_tag_data_2.scope = "gender"
 	c_man_tag_data_2.val = "male"
 	inst.set_data("Cman", [c_man_tag_data_1, c_man_tag_data_2])
@@ -185,17 +186,18 @@ func test_performance () :
 		inst.set_data("sheild_%02d" % [idx+1], ["type:sheild", "class:tank", "attr:mage"])
 	
 	var search_str := "attr:phys & (type:noexist > (class:dps | attr:mage) > type:noexist % [type:sheild])"
-	print(inst.search(search_str))
+	#print(inst.search(search_str))
 	#print(self.utq_inst.get_datas())
 	var start : int = Time.get_ticks_usec()
 	for idx in 100 :
 		inst.search(search_str)
-	print(Time.get_ticks_usec() - start)
+	G.print(Time.get_ticks_usec() - start)
 	
 
 func test_scenario () :
 	var inst = self.UTQ.once()
-	G.print(inst.parse_tags("@/類型:物理 !/材質:測試 稀有度:無 可附魔:.^火"))
+	
+	#G.print(inst.queryer.parse_tags_str("@/類型:物理 !/材質:測試 稀有度:無 可附魔:.^火"))
 	
 	# === 武器系統 ===
 	# 單手武器
@@ -306,6 +308,7 @@ func test_scenario () :
 		"屬性:聖",
 		"屬性:火",
 	])
+	
 	
 	# === 執行測試查詢 ===
 	G.print("\n=== 基礎查詢測試 ===")

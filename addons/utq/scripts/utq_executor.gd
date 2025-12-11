@@ -1,18 +1,18 @@
-## UTQ Instance (Refactored)
+## UTQ Executor
 ## 
-## UTQ 標籤查詢系統主控制器
-## 負責協調各模組工作, 提供對外介面
+## UTQ 標籤查詢系統執行器
+## 執行整個查詢, 包含將多個標籤查詢進行各種運算
 ##
 
 # Variable ===================
 
-var inst
+var _inst
 
 # GDScript ===================
 
 ## 初始化
-func _init (_inst) :
-	self.inst = _inst
+func _init (_instan) :
+	self._inst = _instan
 
 # Public =====================
 
@@ -69,7 +69,7 @@ func _tokenize_str (search_str: String) -> Array :
 		var is_symbol : bool = false
 		if char == "(" or char == ")":
 			is_symbol = true
-		elif char in self.inst.cfg.operators:
+		elif char in self._inst.cfg.operators:
 			is_symbol = true
 		
 		# 處理引號:切換引號狀態
@@ -132,7 +132,7 @@ func _parse_tokens (tokens: Array, start_idx: int = 0, is_bracket: bool = false)
 					")":
 						depth -= 1
 					_:
-						if content in self.inst.cfg.operators:
+						if content in self._inst.cfg.operators:
 							result.push_back(token)
 			"s":
 				result.push_back(token)
@@ -175,7 +175,7 @@ func _execute_tokens (tokens: Array) -> Dictionary :
 			"g":
 				# 先完整執行括號內的內容
 				var bracket_result = self._execute_tokens(token[1])
-				if self.inst.is_debug : G.print("括號組執行結果: %s" % [bracket_result])
+				if self._inst.is_debug : G.print("括號組執行結果: %s" % [bracket_result])
 			
 				# 立即與前面的結果進行運算（左結合性）
 				if current_operator.is_empty() :
@@ -187,12 +187,12 @@ func _execute_tokens (tokens: Array) -> Dictionary :
 				# 執行查詢
 				# 立即與前面的結果進行運算（左結合性）
 				if results.size() == 0 :
-					results = self.inst.queryer.query(token[1])
+					results = self._inst.queryer.query(token[1])
 				elif not current_operator.is_empty() :
-					if current_operator == self.inst.cfg.operator_fallback :
+					if current_operator == self._inst.cfg.operator_fallback :
 						results = self._apply_operator(results, {}, token[1], current_operator)
 					else :
-						results = self._apply_operator(results, self.inst.queryer.query(token[1]), "", current_operator)
+						results = self._apply_operator(results, self._inst.queryer.query(token[1]), "", current_operator)
 	
 	return results
 
@@ -202,35 +202,35 @@ func _execute_tokens (tokens: Array) -> Dictionary :
 ## 返回:運算後的結果陣列
 ##
 func _apply_operator(left_results: Dictionary, right_results: Dictionary, right_str: String, operator: String) -> Dictionary :
-	if self.inst.is_debug : G.print("執行運算: %s %s %s" % [left_results, operator, right_results if right_results.size() > 0 else right_str])
+	if self._inst.is_debug : G.print("執行運算: %s %s %s" % [left_results, operator, right_results if right_results.size() > 0 else right_str])
 	
 	# 後備運算子:如果左邊有結果則使用左邊, 否則使用右邊
-	if operator == self.inst.cfg.operator_fallback :
+	if operator == self._inst.cfg.operator_fallback :
 		if left_results.size() > 0:
-			if self.inst.is_debug : G.print("後備結果 (使用左邊): %s" % [left_results])
+			if self._inst.is_debug : G.print("後備結果 (使用左邊): %s" % [left_results])
 			return left_results
 		else:
 			if not right_str.is_empty() :
-				right_results = self.inst.queryer.query(right_str) 
-			if self.inst.is_debug : G.print("後備結果 (使用右邊): %s" % [right_results])
+				right_results = self._inst.queryer.query(right_str) 
+			if self._inst.is_debug : G.print("後備結果 (使用右邊): %s" % [right_results])
 			return right_results
 	# 聯集運算子:合併兩個結果集, 去除重複
-	elif operator == self.inst.cfg.operator_union :
+	elif operator == self._inst.cfg.operator_union :
 		var result = self._union(left_results, right_results)
-		if self.inst.is_debug : G.print("聯集結果: %s" % [result])
+		if self._inst.is_debug : G.print("聯集結果: %s" % [result])
 		return result
 	# 交集運算子:傳回兩個結果集中共同擁有的項目
-	elif operator == self.inst.cfg.operator_intersection :
+	elif operator == self._inst.cfg.operator_intersection :
 		var result = self._intersection(left_results, right_results)
-		if self.inst.is_debug : G.print("交集結果: %s" % [result])
+		if self._inst.is_debug : G.print("交集結果: %s" % [result])
 		return result
 	# 對稱差運算子:傳回只存在於其中一個集合的項目
-	elif operator == self.inst.cfg.operator_symmetric_difference :
+	elif operator == self._inst.cfg.operator_symmetric_difference :
 		var result = self._symmetric_difference(left_results, right_results)
-		if self.inst.is_debug : G.print("對稱差結果: %s" % [result])
+		if self._inst.is_debug : G.print("對稱差結果: %s" % [result])
 		return result
 	else :
-		if self.inst.is_debug : G.print("未知運算子: %s" % [operator])
+		if self._inst.is_debug : G.print("未知運算子: %s" % [operator])
 		return left_results
 
 

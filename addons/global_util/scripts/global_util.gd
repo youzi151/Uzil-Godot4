@@ -104,4 +104,14 @@ func get_current_file_path () :
 		
 	return ""
 
+## 包裝new物件
+func wrap_new (_new_func: Callable) -> Dictionary :
+	return {
+		"new": func (...args) :
+			var one : Object = _new_func.callv(args)
+			if one.has_method(&"init") :
+				one.init.callv((args as Array).slice(0, one.get_method_argument_count(&"init")))
+			return one
+	}
+
 # Private ====================

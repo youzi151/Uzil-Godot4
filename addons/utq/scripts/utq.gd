@@ -40,11 +40,12 @@ func _ready () :
 
 ## 取得/建立 實例
 func inst (key: String = "_") :
+	if not self._is_indexed : self.index()
 	if self._key_to_inst.has(key) :
 		return self._key_to_inst[key]
 	
-	var inst = self.Inst.new(self)
-	inst.cfg = self.Cfg.new()
+	var inst = self.Inst.new.call(self)
+	inst.cfg = self.Cfg.new.call()
 	
 	self._key_to_inst[key] = inst
 	
@@ -52,8 +53,8 @@ func inst (key: String = "_") :
 
 ## 一次性的實例
 func once (target_to_data := {}) :
-	var inst = self.Inst.new(self)
-	inst.cfg = self.Cfg.new()
+	var inst = self.Inst.new.call(self)
+	inst.cfg = self.Cfg.new.call()
 	
 	for target in target_to_data :
 		var data : Dictionary = target_to_data[target]
@@ -61,24 +62,46 @@ func once (target_to_data := {}) :
 	
 	return inst
 
+## 新建標籤 包裝
+func tag (...args) :
+	return self.Tag.new.callv(args)
+
 ## 建立索引
 func index () :
 	if self._is_indexed : return
 	
-	self.Inst = G.load_script(self.SCRIPT_PATH.path_join("utq_inst.gd"))
-	self.Tag = G.load_script(self.SCRIPT_PATH.path_join("utq_tag.gd"))
-	self.Cfg = G.load_script(self.SCRIPT_PATH.path_join("utq_cfg.gd"))
-	self.Executor = G.load_script(self.SCRIPT_PATH.path_join("utq_executor.gd"))
-	self.Queryer = G.load_script(self.SCRIPT_PATH.path_join("utq_queryer.gd"))
-	
 	var root_node : Node = self.get_tree().root
 	if root_node.has_node("UREQ") :
+		
 		var UREQ = root_node.get_node("UREQ")
+		
 		# 綁定 索引
-		UREQ.gbind(&"UTQ", self, {
+		UREQ.gbind(&"UTQ", func():
+			self._utq_init()
+			return self
+		, {
 			"alias" : [],
 		})
+		
+	else :
+		
+		self._utq_init()
+		
 	
 	self._is_indexed = true
 	
 	return self
+
+func _utq_init () :
+	if ProjectSettings.get_setting("uzil/extensions/utq_ext_enabled", false) :
+		self.Inst = G.wrap_new(func(...args): return ClassDB.instantiate("UTQInst"))
+		self.Tag = G.wrap_new(func(...args): return ClassDB.instantiate("UTQTag"))
+		self.Cfg = G.wrap_new(func(...args): return ClassDB.instantiate("UTQCfg"))
+		self.Executor = G.wrap_new(func(...args): return ClassDB.instantiate("UTQExecutor"))
+		self.Queryer = G.wrap_new(func(...args): return ClassDB.instantiate("UTQQueryer"))
+	else :
+		self.Inst = G.load_script(self.SCRIPT_PATH.path_join("utq_inst.gd"))
+		self.Tag = G.load_script(self.SCRIPT_PATH.path_join("utq_tag.gd"))
+		self.Cfg = G.load_script(self.SCRIPT_PATH.path_join("utq_cfg.gd"))
+		self.Executor = G.load_script(self.SCRIPT_PATH.path_join("utq_executor.gd"))
+		self.Queryer = G.load_script(self.SCRIPT_PATH.path_join("utq_queryer.gd"))
