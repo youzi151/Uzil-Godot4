@@ -86,12 +86,13 @@ func _ready () :
 		
 		# 當 標籤編輯列 送出
 		tags_edit.text_changed.connect(func(txt):
+			#self.utq_inst.clear_datas()
 			self.utq_inst.set_data(idx_str, [tags_edit.text])
+			G.print("reseted tag datas")
 		)
 		
 		# 設置標籤
 		self.utq_inst.set_data(idx_str, [tags_edit.text])
-		
 	
 
 func _process (_delta) :
@@ -117,12 +118,11 @@ func test_search () :
 	for each in search_request :
 		parsed_search_msg += "\n%s" % [each]
 		if each[0] == "s" :
-			parsed_search_msg += "\n%s" % [self.utq_inst.queryer.parse_tags_str(each[1])]
+			parsed_search_msg += "\n%s" % [self.utq_inst.queryer.parse_query_str(each[1])]
 	G.print(parsed_search_msg)
 	
 	# 搜尋目標
 	var results : Array = self.utq_inst.search(to_search).keys()
-	
 	# 以目標找出對應內容
 	var contents : Array = []
 	for each in results :

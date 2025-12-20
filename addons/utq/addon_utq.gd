@@ -7,6 +7,9 @@ const AUTOLOAD_NAME := "UTQ"
 func _enter_tree () :
 	# Initialization of the plugin goes here.
 	self.add_autoload_singleton(AUTOLOAD_NAME, "res://addons/utq/scripts/utq.gd")
+	
+	if not ProjectSettings.has_setting("uzil/extensions/utq_ext_enabled") :
+		ProjectSettings.set_setting("uzil/extensions/utq_ext_enabled", false)
 
 
 func _exit_tree () :

@@ -71,7 +71,7 @@ func _build_string () -> String :
 	str += self.val
 	
 	if self.wild_excepts.size() > 0 :
-		str = "%s/%s" % [str, "/".join(self.wild_excepts)]
+		str = "%s^%s" % [str, "^".join(self.wild_excepts)]
 	
 	str += ">"
 	
